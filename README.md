@@ -3,9 +3,9 @@
 ## Fall 2021 CSE 416 Capstone Project
 
 ### Team Members:
-- **Hawon Park** (hawon.park@stonybrook.edu / hawonp)
-- **Pyungkang Hong** (pyungkang.hong@stonybrook.edu / PyungkangHong094)
-- **Jeong Ho Shin** (jeongho.shin@stonybrook.edu / je0shin)
+- **Hawon Park** (hawon.park@stonybrook.edu / @hawonp)
+- **Pyungkang Hong** (pyungkang.hong@stonybrook.edu / @PyungkangHong094)
+- **Jeong Ho Shin** (jeongho.shin@stonybrook.edu / @je0shin)
 
 ### Problem Statement:
 Students often have questions related to their coursework that are not easily found on the internet. There may be specific questions that only their classmates or professors could answer. Time that could be better spent studying and revising is lost on hopelessly trying to surf the web for results that may or may not be there. 
