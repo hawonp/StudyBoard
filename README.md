@@ -1,2 +1,8 @@
 # CSE416_capstone
-CSE 416 Capstone Project
+
+##Fall 2021 CSE 416 Capstone Project##
+
+###Team Members:###
+Hawon Park 
+Jeong Ho Shin
+Pyungkang Hong
