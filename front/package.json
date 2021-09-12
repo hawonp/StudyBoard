@@ -1,0 +1,14 @@
+{
+  "name": "react-front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next"
+  },
+  "author": "Studyboard",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^9.5.5"
+  }
+}
