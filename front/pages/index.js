@@ -1,8 +1,11 @@
 import React from 'react';
+import AppLayout from '../components/AppLayout';
 
-const Home = () =>{
+const Home = () => {
     return(
-        <div>Hi Studyboard</div>
+        <AppLayout>
+            <div>Hello , Studyboard</div>
+        </AppLayout>
     );
 }
 
