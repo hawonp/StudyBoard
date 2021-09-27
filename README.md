@@ -1,6 +1,4 @@
-# CSE416_capstone
-
-## Fall 2021 CSE 416 Capstone Project
+# StudyBoard
 
 ### Team Members:
 - **Hawon Park** (hawon.park@stonybrook.edu / @hawonp)
