@@ -1,11 +1,17 @@
 import React from "react";
-import AppLayout from '../components/AppLayout';
+import OtherLayout from '../components/OtherLayout';
+import Head from "next/head";
 
 const About = () => {
     return(
-        <AppLayout>
-            <div>About</div>
-        </AppLayout>
+        <>
+            <Head>
+                <title>Study Board | About</title>
+            </Head>
+            <OtherLayout>
+                <div>about </div>
+            </OtherLayout>
+        </>
     )
 };
 
