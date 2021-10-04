@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Slick from 'react-slick';
-import {Button} from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Button } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
-import styled, {createGlobalStyle} from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components';
 
-const Overlay =styled.div`
+const Overlay = styled.div`
   position: fixed;
   z-index: 5000;
   top: 0;
@@ -80,49 +80,49 @@ const Global = createGlobalStyle`
     }
 `;
 
-const ImagesZoom = ({images, onClose}) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    return(
-        <Overlay>
-            <Global />
-            <Header>
-                <h1>Detail Page</h1>
-                <CloseBtn onClick={onClose}>X</CloseBtn>
-            </Header>
-            <SlickWrapper>
-                <div>
-                    <Slick
-                        initialSlide={0}
-                        afterChange={(slide) => setCurrentSlide(slide)}
-                        infinite
-                        slidesToShow={1}
-                        slidesToScroll={1}
-                    >
-                        {images.map((v) => (
-                            <ImgWrapper key={v.src}>
-                                <img src={v.src} alt={v.src} />
-                            </ImgWrapper>
-                        ))}
-                    </Slick>
-                    <Indicator>
-                        <div>
-                            {currentSlide + 1}
-                            {' '}
-                            /
-                            {images.length}
-                        </div>
-                    </Indicator>
-                </div>
-            </SlickWrapper>
-        </Overlay>
-    )
-}
+const ImagesZoom = ({ images, onClose }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  return (
+    <Overlay>
+      <Global />
+      <Header>
+        <h1>Detail Page</h1>
+        <CloseBtn onClick={onClose}>X</CloseBtn>
+      </Header>
+      <SlickWrapper>
+        <div>
+          <Slick
+            initialSlide={0}
+            afterChange={(slide) => setCurrentSlide(slide)}
+            infinite
+            slidesToShow={1}
+            slidesToScroll={1}
+          >
+            {images.map((v) => (
+              <ImgWrapper key={v.src}>
+                <img src={v.src} alt={v.src} />
+              </ImgWrapper>
+            ))}
+          </Slick>
+          <Indicator>
+            <div>
+              {currentSlide + 1}
+              {' '}
+              /
+              {images.length}
+            </div>
+          </Indicator>
+        </div>
+      </SlickWrapper>
+    </Overlay>
+  );
+};
 
 ImagesZoom.propTypes = {
-    images: PropTypes.arrayOf(PropTypes.shape({
-        src: PropTypes.string,
-    })).isRequired,
-    onClose: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(PropTypes.shape({
+    src: PropTypes.string,
+  })).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ImagesZoom;

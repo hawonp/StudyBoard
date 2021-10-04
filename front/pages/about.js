@@ -1,19 +1,16 @@
-import React from "react";
+import React from 'react';
+import Head from 'next/head';
 import OtherLayout from '../components/OtherLayout';
-import Head from "next/head";
 
-const About = () => {
-    return(
-        <>
-            <Head>
-                <title>Study Board | About</title>
-            </Head>
-            <OtherLayout>
-                <div>about </div>
-            </OtherLayout>
-        </>
-    )
-};
+const About = () => (
+  <>
+    <Head>
+      <title>Study Board | About</title>
+    </Head>
+    <OtherLayout>
+      <div>about </div>
+    </OtherLayout>
+  </>
+);
 
-export default About
-
+export default About;

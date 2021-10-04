@@ -19,7 +19,7 @@ const SearchInput = styled(Input.Search)`
 
 const AppLayout = ({ children }) => {
     //로그인이되면 알아서 앱레이아웃이 리렌더링되는 기능
-    const { isLoggedIn } = useSelector(state => state.user);
+    const { me } = useSelector(state => state.user);
 
     return(
         <div>
@@ -46,7 +46,7 @@ const AppLayout = ({ children }) => {
             {/*거터라는건 컬럼사이 간격 */}
             <Row gutter={10}>
                 <Col xs={24} md={6}>
-                    {isLoggedIn ? <UserProfile /> : <LoginForm />}
+                    {me ? <UserProfile /> : <LoginForm />}
                 </Col>
                 <Col xs={24} md={16}>
                     { children }
