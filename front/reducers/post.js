@@ -5,7 +5,7 @@ export const initialState = {
             id: 1,
             nickname: 'PK',
         },
-        content: '416 toㅁㄴㅇㄻㄴㅇ런ㅁ아럼ㄴ애ㅑ런매야러매냥러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕런매ㅑㅇ러ㅐㅑㄴㅇㄹ머ㅐㅑ럼내ㅑ럼내야런매ㅑㅇ러ㅐㄴ먕러ㅐㅑㅇㄴ러ㅐ먕ㄴ러맹냐러ㅐㄴ먕러맹냐러ㅐ먕ㄴ러ㅐㅇㄴ먀러ㅐㄴ먕러ㅐㅇㄴ먀러ㅐㅇㄴ먀런매야렁ㄴ매ㅑ러ㅐㅇㄴ먀러맹냐러ㅐㅇ냐런매야런매야럼내ㅑㅇ럼ㅇ내ㅑ렁ㄴ매ㅑ런매야런ㅁ애ㅑ런매ㅑㅇ럼내ㅑㅇ런매야럼ㅇ내ㅑ럼낼ㅇo hard #hard #cse416',
+        content: '416 정말어렵다 다신하기싫다 쿤 싫다 너무 어렵게한다 왜그렇게 하는지 모르겠다 진짜로 어렵게만들면 뭐 좋나 꼭 패스해야함 hard #hard #cse416',
         Images: [{
             src: 'http://cubelink.me/media/article/6D25BEE8-B8E2-4405-9FB6-E8AFDC2E3441.jpeg',
         }, {
@@ -26,12 +26,31 @@ export const initialState = {
         }]
     }],
     imagePaths: [],
-    postAdded: false,
+    addPostLoading: false,
+    addPostDone: false,
+    addPostError: null,
 };
-const ADD_POST = 'ADD_POST';
-export const addPost = {
-    type: ADD_POST,
-};
+
+
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
+
+
+export const addPost = (data) => ({
+    type: ADD_POST_REQUEST,
+    data,
+});
+
+export const addComment = (data) => ({
+    type: ADD_COMMENT_REQUEST,
+    data,
+});
+
 
 const dummyPost = {
     id: 2,
@@ -43,15 +62,52 @@ const dummyPost = {
     Images: [],
     Comments: [],
 };
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST: {
+        case ADD_POST_REQUEST:
+            return {
+                ...state,
+                addPostLoading: true,
+                addPostDone: false,
+                addPostError: null,
+            };
+        case ADD_POST_SUCCESS:
             return {
                 ...state,
                 mainPosts: [dummyPost, ...state.mainPosts],
-                postAdded: true,
+                addPostLoading: false,
+                addPostDone: true,
             };
-        }
+
+        case ADD_POST_FAILURE:
+            return {
+                ...state,
+                addPostLoading: false,
+                addPostError: action.error
+            };
+
+            //커맨트
+        case ADD_COMMENT_REQUEST:
+            return {
+                ...state,
+                addCommentLoading: true,
+                addCommentDone: false,
+                addCommentError: null,
+            };
+        case ADD_COMMENT_SUCCESS:
+            return {
+                ...state,
+                addCommentLoading: false,
+                addCommentDone: true,
+            };
+
+        case ADD_COMMENT_FAILURE:
+            return {
+                ...state,
+                addCommentLoading: false,
+                addCommentError: action.error
+            };
+
         default: {
             return {
                 ...state,
@@ -59,3 +115,5 @@ export default (state = initialState, action) => {
         }
     }
 };
+
+export default reducer;
