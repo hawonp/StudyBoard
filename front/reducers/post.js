@@ -5,7 +5,7 @@ export const initialState = {
             id: 1,
             nickname: 'PK',
         },
-        content: '416 tooo hard #hard #cse416',
+        content: '416 toㅁㄴㅇㄻㄴㅇ런ㅁ아럼ㄴ애ㅑ런매야러매냥러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕러ㅐㄴ먕런매ㅑㅇ러ㅐㅑㄴㅇㄹ머ㅐㅑ럼내ㅑ럼내야런매ㅑㅇ러ㅐㄴ먕러ㅐㅑㅇㄴ러ㅐ먕ㄴ러맹냐러ㅐㄴ먕러맹냐러ㅐ먕ㄴ러ㅐㅇㄴ먀러ㅐㄴ먕러ㅐㅇㄴ먀러ㅐㅇㄴ먀런매야렁ㄴ매ㅑ러ㅐㅇㄴ먀러맹냐러ㅐㅇ냐런매야런매야럼내ㅑㅇ럼ㅇ내ㅑ렁ㄴ매ㅑ런매야런ㅁ애ㅑ런매ㅑㅇ럼내ㅑㅇ런매야럼ㅇ내ㅑ럼낼ㅇo hard #hard #cse416',
         Images: [{
             src: 'http://cubelink.me/media/article/6D25BEE8-B8E2-4405-9FB6-E8AFDC2E3441.jpeg',
         }, {

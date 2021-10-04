@@ -37,21 +37,19 @@ const AppLayout = ({ children }) => {
                     <Link href="/about"><a>About </a></Link>
                 </Menu.Item>
                 <Menu.Item>
-                    <SearchInput enterButton />
+                    <Link href="/about"><a>Rank </a></Link>
                 </Menu.Item>
                 <Menu.Item>
+                    <SearchInput enterButton />
                 </Menu.Item>
             </Menu>
             {/*거터라는건 컬럼사이 간격 */}
-            <Row gutter={8}>
+            <Row gutter={10}>
                 <Col xs={24} md={6}>
                     {isLoggedIn ? <UserProfile /> : <LoginForm />}
                 </Col>
-                <Col xs={24} md={12}>
+                <Col xs={24} md={16}>
                     { children }
-                </Col>
-                <Col xs={24} md={6}>
-                    Rank
                 </Col>
             </Row>
         </div>

@@ -35,6 +35,9 @@ const OtherLayout = ({ children }) => {
                     <Link href="/about"><a>About </a></Link>
                 </Menu.Item>
                 <Menu.Item>
+                    <Link href="/about"><a>Rank </a></Link>
+                </Menu.Item>
+                <Menu.Item>
                     <SearchInput enterButton />
                 </Menu.Item>
                 <Menu.Item>
