@@ -13,7 +13,7 @@ const Signup = () => {
   const { signUpLoading } = useSelector((state) => state.user);
 
   const [email, onChangeEmail] = useInput('');
-  const [nick, onChangeNick] = useInput('');
+  const [nickname, onChangeNick] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -39,7 +39,7 @@ const Signup = () => {
     }
     dispatch({
       type: SIGN_UP_REQUEST,
-      data: { email, password, nick },
+      data: { email, password, nickname },
     });
   }, [email, password, passwordCheck, term]);
 
@@ -58,7 +58,7 @@ const Signup = () => {
           <div>
             <label htmlFor="user-nick">Nickname</label>
             <br />
-            <Input name="user-nick" value={nick} required onChange={onChangeNick} />
+            <Input name="user-nick" value={nickname} required onChange={onChangeNick} />
           </div>
           <div>
             <label htmlFor="user-password">Password</label>

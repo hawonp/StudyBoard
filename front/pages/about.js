@@ -8,7 +8,8 @@ const About = () => (
       <title>Study Board | About</title>
     </Head>
     <OtherLayout>
-      <div>about </div>
+
+      <div>about</div>
     </OtherLayout>
   </>
 );

@@ -1,10 +1,11 @@
-const dummyUser = {
+const dummyUser = (data) => ({
+  ...data,
   id: 1,
   nickname: 'PK',
-  Posts: [],
-  Followings: [],
-  Followers: [],
-};
+  Posts: [{ id: 1 }],
+  Followings: [{ nickname: 'pk' }, { nickname: 'hawon' }, { nickname: 'Shin jeoungho' }],
+  Followers: [{ nickname: 'pk' }, { nickname: 'hawon' }, { nickname: 'jeoungho' }],
+});
 
 export const initialState = {
   logInLoading: false, // 로그인 시도중
@@ -16,6 +17,9 @@ export const initialState = {
   signUpLoading: false, // 회원가입 시도중
   signUpDone: false,
   signUpError: null,
+  changeNicknameLoading: false, // 닉네임 변경 시도중
+  changeNicknameDone: false,
+  changeNicknameError: null,
   me: null,
   signUpData: {},
   loginData: {},
@@ -33,6 +37,10 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
+export const CHANGE_NICKNAME_REQUEST = 'CHANGE_NICKNAME_REQUEST';
+export const CHANGE_NICKNAME_SUCCESS = 'CHANGE_NICKNAME_SUCCESS';
+export const CHANGE_NICKNAME_FAILURE = 'CHANGE_NICKNAME_FAILURE';
+
 export const FOLLOW_REQUEST = 'FOLLOW_REQUEST';
 export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
 export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
@@ -40,6 +48,9 @@ export const FOLLOW_FAILURE = 'FOLLOW_FAILURE';
 export const UNFOLLOW_REQUEST = 'UNFOLLOW_REQUEST';
 export const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS';
 export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE';
+
+export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
+export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -118,6 +129,42 @@ const reducer = (state = initialState, action) => {
         signUpError: action.error,
       };
 
+      // 닉네임변경
+    case CHANGE_NICKNAME_REQUEST:
+      return {
+        ...state,
+        changeNickLoading: true,
+        changeNickDone: false,
+        changeNickError: null,
+      };
+    case CHANGE_NICKNAME_SUCCESS:
+      return {
+        ...state,
+        changeNickLoading: false,
+        changeNickDone: false,
+      };
+    case CHANGE_NICKNAME_FAILURE:
+      return {
+        ...state,
+        changeNickLoading: false,
+        changeNickError: action.error,
+      };
+    case ADD_POST_TO_ME:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Post: [{ id: action.data }, ...state.me.Post],
+        },
+      };
+    case REMOVE_POST_OF_ME:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: state.me.Posts.filter((v) => v.id !== action.data),
+        },
+      };
     default:
       return state;
   }

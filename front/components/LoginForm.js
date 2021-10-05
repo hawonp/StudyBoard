@@ -34,10 +34,10 @@ const LoginForm = () => {
   return (
     <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">Email</label>
+        <label htmlFor="user-email">Email</label>
         <br />
         <Input
-          name="user-id"
+          name="user-email"
           value={email}
           onChange={onChangeEmail}
           required

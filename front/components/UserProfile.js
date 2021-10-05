@@ -9,7 +9,7 @@ const UserProfile = () => {
   const { me, logOutLoading } = useSelector((state) => state.user);
 
   const onLogout = useCallback(() => {
-    dispatch(logoutRequestAction);
+    dispatch(logoutRequestAction());
   }, []);
 
   return (
