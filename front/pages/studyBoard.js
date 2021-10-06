@@ -19,8 +19,9 @@ const studyBoard = () => {
 
   useEffect(() => {
     // scrolly : 얼마나 내렸는지 , clientHeight: 화면 보이는 길이, scrollHeight: 총길이
+    // react-vertualized 구현 해봐야함
     function onScroll() {
-      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
         if (hasMorePosts && !loadPostsLoading) {
           dispatch({
             type: LOAD_POSTS_REQUEST,

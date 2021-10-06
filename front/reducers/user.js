@@ -11,18 +11,24 @@ const dummyUser = (data) => ({
 });
 
 export const initialState = {
-  logInLoading: false, // 로그인 시도중
+  logInLoading: false,
   logInDone: false,
   logInError: null,
-  logOutLoading: false, // 로그아웃 시도중
+  logOutLoading: false,
   logOutDone: false,
   logOutError: null,
-  signUpLoading: false, // 회원가입 시도중
+  signUpLoading: false,
   signUpDone: false,
   signUpError: null,
-  changeNicknameLoading: false, // 닉네임 변경 시도중
+  changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
+  followLoading: false,
+  followDone: false,
+  followError: null,
+  unfollowLoading: false,
+  unfollowDone: false,
+  unfollowError: null,
   me: null,
   signUpData: {},
   loginData: {},
@@ -67,6 +73,38 @@ export const logoutRequestAction = () => ({
 // return produce 라는건데 지금 eslint 편하게 코드하기위해서 추가해놨음
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    // 팔로우
+    case FOLLOW_REQUEST:
+      draft.followLoading = true;
+      draft.followError = null;
+      draft.followDone = false;
+      break;
+    case FOLLOW_SUCCESS:
+      draft.followLoading = false;
+      draft.me.Followings.push({ id: action.data });
+      draft.followDone = true;
+      break;
+    case FOLLOW_FAILURE:
+      draft.followLoading = false;
+      draft.followError = action.error;
+      break;
+
+      // 언팔로우
+    case UNFOLLOW_REQUEST:
+      draft.unfollowLoading = true;
+      draft.unfollowError = null;
+      draft.unfollowDone = false;
+      break;
+    case UNFOLLOW_SUCCESS:
+      draft.unfollowLoading = false;
+      draft.me.Followings = draft.me.Followings.filter((v) => v.id !== action.data);
+      draft.unfollowDone = true;
+      break;
+    case UNFOLLOW_FAILURE:
+      draft.unfollowLoading = false;
+      draft.unfollowError = action.error;
+      break;
+
     // 로그인
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
