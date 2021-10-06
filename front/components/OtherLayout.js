@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 // 디자인
-import { Menu, Input, Row, Col } from 'antd';
+import { Menu, Input, Row, Col, Button } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 import styled from 'styled-components';
@@ -35,7 +35,7 @@ const OtherLayout = ({ children }) => {
           <Link href="/about"><a>About </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/about"><a>Rank </a></Link>
+          <Link href="/rank"><a>Rank </a></Link>
         </Menu.Item>
         <Menu.Item>
           <SearchInput enterButton />
@@ -46,23 +46,21 @@ const OtherLayout = ({ children }) => {
       <Row gutter={8}>
         <Col xs={24} md={6}>
           <div style={{ width: '70%', margin: '30px auto' }}>
-            <div>
-              <Link href="/about"><a>About</a></Link>
+            <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+              <Link href="/about"><Button block style={{ borderRadius: '8px' }}><a>About</a></Button></Link>
             </div>
-            <div>
-              <Link href="/leaderShip"><a>LeaderShip</a></Link>
+            <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+              <Link href="/leaderShip"><Button block style={{ borderRadius: '8px' }}><a>LeaderShip</a></Button></Link>
             </div>
-            <div>
-              <Link href="/contact"><a>Contact</a></Link>
+            <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+              <Link href="/contact"><Button block style={{ borderRadius: '8px' }}><a>Contact</a></Button></Link>
             </div>
           </div>
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={16}>
           { children }
         </Col>
-        <Col xs={24} md={6}>
-          Rank
-        </Col>
+
       </Row>
     </div>
   );

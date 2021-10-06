@@ -37,7 +37,7 @@ const AppLayout = ({ children }) => {
           <Link href="/about"><a>About </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/about"><a>Rank </a></Link>
+          <Link href="/rank"><a>Rank </a></Link>
         </Menu.Item>
         <Menu.Item>
           <SearchInput enterButton />

@@ -1,0 +1,43 @@
+리덕스나 모백스둘중에
+
+리덕스는 Next랑 붙이는게 까다롭지만 편리하다
+리덕스는 현 Next와 리액트 초보자들이 쓰기 편하기때문에 고른이유
+리덕스는 생산성이 많아서 좋다
+
+리덕스 개념 왜써야하는지?
+중앙 하나로 관리를해서
+중앙 저장데이터 역활이라서
+데이터들을 하나로 모아주고 컴포넌트가 필요로할때 보내주는거거
+Redux Wrapper for Next
+/store/configureStore.js
+
+리듀서
+**데이터 관련된건 다 리듀서에서 확인
+데이터 중앙소가 있으면 (ex 이름,나이 페스워드)
+엑션을 dispatch 로 하면 바뀜 그게 reducer
+switch 로바뀜
+\
+하나씩 객체를 만들고 바꾸고싶은걸 액션을 만들면됀다 기록이 남아서 좋음 
+\
+
+npm i next-redux-wrapper@6 < 6버전이 스테이블함
+npm i redux@4
+모백스는 중,고급 웹개발자들이 사용하기 편하다
+
+사진넘겨보는거
+npm i react-slick
+
+리덕스 thunk
+npm i redux-thunk
+
+npm i -D babel-eslint eslint-config-airbnb eslint-plugin-import
+npm i -D eslint-plugin-react-hooks @4
+
+접근선
+npm i -D eslint-plugin-jsx-a11y
+
+
+----------------------------------------------------------------
+백앤드 쪽
+
+npm i express

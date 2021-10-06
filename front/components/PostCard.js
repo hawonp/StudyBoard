@@ -21,8 +21,8 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const id = useSelector((state) => state.user.me && state.user.me.id);
-
   const [liked, setLiked] = useState(false);
+  // const { me } = useSelector((state) => state.user);
 
   // 좋아요를 눌르고 때고 하는부분
   const onToggleLike = useCallback(() => {
@@ -42,8 +42,10 @@ const PostCard = ({ post }) => {
   }, []);
 
   return (
-    <CardWrapper key={post.id}>
+    <CardWrapper key={post.id} style={{ paddingTop: '20px' }}>
       <Card
+        title="Card"
+        style={{ border: '2px inset ', boxShadow: 'rgba(6, 24, 44, 0.4) 0px 0px 0px 2px rgba(6, 24, 44, 0.65) 0px 4px 6px -1px rgba(255, 255, 255, 0.08) 0px 1px 0px inset' }}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
@@ -75,7 +77,7 @@ const PostCard = ({ post }) => {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-                    // 해시테그
+            // 해시테그
           description={<PostCardContent postData={post.content} />}
         />
       </Card>
@@ -84,16 +86,16 @@ const PostCard = ({ post }) => {
           {/* 뎃글을 작성할때 게시글에 속해있으니 정보가 필요하다 게시글의 아이디가 필요하다 */}
           <CommentForm post={post} />
           <List
-            header={`${post.Comments.length} comments`}
+            header={`${post.Comments ? post.Comments.length : 0} 댓글`}
             itemLayout="horizontal"
-            dataSource={post.Comments}
+            dataSource={post.Comments || []}
             renderItem={(item) => (
               <li>
                 {/* 엔트디에 커맨트라고 준비해둠 */}
                 <Comment
-                                    // 누가썼는지
+                    // 누가썼는지
                   author={item.User.nickname}
-                                    //
+                    // 유저 아바타
                   avatar={(
                     <Link href={{ pathname: '/user', query: { id: item.User.id } }} as={`/user/${item.User.id}`}>
                       <a><Avatar>{item.User.nickname[0]}</Avatar></a>
@@ -114,11 +116,12 @@ PostCard.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
     User: PropTypes.object,
+    UserId: PropTypes.number,
     content: PropTypes.string,
     createdAt: PropTypes.object,
     Comments: PropTypes.arrayOf(PropTypes.any),
     Images: PropTypes.arrayOf(PropTypes.any),
-  }),
+  }).isRequired,
 };
 
 export default PostCard;

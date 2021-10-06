@@ -23,11 +23,11 @@ function* loadPosts(action) {
       type: LOAD_POSTS_SUCCESS,
       data: generateDummyPost(10),
     });
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     yield put({
       type: LOAD_POSTS_FAILURE,
-      data: err.response.data,
+      data: e.response.data,
     });
   }
 }

@@ -1,12 +1,12 @@
-import { call, all, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+
 import {
-  FOLLOW_REQUEST, FOLLOW_FAILURE, FOLLOW_SUCCESS,
+  FOLLOW_FAILURE, FOLLOW_REQUEST, FOLLOW_SUCCESS,
   UNFOLLOW_FAILURE, UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS,
   LOG_IN_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS,
   LOG_OUT_FAILURE, LOG_OUT_REQUEST, LOG_OUT_SUCCESS,
   SIGN_UP_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS,
-
 } from '../reducers/user';
 
 function logInAPI(data) {
@@ -15,13 +15,15 @@ function logInAPI(data) {
 
 function* logIn(action) {
   try {
-    // const result = yield call(logInAPI, action.data)
+    console.log('saga logIn');
+    // const result = yield call(logInAPI);
     yield delay(1000);
     yield put({
       type: LOG_IN_SUCCESS,
       data: action.data,
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: LOG_IN_FAILURE,
       error: e.response.data,
@@ -29,20 +31,19 @@ function* logIn(action) {
   }
 }
 
-// 로그인아웃 API
 function logOutAPI() {
   return axios.post('/api/logout');
 }
 
-function* logOut(action) {
+function* logOut() {
   try {
     // const result = yield call(logOutAPI);
     yield delay(1000);
     yield put({
       type: LOG_OUT_SUCCESS,
-      data: action.data,
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: LOG_OUT_FAILURE,
       error: e.response.data,
@@ -50,20 +51,19 @@ function* logOut(action) {
   }
 }
 
-// signUp api는 제너레이터가아니다
 function signUpAPI() {
-  return axios.post('/api/logout');
+  return axios.post('/api/signUp');
 }
 
 function* signUp() {
   try {
-    const result = yield call(signUpAPI);
+    // const result = yield call(signUpAPI);
     yield delay(1000);
     yield put({
       type: SIGN_UP_SUCCESS,
-      data: result.data,
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: SIGN_UP_FAILURE,
       error: e.response.data,
@@ -71,7 +71,6 @@ function* signUp() {
   }
 }
 
-// follow api는 제너레이터가아니다
 function followAPI() {
   return axios.post('/api/follow');
 }
@@ -84,16 +83,15 @@ function* follow(action) {
       type: FOLLOW_SUCCESS,
       data: action.data,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     yield put({
       type: FOLLOW_FAILURE,
-      error: err.response.data,
+      error: e.response.data,
     });
   }
 }
 
-// unfollow api는 제너레이터가아니다
 function unfollowAPI() {
   return axios.post('/api/unfollow');
 }
@@ -106,39 +104,43 @@ function* unfollow(action) {
       type: UNFOLLOW_SUCCESS,
       data: action.data,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     yield put({
       type: UNFOLLOW_FAILURE,
-      error: err.response.data,
+      error: e.response.data,
     });
   }
 }
 
-function* watchLogin() {
-  // takeLatest 두번눌렸을때 마지막꺼만
-  yield takeLatest(LOG_IN_REQUEST, logIn);
-}
-function* watchLogout() {
-  yield takeLatest(LOG_OUT_REQUEST, logOut);
-}
-function* watchSignUp() {
-  yield takeLatest(SIGN_UP_REQUEST, signUp);
-}
+// takeLatest 두번눌렸을때 마지막꺼만
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow);
 }
+
 function* watchUnfollow() {
-  yield takeLatest(FOLLOW_REQUEST, unfollow);
+  yield takeLatest(UNFOLLOW_REQUEST, unfollow);
+}
+
+function* watchLogIn() {
+  yield takeLatest(LOG_IN_REQUEST, logIn);
+}
+
+function* watchLogOut() {
+  yield takeLatest(LOG_OUT_REQUEST, logOut);
+}
+
+function* watchSignUp() {
+  yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 export default function* userSaga() {
   yield all([
     // fork는 함수를 실행해준다
-    fork(watchLogin),
     fork(watchFollow),
     fork(watchUnfollow),
-    fork(watchLogout),
+    fork(watchLogIn),
+    fork(watchLogOut),
     fork(watchSignUp),
   ]);
 }
