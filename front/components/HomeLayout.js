@@ -7,11 +7,15 @@ import styled from 'styled-components';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
+  ;
 `;
-
+const style = {
+  fontSize: 14,
+  color: '#fff',
+};
 const HomeLayout = ({ children }) => (
   <div>
-    <Menu mode="horizontal">
+    <Menu mode="horizontal" style={{ padding: '0.5rem 1rem', background: '#2c82c9' }}>
       <Menu.Item key="home">
         <Link href="/"><a>StudyBaord</a></Link>
       </Menu.Item>
@@ -28,7 +32,7 @@ const HomeLayout = ({ children }) => (
         <Link href="/rank"><a>Rank </a></Link>
       </Menu.Item>
       <Menu.Item>
-        <SearchInput enterButton />
+        <SearchInput enterButton placeholder="type what you want" allowClear style={{ width: 400, color: '#FFFFFF', borderRadius: '20px' }} />
       </Menu.Item>
       {/* <Menu.Item key="mail"> */}
       {/*    <Input.Search enterButton style={{ verticalAlign: 'middle' }} /> */}

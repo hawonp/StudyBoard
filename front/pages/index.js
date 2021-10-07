@@ -1,11 +1,13 @@
 import React from 'react';
-
+// import {} from './styles';
 // import AppLayout from '../components/AppLayout';
 import HomeLayout from '../components/HomeLayout';
 
 const Home = () => (
   <HomeLayout>
-    첫 홈페이지 보여지는 익터럭션
+    <div className="container">
+      asdf
+    </div>
   </HomeLayout>
 );
 
