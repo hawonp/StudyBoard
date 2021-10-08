@@ -1,3 +1,74 @@
-h1 {
-
+body{
+    overflow-x: hidden;
+    color: rgb(29,29,31);
+    letter-spacing: -0.05em;
+    background: white;
 }
+
+.global-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 44px;
+    padding: 0 1rem;
+}
+.local-nav {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    z-index: 11;
+    width: 100%;
+    height: 52px;
+    padding: 0 1rem;
+    border-bottom: 1px solid #ddd;
+}
+.local-nav-links {
+    display: flex;
+    align-items: center;
+    max-width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/*제외하는거 옆에있는걸 */
+.local-nav-links a:not(.product-name) {
+    margin-left: 2em;
+}
+
+a{
+    color: rgb(29,29,31);
+    text-decoration: none;
+}
+
+.local-nav-links a {
+    font-size: 0.8rem;
+}
+
+.global-nav-links {
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+.local-nav{
+    height: 52px;
+    border-bottom: 1px solid #ddd;
+}
+
+.local-nav-links .product-name {
+    margin-right: auto;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.product-name{
+    margin-right: auto;
+}
+
+

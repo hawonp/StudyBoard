@@ -4,18 +4,25 @@ import React from 'react';
 import HomeLayout from '../components/HomeLayout';
 
 const Home = () => (
-  <HomeLayout>
+  <body>
     <div className="container">
+      <nav className="global-nav">
+        <div className="global-nav-links">
+          <a href="/profile" className="global-nav-item">😀 Profile</a>
+          <a href="/studyBoard" className="global-nav-item">❓ Ask Question </a>
+          <a href="/about" className="global-nav-item">📢 About</a>
+          <a href="/rank" className="global-nav-item">👍 Rank </a>
+        </div>
+      </nav>
       <nav className="local-nav">
         <div className="local-nav-links">
-          <a href="#" className="product-name">STUDY BOARD</a>
-          <a href="#">개요</a>
-          <a href="#">제품사양</a>
-          <a href="#">구입하기</a>
+          <a href="/" className="product-name">STUDY BOARD</a>
+          <a href="/studyBoard">🏫 Question Board</a>
+          <a href="/studyBoard">✅ Login</a>
         </div>
       </nav>
     </div>
-  </HomeLayout>
+  </body>
 );
 
 export default Home;
