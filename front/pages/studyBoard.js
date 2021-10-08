@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import Link from 'next/link';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import AppLayout from '../components/AppLayout';
@@ -38,10 +38,15 @@ const studyBoard = () => {
 
   return (
     <AppLayout>
-      {me && <PostForm />}
-      {mainPosts.map((p) => (
-        <PostCard key={p.id} post={p} />
-      ))}
+      <nav className="global-nav">
+        <div className="local-nav-links" style={{ height: '52px' }}>
+          <Link href="/"><a style={{ color: 'rgb(29,29,31)', textDecoration: 'none' }}>인기있는 게시글 </a></Link>
+          {me && <PostForm />}
+          {mainPosts.map((p) => (
+            <PostCard key={p.id} post={p} />
+          ))}
+        </div>
+      </nav>
     </AppLayout>
   );
 };

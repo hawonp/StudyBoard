@@ -23,24 +23,46 @@ const AppLayout = ({ children }) => {
 
   return (
     <div>
-      <Menu mode="horizontal">
+      <Menu
+        mode="horizontal"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          // maxWidth: '1000px',
+          margin: '0 auto',
+          height: '100%',
+          color: 'rgb(29,29,31)',
+        }}
+      >
         <Menu.Item>
-          <Link href="/"><a>StudyBaord </a></Link>
+          <Link href="/">
+            <a style={{ fontSize: '1.2rem' }}>StudyBaord </a>
+          </Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/profile"><a>Profile </a></Link>
+          <Link href="/profile"><a>😀 Profile </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/studyBoard"><a> Ask Question </a></Link>
+          <Link href="/studyBoard"><a>❓ Ask Question </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/about"><a>About </a></Link>
+          <Link href="/about"><a>📢 About </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/rank"><a>Rank </a></Link>
+          <Link href="/rank"><a>👍 Rank  </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <SearchInput enterButton />
+          <div style={{ borderRadius: '8px' }}>
+            <SearchInput
+              enterButton
+              placeholder="type what you want"
+              allowClear
+              style={{
+                width: 400,
+                color: '#FFFFFF',
+                borderRadius: '20px' }}
+            />
+          </div>
         </Menu.Item>
       </Menu>
       {/* 거터라는건 컬럼사이 간격 */}

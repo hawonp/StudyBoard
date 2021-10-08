@@ -10,29 +10,51 @@ const SearchInput = styled(Input.Search)`
   ;
 `;
 const style = {
-  fontSize: 14,
-  color: '#fff',
+  fontSize: '1.2rem',
 };
 const HomeLayout = ({ children }) => (
-  <div>
-    <Menu mode="horizontal" style={{ padding: '0.5rem 1rem', background: '#2c82c9' }}>
+  <div
+    style={{ height: '100%' }}
+  >
+    <Menu
+      mode="horizontal"
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        // maxWidth: '1000px',
+        margin: '0 auto',
+
+        color: '#FFFFFF' }}
+    >
       <Menu.Item key="home">
-        <Link href="/"><a>StudyBaord</a></Link>
+        <Link href="/">
+          <a style={{ fontSize: '1.2rem' }}>
+            StudyBaord
+          </a>
+        </Link>
       </Menu.Item>
       <Menu.Item key="profile">
-        <Link href="/profile"><a>Profile</a></Link>
+        <Link href="/profile"><a>😀 Profile</a></Link>
       </Menu.Item>
       <Menu.Item>
-        <Link href="/studyBoard"><a> Ask Question </a></Link>
+        <Link href="/studyBoard"><a>❓ Ask Question </a></Link>
       </Menu.Item>
       <Menu.Item>
-        <Link href="/about"><a>About </a></Link>
+        <Link href="/about"><a>📢 About </a></Link>
       </Menu.Item>
       <Menu.Item>
-        <Link href="/rank"><a>Rank </a></Link>
+        <Link href="/rank"><a>👍 Rank </a></Link>
       </Menu.Item>
       <Menu.Item>
-        <SearchInput enterButton placeholder="type what you want" allowClear style={{ width: 400, color: '#FFFFFF', borderRadius: '20px' }} />
+        <SearchInput
+          enterButton
+          placeholder="type what you want"
+          allowClear
+          style={{
+            width: 400,
+            color: '#FFFFFF',
+            borderRadius: '20px' }}
+        />
       </Menu.Item>
       {/* <Menu.Item key="mail"> */}
       {/*    <Input.Search enterButton style={{ verticalAlign: 'middle' }} /> */}
