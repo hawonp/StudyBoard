@@ -21,24 +21,44 @@ const OtherLayout = ({ children }) => {
   const { isLoggedIn } = useSelector((state) => state.user);
   return (
     <div>
-      <Menu mode="horizontal">
+      <Menu
+        mode="horizontal"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          // maxWidth: '1000px',
+          margin: '0 auto',
+          color: '#FFFFFF' }}
+      >
         <Menu.Item>
-          <Link href="/"><a>StudyBoard </a></Link>
+          <Link href="/">
+            <a style={{ fontSize: '1.2rem' }}>
+              StudyBaord
+            </a>
+          </Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/profile"><a>Profile </a></Link>
+          <Link href="/profile"><a>😀 Profile </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/studyBoard"><a> Ask Question </a></Link>
+          <Link href="/studyBoard"><a>❓ Ask Question</a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/about"><a>About </a></Link>
+          <Link href="/about"><a>📢 About </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/rank"><a>Rank </a></Link>
+          <Link href="/rank"><a>👍 Rank </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <SearchInput enterButton />
+          <SearchInput
+            enterButton
+            placeholder="type what you want"
+            allowClear
+            style={{
+              width: 400,
+              color: '#FFFFFF',
+              borderRadius: '20px' }}
+          />
         </Menu.Item>
         <Menu.Item />
       </Menu>

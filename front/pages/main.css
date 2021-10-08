@@ -6,7 +6,6 @@ body{
 }
 
 .global-nav {
-    position: absolute;
     top: 0;
     left: 0;
     z-index: 10;
@@ -15,7 +14,6 @@ body{
     padding: 0 1rem;
 }
 .local-nav {
-    position: absolute;
     top: 45px;
     left: 0;
     z-index: 11;
@@ -56,11 +54,7 @@ a{
     font-size: 1.1rem;
 }
 
-.local-nav{
-    height: 52px;
-    border-bottom: 1px solid #ddd;
-}
-
+/*구체적인 클래스 네임 */
 .local-nav-links .product-name {
     margin-right: auto;
     font-size: 1.4rem;
@@ -71,4 +65,5 @@ a{
     margin-right: auto;
 }
 
-
+/*홈페이지 스크롤 내리는 부분 */
+.scroll-section{ padding-top: 50vh; }
