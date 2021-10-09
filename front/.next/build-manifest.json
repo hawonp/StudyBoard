@@ -29,10 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/studyBoard": [
+    "/rank": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/studyBoard.js"
+      "static/chunks/pages/rank.js"
     ]
   },
   "ampFirstPages": []

@@ -26,12 +26,22 @@ const Home = () => (
         </nav>
 
         {/* 첫 보여지는부부 */}
-        <div className="container">
-          <div className="first-description">
-            <Row gutter={[32, 32]}>
-              <Col span={12} style={{ background: 'red' }}> 글귀가 들어갈꺼고</Col>
-              <Col span={12} style={{ background: 'blue' }}> 사진이 들어갈꺼고 </Col>
-            </Row>
+        <div className="container-one">
+          <div className="outer">
+            <div className="first-description">
+              <Row className="content" gutter={[32, 32]}>
+                <Col span={12} style={{ background: 'red' }}>
+                  <h6>Digital Media Agency</h6>
+                  <h2>We Boost Your Website Traffic</h2>
+                  <p>
+                    This template is brought to you by TemplateMo website. Feel free to use this for a commercial
+                    purpose. You are not allowed to redistribute the template ZIP file on any other template website.
+                    Thank you.
+                  </p>
+                </Col>
+                <Col span={12} style={{ background: 'blue' }}>  fasfasf</Col>
+              </Row>
+            </div>
           </div>
         </div>
 

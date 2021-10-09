@@ -6,14 +6,26 @@ body{
     background: white;
 }
 
-.first-description{
-    max-width: 960px;
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: auto;
-    margin-left: auto;
+a:hover, a:active, a:focus {
+    color: lightgray;
+    outline: none;
+}
+
+.outer{
+    display: table;
+    padding: 0 1rem;
+    width: 100%;
+    height: 52px;
+    margin: 0 auto;
 
 }
+
+.first-description{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 .global-nav {
     font-family: Nunito;

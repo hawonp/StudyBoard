@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import wrapper from '../store/configureStore';
 // css 디자인부분
 import './main.css';
+import './leadership.css';
 
 const App = ({ Component }) => (
   <>
