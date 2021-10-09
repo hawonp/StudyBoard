@@ -11,6 +11,7 @@ const App = ({ Component }) => (
   <>
     <Head>
       <meta charSet="utf-8" />
+
       <title>Study Board | Find your answer</title>
     </Head>
     <Component />

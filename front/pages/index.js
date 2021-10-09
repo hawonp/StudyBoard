@@ -1,6 +1,7 @@
 import React from 'react';
 // import {} from './styles';
 // import AppLayout from '../components/AppLayout';
+import { Row, Col } from 'antd';
 import HomeLayout from '../components/HomeLayout';
 
 const Home = () => (
@@ -24,26 +25,48 @@ const Home = () => (
           </div>
         </nav>
 
-        {/*  스크롤 하는공간 */}
+        {/* 첫 보여지는부부 */}
+        <div className="container">
+          <div className="first-description">
+            <Row gutter={[32, 32]}>
+              <Col span={12} style={{ background: 'red' }}> 글귀가 들어갈꺼고</Col>
+              <Col span={12} style={{ background: 'blue' }}> 사진이 들어갈꺼고 </Col>
+            </Row>
+          </div>
+        </div>
+
+        {/*  1번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-0">
           <h1>We are the SutdyBoard</h1>
+
           <div className="sticky-elem main-message">
             <p>우리는 모든 질문을 받습니다 <br />모르는걸 물어보세요</p>
           </div>
+
           <div className="sticky-elem main-message">
             <p>우리는 모든 질문을 받습니다 <br /></p>
           </div>
+
           <div className="sticky-elem main-message">
             <p>우리는 모든 질문을 받습니다 <br /></p>
           </div>
         </section>
+
+        {/*  2번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-1">
-          <p>
-            <strong>
-              보통 스크롤
-            </strong>
+          <p className="description">
+            <strong>보통 스크롤 영역</strong>
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
+            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
           </p>
         </section>
+
+        {/*  3번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-2">
           <div>
             <p>
@@ -57,8 +80,9 @@ const Home = () => (
             </p>
             <div className="pin">1</div>
           </div>
-
         </section>
+
+        {/*  4번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-3">
           <p className="mid-message">
             <strong>Retina 머그</strong>
