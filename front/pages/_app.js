@@ -7,11 +7,14 @@ import wrapper from '../store/configureStore';
 // css 디자인부분
 import './main.css';
 import './leadership.css';
+import './about.css';
+import '../js/main';
 
 const App = ({ Component }) => (
   <>
     <Head>
       <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Study Board | Find your answer</title>
     </Head>
     <Component />

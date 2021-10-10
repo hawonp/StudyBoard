@@ -8,7 +8,19 @@ const Contact = () => (
       <title>Study Board | Contact </title>
     </Head>
     <OtherLayout>
-      <div>Contact </div>
+      <div>
+        <div className="about-page">
+          <div className="fh5co-person">
+
+            <h1>Contack Information</h1>
+            <hr style={{ size: '8', width: '40%' }} />
+            <br />
+            <br />
+            <span className="fh5co-position">contact information</span>
+            <ul className="social social-circle" />
+          </div>
+        </div>
+      </div>
     </OtherLayout>
   </>
 );

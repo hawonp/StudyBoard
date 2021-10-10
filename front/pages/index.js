@@ -1,7 +1,7 @@
 import React from 'react';
 // import {} from './styles';
 // import AppLayout from '../components/AppLayout';
-import { Row, Col } from 'antd';
+import { Row, Col, Image } from 'antd';
 import HomeLayout from '../components/HomeLayout';
 
 const Home = () => (
@@ -26,22 +26,27 @@ const Home = () => (
         </nav>
 
         {/* 첫 보여지는부부 */}
-        <div className="container-one">
-          <div className="outer">
-            <div className="first-description">
-              <Row className="content" gutter={[32, 32]}>
-                <Col span={12} style={{ background: 'red' }}>
-                  <h6>Digital Media Agency</h6>
-                  <h2>We Boost Your Website Traffic</h2>
+
+        <div className="outer">
+          <div className="first-description">
+            <Row className="content" gutter={[32, 32]}>
+              <Col className="leftside" span={12}>
+                <div className="leftside-box">
+                  <h1>Welcom to StudyBoard</h1>
                   <p>
-                    This template is brought to you by TemplateMo website. Feel free to use this for a commercial
-                    purpose. You are not allowed to redistribute the template ZIP file on any other template website.
-                    Thank you.
+                    From first day to finals, get homework help, exam prep & writing support—tailored to your courses.
                   </p>
-                </Col>
-                <Col span={12} style={{ background: 'blue' }}>  fasfasf</Col>
-              </Row>
-            </div>
+                  <div className="wrapper">
+                    <div className="SIGN">
+                      <a href="/studyboard" className="c-tag">Find your Answer!</a>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col className="rightside" span={12}>
+                <div id="second-image" />
+              </Col>
+            </Row>
           </div>
         </div>
 
@@ -78,17 +83,23 @@ const Home = () => (
 
         {/*  3번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-2">
-          <div>
+          <div className="sticky-elem main-message">
             <p>
               <small>알고싶으면 스터디 보드로 </small>
+              물어보고싶은게 뭐야 ?
             </p>
-            <div className="pin">1</div>
           </div>
           <div className="sticky-elem desc-message">
             <p>
               내가 모르는거있으면 물어봐
             </p>
-            <div className="pin">1</div>
+            <div className="pin" />
+          </div>
+          <div className="sticky-elem desc-message">
+            <p>
+              스터디보드에서는 좋아요도 있어, <br /> 좋아
+            </p>
+            <div className="pin" />
           </div>
         </section>
 
@@ -96,7 +107,8 @@ const Home = () => (
         <section className="scroll-section" id="scroll-section-3">
           <p className="mid-message">
             <strong>Retina 머그</strong>
-            공부를 하고있음
+            <br />
+            공부를 하고있음<br />
             공부하기싫어요
           </p>
           <p className="canvas-caption">
@@ -107,6 +119,7 @@ const Home = () => (
           2021, StudyBoard
         </footer>
       </div>
+      <script scr="js/main.js" />
     </body>
   </html>
 );

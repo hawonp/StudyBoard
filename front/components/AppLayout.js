@@ -67,7 +67,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       {/* 거터라는건 컬럼사이 간격 */}
       <Row gutter={10}>
-        <Col xs={24} md={6}>
+        <Col xs={24} md={6} style={{ padding: '1rem 1rem' }}>
           {me ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={16} style={{ padding: '1rem 1rem' }}>
