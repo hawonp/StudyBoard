@@ -1,6 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import { Row, Col, Image } from 'antd';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+
+// import your icons
+import { faCode, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import OtherLayout from '../components/OtherLayout';
 
 const LeaderShip = () => (
@@ -16,9 +23,13 @@ const LeaderShip = () => (
           <div className="row">
             <div className="col-md-12 section-heading text-center">
               <h2 className="leadership">LeaderShip</h2>
+              <h1 className="icon-leader">
+                <FontAwesomeIcon icon={faCode} />
+              </h1>
               <div className="row">
                 <div className="leadership-team">
-                  <h3>StudyBoard Leadership Team
+                  <h3>
+                    StudyBoard Leadership Team
                   </h3>
                 </div>
               </div>
