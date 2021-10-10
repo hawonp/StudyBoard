@@ -29,7 +29,7 @@ const UserProfile = () => {
         <div key="follower">Follow<br />{me.Followers.length}</div>,
       ]}
       // extra={id && <FollowButton post={post} />}
-      extra={<Link href="/admin"><Button block style={{ borderRadius: '8px' }}><a><FontAwesomeIcon icon={faUserShield} style={{ color: 'darkred', width: '20px' }} /></a></Button></Link>}
+      extra={<Link href="/user"><Button block style={{ borderRadius: '8px' }}><a><FontAwesomeIcon icon={faUserShield} style={{ color: 'darkred', width: '20px' }} /></a></Button></Link>}
     >
       <Card.Meta
         avatar={<Avatar>{me.nickname[0]}</Avatar>}

@@ -8,7 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCode, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import OtherLayout from '../components/OtherLayout';
+import AdminLayout from '../components/AdminLayout';
 
 const Admin = () => (
   <>
@@ -16,9 +16,9 @@ const Admin = () => (
       <title>Study Board | Admin </title>
     </Head>
 
-    <OtherLayout>
+    <AdminLayout>
       <div>admin</div>
-    </OtherLayout>
+    </AdminLayout>
   </>
 );
 
