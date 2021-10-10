@@ -7,6 +7,12 @@ body{
     background: white;
 }
 
+.logoHome{
+    font-size: 1.5rem;
+    font-family: Nunito;
+    font-weight: bold;
+}
+
 a:hover, a:active, a:focus {
     color: lightgray;
     outline: none;

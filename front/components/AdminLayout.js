@@ -32,9 +32,7 @@ const AdminLayout = ({ children }) => {
       >
         <Menu.Item>
           <Link href="/">
-            <a style={{ fontSize: '1.2rem' }}>
-              StudyBaord
-            </a>
+            <a className="logoHome">StudyBaord </a>
           </Link>
         </Menu.Item>
         <Menu.Item>
