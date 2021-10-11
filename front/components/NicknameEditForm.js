@@ -7,7 +7,8 @@ const NicknameEditForm = () => {
 
   return (
     <Form style={style}>
-      <Input.Search addonBefore="Nickname" enterButton="edit" />
+      <Input.Search addonBefore="Nickname" enterButton="edit" style={{ marginBottom: '10px', padding: '30px' }} />
+      <Input.Search addonBefore="Hash Tag" enterButton="edit" style={{ padding: '30px' }} />
     </Form>
   );
 };

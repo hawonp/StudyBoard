@@ -119,14 +119,14 @@ const Home = () => (
           <Row gutter={[8, 16]}>
 
             <Col span={12} className="square">
-              <div className="RankBox">CSS 박스 모델입니다.<br /><br />
-                사진
+              <div className="RankBox">
+                <Image src="http://cubelink.me/media/article/11.jpg" width="100%" height="100%" />
               </div>
             </Col>
 
             <Col className="square" span={12}>
-              <div className="RankBox">CSS 박스 모델입니다.<br /><br />
-                사진
+              <div className="RankBox">
+                <Image src="http://cubelink.me/media/article/2.jpg" width="100%" height="100%" />
               </div>
             </Col>
           </Row>

@@ -25,6 +25,7 @@ const Profile = () => {
       </Head>
       <AppLayout>
         <NicknameEditForm />
+        <FollowList data={me.Posts} header="Post List" />
         <FollowList header="Follow List" data={me.Followings} />
         <FollowList header="Follower List" data={me.Followers} />
       </AppLayout>

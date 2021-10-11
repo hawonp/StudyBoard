@@ -56,8 +56,8 @@ const LoginForm = () => {
       </div>
       {/* style={style} 안에 넣어도 된다 */}
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
-        <Link href="/signup"><a><Button>회원가입</Button></a></Link>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>Login</Button>
+        <Link href="/signup"><a><Button>Sign Up</Button></a></Link>
       </ButtonWrapper>
     </FormWrapper>
   );

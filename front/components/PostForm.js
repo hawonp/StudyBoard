@@ -29,7 +29,7 @@ const PostForm = () => {
 
   return (
     <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-      <Input.TextArea value={text} onChange={OnChangetext} maxLength={140} placeholder="Write your Question" />
+      <Input.TextArea value={text} onChange={OnChangetext} maxLength={140} placeholder="Write your Question & Hashtag ex) #quiz #CSE" />
       <div>
         {/* ref가 실제 도메인에 접근하는거 이미지 인풋넣으려면 파일타입으로 */}
         <input type="file" multiple hidden ref={imageInput} />

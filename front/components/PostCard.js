@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
 // 커맨트폼
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import PostImages from './PostImages';
@@ -73,13 +75,18 @@ const PostCard = ({ post }) => {
         ]}
         // 우측상단에 만들어주는 extra
         extra={id && <FollowButton post={post} />}
+
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          avatar={<Avatar>{post.User.nickname[0]} </Avatar>}
           title={post.User.nickname}
             // 해시테그
           description={<PostCardContent postData={post.content} />}
         />
+        <div style={{ position: 'absolute', left: '10px', top: '1000px', color: 'darkyellow' }}>
+          <FontAwesomeIcon icon={faStar} />
+        </div>
+
       </Card>
       {commentFormOpened && (
         <>

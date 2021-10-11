@@ -15,6 +15,7 @@ const Signup = () => {
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNick] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [hashtag, onChangeHashtag] = useInput('');
 
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -76,6 +77,11 @@ const Signup = () => {
               onChange={onChangePasswordCheck}
             />
             {passwordError && <div style={{ color: 'red' }}>Password is not match</div>}
+          </div>
+          <div>
+            <label htmlFor="user-hash">Hashtage</label>
+            <br />
+            <Input name="user-hash" type="Hashtag" value={hashtag} onChange={onChangeHashtag} />
           </div>
           <div>
             <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>You need to listen what I said</Checkbox>

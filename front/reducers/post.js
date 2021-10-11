@@ -3,7 +3,35 @@ import faker from 'faker';
 import produce from 'immer';
 
 export const initialState = {
-  mainPosts: [],
+  mainPosts: [{
+    id: 0,
+    User: {
+      id: 1,
+      nickname: 'PK',
+
+    },
+    content: 'First Post',
+    Images: [{
+      src: 'http://cubelink.me/media/article/%EC%9D%BC%EB%B3%B8%EA%B0%9C_%ED%99%98%EC%98%81%ED%95%A9%EB%8B%88%EB%8B%A4_rwEMrJh.JPG',
+    }, {
+      src: 'http://cubelink.me/media/project/wine.PNG',
+    }, {
+      src: 'http://cubelink.me/media/article/lock.png',
+    }],
+    Comments: [{
+      User: {
+        nickname: 'nero',
+      },
+      content: 'COOOOOLLLLLLL',
+    }, {
+      User: {
+        nickname: 'hero',
+      },
+      content: 'I want to buy it ',
+    }],
+  }],
+  postAdded: false,
+
   imagePaths: [],
   hasMorePosts: true,
 

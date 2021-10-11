@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { Button, Menu, Input, Row, Col } from 'antd';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import AppLayout from '../components/AppLayout';
@@ -39,8 +40,17 @@ const studyBoard = () => {
   return (
     <AppLayout>
 
-      <Link href="/"><a style={{ color: 'rgb(29,29,31)', textDecoration: 'none' }}>인기있는 게시글 </a></Link>
       {me && <PostForm />}
+      <Row>
+
+        <Col span={6}>
+          <Link href="/"><Button block style={{ borderWidth: 'bold', borderRadius: '20px', color: 'rgb(29,29,31)', textDecoration: 'none' }}><a> Recently </a></Button></Link>
+        </Col>
+        <Col span={6}>
+          <Link href="/"><Button block style={{ borderWidth: 'bold', borderRadius: '20px', color: 'rgb(29,29,31)', textDecoration: 'none' }}><a> Popular </a></Button></Link>
+        </Col>
+
+      </Row>
       {mainPosts.map((p) => (
         <PostCard key={p.id} post={p} />
       ))}

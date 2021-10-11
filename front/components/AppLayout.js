@@ -36,7 +36,7 @@ const AppLayout = ({ children }) => {
       >
         <Menu.Item>
           <Link href="/">
-            <a className="logoHome">StudyBaord </a>
+            <a className="logoHome">StudyBoard </a>
           </Link>
         </Menu.Item>
         <Menu.Item>

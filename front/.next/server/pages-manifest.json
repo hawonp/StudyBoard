@@ -2,10 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
   "/studyBoard": "pages/studyBoard.js",
-  "/user": "pages/user.js",
-  "/reportedPost": "pages/reportedPost.js",
-  "/rank": "pages/rank.js",
-  "/about": "pages/about.js"
+  "/signup": "pages/signup.js"
 }
