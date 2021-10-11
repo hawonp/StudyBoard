@@ -18,6 +18,7 @@ const App = ({ Component }) => (
       <title>Study Board | Find your answer</title>
     </Head>
     <Component />
+
   </>
 );
 

@@ -1,9 +1,4 @@
 (() => {
-  const yOffset = 0; // window.pageYOffset 대신 쓸 변수
-  const prevScrollHeight = 0; // 현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
-  const currentScene = 0; // 현재 활성화된(눈 앞에 보고있는) 씬(scroll-section)
-  const enterNewScene = false; // 새로운 scene이 시작된 순간
-
   const sceneInfo = [
     {
       // 0
@@ -33,6 +28,12 @@
       scrollHeight: 0,
 
     },
-
   ];
+  function setLayout() {
+    //  각 스크롤섹션의 높이 세팅
+    for (let i = 0; i < sceneInfo.length; i++) {
+      sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
+    }
+  }
+  // setLayout(sceneInfo);
 })();

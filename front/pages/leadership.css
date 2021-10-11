@@ -7,8 +7,8 @@
 }
 .leadership-team{
     font-family: Nunito;
-    text-align: center;
     font-size: 1.2rem;
+    text-align: center;
     margin-bottom: 50px;
 }
 .material-icon{
@@ -52,6 +52,31 @@
     font-weight: bold;
     box-shadow: 0 0 4px #6c6061;
 }
+.homeformoment{
+    border: 2px solid #f2f2f2;
+    border-radius: 5px;
+    padding: 40px 40px 100px 40px;
+    height: 100%;
+    min-width: 0px;
+    /*display: none;*/
+    overflow: visible;
+    float: left;
+    /*width: 100%;*/
+    /*position: relative;*/
+    box-shadow: 0 0 4px black;
+}
+.homeformoment h2{
+    font-family: Nunito;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+}
+.homeformoment span{
+    text-align: right;
+    font-family: Nunito;
+}
+
+
 @media screen and (max-width: 992px) {
     .fh5co-person {
         margin-bottom: 3.5em;

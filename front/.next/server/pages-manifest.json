@@ -5,5 +5,7 @@
   "/": "pages/index.js",
   "/studyBoard": "pages/studyBoard.js",
   "/user": "pages/user.js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js"
+  "/reportedPost": "pages/reportedPost.js",
+  "/rank": "pages/rank.js",
+  "/about": "pages/about.js"
 }

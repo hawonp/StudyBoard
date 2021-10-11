@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import {} from './styles';
 // import AppLayout from '../components/AppLayout';
+// import { useMenu } from 'react';
 import { Row, Col, Image } from 'antd';
-import HomeLayout from '../components/HomeLayout';
 
 const Home = () => (
   <html>
@@ -27,99 +27,117 @@ const Home = () => (
 
         {/* 첫 보여지는부부 */}
 
-        <div className="outer">
-          <div className="first-description">
-            <Row className="content" gutter={[32, 32]}>
-              <Col className="leftside" span={12}>
-                <div className="leftside-box">
-                  <h1>Welcom to StudyBoard</h1>
-                  <p>
-                    From first day to finals, get homework help, exam prep & writing support—tailored to your courses.
-                  </p>
-                  <div className="wrapper">
-                    <div className="SIGN">
-                      <a href="/studyboard" className="c-tag">Find your Answer!</a>
-                    </div>
+        <div className="outer" id="scroll-section-1">
+          <Row className="content" gutter={8}>
+            <Col className="leftside" span={24}>
+              <div className="leftside-box">
+                <h1>Welcom to StudyBoard</h1>
+                <p>
+                  94% of Chegg customers say they get better grades when they use Chegg to understand their coursework
+                </p>
+                <div className="wrapper">
+                  <div className="SIGN">
+                    <a href="/studyboard" className="c-tag">Find your Answer!</a>
                   </div>
                 </div>
-              </Col>
-              <Col className="rightside" span={12}>
-                <div id="second-image" />
-              </Col>
-            </Row>
-          </div>
+              </div>
+            </Col>
+            {/* <Col className="rightside" span={12}> */}
+            {/*  <div id="second-image" /> */}
+            {/* </Col> */}
+          </Row>
+
         </div>
 
         {/*  1번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-0">
-          <h1>We are the SutdyBoard</h1>
+          <h1>Here for every moment</h1>
+          <Row gutter={[16, 24]}>
 
-          <div className="sticky-elem main-message">
-            <p>우리는 모든 질문을 받습니다 <br />모르는걸 물어보세요</p>
-          </div>
+            <Col span={6}>
+              <div className="homeformoment">
+                <div>
+                  <Image
+                    src="http://cubelink.me/media/article/1_601Tb6M.png"
+                    width="100%"
+                    height="100%"
+                  />
+                </div>
+                <div>
+                  <br />
+                  <h2>Homework help</h2>
+                  <span className="fh5co-position">Study with 55+ million step-by-step explanations, Expert Q&As & math suppor</span>
+                </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className="homeformoment">
+                <div>
+                  <Image src="http://cubelink.me/media/article/2.png" width="100%" height="100%" />
+                </div>
+                <div>
+                  <h2>Exam prep & practice</h2>
+                  <span className="fh5co-position">Get ready for test day with 500+ million flashcards or review with practice exams.</span>
+                </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className="homeformoment">
+                <div>
+                  <Image src="http://cubelink.me/media/article/3.png" width="100%" height="100%" />
+                </div>
+                <div>
+                  <br />
+                  <h2>Understand a topic</h2>
+                  <span className="fh5co-position">Simplify the toughest concepts with digestible topic breakdowns & videos.</span>
+                </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className="homeformoment">
+                <div>
+                  <Image src="http://cubelink.me/media/article/4.png" alt="Trulli" width="100%" height="100%" />
+                </div>
+                <div>
+                  <h2>Network Work</h2>
+                  <span className="fh5co-position">Strengthen your writing with plagiarism checks, expert proofreading & instant citations.</span>
+                </div>
 
-          <div className="sticky-elem main-message">
-            <p>우리는 모든 질문을 받습니다 <br /></p>
-          </div>
-
-          <div className="sticky-elem main-message">
-            <p>우리는 모든 질문을 받습니다 <br /></p>
-          </div>
-        </section>
-
-        {/*  2번 스크롤 하는공간 */}
-        <section className="scroll-section" id="scroll-section-1">
-          <p className="description">
-            <strong>보통 스크롤 영역</strong>
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-            우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다우리는 공부하기싫은 사람들이다
-          </p>
-        </section>
-
-        {/*  3번 스크롤 하는공간 */}
-        <section className="scroll-section" id="scroll-section-2">
-          <div className="sticky-elem main-message">
-            <p>
-              <small>알고싶으면 스터디 보드로 </small>
-              물어보고싶은게 뭐야 ?
-            </p>
-          </div>
-          <div className="sticky-elem desc-message">
-            <p>
-              내가 모르는거있으면 물어봐
-            </p>
-            <div className="pin" />
-          </div>
-          <div className="sticky-elem desc-message">
-            <p>
-              스터디보드에서는 좋아요도 있어, <br /> 좋아
-            </p>
-            <div className="pin" />
-          </div>
+              </div>
+            </Col>
+          </Row>
         </section>
 
         {/*  4번 스크롤 하는공간 */}
         <section className="scroll-section" id="scroll-section-3">
           <p className="mid-message">
-            <strong>Retina 머그</strong>
+            <strong>Ranking System</strong>
             <br />
             공부를 하고있음<br />
             공부하기싫어요
           </p>
-          <p className="canvas-caption">
-            ssssssssssssssssssssssssssssssssssss
-          </p>
+          <Row gutter={[8, 16]}>
+
+            <Col span={12} className="square">
+              <div className="RankBox">CSS 박스 모델입니다.<br /><br />
+                사진
+              </div>
+            </Col>
+
+            <Col className="square" span={12}>
+              <div className="RankBox">CSS 박스 모델입니다.<br /><br />
+                사진
+              </div>
+            </Col>
+          </Row>
+
         </section>
         <footer className="footer">
-          2021, StudyBoard
+          @2021, StudyBoard Inc, All rights reserved.
         </footer>
       </div>
       <script scr="js/main.js" />
+
     </body>
   </html>
 );
