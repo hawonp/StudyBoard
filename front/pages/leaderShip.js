@@ -55,7 +55,7 @@ const LeaderShip = () => (
                   <Image src="https://dummyimage.com/200x300/ffffff/000000.png&text=placeholder" alt="Trulli" width="100%" height="100%" />
                 </div>
                 <h3>Hawon Park</h3>
-                <span className="fh5co-position">Project manger</span>
+                <span className="fh5co-position">Project Manager</span>
                 <ul className="social social-circle" />
               </div>
             </Col>
