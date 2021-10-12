@@ -12,7 +12,7 @@ const Contact = () => (
         <div className="about-page">
           <div className="fh5co-person">
 
-            <h1>Contact Information</h1>
+            <h1>Contact Us!</h1>
             <hr style={{ size: '8', width: '40%' }} />
             <br />
             <br />

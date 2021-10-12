@@ -41,7 +41,7 @@ const LeaderShip = () => (
             <Col span={8}>
               <div className="fh5co-person">
                 <div>
-                  <Image src="https://via.placeholder.com/300" alt="Trulli" width="100%" height="100%" />
+                  <Image src="https://dummyimage.com/200x300/ffffff/000000.png&text=placeholder" alt="Trulli" width="100%" height="100%" />
                 </div>
                 <h3>Pyungkang Hong</h3>
                 <span className="fh5co-position">Web Designer</span>
@@ -52,7 +52,7 @@ const LeaderShip = () => (
             <Col span={8}>
               <div className="fh5co-person">
                 <div>
-                  <Image src="https://via.placeholder.com/300" alt="Trulli" width="100%" height="100%" />
+                  <Image src="https://dummyimage.com/200x300/ffffff/000000.png&text=placeholder" alt="Trulli" width="100%" height="100%" />
                 </div>
                 <h3>Hawon Park</h3>
                 <span className="fh5co-position">Project manger</span>
@@ -63,7 +63,7 @@ const LeaderShip = () => (
             <Col span={8}>
               <div className="fh5co-person">
                 <div>
-                  <Image src="https://via.placeholder.com/300" alt="Trulli" width="100%" height="100%" />
+                  <Image src="https://dummyimage.com/200x300/ffffff/000000.png&text=placeholder" alt="Trulli" width="100%" height="100%" />
                 </div>
                 <h3>Jeong ho Shin</h3>
                 <span className="fh5co-position">Lead Programmer</span>
