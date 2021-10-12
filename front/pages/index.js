@@ -19,7 +19,7 @@ const Home = () => (
         </nav>
         <nav className="local-nav">
           <div className="local-nav-links">
-            <a href="/" className="product-name">STUDY BOARD</a>
+            <a href="/" className="product-name">StudyBoard</a>
             <a href="/studyBoard">🏫 Question Board</a>
             <a href="/studyBoard">✅ Login</a>
           </div>
@@ -31,13 +31,13 @@ const Home = () => (
           <Row className="content" gutter={8}>
             <Col className="leftside" span={24}>
               <div className="leftside-box">
-                <h1>Welcom to StudyBoard</h1>
+                <h1>Welcome to StudyBoard!</h1>
                 <p>
-                  94% of Chegg customers say they get better grades when they use Chegg to understand their coursework
+                  Explore all that StudyBoard has to offer and more!
                 </p>
                 <div className="wrapper">
                   <div className="SIGN">
-                    <a href="/studyboard" className="c-tag">Find your Answer!</a>
+                    <a href="/studyBoard" className="c-tag">Click Here to Ask Anything!</a>
                   </div>
                 </div>
               </div>
@@ -50,7 +50,7 @@ const Home = () => (
         </div>
 
         {/*  1번 스크롤 하는공간 */}
-        <section className="scroll-section" id="scroll-section-0">
+        {/* <section className="scroll-section" id="scroll-section-0">
           <h1>Here for every moment</h1>
           <Row gutter={[16, 24]}>
 
@@ -106,10 +106,10 @@ const Home = () => (
               </div>
             </Col>
           </Row>
-        </section>
+        </section> */}
 
         {/*  4번 스크롤 하는공간 */}
-        <section className="scroll-section" id="scroll-section-3">
+        {/* <section className="scroll-section" id="scroll-section-3">
           <p className="mid-message">
             <strong>Ranking System</strong>
             <br />
@@ -131,7 +131,7 @@ const Home = () => (
             </Col>
           </Row>
 
-        </section>
+        </section> */}
         <footer className="footer">
           @2021, StudyBoard Inc, All rights reserved.
         </footer>

@@ -16,7 +16,9 @@ const Contact = () => (
             <hr style={{ size: '8', width: '40%' }} />
             <br />
             <br />
-            <span className="fh5co-position">Contact us us at help@studyboard.com</span>
+            <p>
+            Contact us at help@studyboard.com
+            </p>
 
             <ul className="social social-circle" />
           </div>

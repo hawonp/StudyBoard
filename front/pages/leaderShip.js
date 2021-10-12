@@ -13,7 +13,7 @@ import OtherLayout from '../components/OtherLayout';
 const LeaderShip = () => (
   <>
     <Head>
-      <title>Study Board | LeaderShip </title>
+      <title>Study Board | Leadership </title>
     </Head>
 
     <OtherLayout>
@@ -22,17 +22,17 @@ const LeaderShip = () => (
         <div className="container">
           <div className="row">
             <div className="col-md-12 section-heading text-center">
-              <h2 className="leadership">LeaderShip</h2>
-              <h1 className="icon-leader">
+              <h2 className="leadership">Meet the Team!</h2>
+              {/* <h1 className="icon-leader">
                 <FontAwesomeIcon icon={faCode} />
-              </h1>
-              <div className="row">
+              </h1> */}
+              {/* <div className="row">
                 <div className="leadership-team">
                   <h3>
                     StudyBoard Leadership Team
                   </h3>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

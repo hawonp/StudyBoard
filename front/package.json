@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next"
   },
-  "author": "Studyboard",
+  "author": "StudyBoard",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",

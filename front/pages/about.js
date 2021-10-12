@@ -17,18 +17,20 @@ const About = () => (
           <hr style={{ size: '8', width: '40%' }} />
           <br />
           <br />
-          <span className="fh5co-position">welcome! Learn more about our services
+      
+          <h3>
+            Why do you need our service?
+          </h3>
+          <p>
+            StudyBoard's community-based, information-providing service to answer your questions is like no other
+          </p>
 
-            > Why do you need our service?
-            A public platform that builds a final collection of people’s questions and answers.
-            It is a community-based space and information-providing sharing service to find and contribute to answers to technical problems.
-
-            >What do we provide?
-
-            >How to use our service?
-
-            You can quickly receive answers from professors of student experts while sharing problems that you don't know and don't understand in class.
-          </span>
+          <h3>
+          How to use our service?
+          </h3>
+          <p>
+            Ask any question and recieve replies from a wide variety of knowledgeable people!
+          </p>
           <ul className="social social-circle" />
         </div>
       </div>
