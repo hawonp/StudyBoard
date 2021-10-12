@@ -67,7 +67,7 @@ const Signup = () => {
             <Input name="user-password" type="password" value={password} required onChange={onChangePassword} />
           </div>
           <div>
-            <label htmlFor="user-password-check">Password again</label>
+            <label htmlFor="user-password-check">Confirm your password</label>
             <br />
             <Input
               name="user-password-check"
@@ -76,15 +76,15 @@ const Signup = () => {
               required
               onChange={onChangePasswordCheck}
             />
-            {passwordError && <div style={{ color: 'red' }}>Password is not match</div>}
+            {passwordError && <div style={{ color: 'red' }}>Password does not match!</div>}
           </div>
           <div>
-            <label htmlFor="user-hash">Hashtage</label>
+            <label htmlFor="user-hash">Enter at least three hashtags that you are interested in</label>
             <br />
             <Input name="user-hash" type="Hashtag" value={hashtag} onChange={onChangeHashtag} />
           </div>
           <div>
-            <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>You need to listen what I said</Checkbox>
+            <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>Agree to Terms and Conditions</Checkbox>
             {termError && <div style={{ color: 'red' }}>Check the Box.</div>}
           </div>
           <div style={{ marginTop: 10 }}>
