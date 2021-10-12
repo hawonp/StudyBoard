@@ -18,18 +18,22 @@ const SearchInput = styled(Input.Search)`
 `;
 
 const OtherLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector((state) => state.user);
+    const { me } = useSelector((state) => state.user);
   return (
-    <div>
-      <Menu
-        mode="horizontal"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          // maxWidth: '1000px',
-          margin: '0 auto',
-          color: '#FFFFFF' }}
+      <div
+          style={{ height: '100%' }}
       >
+          <Menu
+              mode="horizontal"
+              style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  // maxWidth: '1000px',
+                  margin: '0 auto',
+                  height: '100%',
+                  color: 'rgb(29,29,31)',
+              }}
+          >
         <Menu.Item>
           <Link href="/">
             <a className="logoHome">StudyBoard </a>
@@ -53,15 +57,16 @@ const OtherLayout = ({ children }) => {
             placeholder="type what you want"
             allowClear
             style={{
+                verticalAlign: 'middle',
               width: 400,
               color: '#FFFFFF',
               borderRadius: '20px' }}
           />
         </Menu.Item>
-        <Menu.Item />
+
       </Menu>
       {/* 거터라는건 컬럼사이 간격 */}
-      <Row gutter={8}>
+      <Row gutter={10}>
         <Col xs={24} md={6}>
           <div style={{ width: '70%', margin: '30px auto' }}>
             <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>

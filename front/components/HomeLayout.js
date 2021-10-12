@@ -7,24 +7,22 @@ import styled from 'styled-components';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
-  ;
 `;
-const style = {
-  fontSize: '1.2rem',
-};
+
 const HomeLayout = ({ children }) => (
   <div
     style={{ height: '100%' }}
   >
     <Menu
-      mode="horizontal"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        // maxWidth: '1000px',
-        margin: '0 auto',
-
-        color: '#FFFFFF' }}
+        mode="horizontal"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          // maxWidth: '1000px',
+          margin: '0 auto',
+          height: '100%',
+          color: 'rgb(29,29,31)',
+        }}
     >
       <Menu.Item key="home">
         <Link href="/">
