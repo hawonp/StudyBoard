@@ -68,7 +68,7 @@ const OtherLayout = ({ children }) => {
               <Link href="/about"><Button block style={{ borderRadius: '8px' }}><a>About</a></Button></Link>
             </div>
             <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              <Link href="/leaderShip"><Button block style={{ borderRadius: '8px' }}><a>LeaderShip</a></Button></Link>
+              <Link href="/leaderShip"><Button block style={{ borderRadius: '8px' }}><a>Leadership</a></Button></Link>
             </div>
             <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
               <Link href="/contact"><Button block style={{ borderRadius: '8px' }}><a>Contact</a></Button></Link>

@@ -15,7 +15,7 @@ const App = ({ Component }) => (
     <Head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Study Board | Find your answer</title>
+      <title>StudyBoard</title>
     </Head>
     <Component />
 
