@@ -1,1 +1,0 @@
-{"ast":null,"code":"const UserProfile = () => {};","map":{"version":3,"sources":["C:/Users/PYUNGKANG HONG/Desktop/CSE416_capstone/front/components/UserProfile.js"],"names":["UserProfile"],"mappings":"AAAA,MAAMA,WAAW,GAAG,MAAM,CAEzB,CAFD","sourcesContent":["const UserProfile = () => {\r\n    \r\n}"]},"metadata":{},"sourceType":"script"}
