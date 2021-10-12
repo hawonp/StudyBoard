@@ -132,9 +132,9 @@ const Home = () => (
           </Row>
 
         </section> */}
-        <footer className="footer">
+        {/* <footer className="footer">
           @2021, StudyBoard Inc, All rights reserved.
-        </footer>
+        </footer> */}
       </div>
       <script scr="js/main.js" />
 

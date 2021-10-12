@@ -44,7 +44,7 @@ const LoginForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="user-password">Pawssword</label>
+        <label htmlFor="user-password">Password</label>
         <br />
         <Input
           name="user-password"

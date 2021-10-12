@@ -24,7 +24,7 @@ const UserProfile = () => {
     <Card
       className="login-fh5co"
       actions={[
-        <div key="twit">POST<br />{me.Posts.length}</div>,
+        <div key="twit">Posts<br />{me.Posts.length}</div>,
         <div key="following">Following<br />{me.Followings.length}</div>,
         <div key="follower">Follow<br />{me.Followers.length}</div>,
       ]}
