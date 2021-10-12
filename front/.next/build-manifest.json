@@ -24,6 +24,11 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
+    "/reportedPost": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/reportedPost.js"
+    ],
     "/signup": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -33,6 +38,11 @@
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/studyBoard.js"
+    ],
+    "/user": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/user.js"
     ]
   },
   "ampFirstPages": []

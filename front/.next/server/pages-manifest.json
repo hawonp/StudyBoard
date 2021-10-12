@@ -3,5 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/studyBoard": "pages/studyBoard.js",
+  "/reportedPost": "pages/reportedPost.js",
+  "/user": "pages/user.js",
   "/signup": "pages/signup.js"
 }
