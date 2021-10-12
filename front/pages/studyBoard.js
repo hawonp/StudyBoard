@@ -42,7 +42,7 @@ const studyBoard = () => {
 
       {me && <PostForm />}
       <Row>
-
+        
         <Col span={6}>
           <Link href="/"><Button block style={{ borderWidth: 'bold', borderRadius: '20px', color: 'rgb(29,29,31)', textDecoration: 'none' }}><a> Recently </a></Button></Link>
         </Col>

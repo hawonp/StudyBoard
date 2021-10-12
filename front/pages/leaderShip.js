@@ -22,7 +22,7 @@ const LeaderShip = () => (
         <div className="container">
           <div className="row">
             <div className="col-md-12 section-heading text-center">
-              <h2 className="leadership">Meet the Team!</h2>
+              <h1 className="leadership">Meet the Team!</h1>
               {/* <h1 className="icon-leader">
                 <FontAwesomeIcon icon={faCode} />
               </h1> */}
@@ -33,6 +33,7 @@ const LeaderShip = () => (
                   </h3>
                 </div>
               </div> */}
+            
             </div>
           </div>
 

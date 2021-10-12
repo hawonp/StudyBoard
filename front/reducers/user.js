@@ -6,8 +6,8 @@ const dummyUser = (data) => ({
   id: 1,
   nickname: 'PK',
   Posts: [{ id: 1 }],
-  Followings: [{ nickname: 'pk' }, { nickname: 'hawon' }, { nickname: 'Shin jeoungho' }],
-  Followers: [{ nickname: 'pk' }, { nickname: 'hawon' }, { nickname: 'jeoungho' }],
+  Followings: [{ nickname: 'PK' }, { nickname: 'hawonp' }, { nickname: 'joseph' }],
+  Followers: [{ nickname: 'PK' }, { nickname: 'hawonp' }, { nickname: 'joseph' }],
 });
 
 export const initialState = {
