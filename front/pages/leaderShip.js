@@ -44,7 +44,7 @@ const LeaderShip = () => (
                   <Image src="https://dummyimage.com/200x300/ffffff/000000.png&text=placeholder" alt="Trulli" width="100%" height="100%" />
                 </div>
                 <h3>Pyungkang Hong</h3>
-                <span className="fh5co-position">Web Designer</span>
+                <span className="fh5co-position">UI/UX Designer</span>
                 <ul className="social social-circle" />
               </div>
             </Col>
