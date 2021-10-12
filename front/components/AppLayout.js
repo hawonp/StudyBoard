@@ -22,18 +22,20 @@ const AppLayout = ({ children }) => {
   const { me } = useSelector((state) => state.user);
 
   return (
-    <div>
-      <Menu
-        mode="horizontal"
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          // maxWidth: '1000px',
-          margin: '0 auto',
-          height: '100%',
-          color: 'rgb(29,29,31)',
-        }}
+      <div
+          style={{ height: '100%' }}
       >
+          <Menu
+            mode="horizontal"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              // maxWidth: '1000px',
+              margin: '0 auto',
+              height: '100%',
+              color: 'rgb(29,29,31)',
+            }}
+          >
         <Menu.Item>
           <Link href="/">
             <a className="logoHome">StudyBoard </a>
@@ -52,17 +54,16 @@ const AppLayout = ({ children }) => {
           <Link href="/rank"><a>👍 Rank  </a></Link>
         </Menu.Item>
         <Menu.Item>
-          <div style={{ borderRadius: '8px' }}>
             <SearchInput
               enterButton
               placeholder="type what you want"
               allowClear
               style={{
+                  verticalAlign: 'middle',
                 width: 400,
                 color: '#FFFFFF',
                 borderRadius: '20px' }}
             />
-          </div>
         </Menu.Item>
       </Menu>
       {/* 거터라는건 컬럼사이 간격 */}

@@ -14,7 +14,7 @@ const Rank = () => (
 
     <AppLayout>
 
-      <Layout style={{ padding: '0.5rem 1rem' }}>
+      <Layout style={{ padding: '1rem 1rem' }}>
         <Result
           icon={<SmileOutlined />}
           title="TOP RANK CONGRATULATIONS!"
