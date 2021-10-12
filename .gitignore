@@ -350,5 +350,5 @@ MigrationBackup/
 .ionide/
 
 # Next
-.next
-.idea
+.next/
+.idea/

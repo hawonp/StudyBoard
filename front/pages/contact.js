@@ -12,11 +12,12 @@ const Contact = () => (
         <div className="about-page">
           <div className="fh5co-person">
 
-            <h1>Contack Information</h1>
+            <h1>Contact Information</h1>
             <hr style={{ size: '8', width: '40%' }} />
             <br />
             <br />
-            <span className="fh5co-position">contact information</span>
+            <span className="fh5co-position">Contact us us at help@studyboard.com</span>
+
             <ul className="social social-circle" />
           </div>
         </div>
