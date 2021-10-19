@@ -17,7 +17,7 @@
         {% else %}
         <a href="{% url 'accountapp:logout' %}?next={{ request.path }}" class="memu-nav">⛔ LogOut</a>
 
-        <a href="" class="memu-nav">😀 Profile</a>
+        <a href="{% url 'accountapp:detail' pk=user.pk %}" class="memu-nav">😀 Profile</a>
         {% endif %}
         <form class="d-flex">
             <input class="form-control mr-3"
