@@ -25,9 +25,3 @@ choosing.
 
 These features, when combined, would facilitate active discussion and improved learning by
 enabling each person to leave with the exact information that they were looking for.
-
-## How to Compile & Run this project
-- Clone the repository to a local host
-- navigate to the front/ directory
-- input the following command:
-  > npm run dev
