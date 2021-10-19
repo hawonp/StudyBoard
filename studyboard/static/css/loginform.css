@@ -1,0 +1,19 @@
+.studyboard-login{
+    text-align: center;
+    max-width: 500px;
+    margin: 4rem auto;
+}
+.login-form{
+    text-align: left;
+}
+.button{
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+/*사인업 페이지 */
+.studyboard-Signup{
+    text-align: center;
+    max-width: 500px;
+    margin: 4rem auto;
+}

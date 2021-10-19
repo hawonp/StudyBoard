@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+     <div class="sidenav">
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'leadership' %}">LeaderShip</a>
+        <a href="{% url 'contact' %}">Contact</a>
+    </div>
+
+    <body>
+    <div class="team-boxed">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Team </h2>
+                <p class="text-center">Meet the Team! </p>
+            </div>
+            <div class="row people">
+                <div class="col-md-6 col-lg-4 item box-person">
+                    <div class="box">
+                        <img class="rounded-circle" src="http://cubelink.me/media/project/wine.PNG">
+                        <h3 class="name">Pyungkang</h3>
+                        <p class="title">UI/UX Designer</p>
+                        <p class="description">StonyBrook Senior </p>
+                        <div class="social">
+                            <a href="#"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 item box-person">
+                    <div class="box">
+                        <img class="rounded-circle" src="http://cubelink.me/media/project/wine.PNG">
+                        <h3 class="name">Hawon Park</h3>
+                        <p class="title">Project Manger</p>
+                        <p class="description">StonyBrook Senior </p>
+                        <div class="social">
+                            <a href="#"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 item box-person">
+                    <div class="box">
+                        <img class="rounded-circle" src="http://cubelink.me/media/project/wine.PNG">
+                        <h3 class="name">Jeong Ho</h3>
+                        <p class="title">Lead Programmer</p>
+                        <p class="description">StonyBrook Senior</p>
+                        <div class="social">
+                            <a href="#"><i class="fa fa-facebook-official"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
