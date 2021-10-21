@@ -59,9 +59,6 @@ a{
     margin: 0 auto;
 
 }
-#sidebar{
-    background-color: darkgoldenrod;
-}
 
 .studyboard_base{
     font-family: 'Itim', cursive;
@@ -75,6 +72,7 @@ a{
     font-size: 1.5rem;
     font-family: Nunito;
     font-weight: bold;
+    text-decoration: none;
 }
 .main-menu{
     display: flex;
@@ -83,5 +81,6 @@ a{
     height: 100%;
     margin: 0 auto;
     color: rgb(29,29,31);
+    text-decoration: none;
 }
 /* head 서치바 */

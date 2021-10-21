@@ -21,3 +21,6 @@ def rank(request):
 
 def askquestion(request):
     return render(request, 'pageapp/askquestion.html')
+
+def questiondetail(request):
+    return render(request, 'pageapp/questiondetail.html')

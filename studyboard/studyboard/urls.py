@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^contact', pageapp.views.contact, name='contact'),
     url(r'^askquestion', pageapp.views.askquestion, name='askquestion'),
     url(r'^rank', pageapp.views.rank, name='rank'),
+    url(r'^questiondetail', pageapp.views.questiondetail, name='questiondetail'),
 
 ]
