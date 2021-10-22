@@ -3,34 +3,30 @@
 
 
 {% block content %}
-<div class="container">
+<div class="row card-row">
   <div class="row gutters">
-    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-      <div class="card h-100">
+    <div class="col-md-3 mb-3">
+      <div class="card">
         <div class="card-body">
-          <div class="account-settings">
-            <div class="user-profile">
-
-              <div class="text-center text-sm-right">
-                <span class="badge badge-secondary">admin</span>
-              </div>
-
-              <div class="user-avatar">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
-              </div>
-              <h5 class="user-name">{{ target_user.name }}PK HONG</h5>
-              <h6 class="user-email">pyungkang@gmail.com</h6>
-            </div>
-
-
-            <button class="profie-button">Post</button>
-            <button class="profie-button">Favorite </button>
-            {% if target_user == user %}
-            <div><a href="{% url 'accountapp:update' pk=user.pk %}" class="btn btn-success rounded-pill col-12 mt-4">Change Password</a></div>
-            <div><a href="{% url 'accountapp:delete' pk=user.pk %}" class="btn btn-danger rounded-pill col-12 mt-4">Delete Account</a></div>
-            {% endif %}
+          <div class="text-center text-sm-right">
+            <span class="badge badge-secondary">admin</span>
           </div>
+          <div class="d-flex flex-column align-items-center text-center">
 
+            <img src="http://cubelink.me/media/article/Koala.jpg" alt="Admin" class="rounded-circle" width="150">
+            <div class="mt-3">
+              <h4>Pyungkang Hong </h4>
+              <p class="text-secondary mb-1">I am king </p>
+              <div class="card-profile">
+                <a href="{% url 'post' %}"><div class="btn btn-dark rounded-pill mt-4 button-profile-card">Post </div></a>
+                <a href="{% url 'favorite' %}"><div class="btn btn-dark rounded-pill mt-4 button-profile-card">Favorite </div></a>
+                {% if target_user == user %}
+                <div><a href="{% url 'accountapp:update' pk=user.pk %}" class="btn btn-success rounded-pill col-12 mt-4">Change Password</a></div>
+                <div><a href="{% url 'accountapp:delete' pk=user.pk %}" class="btn btn-danger rounded-pill col-12 mt-4">Delete Account</a></div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -72,7 +68,7 @@
             </div>
           </div>
 
-
+          {% if target_user == user %}
           <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="text-right">
@@ -81,6 +77,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
 
 
         </div>

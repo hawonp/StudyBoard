@@ -41,8 +41,8 @@
                         <h4>Pyungkang Hong </h4>
                         <p class="text-secondary mb-1">I am king </p>
                         <div class="card-profile">
-                            <div class="btn btn-dark rounded-pill mt-4 button-profile-card">Post</div>
-                            <div class="btn btn-dark rounded-pill mt-4 button-profile-card">Favorite </div>
+                            <a href="{% url 'post' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-file-text-o" aria-hidden="true"></i> </div></a>
+                            <a href="{% url 'favorite' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-bookmark-o " aria-hidden="true"></i> </div></a>
                         </div>
                     </div>
                 </div>
@@ -76,19 +76,19 @@
         <!--  POST      -->
         <div class="card ">
 
-                <div class="card-header">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <img class="img-xs rounded-circle"
-                                 src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg" alt="">
-                            <div class="ml-3">
-                                <p>Hawon Park</p>
-                                <p class="tx-11 text-muted">1 min ago</p>
-                            </div>
+            <div class="card-header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <img class="img-xs rounded-circle"
+                             src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Alberto_conversi_profile_pic.jpg" alt="">
+                        <div class="ml-3">
+                            <p>Hawon Park</p>
+                            <p class="tx-11 text-muted">1 min ago</p>
                         </div>
-
                     </div>
+
                 </div>
+            </div>
             <a href="{% url 'questiondetail' %}">
                 <div class="card-body">
                     <p class="mb-3 tx-14">I do not know what this question mean</p>

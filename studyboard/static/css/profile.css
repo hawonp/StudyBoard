@@ -48,3 +48,25 @@
     /*cursor: pointer;*/
 
 }
+
+
+/*/포스트 페이지*/
+.post-box{
+    height: 25.0rem;
+    width: 24.0rem;
+    /*border-radius: 30px;*/
+    border: 1px solid lightgray;
+    box-shadow: 0 0 4px #7d8285;
+    padding: 10px 10px 10px 10px;
+    margin: 0.8rem;
+
+}
+.post-card{
+    display: flex;
+}
+.mypost-box-icon{
+    text-align: center;
+}
+.post-icon{
+    font-size:24px;
+}
