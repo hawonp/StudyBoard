@@ -18,8 +18,8 @@
               <h4>Pyungkang Hong </h4>
               <p class="text-secondary mb-1">I am king </p>
               <div class="card-profile">
-                <a href="{% url 'post' %}"><div class="btn btn-dark rounded-pill mt-4 button-profile-card">Post </div></a>
-                <a href="{% url 'favorite' %}"><div class="btn btn-dark rounded-pill mt-4 button-profile-card">Favorite </div></a>
+                <a href="{% url 'post' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-file-text-o" aria-hidden="true"></i> </div></a>
+                <a href="{% url 'favorite' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-bookmark-o " aria-hidden="true"></i> </div></a>
                 {% if target_user == user %}
                 <div><a href="{% url 'accountapp:update' pk=user.pk %}" class="btn btn-success rounded-pill col-12 mt-4">Change Password</a></div>
                 <div><a href="{% url 'accountapp:delete' pk=user.pk %}" class="btn btn-danger rounded-pill col-12 mt-4">Delete Account</a></div>
@@ -28,7 +28,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
