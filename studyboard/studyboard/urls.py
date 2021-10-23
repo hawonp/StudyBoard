@@ -38,5 +38,6 @@ urlpatterns = [
     url(r'^questiondetail', pageapp.views.questiondetail, name='questiondetail'),
     url(r'^post', pageapp.views.post, name='post'),
     url(r'^favorite', pageapp.views.favorite, name='favorite'),
+    url(r'^noti', pageapp.views.noti, name='noti'),
 
 ]

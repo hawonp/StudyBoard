@@ -30,3 +30,6 @@ def post(request):
 
 def favorite(request):
     return render(request, 'pageapp/favorite.html')
+
+def noti(request):
+    return render(request, 'pageapp/noti.html')
