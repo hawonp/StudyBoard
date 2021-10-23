@@ -184,7 +184,7 @@ img {
 }
 .card-header {
     padding: 0.875rem 1.5rem;
-    margin-bottom: 0;
+    /*margin-bottom: 0;*/
     background-color: rgba(0, 0, 0, 0);
     border-bottom: 1px solid #f2f4f9;
 }
@@ -262,4 +262,13 @@ img {
   background-color: #007ae1;
   color: white;
   border: 1px solid #4CAF50;
+}
+
+/*필터 부분*/
+.studyboard-filter{
+    /*border-radius: 10rem;*/
+    /*box-shadow: #d5d5d5 0 0 15px;*/
+    max-width: 1200px;
+    margin: 0.1rem auto;
+    height: 1.2rem;
 }
