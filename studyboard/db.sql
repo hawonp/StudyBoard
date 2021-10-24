@@ -1,11 +1,11 @@
 ------------ DATABASE INITIALISATION ------------
 DROP DATABASE IF EXISTS studyboard_db;
-
-CREATE DATABASE studyboard_db;
+DROP USER IF EXISTS 'studyboardMod'@'localhost';
+CREATE DATABASE studyboard_db CHARACTER SET utf8 COLLATE utf8_bin;
 
 CREATE USER 'studyboardMod'@'localhost' IDENTIFIED by 'pashword';
 
-GRANT ALL PRIVILEGES ON studyboard_db.* to 'studyboardMod'@'localhost' idetified by 'pashword';
+GRANT ALL PRIVILEGES ON studyboard_db.* to 'studyboardMod'@'localhost' identified by 'pashword';
 
 USE studyboard_db;
 
@@ -88,7 +88,7 @@ CREATE TABLE Reply_To_Reply(
     source_id INTEGER NOT NULL,
     reply_id INTEGER NOT NULL,
     PRIMARY KEY(source_id, reply_id),
-    FOREIGN KEY (source_id) REFERENCES Reply(source_id),
+    FOREIGN KEY (source_id) REFERENCES Reply(reply_id),
     FOREIGN KEY (reply_id) REFERENCES Reply(reply_id)
 );
 
