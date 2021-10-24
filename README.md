@@ -46,6 +46,9 @@ enabling each person to leave with the exact information that they were looking 
 - navigate to StudyBoard repository
 > cd StudyBoard
 
+- pull source code from github
+> git pull origin main
+
 - take down old container
 > sudo docker-compose down
 
