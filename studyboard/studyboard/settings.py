@@ -81,7 +81,10 @@ WSGI_APPLICATION = 'studyboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'studyboard_db',
+        'USER': 'studyboardMod',
+        'PASSWORD': 'pashword',
+        'HOST': 'localhost',
     }
 }
 
