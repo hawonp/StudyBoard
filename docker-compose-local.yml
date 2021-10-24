@@ -3,7 +3,7 @@ services:
   front:
     build:
       context: ""
-    command: python manage.py runserver 0.0.0.0:3000
+    command: python manage.py runserver --settings=studyboard.settings.local 0.0.0.0:3000
     container_name: studyboard-local
     environment:
       TZ: Asia/Seoul
