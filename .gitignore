@@ -130,6 +130,3 @@ dmypy.json
 
 # IntelliJ
 .idea/
-
-# Python Virtual Environments
-venv/
