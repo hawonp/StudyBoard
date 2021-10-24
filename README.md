@@ -44,7 +44,7 @@ enabling each person to leave with the exact information that they were looking 
 > 5{tCAbweQ!JMzY7(
 
 - navigate to StudyBoard repository
-> cd StudyBoard
+> cd StudyBoard-server/StudyBoard/
 
 - pull source code from github
 > git pull origin main
