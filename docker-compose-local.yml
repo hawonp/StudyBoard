@@ -1,8 +1,8 @@
-version: "1.0"
+version: "3.8"
 services:
-  front:
-    build:
-      context: .
+  web:
+    build: studyboard/studyboard
+    command: python manage.py runserver 0.0.0.0:3000
     container_name: studyboard-local
     environment:
       TZ: Asia/Seoul
