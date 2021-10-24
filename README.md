@@ -25,3 +25,11 @@ choosing.
 
 These features, when combined, would facilitate active discussion and improved learning by
 enabling each person to leave with the exact information that they were looking for.
+
+### How to Run In Local:
+> cd studyboard
+> python manage.py runserver --settings=studyboard.settings.local
+> docker-compose -f docker-compose-local.yml up --build
+
+### How to Run in Production
+> 
