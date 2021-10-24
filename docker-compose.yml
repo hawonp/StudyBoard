@@ -1,0 +1,16 @@
+version: "1.0"
+services:
+  front:
+    build:
+      context: .
+    restart: always
+    container_name: studyboard-prod-v1
+    environment:
+      TZ: Asia/Seoul
+      VIRTUAL_HOST: www.141.164.51.144, 141.164.51.144
+      LETSENCRYPT_HOST: www.141.164.51.144, 141.164.51.144
+    networks:
+      - nginx-proxy
+networks:
+  nginx-proxy:
+    external: true

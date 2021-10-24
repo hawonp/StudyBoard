@@ -1,0 +1,10 @@
+version: "1.0"
+services:
+  front:
+    build:
+      context: .
+    container_name: studyboard-local
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - '3000:3000'
