@@ -27,9 +27,27 @@ These features, when combined, would facilitate active discussion and improved l
 enabling each person to leave with the exact information that they were looking for.
 
 ### How to Run In Local:
+- change directory to /studyboard
 > cd studyboard
-> python manage.py runserver --settings=studyboard.settings.local
+
+- if run using django's test server
+> python manage.py runserver --settings=studyboard.settings.local 
+
+- local deployment environment
 > docker-compose -f docker-compose-local.yml up --build
 
 ### How to Run in Production
-> 
+- SSH to server
+>ssh root@141.164.51.144
+ 
+- enter password
+> 5{tCAbweQ!JMzY7(
+
+- navigate to StudyBoard repository
+> cd StudyBoard
+
+- take down old container
+> sudo docker-compose down
+
+- start new container
+> sudo docker-compose -f docker-compose.yml up --build
