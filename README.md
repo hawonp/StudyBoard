@@ -52,7 +52,7 @@ enabling each person to leave with the exact information that they were looking 
 - Run the Docker-Compose-Local file
   > docker-compose -f docker-compose-local.yml up --build
 
-## Deployment to Production Server
+## Deployment to Production Server (WIP, Gurnicorn server not yet set up)
 - SSH to production server
   >ssh root@141.164.51.144
  
