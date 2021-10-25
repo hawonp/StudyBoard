@@ -14,8 +14,16 @@
                         <h4>Pyungkang Hong </h4>
                         <p class="text-secondary mb-1">I am king </p>
                         <div class="card-profile">
-                            <div class="btn btn-dark rounded-pill mt-4 button-profile-card">Post</div>
-                            <div class="btn btn-dark rounded-pill mt-4 button-profile-card">Favorite </div>
+                            <a href="{% url 'post' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-file-text-o" aria-hidden="true"></i> </div></a>
+                            <a href="{% url 'favorite' %}"><div class="btn btn-dark rounded-circle mt-4 "><i class="fa fa-bookmark-o " aria-hidden="true"></i> </div></a>
+                            <a href="{% url 'noti' %}">
+                                <button type="button" class="btn btn-dark rounded-circle mt-4 position-relative">
+                                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +102,7 @@
                                     </p>
 
 
-                                     <!--  댓글에 댓글  -->
+                                    <!--  댓글에 댓글  -->
                                     <div class="media mt-4">
                                         <a class="pr-3" href="#">
                                             <img class="rounded-circle"  src="https://i.imgur.com/xELPaag.jpg" />

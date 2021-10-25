@@ -1,55 +1,11 @@
 
 /*Nav 네비게이션*/
+/*홈페이지 */
 
-.global-nav {
-    font-family: Nunito;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 44px;
-    padding: 0 1rem; /*좌우 하는거 */
-}
-.global-nav-links {
-    max-width: 1000px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin: 0 auto;
-    font-size: 1.1rem;
-}
-.local-nav {
-    font-family: Nunito;
-    top: 45px;
-    left: 0;
-    z-index: 11;
-    width: 100%;
-    height: 52px;
-    padding: 0 1rem;
-    border-bottom: 1px solid #ddd;
-}
-.local-nav-links {
-    display: flex;
-    align-items: center;
-    max-width: 1000px;
-    height: 100%;
-    margin: 0 auto;
-}
-.local-nav-links .product-name {
-    font-family: 'Itim', cursive;
-    margin-right: auto;
-    font-size: 1.4rem;
-    font-weight: bold;
-}
-
-/*제외하는거 옆에있는걸 */
-.local-nav-links a:not(.product-name) {
-    margin-left: 2em;
-}
+/*여기까지 */
 
 a{
-    color: rgb(29,29,31);
+    color: #000000;
     text-decoration: none;
 }
 
