@@ -9,7 +9,11 @@
 
 
         <a href="{% url 'askquestion' %}" class="memu-nav">❓ Ask Question</a>
-        <a href="{% url 'about' %}" class="memu-nav">📢 About</a>
+
+        <a href="{% url 'about' %}" class="memu-nav">
+            📢 About
+        </a>
+
         <a href="{% url 'rank' %}" class="memu-nav">👍 Rank</a>
         {% if not user.is_authenticated %}
         <a href="{% url 'accountapp:login' %}?next={{ request.path }}"
