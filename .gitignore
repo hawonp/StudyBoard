@@ -1,6 +1,8 @@
 # SECRETS FILE
 secrets.json
 
+DBMS/db/data/*
+!DBMS/db/data/.gitkeep
 
 venv/
 
@@ -139,5 +141,4 @@ dmypy.json
 
 # IntelliJ
 .idea/
-studyboard/.DS_Store
 .DS_Store
