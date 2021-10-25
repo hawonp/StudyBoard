@@ -26,31 +26,52 @@ choosing.
 These features, when combined, would facilitate active discussion and improved learning by
 enabling each person to leave with the exact information that they were looking for.
 
-### How to Run In Local:
-- change directory to /studyboard
-> cd studyboard
+## Where to get the Latest Version of StudyBoard?
+- The main branch of this git repository will always be the latest version of StudyBoard
+> https://github.com/hawonp/StudyBoard
 
-- if run using django's test server
-> python manage.py runserver --settings=studyboard.settings.local 
+## Testing / Development Preparation
+- Download/Clone the [main](https://github.com/hawonp/StudyBoard) branch of StudyBoard
 
-- local deployment environment
-> docker-compose -f docker-compose-local.yml up --build
+- Create a virtual environment in the **root** directory of the repository via venv, virtualenv, or anaconda that uses ***Python 3.7.7***
+  - Anaconda Example
+    > conda create -n env-name python=3.7.7
 
-### How to Run in Production
-- SSH to server
->ssh root@141.164.51.144
+- Change directories to the Django folder titled **studyboard**
+  > cd studyboard
+
+- Install dependancies via PIP
+  > pip install -r requirements.txt 
+
+## Testing / Development on Django's Test Server
+- Use this when making quick tests using Django's default test-server
+  > python manage.py runserver --settings=studyboard.settings.local 
+
+## Testing / Development on a local server via Docker
+- Change directories back to the root of the repository
+
+- Run the Docker-Compose-Local file
+  > docker-compose -f docker-compose-local.yml up --build
+
+## Deployment to Production Server
+- SSH to production server
+  >ssh root@141.164.51.144
  
-- enter password
-> 5{tCAbweQ!JMzY7(
+- Enter Password Authentication
+  > 5{tCAbweQ!JMzY7(
 
-- navigate to StudyBoard repository
-> cd StudyBoard-server/StudyBoard/
+- Navigate to StudyBoard repository
+  > cd StudyBoard-server/StudyBoard/
 
-- pull source code from github
-> git pull origin main
+- Update git repository 
+  > git pull origin main
 
-- take down old container
-> sudo docker-compose down
+- Take down old container 
+  > sudo docker-compose down
 
-- start new container
-> sudo docker-compose -f docker-compose.yml up --build
+- Start a new container
+  > sudo docker-compose -f docker-compose.yml up --build
+
+## Required Specs / Compatability
+ - Operating System : Any
+ - Python 3.7.7 (Install via virtual environment)
