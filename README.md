@@ -47,7 +47,7 @@ enabling each person to leave with the exact information that they were looking 
 - Use this when making quick tests using Django's default test-server
   > python manage.py runserver --settings=studyboard.settings.local 
 
-## Testing / Development on a local server container (Docker)
+## Testing / Development on a local server via Docker
 - Change directories back to the root of the repository
 
 - Run the Docker-Compose-Local file
