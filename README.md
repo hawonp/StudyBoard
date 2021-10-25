@@ -1,4 +1,4 @@
-# StudyBoard
+# StudyBoard Introduction
 
 ### Team Members:
 - **Hawon Park** (hawon.park@stonybrook.edu / @hawonp)
