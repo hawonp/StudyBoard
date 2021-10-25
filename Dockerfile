@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
 RUN pip install mysqlclient
-
+RUN pip install PyMySQL
 #RUN chown -R $USER:$USER .
 # start server
 EXPOSE 3000
