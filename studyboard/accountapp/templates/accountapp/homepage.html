@@ -1,9 +1,475 @@
-{% extends 'base.html' %}
 
-{% block content %}
+{% load static %}
 
-    <div class="container">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>StudtBoard | Ask Question</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+
+<header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center">
+            <img src="{% static 'assets/img/logo.png' %}" alt="">
+            <span>StudyBoard</span>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="{% url 'askquestion' %}" class="memu-nav">❓ Ask Question</a></li>
+                <li><a href="{% url 'about' %}" class="memu-nav">📢 About</a></li>
+                <a href="{% url 'rank' %}" class="memu-nav">👍 Rank</a>
+                {% if not user.is_authenticated %}
+                <li><a href="{% url 'accountapp:login' %}?next={{ request.path }}"
+                       class="memu-nav">✅ Login</a></li>
+                {% else %}
+                <li><a href="{% url 'accountapp:logout' %}?next={{ request.path }}" class="memu-nav">⛔ LogOut</a>
+                </li>
+                <li><a href="{% url 'accountapp:detail' pk=user.pk %}" class="memu-nav">😀 Profile</a></li>
+                {% endif %}
+                <li>
+                    <form class="d-flex">
+                        <input class="form-control mr-3"
+                               type="search"
+                               placeholder="Type what you want"
+                        >
+                        <button class="btn btn-outline-success" type="submit">
+                            Search
+                        </button>
+                </form>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
 
     </div>
+</header>
 
-{% endblock %}
+
+<section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
+                <h1 data-aos="fade-up">We offer solutions for growing your Homework and Questions</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">Something about Studyboard</h2>
+                <div data-aos="fade-up" data-aos-delay="600">
+                    <div class="text-center text-lg-start">
+                        <a href="{% url 'askquestion' %}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <span>Get Started</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                <img src="{% static 'images/hero-img.png '%}" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<main id="main">
+    <section id="about" class="about">
+
+        <div class="container" data-aos="fade-up">
+            <div class="row gx-0">
+
+                <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="content">
+                        <h3>Who Need Our service?</h3>
+                        <h2>내용이 필요합니다 </h2>
+                        <p>
+                            내용이 필요합니다
+                        </p>
+                        <div class="text-center text-lg-start">
+                            <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Need to find answer?</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="{% static 'images/about.jpg' %}" class="img-fluid" alt="">
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <section id="values" class="values">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Our Values</h2>
+                <p>우리의 장점 3가지 우리 웹사이트 제공해주는것들</p>
+            </header>
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <div class="box" data-aos="fade-up" data-aos-delay="200">
+                        <img src="{% static 'images/values-1.png' %}" class="img-fluid" alt="">
+                        <h3>1번 Something</h3>
+                        <p>내용이 필요합니다 </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mt-lg-0">
+                    <div class="box" data-aos="fade-up" data-aos-delay="400">
+                        <img src="{% static 'images/values-2.png' %}" class="img-fluid" alt="">
+                        <h3>2번 Something</h3>
+                        <p>내용이 필요합니다 </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mt-lg-0">
+                    <div class="box" data-aos="fade-up" data-aos-delay="600">
+                        <img src="{% static 'images/values-3.png' %}" class="img-fluid" alt="">
+                        <h3>3번 Something</h3>
+                        <p>내용이 필요합니다 </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="features" class="features">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Features</h2>
+                <p>우리의 목표</p>
+            </header>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <img src="{% static 'images/features.png' %}" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
+                    <div class="row align-self-center gy-4">
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>Something</h3>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div> <!-- / row -->
+
+            <!-- Feature Tabs -->
+            <div class="row feture-tabs" data-aos="fade-up">
+                <div class="col-lg-6">
+                    <h3>중요한것들 적어 놓을것들 </h3>
+
+                    <!-- Tabs -->
+                    <ul class="nav nav-pills mb-3">
+                        <li>
+                            <a class="nav-link active" data-bs-toggle="pill" href="#tab1">1번</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-bs-toggle="pill" href="#tab2">2번</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-bs-toggle="pill" href="#tab3">3번</a>
+                        </li>
+                    </ul>
+
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab1">
+                            <p>전체적인 내용 써머리</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4>Something</h4>
+                            </div>
+                            <p>Something Example</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4><p>Something Example</p></h4>
+                            </div>
+                            <p>Something Example</p>
+                        </div><!-- End Tab 1 Content -->
+
+                        <div class="tab-pane fade show" id="tab2">
+                            <p>Something Example</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4><p>Something Example</p></h4>
+                            </div>
+                            <p>Something Example</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4><p>Something Example</p></h4>
+                            </div>
+                            <p>Something Example</p>
+                        </div><!-- End Tab 2 Content -->
+
+                        <div class="tab-pane fade show" id="tab3">
+                            <p>Something Example</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4>Something Example</h4>
+                            </div>
+                            <p>Something Example</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check2"></i>
+                                <h4>Something Example</h4>
+                            </div>
+                            <p>Something Example</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <img src="{% static 'images/features-2.png' %}" class="img-fluid" alt="">
+                </div>
+
+            </div>
+
+
+            <div class="row feature-icons" data-aos="fade-up">
+                <h3>Studyboard Something</h3>
+
+                <div class="row">
+
+                    <div class="col-xl-4 text-center" data-aos="fade-right" data-aos-delay="100">
+                        <img src="{% static 'images/features-3.png' %}" class="img-fluid p-4" alt="">
+                    </div>
+
+                    <div class="col-xl-8 d-flex content">
+                        <div class="row align-self-center gy-4">
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up">
+                                <i class="ri-line-chart-line"></i>
+                                <div>
+                                    <h4>우리는 많으데이터 가지고있음</h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                                <i class="ri-stack-line"></i>
+                                <div>
+                                    <h4>학생들의 데이터</h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                                <i class="ri-brush-4-line"></i>
+                                <div>
+                                    <h4>랭킹?</h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                                <i class="ri-magic-line"></i>
+                                <div>
+                                    <h4>랭킹?</h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                                <i class="ri-command-line"></i>
+                                <div>
+                                    <h4>연결되어있다 </h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                                <i class="ri-radar-line"></i>
+                                <div>
+                                    <h4>전세게 사람들</h4>
+                                    <p>Something</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="recent-blog-posts" class="recent-blog-posts">
+
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>포스트들</h2>
+                <p>유저들 포스트들 </p>
+            </header>
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <div class="post-box">
+                        <div class="post-img"><img src="{% static 'images/blog/blog-1.jpg' %}" class="img-fluid" alt=""></div>
+                        <span class="post-date">Tue, September 15</span>
+                        <h3 class="post-title">Something Example</h3>
+                        <a href="blog-singe.html" class="readmore stretched-link mt-auto"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="post-box">
+                        <div class="post-img"><img src="{% static 'assets/images/blog/blog-1.jpg' %}" class="img-fluid" alt=""></div>
+                        <span class="post-date">Fri, August 28</span>
+                        <h3 class="post-title">Something Example</h3>
+                        <a href="blog-singe.html" class="readmore stretched-link mt-auto"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="post-box">
+                        <div class="post-img"><img src="{% static 'assets/images/blog/blog-1.jpg' %}" class="img-fluid" alt=""></div>
+                        <span class="post-date">Mon, July 11</span>
+                        <h3 class="post-title">Something Example</h3>
+                        <a href="blog-singe.html" class="readmore stretched-link mt-auto"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer id="footer" class="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-info">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <img src="assets/img/logo.png" alt="">
+                        <span>StudyBoard</span>
+                    </a>
+<!--                    <p>Hello All</p>-->
+                    <div class="social-links mt-3">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+<!--                    <h4>Useful Links</h4>-->
+<!--                    <ul>-->
+<!--                        <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>-->
+<!--                        <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>-->
+<!--                    </ul>-->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</footer>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+<script src="{% static 'vendor/aos/aos.js' %}"></script>
+<script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'vendor/purecounter/purecounter.js' %}"></script>
+<script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
