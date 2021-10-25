@@ -6,3 +6,5 @@ from django.core.exceptions import ImproperlyConfigured
 DEBUG = False
 SECRET_KEY = get_secret("SECRET_KEY")
 
+ALLOWED_HOSTS = ['studyboard.info', 'www.studyboard.info']
+
