@@ -134,3 +134,5 @@ dmypy.json
 
 # IntelliJ
 .idea/
+studyboard/.DS_Store
+.DS_Store
