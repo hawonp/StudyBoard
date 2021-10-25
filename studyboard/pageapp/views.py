@@ -24,3 +24,12 @@ def askquestion(request):
 
 def questiondetail(request):
     return render(request, 'pageapp/questiondetail.html')
+
+def post(request):
+    return render(request, 'pageapp/post.html')
+
+def favorite(request):
+    return render(request, 'pageapp/favorite.html')
+
+def noti(request):
+    return render(request, 'pageapp/noti.html')
