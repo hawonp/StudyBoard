@@ -77,5 +77,5 @@ enabling each person to leave with the exact information that they were looking 
  - Python 3.7.7 (Install via virtual environment)
 
 ## How to Submit an issue
- - You can submit an issue through [Github issues](https://github.com/hawonp/StudyBoard/issues)!
+ - You can submit an issue through [Github issues](https://github.com/hawonp/StudyBoard/issues) tab
  - All outstanding issues will be located in the issues tab
