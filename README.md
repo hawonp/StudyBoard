@@ -27,7 +27,7 @@ These features, when combined, would facilitate active discussion and improved l
 enabling each person to leave with the exact information that they were looking for.
 
 ## Where to get the Latest Version of StudyBoard?
-- The main branch of this git repository will always be the latest version of StudyBoard
+- The [main](https://github.com/hawonp/StudyBoard) branch of this git repository will always be the latest version of StudyBoard
 > https://github.com/hawonp/StudyBoard
 
 ## Testing / Development Preparation
