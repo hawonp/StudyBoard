@@ -34,4 +34,3 @@ END; //
 delimiter ;
 
 -- NOTIFICATIONS --
-
