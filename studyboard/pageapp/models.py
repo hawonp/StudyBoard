@@ -152,5 +152,6 @@ class SearchHistory(models.Model):
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
     search_text = models.CharField(max_length=128)
     search_date = models.DateTimeField(null=True)
+
     class Meta:
         db_table = 'search_history'
