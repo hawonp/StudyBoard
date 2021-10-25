@@ -42,6 +42,8 @@ enabling each person to leave with the exact information that they were looking 
 - Install dependancies via PIP
   > pip install -r requirements.txt 
 
+- Ask a team member for the SECRETS.txt file necessary to run this project
+
 ## Testing / Development on Django's Test Server
 - Use this when making quick tests using Django's default test-server
   > python manage.py runserver --settings=studyboard.settings.local 
