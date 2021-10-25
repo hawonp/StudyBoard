@@ -1,6 +1,9 @@
 # SECRETS FILE
 secrets.json
 
+
+venv/
+
 #test
 
 # Byte-compiled / optimized / DLL files
