@@ -12,7 +12,7 @@ USE studyboard_db;
 ------------ TABLES ------------
 /*
 INITIALISING TABLES
-*/
+
 -- USER --
 CREATE TABLE User(
     user_id INTEGER NOT NULL,
@@ -167,4 +167,4 @@ CREATE TABLE Blacklisted_User(
     PRIMARY KEY(user_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id)
 );
-
+*/
