@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  front:
+    build:
+      context: ""
+    command: gunicorn --workers=2 --threads=4 --worker-class=gthread studyboard.wsgi:application --env DJANGO_SETTINGS_MODULE=studyboard.settings.local --bind 0.0.0.0:3000
+#    command: python manage.py runserver --settings=studyboard.settings.local 0.0.0.0:3000
+    container_name: studyboard-local
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - '3000:3000'
