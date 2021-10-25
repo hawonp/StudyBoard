@@ -17,3 +17,11 @@
     max-width: 500px;
     margin: 4rem auto;
 }
+.google {
+  background-color: #dd4b39;
+  color: white;
+}
+
+.google a:hover {
+  color: lightgray;
+}
