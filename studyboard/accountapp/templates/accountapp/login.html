@@ -1,20 +1,31 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load socialaccount %}
+{% providers_media_js %}
+
 
 {% block content %}
 
-    <div class="studyboard-login">
-        <div>
-            <h4>Login</h4>
-        </div>
-        <div>
-            <form class="login-form" action="" method="post">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                <div class="button">
-                    <input type="submit" class="btn btn-dark rounded-pill col-6 mt-4" value="Login">
+<div class="studyboard-login">
+    <div>
+        <h4>Login</h4>
+    </div>
+    <div>
+        <form class="login-form" action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="button">
+                <input type="submit" class="btn btn-dark rounded-pill col-6 mt-4" value="Login">
+            </div>
+        </form>
+        <br>
+        <div class="text-center">
+            <a href="{% provider_login_url 'google' %}" style="color:#FFFFFF">
+                <div class="form_class_max_600px" style="width: auto; border-radius: 12px; background-color: #FE2E2E; height: auto; margin-top: 0.5rem;" >
+                    구글 로그인
                 </div>
-            </form>
+            </a>
         </div>
     </div>
+</div>
 {% endblock %}
