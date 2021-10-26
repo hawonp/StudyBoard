@@ -20,7 +20,7 @@ DATABASES = {
         'USER': 'mod',
         'PASSWORD': 'studyboard2021',
         # 'HOST': 'localhost',
-        'HOST' : 'dbms_container',
-        'PORT': '3306',
+        'HOST' : '172.17.0.1',
+        'port' : '3306'
     }
 }

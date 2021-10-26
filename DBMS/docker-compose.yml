@@ -6,6 +6,8 @@ services:
     image: mariadb:10
     ports:
       - 3306:3306
+    expose:
+      - 3306
     volumes:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/data:/var/lib/mysql
@@ -15,9 +17,13 @@ services:
     env_file: .env
     environment:
       TZ: Asia/Seoul
-    networks:
-      - backend
+    # networks:
+    #   - backend
     restart: always
 
-networks: 
-  backend:
+# networks: 
+#   backend:
+networks:
+  default:
+    external:
+      name: shared_network
