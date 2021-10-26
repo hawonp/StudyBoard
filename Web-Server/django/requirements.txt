@@ -9,7 +9,6 @@ Django==3.2.8
 django-allauth==0.45.0
 django-bootstrap4==3.0.1
 djangorestframework==3.12.4
-flake8==4.0.1
 idna==3.3
 importlib-metadata==2.1.1
 Markdown==3.3.4
