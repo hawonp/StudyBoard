@@ -1,17 +1,17 @@
-version: "3.8"
+version: "3"
 services:
   front:
     build:
       context: ""
+    command: python manage.py runserver --settings=studyboard.settings.production 0.0.0.0:3000
     restart: always
     container_name: studyboard-prod-v1
     environment:
       TZ: Asia/Seoul
       VIRTUAL_HOST: www.studyboard.info, studyboard.info
       LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
-    networks:
-      - nginx-proxy
-    expose : 3000
-networks:
-  nginx-proxy:
-    external: true
+    # networks:
+#     #   - nginx-proxy
+# networks:
+#   nginx-proxy:
+#     external: true

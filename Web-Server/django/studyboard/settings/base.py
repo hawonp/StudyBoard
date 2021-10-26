@@ -166,3 +166,15 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'studyboard_db',
+        'USER': 'mod',
+        'PASSWORD': 'studyboard2021',
+        # 'HOST': 'localhost',
+        'HOST' : '141.164.51.144',
+        'port' : '3306'
+    }
+}
