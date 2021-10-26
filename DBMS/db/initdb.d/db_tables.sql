@@ -10,6 +10,8 @@ GRANT ALL PRIVILEGES ON studyboard_db.* to 'mod'@'localhost' identified by 'stud
 USE studyboard_db;
 
 ------------ TABLES ------------
+/*
+    THE TABLES BELOW SHOULD ONLY BE USED AS REFERENCE
 
 -- INITIALISING TABLES
 
@@ -170,3 +172,4 @@ CREATE TABLE Blacklisted_User(
     PRIMARY KEY(user_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id)
 );
+*/

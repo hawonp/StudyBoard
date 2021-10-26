@@ -20,6 +20,7 @@
 -- END; //
 -- delimiter ;
 
+-- delimiter //
 -- CREATE TRIGGER Reply_Like AFTER INSERT ON User_Reply_Like
 -- FOR EACH ROW
 -- BEGIN

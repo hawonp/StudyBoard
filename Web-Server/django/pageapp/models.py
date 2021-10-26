@@ -16,7 +16,7 @@ class User(models.Model):
 # POST
 class Post(models.Model):
     post_id = models.IntegerField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_title = models.CharField(max_length=32, null=True)
     post_text = models.CharField(max_length=1024, null=True)
     post_like_count = models.IntegerField(default=0)
@@ -28,15 +28,15 @@ class Post(models.Model):
 
 class PostImage(models.Model):
     image_id = models.IntegerField(primary_key=True)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=256, null=True)
 
     class Meta:
         db_table = 'post_image'
 
 class UserPostLike(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'user_post_like'
@@ -44,8 +44,8 @@ class UserPostLike(models.Model):
 
 class PostReport(models.Model):
     report_id = models.IntegerField(primary_key=True)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user_id = models.ForeignKey('User', models.DO_NOTHING, null=True) #TODO: CHECK AGAIN
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', models.DO_NOTHING, null=True) #TODO: CHECK AGAIN
     report_text = models.CharField(max_length=256, null=True)
     report_date = models.DateTimeField(null=True)
 
@@ -61,16 +61,16 @@ class Tag(models.Model):
         db_table = 'tag'
 
 class PostTag(models.Model):
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'post_tag'
         unique_together = (('tag_id', 'post_id'),)
 
 class UserTag(models.Model):
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'user_tag'
@@ -79,7 +79,7 @@ class UserTag(models.Model):
 # REPLY
 class Reply(models.Model):
     reply_id = models.IntegerField(primary_key=True)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     reply_text = models.CharField(max_length=512)
     reply_like_count = models.IntegerField(default=0)
     reply_date = models.DateTimeField(null=True)
@@ -88,8 +88,8 @@ class Reply(models.Model):
         db_table = 'reply'
 
 class ReplyToPost(models.Model):
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
-    reply_id = models.ForeignKey(Reply, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'reply_to_post'
@@ -97,16 +97,16 @@ class ReplyToPost(models.Model):
 
 
 class ReplyToReply(models.Model):
-    source_id = models.ForeignKey(Reply, on_delete=models.CASCADE, related_name='source')
-    reply_id = models.ForeignKey(Reply, on_delete=models.CASCADE, related_name='replier')
+    source = models.ForeignKey(Reply, on_delete=models.CASCADE, related_name='source')
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE, related_name='replier')
 
     class Meta:
         db_table = 'reply_to_reply'
         unique_together = (('source_id', 'reply_id'),)
 
 class UserReplyLike(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    reply_id = models.ForeignKey(Reply, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'user_reply_like'
@@ -114,8 +114,8 @@ class UserReplyLike(models.Model):
 
 class ReplyReport(models.Model):
     report_id = models.IntegerField(primary_key=True)
-    reply_id = models.ForeignKey(Reply, on_delete=models.CASCADE)
-    user_id = models.ForeignKey('User', on_delete=models.DO_NOTHING)
+    reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING)
     report_text = models.CharField(max_length=256, null=True)
     report_date = models.DateTimeField(null=True)
 
@@ -124,14 +124,14 @@ class ReplyReport(models.Model):
 
 #BLACKLISTED USERS
 class BlacklistedUser(models.Model):
-    user_id = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
     class Meta:
         db_table = 'blacklisted_user'
 
 #FAVOURITE QUESTION
 class FavouriteQuestion(models.Model):
-    post_id = models.ForeignKey('Post', on_delete=models.CASCADE)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (('post_id', 'user_id'),)
@@ -139,7 +139,7 @@ class FavouriteQuestion(models.Model):
 # NOTIFICATION
 class Notification(models.Model):
     notification_id = models.IntegerField(primary_key=True)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     notification_text = models.CharField(max_length=128)
     notification_date = models.DateTimeField(null=True)
     notification_seen = models.IntegerField(default=0)
@@ -149,7 +149,7 @@ class Notification(models.Model):
 # SEARCH HISTORY
 class SearchHistory(models.Model):
     search_id = models.IntegerField(primary_key=True)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     search_text = models.CharField(max_length=128)
     search_date = models.DateTimeField(null=True)
 
