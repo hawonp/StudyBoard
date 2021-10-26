@@ -7,10 +7,11 @@ services:
     container_name: studyboard-prod-v1
     environment:
       TZ: Asia/Seoul
-      VIRTUAL_HOST: www.141.164.51.144, 141.164.51.144
-      LETSENCRYPT_HOST: www.141.164.51.144, 141.164.51.144
+      VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
     networks:
       - nginx-proxy
+    expose : 3000
 networks:
   nginx-proxy:
     external: true
