@@ -14,7 +14,13 @@
             <div class="mb-4 askquestion-Signup">
                 <h4>Log in</h4>
             </div>
-            <div class="studyboard-login">
+            <div class="create-account">
+                <a href="{% url 'accountapp:create' %}" class="create btn">
+                    <i class="fa fa-sign-in">
+                    </i> Creat Account
+                </a>
+            </div>
+            <div class="google-login">
                 <a href="{% provider_login_url 'google' %}"class="google btn">
                     <i class="fa fa-google fa-fw">
                     </i> Login with Google+
@@ -22,7 +28,9 @@
             </div>
         </div>
     </div>
+
     {% else %}
+
     <!-- 유저 프로필   -->
     <div class="col-md-3 mb-3">
         <div class="card">
