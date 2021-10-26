@@ -37,7 +37,8 @@ enabling each person to leave with the exact information that they were looking 
     > conda create -n env-name python=3.7.7
 
 - Change directories to the Django folder titled **studyboard**
-  > cd studyboard
+  > cd Web-Server
+  > cd django
 
 - Install dependancies via PIP
   > pip install -r requirements.txt 
