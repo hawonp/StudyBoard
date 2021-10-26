@@ -54,7 +54,8 @@ enabling each person to leave with the exact information that they were looking 
 - Run the Docker-Compose-Local file
   > docker-compose -f docker-compose-local.yml up --build
 
-## Deployment to Production Server (WIP, Gurnicorn server not yet set up)
+## Deployment to Production Server (DO NOT RUN YET, NOT YET SET UP)
+```diff
 - SSH to production server
   >ssh root@141.164.51.144
  
@@ -62,16 +63,20 @@ enabling each person to leave with the exact information that they were looking 
   > 5{tCAbweQ!JMzY7(
 
 - Navigate to StudyBoard repository
-  > cd StudyBoard-server/StudyBoard/
+  > cd StudyBoard
 
 - Update git repository 
   > git pull origin main
+
+- Navigate to web-server folder
+  > cd Web-Server
 
 - Take down old container 
   > sudo docker-compose down
 
 - Start a new container
   > sudo docker-compose -f docker-compose.yml up --build
+```
 
 ## Required Specs / Compatability
  - Operating System : Any
