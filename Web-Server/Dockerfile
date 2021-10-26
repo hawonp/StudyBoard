@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 COPY . .
 
-WORKDIR /studyboard/
+WORKDIR /django/
 
 # Install dependancies
 RUN pip install -r requirements.txt

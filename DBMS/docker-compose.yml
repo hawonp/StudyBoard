@@ -2,7 +2,7 @@ version: "3"
 
 services:
   db:
-    container_name: dbms-v1
+    container_name: dbms_container
     image: mariadb:10
     ports:
       - 3306:3306
@@ -19,5 +19,5 @@ services:
       - backend
     restart: always
 
-networks:
+networks: 
   backend:

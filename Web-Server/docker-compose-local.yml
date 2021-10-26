@@ -10,3 +10,8 @@ services:
       TZ: Asia/Seoul
     ports:
       - '3000:3000'
+
+networks: 
+  default: 
+    external: 
+      name: external-link 

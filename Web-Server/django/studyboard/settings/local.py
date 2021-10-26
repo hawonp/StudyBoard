@@ -17,9 +17,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'studyboard_db',
-        'USER': 'studyboardMod',
-        'PASSWORD': 'pashword',
-        'HOST': 'localhost',
+        'USER': 'mod',
+        'PASSWORD': 'studyboard2021',
+        # 'HOST': 'localhost',
+        'HOST' : 'dbms_container',
         'PORT': '3306',
     }
 }
