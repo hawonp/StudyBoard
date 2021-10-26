@@ -44,7 +44,7 @@ enabling each person to leave with the exact information that they were looking 
 
 - Ask a team member for the SECRETS.txt file necessary to run this project (resides in the studyboard/ folder)
 
-## Testing / Development on Django's Test Server
+## Testing / Development on Django's Test Server (WIP) --> Does not work RN
 - Use this when making quick tests using Django's default test-server
   > python manage.py runserver --settings=studyboard.settings.local 
 
