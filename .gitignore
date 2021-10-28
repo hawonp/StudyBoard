@@ -142,3 +142,4 @@ dmypy.json
 # IntelliJ
 .idea/
 .DS_Store
+*.pub
