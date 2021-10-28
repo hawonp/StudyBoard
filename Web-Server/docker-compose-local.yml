@@ -3,16 +3,20 @@ services:
   front:
     build:
       context: ""
-    # command: gunicorn --workers=2 --threads=4 --worker-class=gthread studyboard.wsgi:application --env DJANGO_SETTINGS_MODULE=studyboard.settings.local --bind 0.0.0.0:3000
-    # command: python manage.py migrate --settings=studyboard.settings.local 0.0.0.0:3000
-    command: python manage.py runserver --settings=studyboard.settings.local 0.0.0.0:3000
+    command: >
+      sh -c "
+            python manage.py makemigrations &&      
+            python manage.py migrate &&
+            python manage.py migrate && 
+            # DJANGO_SUPERUSER_PASSWORD=admin python manage.py createsuperuser --username admin --email admin@email.com --noinput &&
+            gunicorn studyboard.wsgi:application --bind 0.0.0.0:3000"
     container_name: studyboard-local
     environment:
       TZ: Asia/Seoul
+      - LETSENCRYPT_HOST=local
+      - VIRTUAL_HOST=local
     ports:
       - '3000:3000'
 
 networks:
   default:
-    external:
-      name: shared_network
