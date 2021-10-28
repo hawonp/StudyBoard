@@ -8,7 +8,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECRET_KEY = 'django-insecure-(##ibs3_8wm(zoazhe$9bchql+2v&5l&&&yfp)8t1n!2ycfuan'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
