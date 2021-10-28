@@ -10,8 +10,8 @@ services:
       TZ: Asia/Seoul
       VIRTUAL_HOST: www.studyboard.info, studyboard.info
       LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
-    # networks:
-#     #   - nginx-proxy
-# networks:
-#   nginx-proxy:
-#     external: true
+    networks:
+      - nginx-proxy
+networks:
+  nginx-proxy:
+    external: true
