@@ -13,8 +13,6 @@ services:
     container_name: studyboard-local
     environment:
       TZ: Asia/Seoul
-      - LETSENCRYPT_HOST=local
-      - VIRTUAL_HOST=local
     ports:
       - '3000:3000'
 
