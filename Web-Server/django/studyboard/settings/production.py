@@ -7,5 +7,5 @@ DEBUG = False
 
 SECRET_KEY = get_secret("SECRET_KEY")
 
-ALLOWED_HOSTS = ['studyboard.info', 'www.studyboard.info']
+ALLOWED_HOSTS = ['studyboard.info', 'www.studyboard.info', '141.164.51.144', 'www.141.164.51.144']
 
