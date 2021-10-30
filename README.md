@@ -45,11 +45,15 @@ enabling each person to leave with the exact information that they were looking 
 
 - Ask a team member for the SECRETS.txt file necessary to run this project (resides in the django/ folder)
 
-## Testing / Development on Django's Test Server
+## Testing / Development on Django's Test Server (DEBUG MODE IS TRUE)
 - Use this when making quick tests using Django's default test-server
   > python manage.py runserver
 
-## Testing / Development on a local server via Docker
+## Testing / Development on a debug server via Docker (DEBUG MODE IS TRUE)
+- Change directories back to the root of the repository
+  > docker-compose -f docker-compose-debug.yml up --build
+
+## Testing / Development on a local server via Docker (DEBUG MODE IS FALSE)
 - Change directories back to the root of the repository
 
 - Run the Docker-Compose-Local file
