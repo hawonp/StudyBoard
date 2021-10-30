@@ -5,13 +5,13 @@ services:
       context: ""
     command: >
       sh -c "
-            python manage.py makemigrations &&  
-            python manage.py migrate &&
-            python manage.py makemigrations pageapp &&      
+            # python manage.py makemigrations &&  
+            # python manage.py migrate &&
+            # python manage.py makemigrations pageapp &&      
             python manage.py migrate &&
             # DJANGO_SUPERUSER_PASSWORD=admin python manage.py createsuperuser --username admin --email admin@email.com --noinput &&
             gunicorn studyboard.wsgi:application --env DJANGO_SETTINGS_MODULE=studyboard.settings.debug --bind 0.0.0.0:3000"
-    container_name: studyboard-local
+    container_name: studyboard-debug
     environment:
       TZ: Asia/Seoul
     ports:
