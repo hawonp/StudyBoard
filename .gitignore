@@ -177,3 +177,5 @@ pip-selfcheck.json
 
 # DBMS data exclude
 DBMS/db/data/
+
+Web-React/node_modules/
