@@ -3,6 +3,7 @@ DROP DATABASE IF EXISTS studyboard_db;
 DROP USER IF EXISTS 'mod'@'localhost';
 CREATE DATABASE studyboard_db CHARACTER SET utf8 COLLATE utf8_bin;
 
+-- TODO adjust for server when uploaded
 CREATE USER 'mod'@'localhost' IDENTIFIED by 'studyboard2021';
 
 GRANT ALL PRIVILEGES ON studyboard_db.* to 'mod'@'localhost' identified by 'studyboard2021';

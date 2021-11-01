@@ -29,36 +29,49 @@ enabling each person to leave with the exact information that they were looking 
 ## Where to get the Latest Version of StudyBoard?
 - The [main](https://github.com/hawonp/StudyBoard) branch of this git repository will always be the latest version of StudyBoard
 
-## Testing / Development Preparation
+## Step 1) Local Development Prep
 - Download/Clone the [main](https://github.com/hawonp/StudyBoard) branch of StudyBoard
 
-- Create a virtual environment in the **root** directory of the repository via venv, virtualenv, or anaconda that uses ***Python 3.7.7***
-  - Anaconda Example
-    > conda create -n env-name python=3.7.7
+- Create a virtual environment in the **root** directory of the repository and activate it
+  - VirtualEnv, Venv, Anaconda all work
+## Step 2) Create Docker Network
+- Create a user-defined bridge to link mariadb and flask
+  > docker network create dbms_network
+## Step 3) Initialize MariaDB database
+- Change directories to DBMS/
+  > cd DBMS
 
-- Change directories to the Django folder titled **studyboard**
-  > cd Web-Server
-  > cd django
+- Initialize Database Docker Container
+  > docker-compose -f docker-compose.yml up --build
 
-- Install dependancies via PIP
-  > pip install -r requirements.txt 
+- Go back to root directory
+  > cd ..
 
-- Ask a team member for the SECRETS.txt file necessary to run this project (resides in the django/ folder)
+## Step 4) Initialize Flask Backend
+- Change directories to Flask_Backend/
+  > cd Flask_Backend
 
-## Testing / Development on Django's Test Server (DEBUG MODE IS TRUE)
-- Use this when making quick tests using Django's default test-server
-  > python manage.py runserver
+- Install Requirements
+  > pip install -r requirements.txt
 
-## Testing / Development on a debug server via Docker (DEBUG MODE IS TRUE)
-- Change directories back to the root of the repository
-  > docker-compose -f docker-compose-debug.yml up --build
-
-## Testing / Development on a local server via Docker (DEBUG MODE IS FALSE)
-- Change directories back to the root of the repository
-
-- Run the Docker-Compose-Local file
+- Initialize Flask Docker Container
   > docker-compose -f docker-compose-local.yml up --build
 
+- Go back to root directory
+  > cd ..
+
+## Step 5) Initial NextJs Frontend
+- Change directories to Web-React
+  > cd Web-React
+
+- Install Requirements
+  > npm install
+
+- 5a) Initialize NextJS Docker Container
+  > docker-compose -f docker-compose-local.yml up --build
+
+- 5b) Intialize React dev server
+  > npm run dev
 ## Deployment to Production Server (DO NOT RUN YET, NOT YET SET UP)
 ```diff
 - SSH to production server
@@ -72,20 +85,12 @@ enabling each person to leave with the exact information that they were looking 
 
 - Update git repository 
   > git pull origin main
-
-- Navigate to web-server folder
-  > cd Web-Server
-
-- Take down old container 
-  > sudo docker-compose down
-
-- Start a new container
-  > sudo docker-compose -f docker-compose.yml up --build
 ```
 
 ## Required Specs / Compatability
  - Operating System : Any
- - Python 3.7.7 (Install via virtual environment)
+ - Docker
+ - Python 3.9 (Install via virtual environment)
 
 ## How to Submit an issue
  - You can submit an issue through the [Github issues](https://github.com/hawonp/StudyBoard/issues) tab

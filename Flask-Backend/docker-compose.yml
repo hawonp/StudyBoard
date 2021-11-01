@@ -1,0 +1,14 @@
+version: "3"
+services:
+  web:
+    build: .
+    command: >
+      sh -c "python api-production.py"
+    ports:
+      - "5000:5000"
+    networks:
+      - dbms_network
+
+networks:
+  dbms_network:
+    external: true
