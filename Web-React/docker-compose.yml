@@ -3,14 +3,9 @@ services:
   front:
     build:
       context: .
-    restart: always
-    container_name: studyboard_production
+    container_name: studyboard_local
     environment:
       TZ: Asia/Seoul
-      VIRTUAL_HOST: www.studyboard.info, studyboard.info
-      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
-    networks:
-      - nginx-proxy
-networks:
-  nginx-proxy:
-    external: true
+    ports:
+      - '3000:3000'
+      
