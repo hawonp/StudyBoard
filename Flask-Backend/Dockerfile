@@ -1,5 +1,5 @@
 
-FROM python:3.9
+FROM python:3.7
 
 # initial python settings
 RUN #apt-get update -y && apt-get install -y python3-pip python-dev
