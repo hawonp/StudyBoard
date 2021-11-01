@@ -10,27 +10,24 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
 }));
 
-const AppLayout = ({children }) =>{
+const AppLayout = ({ children }) =>{
     return(
         <>
             <Nav />
-            <div>
+            <div style={{}}>
                 <Box sx={{ flexGrow: 2}}>
                     <Grid container spacing={4}>
                     
                         <Grid item xs={2}>
-                            <Item></Item>
+                            {/* should be empty */}
                         </Grid>
                         <Grid item xs={8}>
-                            <Item>
                             {children}
-                            </Item>
                         </Grid>
                         <Grid item xs={2}>
-                            <Item></Item>
+                            {/* should be empty */}
                         </Grid>
                     </Grid>
                 </Box>
