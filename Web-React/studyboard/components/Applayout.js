@@ -21,21 +21,19 @@ const AppLayout = ({children }) =>{
                 <Box sx={{ flexGrow: 2}}>
                     <Grid container spacing={4}>
                     
-                    <Grid item xs={2}>
-                        <Item></Item>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Item>
-                        {children}
-                        </Item>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Item></Item>
-                    </Grid>
+                        <Grid item xs={2}>
+                            <Item></Item>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Item>
+                            {children}
+                            </Item>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Item></Item>
+                        </Grid>
                     </Grid>
                 </Box>
-                
-                
             </div>
         </>
     )
