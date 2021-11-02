@@ -2,7 +2,6 @@ import flask
 import json
 import mariadb
 import sys 
-from flask_restful import 
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
