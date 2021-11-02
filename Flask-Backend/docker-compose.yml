@@ -5,7 +5,7 @@ services:
     command: >
       sh -c "python api-production.py"
     ports:
-      - "5000:5000"
+      - "9090:9090
     networks:
       - dbms_network
 
