@@ -180,3 +180,5 @@ DBMS/db/data/
 
 Web-React/node_modules/
 .python-version
+DBMS/db/initdb.d/1.sql
+DBMS/db/initdb.d/2.sql

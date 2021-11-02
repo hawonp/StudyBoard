@@ -1,25 +1,32 @@
-from __main__ import app
+from __main__ import api
 import config.imports as imports
 from config.db_connect import conn
+
 from config.imports import json
+from config.imports import Resource
+class HelloWorld(Resource):
+    def get(self):
+        return {
+            'Galaxies': ['Milkyway', 'Andromeda', 
+            'Large Magellanic Cloud (LMC)']
+        }
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+# Create routes
+api.add_resource(HelloWorld, '/')
 
-@app.route('/test', methods=['GET'])
-def index():
-    # create a connection cursor
-    cur = conn.cursor()
-    # execute a SQL statement
-    cur.execute("select * from test")
+class UserInfo(Resource):
+    def get(self):
+        cur = conn.cursor()
+        cur.execute("select * from User")
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
 
-    # return the results!
-    return json.dumps(json_data)
+        # return the results!
+        return json.dumps(json_data)
+
+api.add_resource(UserInfo, '/user')
