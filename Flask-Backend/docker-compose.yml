@@ -1,14 +1,23 @@
-# version: "3"
-# services:
-#   web:
-#     build: .
-#     command: >
-#       sh -c "python api-production.py"
-#     ports:
-#       - "9090:9090
-#     networks:
-#       - dbms_network
+version: "3"
+services:
+  web:
+    build: .
+    command: >
+      # sh -c "python api-local.py"
+      # sh -c "gunicorn -b 0.0.0.0:8000 api-local:app"
+    ports:
+      - "9090:9090"
+    environment:
+      TZ: Asia/Seoul
+      VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      VIRTUAL_PORT: 9090
+      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
+    networks:
+      - dbms_network
+      - nginx-proxy
 
-# networks:
-#   dbms_network:
-#     external: true
+networks:
+  dbms_network:
+    external: true
+  nginx-proxy:
+    external: true
