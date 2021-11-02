@@ -10,8 +10,8 @@ services:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/data:/var/lib/mysql
       - ./db/initdb.d:/docker-entrypoint-initdb.d
-      # - ./db/initdb.d/initdb.d/db_tables.sql:/docker-entrypoint-initdb.d/1.sql
-      # - ./db/initdb.d/db_triggers.sql:/docker-entrypoint-initdb.d/2.sql
+      - ./db/initdb.d/db_tables.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./db/initdb.d/db_triggers.sql:/docker-entrypoint-initdb.d/2.sql
     environment:
       TZ: Asia/Seoul
       MYSQL_DATABASE: studyboard_db
@@ -28,10 +28,10 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - '8080:80'
+      - "8080:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - dbms_network
 
