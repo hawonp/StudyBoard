@@ -11,7 +11,7 @@ GRANT ALL PRIVILEGES ON studyboard_db.* to 'mod'@'localhost' identified by 'stud
 USE studyboard_db;
 
 ------------ TABLES ------------
-
+-- VERSION 2.0
 -- INITIALISING TABLES
 
 -- USER --
