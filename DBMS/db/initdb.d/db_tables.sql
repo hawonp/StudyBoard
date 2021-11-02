@@ -17,6 +17,7 @@ USE studyboard_db;
 -- USER --
 CREATE TABLE User(
     user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_email_address VARCHAR(32) NOT NULL UNIQUE,
     user_nickname VARCHAR(16) NOT NULL,
     user_is_endorsed BOOLEAN NOT NULL DEFAULT 0,
     user_is_mod BOOLEAN NOT NULL DEFAULT 0,

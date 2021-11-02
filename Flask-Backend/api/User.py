@@ -11,9 +11,6 @@ class HelloWorld(Resource):
             'Large Magellanic Cloud (LMC)']
         }
 
-# Create routes
-api.add_resource(HelloWorld, '/')
-
 class UserInfo(Resource):
     def get(self):
         cur = conn.cursor()
@@ -29,4 +26,6 @@ class UserInfo(Resource):
         # return the results!
         return json.dumps(json_data)
 
+# Create routes
+api.add_resource(HelloWorld, '/')
 api.add_resource(UserInfo, '/user')
