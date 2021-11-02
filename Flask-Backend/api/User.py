@@ -1,6 +1,7 @@
 from __main__ import app
 import config.imports as imports
 from config.db_connect import conn
+from config.imports import json
 
 @app.route('/', methods=['GET'])
 def home():
@@ -21,4 +22,4 @@ def index():
         json_data.append(dict(zip(row_headers,result)))
 
     # return the results!
-    return imports.json.dumps(json_data)
+    return json.dumps(json_data)
