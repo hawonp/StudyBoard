@@ -10,6 +10,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 COPY . .
 
 #expose default port for flask
-EXPOSE 5000
+# EXPOSE 5000
+EXPOSE 9090
 
 RUN pip install -r requirements.txt
