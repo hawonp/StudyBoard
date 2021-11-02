@@ -25,9 +25,6 @@ CREATE TABLE User(
     PRIMARY KEY(user_id)
 );
 
--- INSERT INTO User(user_id, user_nickname, user_is_endorsed, user_is_mod, user_flags_received, user_likes_received)
--- VALUES (20, "No", FALSE, FALSE, 10, 10);
-
 -- QUESTION POST --
 
 CREATE TABLE Post(
