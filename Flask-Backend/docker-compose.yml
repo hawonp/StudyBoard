@@ -1,14 +1,14 @@
-version: "3"
-services:
-  web:
-    build: .
-    command: >
-      sh -c "python api-production.py"
-    ports:
-      - "9090:9090
-    networks:
-      - dbms_network
+# version: "3"
+# services:
+#   web:
+#     build: .
+#     command: >
+#       sh -c "python api-production.py"
+#     ports:
+#       - "9090:9090
+#     networks:
+#       - dbms_network
 
-networks:
-  dbms_network:
-    external: true
+# networks:
+#   dbms_network:
+#     external: true

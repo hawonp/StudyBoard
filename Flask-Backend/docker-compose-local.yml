@@ -3,7 +3,8 @@ services:
   web:
     build: .
     command: >
-      sh -c "python api-local.py"
+      # sh -c "python api-local.py"
+      # sh -c "gunicorn -b 0.0.0.0:8000 api-local:app"
     ports:
       - "9090:9090"
     networks:

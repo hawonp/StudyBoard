@@ -9,8 +9,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # copy everything to docker file IO
 COPY . .
 
-#expose default port for flask
-# EXPOSE 5000
+# install necessary modules
+RUN pip install -r requirements.txt
+RUN pip install gunicorn
+
+# expose port for listening
 EXPOSE 9090
 
-RUN pip install -r requirements.txt
+# init gunicorn 
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["sh", "entrypoint.sh"]
