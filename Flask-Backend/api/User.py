@@ -1,6 +1,8 @@
 from config.db_connect import conn
 from config.imports import json
 from config.imports import Resource
+
+#Defining the routes
 class HelloWorld(Resource):
     def get(self):
         return {
@@ -19,9 +21,13 @@ class UserInfo(Resource):
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
 
+        #Close cursor
+        cur.close()
+        
         # return the results!
         return json.dumps(json_data)
 
+#Add routes to api
 def init_routes(api):
     api.add_resource(HelloWorld, '/')
     api.add_resource(UserInfo, '/user')
