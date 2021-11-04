@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-export default function About() {
+export default function MyPost() {
     return (
         <div className={styles.container}>
             <Head>
@@ -9,7 +9,7 @@ export default function About() {
 
             </Head>
 
-            about
+            My Post
         </div>
     )
 }
