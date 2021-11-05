@@ -1,5 +1,5 @@
 
-FROM python:3.9
+FROM python:3.7
 
 # initial python settings
 RUN #apt-get update -y && apt-get install -y python3-pip python-dev
@@ -9,7 +9,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # copy everything to docker file IO
 COPY . .
 
-#expose default port for flask
-EXPOSE 5000
-
+# install necessary modules
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
+
+# expose port for listening
+EXPOSE 9090
+
+# init gunicorn 
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["sh", "entrypoint.sh"]
