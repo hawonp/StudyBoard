@@ -33,6 +33,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ProfileCard from "../components/ProfileCard";
+import pagination from "../components/pagination";
+import Container from "@mui/material/Container";
 
 
 //button style
@@ -121,172 +123,177 @@ export default function Board() {
     return (
         <div style={{display: 'flex'}}>
             <div className={styles.container} style={{flex: 1}}>
-                <Head>
-                    <title>StudyBoard</title>
-                </Head>
-
-                {/* Write Qeustion */}
-                <div style={{ alignItems: 'center',
-                    border:'0.1rem solid lightgray',
-                    backgroundColor: 'white',
-                    borderRadius: '8px',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                    marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}>
-
-                    <Box
-                        component="form"
-                        sx={{
-                            width: '100%', maxWidth: '100%',
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <Link href="/writePost"><a>
-                            <TextField fullWidth id="standard-basic" label=" Ask Question" variant="standard" />
-                        </a></Link>
-                    </Box>
+                <Container >
+                    <Head>
+                        <title>StudyBoard</title>
+                    </Head>
 
 
-                    <div>
-                        <IconButton>
-                            <Link href="/writePost"><a>
-                                <ImageSearchIcon />
-                            </a></Link>
-                        </IconButton>
-                    </div>
+                    {/* Write Qeustion */}
+                    <div style={{ alignItems: 'center',
+                        border:'0.1rem solid lightgray',
+                        backgroundColor: 'white',
+                        borderRadius: '8px',
+                        boxSizing: 'border-box',
+                        display: 'flex',
+                        marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}>
 
-                    <div>
-                        <Link href="/writePost"><a>
-                            <CustomButton onClick={() => console.log('click!')}>Post</CustomButton>
-                        </a></Link>
-                    </div>
-
-                </div>
-
-                {/*filter*/}
-                <div style={{ alignItems: 'center',
-                    backgroundColor: 'white',
-                    border:'0.1rem solid lightgray',
-                    borderRadius: '4px',
-                    boxSizing: 'border-box',
-                    display: 'flex', marginBottom: '16px', padding: '10px 12px' }}>
-
-                    <Stack direction="row" spacing={1}>
-                        <Chip
-                            label="Recently"
-                            component="a"
-                            href="#basic-chip"
-                            variant="outlined"
-                            // clickable
-                        />
-                        <Chip
-                            label="Recently3"
-                            component="a"
-                            href="#basic-chip"
-
-                            // onClick={() => {}}
-                            // variant="outlined"
-                            // clickable
-                        />
-                    </Stack>
-
-
-                    <Stack direction="row" spacing={1}>
-                        <Chip
-                            label="Most popular"
-                            component="a"
-                            href="#basic-chip"
-                            variant="outlined"
-                            clickable
-                        />
-                    </Stack>
-
-
-                    <Stack direction="row" spacing={1}>
-                        <Chip
-                            label="preferred tags"
-                            component="a"
-                            href="#basic-chip"
-                            variant="outlined"
-                            clickable
-                        />
-                    </Stack>
-                </div>
-
-                <div >
-                    <Card sx={{ maxWidth: 1250 }}>
-                        <CardHeader
-                            style={{ textAlign: 'left' }}
-                            avatar={
-                                // user icon
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-
-                                </Avatar>
-                            }
-
-                            action={
-                                <div>
-                                    <Tooltip title="Edit">
-                                        <IconButton aria-label="EditIcon">
-                                            <EditIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Delete">
-                                        <IconButton>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-                            }
-
-                            title="Math is really hard please hlep this question"
-                            subheader="2021.11.01"
-                        />
-                        <Link href="/postdetail"><a>
-                            <CardMedia
-
-                                component="img"
-                                height="194"
-                                // <Image  alt="Trulli" width="100%" height="100%" />
-                                src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-                                alt="Paella dish"
-                            />
-                        </a></Link>
-
-                        {/* card content  */}
-                        <CardContent
-                            style={{ textAlign: 'left' }}
+                        <Box
+                            component="form"
+                            sx={{
+                                width: '100%', maxWidth: '100%',
+                            }}
+                            noValidate
+                            autoComplete="off"
                         >
-                            <Link href="/postdetail"><a>
-                                <Typography variant="body2" color="text.secondary">
-                                    I want to know this question would you answer this please help us
-                                </Typography>
+                            <Link href="/writePost"><a>
+                                <TextField fullWidth id="standard-basic" label=" Ask Question" variant="standard" />
                             </a></Link>
-                        </CardContent>
+                        </Box>
 
-                        {/* this is icon */}
 
-                        <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
-                            <IconButton aria-label="favorites">
-                                <FavoriteIcon />
+                        <div>
+                            <IconButton>
+                                <Link href="/writePost"><a>
+                                    <ImageSearchIcon />
+                                </a></Link>
                             </IconButton>
-                            <IconButton aria-label="thoumup">
-                                <ThumbUpIcon />
-                            </IconButton>
-                            <IconButton aria-label="SmsIcon">
-                                <SmsIcon />
-                            </IconButton>
-                            <IconButton aria-label="BookmarkIcon">
-                                <BookmarkIcon />
-                            </IconButton>
+                        </div>
 
-                            <IconButton aria-label="share">
-                                <ShareIcon />
-                            </IconButton>
-                        </CardActions>
-                    </Card>
-                </div>
+                        <div>
+                            <Link href="/writePost"><a>
+                                <CustomButton onClick={() => console.log('click!')}>Post</CustomButton>
+                            </a></Link>
+                        </div>
+
+                    </div>
+
+                    {/*filter*/}
+                    <div style={{ alignItems: 'center',
+                        backgroundColor: 'white',
+                        border:'0.1rem solid lightgray',
+                        borderRadius: '4px',
+                        boxSizing: 'border-box',
+                        display: 'flex', marginBottom: '16px', padding: '10px 12px' }}>
+
+                        <Stack direction="row" spacing={1}>
+                            <Chip
+                                label="Recently"
+                                component="a"
+                                href="#basic-chip"
+                                variant="outlined"
+                                // clickable
+                            />
+                            <Chip
+                                label="Recently3"
+                                component="a"
+                                href="#basic-chip"
+
+                                // onClick={() => {}}
+                                // variant="outlined"
+                                // clickable
+                            />
+                        </Stack>
+
+
+                        <Stack direction="row" spacing={1}>
+                            <Chip
+                                label="Most popular"
+                                component="a"
+                                href="#basic-chip"
+                                variant="outlined"
+                                clickable
+                            />
+                        </Stack>
+
+
+                        <Stack direction="row" spacing={1}>
+                            <Chip
+                                label="preferred tags"
+                                component="a"
+                                href="#basic-chip"
+                                variant="outlined"
+                                clickable
+                            />
+                        </Stack>
+                    </div>
+
+                    <div >
+                        <Card sx={{ maxWidth: 1250 }}>
+                            <CardHeader
+                                style={{ textAlign: 'left' }}
+                                avatar={
+                                    // user icon
+                                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+
+                                    </Avatar>
+                                }
+
+                                action={
+                                    <div>
+                                        <Tooltip title="Edit">
+                                            <IconButton aria-label="EditIcon">
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Delete">
+                                            <IconButton>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                }
+
+                                title="Math is really hard please hlep this question"
+                                subheader="2021.11.01"
+                            />
+                            <Link href="/postdetail"><a>
+                                <CardMedia
+
+                                    component="img"
+                                    height="194"
+                                    // <Image  alt="Trulli" width="100%" height="100%" />
+                                    src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
+                                    alt="Paella dish"
+                                />
+                            </a></Link>
+
+                            {/* card content  */}
+                            <CardContent
+                                style={{ textAlign: 'left' }}
+                            >
+                                <Link href="/postdetail"><a>
+                                    <Typography variant="body2" color="text.secondary">
+                                        I want to know this question would you answer this please help us
+                                    </Typography>
+                                </a></Link>
+                            </CardContent>
+
+                            {/* this is icon */}
+
+                            <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
+                                <IconButton aria-label="favorites">
+                                    <FavoriteIcon />
+                                </IconButton>
+                                <IconButton aria-label="thoumup">
+                                    <ThumbUpIcon />
+                                </IconButton>
+                                <IconButton aria-label="SmsIcon">
+                                    <SmsIcon />
+                                </IconButton>
+                                <IconButton aria-label="BookmarkIcon">
+                                    <BookmarkIcon />
+                                </IconButton>
+
+                                <IconButton aria-label="share">
+                                    <ShareIcon />
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+                        <pagination />
+                    </div>
+                </Container>
+
 
             </div>
             <ProfileCard />
