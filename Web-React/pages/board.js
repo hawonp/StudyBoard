@@ -185,29 +185,12 @@ export default function Board() {
                                 // clickable
                             />
                             <Chip
-                                label="Recently3"
-                                component="a"
-                                href="#basic-chip"
-
-                                // onClick={() => {}}
-                                // variant="outlined"
-                                // clickable
-                            />
-                        </Stack>
-
-
-                        <Stack direction="row" spacing={1}>
-                            <Chip
                                 label="Most popular"
                                 component="a"
                                 href="#basic-chip"
                                 variant="outlined"
                                 clickable
                             />
-                        </Stack>
-
-
-                        <Stack direction="row" spacing={1}>
                             <Chip
                                 label="preferred tags"
                                 component="a"
@@ -216,6 +199,7 @@ export default function Board() {
                                 clickable
                             />
                         </Stack>
+
                     </div>
 
                     <div >
