@@ -29,5 +29,5 @@ class UserInfo(Resource):
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(HelloWorld, '/')
-    api.add_resource(UserInfo, '/user')
+    api.add_resource(HelloWorld, '/api')
+    api.add_resource(UserInfo, '/api/user')

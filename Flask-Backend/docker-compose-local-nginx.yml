@@ -9,9 +9,9 @@ services:
       - "9090:9090"
     environment:
       TZ: Asia/Seoul
-      VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      VIRTUAL_HOST: www.studyboard.local, studyboard.local
       VIRTUAL_PORT: 9090
-      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
+      LETSENCRYPT_HOST: www.studyboard.local, studyboard.local
     networks:
       - dbms_network
       - nginx-proxy

@@ -18,9 +18,9 @@ services:
       MYSQL_USER: mod
       MYSQL_PASSWORD: studyboard2021
       MYSQL_ROOT_PASSWORD: root
-      VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      VIRTUAL_HOST: www.studyboard.local, studyboard.local
       VIRTUAL_PORT: 3306
-      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
+      LETSENCRYPT_HOST: www.studyboard.local, studyboard.local
     networks:
       - dbms_network
       - nginx-proxy
@@ -32,13 +32,13 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8080:80"
+      - '8080:80'
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: root 
-      VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      VIRTUAL_HOST: www.studyboard.local, studyboard.local
       VIRTUAL_PORT: 8080
-      LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
+      LETSENCRYPT_HOST: www.studyboard.local, studyboard.local
     networks:
       - dbms_network
       - nginx-proxy
