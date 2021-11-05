@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link'
+import Image from 'next/image'
 import navStyles from '../styles/Nav.module.css'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Badge from '@mui/material/Badge';
@@ -49,22 +50,27 @@ const Nav = () => {
         <nav className={navStyles.nav}>
             <ul>
                 <li className="product-name" style={{ fontSize: '1.4rem', fontWeight: 'bold' }}>
+
                     <Link href = "/">
-                        <a> StudyBoard </a>
+                        <a>
+                            <div style={{marginTop: '1.2rem'}}>
+                                <img style={{height:'5rem',display:'flex'}} src="/images/StudyBoard-logo.png" alt="logo" />
+                            </div>
+                        </a>
                     </Link>
                 </li>
 
-                <li>
-                    <Link href = "/board">
+                <li className="font-style">
+                    <Link href = "/board" >
                         <a> ❓ AskQuesiton</a>
                     </Link>
                 </li>
 
-                <li>
+                <li className="font-style">
                     <Link href="/about"><a>📢 About </a></Link>
                 </li>
 
-                <li>
+                <li className="font-style">
                     <Link href="/rank"><a>👍 Rank  </a></Link>
                 </li>
 

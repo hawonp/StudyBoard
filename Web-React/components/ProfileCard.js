@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Avatar from "@mui/material/Avatar";
 import {CardMedia} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -14,7 +15,7 @@ export default function ProfileCard() {
                 {/*양 옆으로 해야함 flex 사용해서 사용*/}
                 <Avatar style={{display: 'flex'}} >H</Avatar>
                 <CardMedia style={{flex: 1}}
-                    src="https://microlancer.lancerassets.com/v2/avatars/74/c1d56008ae11e5985a9fe42fd62f9f/medium_metro-logo-2.jpg"
+                           src="https://microlancer.lancerassets.com/v2/avatars/74/c1d56008ae11e5985a9fe42fd62f9f/medium_metro-logo-2.jpg"
                 />
                 {/*양 옆으로 해야함 flex 사용해서 사용*/}
                 <h1>PK HONG</h1>
@@ -37,19 +38,31 @@ export default function ProfileCard() {
             <ul className="profile-social-links">
                 <li>
                     <IconButton aria-label="favorites">
-                        <DescriptionIcon />
+                        <Link href="/myPost">
+                            <a>
+                                <DescriptionIcon />
+                            </a>
+                        </Link>
                     </IconButton>
                 </li>
 
                 <li>
                     <IconButton aria-label="favorites">
-                        <BookmarkIcon />
+                        <Link href="/favorite/favorite">
+                            <a>
+                                <BookmarkIcon />
+                            </a>
+                        </Link>
                     </IconButton>
                 </li>
 
                 <li>
                     <IconButton aria-label="favorites">
-                        <NotificationsIcon />
+                        <Link href="/components/Notification">
+                            <a>
+                                <NotificationsIcon />
+                            </a>
+                        </Link>
                     </IconButton>
                 </li>
             </ul>
