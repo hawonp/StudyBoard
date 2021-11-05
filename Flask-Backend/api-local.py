@@ -1,46 +1,25 @@
-import flask
-import json
-import mariadb
-import sys 
+import config.imports as imports
+import config.db_connect as setting
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+#Import APIs
+import api.User as User
+import api.Post as Post
+import api.Dev as Dev
 
-# make connection to mariadb server
-try:
-    conn = mariadb.connect(
-        user="mod",
-        password="studyboard2021",
-        # host="localhost",
-        host="dbms_container",
-        port=3306,
-        database="studyboard_db"
-    )
+# initialize Flask-RESTful
+app = imports.Flask(__name__)
+api = imports.Api(app)
 
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    sys.exit(1)
+# set connection setting
+setting.local_flask = False
 
+# import dev_tools api
+Dev.init_routes(api)
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+# import routes
+User.init_routes(api)
+Post.init_routes(api)
 
-@app.route('/test', methods=['GET'])
-def index():
-    # create a connection cursor
-    cur = conn.cursor()
-    # execute a SQL statement
-    cur.execute("select * from test")
-
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
-
-    # return the results!
-    return json.dumps(json_data)
-
-app.run(host='0.0.0.0', port=9090)
+# Run the application
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=9090, debug=False)

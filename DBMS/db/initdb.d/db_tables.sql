@@ -17,6 +17,7 @@ USE studyboard_db;
 -- USER --
 CREATE TABLE User(
     user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_email_address VARCHAR(32) NOT NULL UNIQUE,
     user_nickname VARCHAR(16) NOT NULL,
     user_is_endorsed BOOLEAN NOT NULL DEFAULT 0,
     user_is_mod BOOLEAN NOT NULL DEFAULT 0,
@@ -25,16 +26,13 @@ CREATE TABLE User(
     PRIMARY KEY(user_id)
 );
 
--- INSERT INTO User(user_id, user_nickname, user_is_endorsed, user_is_mod, user_flags_received, user_likes_received)
--- VALUES (20, "No", FALSE, FALSE, 10, 10);
-
 -- QUESTION POST --
 
 CREATE TABLE Post(
     post_id INTEGER NOT NULL AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
-    post_title VARCHAR(32) NOT NULL,
-    post_text VARCHAR(1024) NOT NULL,
+    post_title VARCHAR(64) NOT NULL,
+    post_text VARCHAR(2048) NOT NULL,
     post_image VARCHAR(512),
     post_like_count INTEGER NOT NULL DEFAULT 0,
     post_reply_count INTEGER NOT NULL DEFAULT 0,
@@ -119,7 +117,7 @@ CREATE TABLE Reply_Report(
 -- TAGS --
 CREATE TABLE Tag(
     tag_id INTEGER NOT NULL AUTO_INCREMENT,
-    tag_name VARCHAR(32) NOT NULL,
+    tag_name VARCHAR(32) NOT NULL UNIQUE,
     PRIMARY KEY(tag_id)
 );
 
