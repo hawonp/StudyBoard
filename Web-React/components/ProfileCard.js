@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import React from "react";
 import Card from "@mui/material/Card";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import {Tooltip} from "@material-ui/core";
 export default function ProfileCard() {
     return (
         <Grid item xs={2}>
@@ -48,33 +49,33 @@ export default function ProfileCard() {
 
                 <ul className="profile-social-links">
                     <li>
-                        <IconButton aria-label="favorites">
-                            <Link href="/myPost">
-                                <a>
-                                    <DescriptionIcon />
-                                </a>
-                            </Link>
-                        </IconButton>
+                        <Tooltip title="Post">
+                            <IconButton aria-label="favorites">
+                                <Link href="/myPost">
+                                    <a><DescriptionIcon /></a>
+                                </Link>
+                            </IconButton>
+                        </Tooltip>
                     </li>
 
                     <li>
-                        <IconButton aria-label="favorites">
-                            <Link href="/favorite/favorite">
-                                <a>
-                                    <BookmarkIcon />
-                                </a>
-                            </Link>
-                        </IconButton>
+                        <Tooltip title="favorite">
+                            <IconButton aria-label="favorites">
+                                <Link href="/favorite/favorite">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+                        </Tooltip>
                     </li>
 
                     <li>
-                        <IconButton aria-label="favorites">
-                            <Link href="/notification/notification">
-                                <a>
-                                    <NotificationsIcon />
-                                </a>
-                            </Link>
-                        </IconButton>
+                        <Tooltip title="Notification">
+                            <IconButton aria-label="favorites">
+                                <Link href="/notification/notification">
+                                    <a><NotificationsIcon /></a>
+                                </Link>
+                            </IconButton>
+                        </Tooltip>
                     </li>
                 </ul>
             </aside>

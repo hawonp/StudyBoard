@@ -12,9 +12,18 @@ export default function Notification() {
             <div className={styles.container} style={{flex: 1}}>
                 <Container >
                     <Box style={{border:'0.1rem solid lightgray',
-                        borderRadius: '4px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
+                        borderRadius: '8px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
                     >
                         <h5 style={{ marginBottom: '2rem'}}>Pyungkang's Notification</h5>
+                        <hr style={{
+                            margin: '0px',
+                            flexShrink: '0',
+                            borderWidth: '0px 0px thin',
+                            borderStyle: 'solid',
+                            marginBottom: '10px',
+                            opacity: 1,
+                            borderColor: 'rgb(227, 242, 253)'
+                        }}/>
                         <div className="row gutters m-4">
 
                             <div className="noti" >
@@ -35,7 +44,8 @@ export default function Notification() {
                                     </a>
                                 </div>
                             </div>
-                            <div className="col-lg-10 noti">
+
+                            <div className="noti">
                                 <div className="noti-box"></div>
                                 <div className="noti-text">
                                     <a>
@@ -54,7 +64,7 @@ export default function Notification() {
                                 </div>
                             </div>
 
-                            <div className="col-lg-10 noti">
+                            <div className="noti">
                                 <div className="noti-box"></div>
                                 <div className="noti-text">
                                     <a>
@@ -72,7 +82,7 @@ export default function Notification() {
                                     </a>
                                 </div>
                             </div>
-                            <div className="col-lg-10 noti">
+                            <div className=" noti">
                                 <div className="noti-box"></div>
                                 <div className="noti-text">
                                     <a>
