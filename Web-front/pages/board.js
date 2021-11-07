@@ -31,6 +31,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ProfileCard from "../components/ProfileCard";
 import pagination from "../components/pagination";
 import Container from "@mui/material/Container";
+import PostNavigation from "../components/PostNavigation";
 
 
 
@@ -71,43 +72,7 @@ export default function Board() {
 
 
                     {/* Write Qeustion */}
-                    <div style={{ alignItems: 'center',
-                        border:'0.1rem solid lightgray',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}>
-
-                        <Box
-                            component="form"
-                            sx={{
-                                width: '100%', maxWidth: '100%',
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <Link href="/writePost"><a>
-                                <TextField fullWidth id="standard-basic" label=" Ask Question" variant="standard" />
-                            </a></Link>
-                        </Box>
-
-
-                        <div>
-                            <IconButton>
-                                <Link href="/writePost"><a>
-                                    <ImageSearchIcon />
-                                </a></Link>
-                            </IconButton>
-                        </div>
-
-                        <div>
-                            <Link href="/writePost"><a>
-                                <Button onClick={() => console.log('click!')}>Post</Button>
-                            </a></Link>
-                        </div>
-
-                    </div>
+                    <PostNavigation />
 
                     {/*filter*/}
                     <div style={{ alignItems: 'center',
@@ -123,7 +88,7 @@ export default function Board() {
                                 component="a"
                                 href="#basic-chip"
                                 variant="outlined"
-                                // clickable
+                                clickable
                             />
                             <Chip
                                 label="Most popular"
@@ -140,7 +105,6 @@ export default function Board() {
                                 clickable
                             />
                         </Stack>
-
                     </div>
 
                     <div >

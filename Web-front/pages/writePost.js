@@ -7,6 +7,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import {TextField} from "@mui/material";
+import {PostCard} from "../components/PostCard";
 
 const Div = styled('div')(({ theme }) => ({
     ...theme.typography.button,
@@ -27,34 +28,7 @@ export default function WritePost() {
 
             </Head>
 
-
-            <Container >
-
-                <Box style={{border:'0.1rem solid lightgray',
-                    borderRadius: '4px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
-                >
-                    <Div>{"Post Your Question"}</Div>
-
-                    <TextField style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="title" label="Title" variant="outlined" />
-                    <TextField rows={12} multiline style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="title" label="Question?" variant="outlined" />
-                    <TextField style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="tag" label="#tag" variant="outlined" />
-                    <div style={{ display: 'flex' }} >
-
-                        <label htmlFor="icon-button-file">
-                            <Input accept="image/*" id="icon-button-file" type="file" />
-                            <IconButton color="primary" aria-label="upload picture" component="span" style={{  }}>
-                                <PhotoCamera />
-                            </IconButton>
-                        </label>
-                        <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>
-                            <Button sx={{borderRadius: '8px',}} variant="contained" color="success" >
-                                    Post
-                            </Button>
-                        </div>
-
-                    </div>
-                </Box>
-            </Container>
+            <PostCard />
 
         </div>
     )
