@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IconButton from "@mui/material/IconButton";
+import axios from 'axios'
 
 const style = {
     position: 'absolute',
@@ -55,7 +56,8 @@ const Nav = () => {
                     <Link href = "/">
                         <a>
                             <div style={{marginTop: '1.2rem'}}>
-                                <img style={{height:'5rem',display:'flex'}} src="/images/StudyBoard-logo.png" alt="logo" />
+                                <Image src = "/images/StudyBoard-logo.png" alt="logo" height="60rem" width ="150rem" display="flex"/>
+                                {/* <img style={{height:'5rem',display:'flex'}} src="/images/StudyBoard-logo.png" alt="logo" /> */}
                             </div>
                         </a>
                     </Link>
@@ -63,7 +65,7 @@ const Nav = () => {
 
                 <li className="font-style">
                     <Link href = "/board" >
-                        <a> ❓ AskQuesiton</a>
+                        <a> ❓Ask a Question</a>
                     </Link>
                 </li>
 
