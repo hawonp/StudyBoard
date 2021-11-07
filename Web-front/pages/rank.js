@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
 export default function Rank() {
     return (
-        <div className={styles.container}>
+        <div>
             <Container >
 
                 <Box style={{border:'0.1rem solid lightgray',

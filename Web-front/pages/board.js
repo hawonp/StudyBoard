@@ -3,10 +3,6 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import styles from '../styles/Home.module.css'
-import { useButton } from '@mui/core/ButtonUnstyled';
-import { styled } from '@mui/system';
-import clsx from 'clsx';
 import Card from '@mui/material/Card';
 import EditIcon from '@mui/icons-material/Edit';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -35,63 +31,10 @@ import MenuItem from '@mui/material/MenuItem';
 import ProfileCard from "../components/ProfileCard";
 import pagination from "../components/pagination";
 import Container from "@mui/material/Container";
+import PostNavigation from "../components/PostNavigation";
 
 
-//button style
-const CustomButtonRoot = styled('button')`
-  background-color: #007fff;
-  padding: 15px 20px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: 600;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  transition: all 200ms ease;
-  cursor: pointer;
-  box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 0 rgba(0, 127, 255, 0);
-  border: none;
 
-  &:hover {
-    background-color: #0059b2;
-  }
-
-  &.active {
-    background-color: #004386;
-  }
-
-  &.focusVisible {
-    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
-    outline: none;
-  }
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: 0 0 0 0 rgba(0, 127, 255, 0);
-  }
-`;
-
-//post button
-const CustomButton = React.forwardRef(function CustomButton(props, ref) {
-    const { children } = props;
-    const { active, disabled, focusVisible, getRootProps } = useButton({
-        ...props,
-        ref,
-        component: CustomButtonRoot,
-    });
-
-    const classes = {
-        active,
-        disabled,
-        focusVisible,
-    };
-
-    return (
-        <CustomButtonRoot {...getRootProps()} className={clsx(classes)}>
-            {children}
-        </CustomButtonRoot>
-    );
-});
 
 //popover
 const options = [
@@ -122,7 +65,6 @@ export default function Board() {
 
     return (
         <div style={{display: 'flex'}}>
-            <div className={styles.container} style={{flex: 1}}>
                 <Container >
                     <Head>
                         <title>StudyBoard</title>
@@ -130,43 +72,7 @@ export default function Board() {
 
 
                     {/* Write Qeustion */}
-                    <div style={{ alignItems: 'center',
-                        border:'0.1rem solid lightgray',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}>
-
-                        <Box
-                            component="form"
-                            sx={{
-                                width: '100%', maxWidth: '100%',
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <Link href="/writePost"><a>
-                                <TextField fullWidth id="standard-basic" label=" Ask Question" variant="standard" />
-                            </a></Link>
-                        </Box>
-
-
-                        <div>
-                            <IconButton>
-                                <Link href="/writePost"><a>
-                                    <ImageSearchIcon />
-                                </a></Link>
-                            </IconButton>
-                        </div>
-
-                        <div>
-                            <Link href="/writePost"><a>
-                                <CustomButton onClick={() => console.log('click!')}>Post</CustomButton>
-                            </a></Link>
-                        </div>
-
-                    </div>
+                    <PostNavigation />
 
                     {/*filter*/}
                     <div style={{ alignItems: 'center',
@@ -182,7 +88,7 @@ export default function Board() {
                                 component="a"
                                 href="#basic-chip"
                                 variant="outlined"
-                                // clickable
+                                clickable
                             />
                             <Chip
                                 label="Most popular"
@@ -199,7 +105,6 @@ export default function Board() {
                                 clickable
                             />
                         </Stack>
-
                     </div>
 
                     <div >
@@ -278,8 +183,6 @@ export default function Board() {
                     </div>
                 </Container>
 
-
-            </div>
             <ProfileCard />
         </div>
     )

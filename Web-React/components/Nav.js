@@ -12,6 +12,7 @@ import SearchBar from "material-ui-search-bar";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import IconButton from "@mui/material/IconButton";
 import axios from 'axios'
 
 const style = {
@@ -86,9 +87,11 @@ const Nav = () => {
 
                 <li>
                     {/* notification */}
-                    <Badge color="secondary" variant="dot" invisible={invisible}>
-                        <NotificationsNoneIcon color="action" />
-                    </Badge>
+                    <IconButton aria-label="favorites">
+                        <Badge color="secondary" variant="dot" invisible={invisible}>
+                            <NotificationsNoneIcon color="action" />
+                        </Badge>
+                    </IconButton>
                 </li>
 
 

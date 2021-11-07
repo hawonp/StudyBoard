@@ -1,35 +1,33 @@
-import * as React from 'react';
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import ProfileCard from "../components/ProfileCard";
+import styles from '../../styles/Home.module.css'
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import ProfileCard from "../../components/ProfileCard";
+import * as React from "react";
+import {CardActionArea, CardActions} from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import {Tooltip} from "@material-ui/core";
+import Card from "@mui/material/Card";
 
-
-export default function MyPost() {
+export default function favorite() {
     return (
         <div style={{display: 'flex'}}>
-            <div className={styles.container} style={{flex: 1}}>
+            <div  style={{flex: 1}}>
                 <Container >
                     <Box style={{border:'0.1rem solid lightgray',
                         borderRadius: '8px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
                     >
-                        <h5 style={{ marginBottom: '2rem'}}>Pyungkang's Post</h5>
+                        <h5 style={{ marginBottom: '2rem'}}>Pyungkang's favorite</h5>
                         <hr style={{
                             margin: '0px',
                             flexShrink: '0',
                             borderWidth: '0px 0px thin',
                             borderStyle: 'solid',
-                            marginBottom: '16px',
+                            marginBottom: '10px',
                             opacity: 1,
                             borderColor: 'lightgray'
                         }}/>
@@ -51,8 +49,8 @@ export default function MyPost() {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
 
+                            <CardActions>
                                 <IconButton aria-label="favorites">
                                     <Link href="">
                                         <a><BookmarkIcon /></a>
@@ -85,6 +83,7 @@ export default function MyPost() {
 
                             </CardActions>
                         </Card>
+
 
                     </Box>
                 </Container>

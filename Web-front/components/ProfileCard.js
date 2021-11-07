@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Avatar from "@mui/material/Avatar";
-import {CardMedia} from "@mui/material";
+import {CardMedia, Tooltip} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import React from "react";
 import Card from "@mui/material/Card";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import {Tooltip} from "@material-ui/core";
 export default function ProfileCard() {
     return (
         <Grid item xs={2}>
