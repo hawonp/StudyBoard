@@ -21,13 +21,12 @@ const Input = styled('input')({
     display: 'none',
 });
 export default function WritePost() {
+    
     return (
         <div className={styles.container}>
             <Head>
                 <title>StudyBoard</title>
-
             </Head>
-
 
             <Container >
 
