@@ -50,9 +50,9 @@ export default function CustomAppBar() {
             },
         },
         {
-            title: "My account",
+            title: "Log Out",
             onClick: () => {
-                alert("My account");
+                alert("Log Out");
             },
         },
     ];
