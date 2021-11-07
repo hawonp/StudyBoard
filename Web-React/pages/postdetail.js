@@ -14,6 +14,7 @@ import SmsIcon from "@mui/icons-material/Sms";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import CardActions from "@mui/material/CardActions";
+import Image from 'next/image'
 
 export default function Detail() {
     return (
@@ -56,7 +57,8 @@ export default function Detail() {
 
                             {/*image*/}
                             <div>
-                                <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>
+                                <Image src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt=""/>
+                                {/* <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/> */}
                             </div>
                             <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
                                 <IconButton aria-label="favorites">
