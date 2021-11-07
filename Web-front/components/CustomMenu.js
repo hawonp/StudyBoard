@@ -30,8 +30,9 @@ export default function CustomMenu({ icon, itemList }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                {itemList.map((item) => (
+                {itemList.map((item, index) => (
                     <MenuItem
+                        key={`${item.title}-${index}`}
                         onClick={() => {
                             item.onClick();
                             handleClose();
