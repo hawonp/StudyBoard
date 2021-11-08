@@ -4,17 +4,7 @@ from config.imports import mariadb
 from config.imports import json
 from config.imports import Resource
 
-#######################
-# Routes / REST API s #
-#######################
-
-class HelloWorld(Resource):
-    def get(self):
-        return {
-            'Galaxies': ['Milkyway', 'Andromeda', 
-            'Large Magellanic Cloud (LMC)']
-        }
-
+#Defining the routes
 class UserInfo(Resource):
     def get(self):
         cur = conn.cursor()
@@ -35,7 +25,6 @@ class UserInfo(Resource):
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(HelloWorld, '/api')
     api.add_resource(UserInfo, '/api/user')
 
 ########################################
