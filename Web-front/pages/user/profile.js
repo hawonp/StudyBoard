@@ -25,7 +25,7 @@ export default function Profile() {
                         <div style={{ display: 'flex' }}>
                             <div>
                                 <h5>
-                                    PK Hong's Information
+                                    PK Hong&apos;s Information
                                 </h5>
                             </div>
                             <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>

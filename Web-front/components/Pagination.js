@@ -3,7 +3,7 @@ import {Pagination} from "@mui/material";
 import React from "react";
 
 
-export default function pagination() {
+export default function PaginationButton() {
     return (
         <div>
             <Head>

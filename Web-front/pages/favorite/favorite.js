@@ -21,7 +21,7 @@ export default function favorite() {
                     <Box style={{border:'0.1rem solid lightgray',
                         borderRadius: '8px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
                     >
-                        <h5 style={{ marginBottom: '2rem'}}>Pyungkang's favorite</h5>
+                        <h5 style={{ marginBottom: '2rem'}}>Pyungkang&apos;s favorite</h5>
                         <hr style={{
                             margin: '0px',
                             flexShrink: '0',

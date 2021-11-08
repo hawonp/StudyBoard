@@ -7,19 +7,23 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 import React from "react";
-import Card from "@mui/material/Card";
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 export default function ProfileCard() {
     return (
         <Grid item xs={2}>
-
-            <aside className="profile-card">
+            <Box
+                sx={{
+                    backgroundColor: '#ffffff', borderRadius: '24px', boxShadow: '0 68px 118px lightgray',
+                    margin: '1.0rem auto 0', padding: '1.3rem',width: '300px',
+                    display: 'flex',flexWrap: 'wrap',
+                }}
+            >
 
                 <div style={{display: 'flex'}}>
                     <Link sx={{ justifyContent: 'end'}} href="/admin/admin">
-                        <a>
-                            <AdminPanelSettingsIcon />
-                        </a>
+                        <AdminPanelSettingsIcon />
                     </Link>
                     {/*양 옆으로 해야함 flex 사용해서 사용*/}
                     <div>
@@ -32,6 +36,7 @@ export default function ProfileCard() {
                     </div>
 
                 </div>
+
 
                 <div className="profile-bio" style={{display: 'flex'}}>
                     <div className="article-content" style={{display: 'flex', flexDirection: 'column'}}>
@@ -46,37 +51,42 @@ export default function ProfileCard() {
                     </div>
                 </div>
 
-                <ul className="profile-social-links">
-                    <li>
+                <ul className="profile-social-links"
+                    style={{ listStyle: 'outside none none', paddingTop: '30px',
+                        textAlign: 'center', marginLeft: '-40px'}}>
+                    <li style={{ display: 'inline-block'}}>
                         <Tooltip title="Post">
                             <IconButton aria-label="favorites">
                                 <Link href="/myPost">
-                                    <a><DescriptionIcon /></a>
+                                    <DescriptionIcon />
                                 </Link>
                             </IconButton>
                         </Tooltip>
                     </li>
 
-                    <li>
+                    <li style={{ display: 'inline-block'}}>
                         <Tooltip title="favorite">
                             <IconButton aria-label="favorites">
                                 <Link href="/favorite/favorite">
-                                    <a><BookmarkIcon /></a>
+                                    <BookmarkIcon />
                                 </Link>
                             </IconButton>
                         </Tooltip>
                     </li>
 
-                    <li>
+                    <li style={{ display: 'inline-block'}}>
                         <Tooltip title="Notification">
                             <IconButton aria-label="favorites">
                                 <Link href="/notification/notification">
-                                    <a><NotificationsIcon /></a>
+                                    <NotificationsIcon />
                                 </Link>
                             </IconButton>
                         </Tooltip>
                     </li>
                 </ul>
-            </aside>
-        </Grid>);
+
+            </Box>
+
+        </Grid>
+    );
 }

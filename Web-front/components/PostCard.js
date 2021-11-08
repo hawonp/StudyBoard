@@ -12,6 +12,7 @@ export function PostCard() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tag, setTag] = useState("");
+    const [image, setImage] = useState(null);
 
     const post = () => {
         console.log("title", title);
@@ -36,13 +37,15 @@ export function PostCard() {
                 <TextField style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="title" label="Title" variant="outlined"
                            value={title} onChange={(event) => setTitle(event.target.value)} />
                 <TextField rows={12} multiline style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="title" label="Question?" variant="outlined"
-                           value={content} onChange={(event) => setContent(event.target.value)}/>
+                           value={content} onChange={(event) => setContent(event.target.value)}>
+                    <span>hi</span>
+                </TextField>
                 <TextField style={{ marginTop: '10px', marginBottom: '10px'}} className="post-text" fullWidth id="tag" label="#tag" variant="outlined"
                            value={tag} onChange={(event) => setTag(event.target.value)}/>
                 <div style={{ display: 'flex' }} >
 
                     <label htmlFor="icon-button-file">
-                        <input style={{display: 'none'}} accept="image/*" id="icon-button-file" type="file" />
+                        <input style={{display: 'none'}} accept="image/*" id="icon-button-file" type="file" onChange={(event) => setImage(event.target.files[0])}/>
                         <IconButton color="primary" aria-label="upload picture" component="span" style={{  }}>
                             <PhotoCamera />
                         </IconButton>
