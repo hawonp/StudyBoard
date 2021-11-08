@@ -87,4 +87,4 @@ def add_tag(tag):
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(PostData, '/api/posts')
+    api.add_resource(PostData, '/posts')
