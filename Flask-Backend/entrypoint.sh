@@ -1,1 +1,1 @@
-exec gunicorn --config gunicorn_config.py api-local:app
+exec gunicorn --config gunicorn_config.py api:app
