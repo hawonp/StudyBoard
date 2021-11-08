@@ -20,7 +20,7 @@ from config.db_connect import conn
 #user related
 #Getting data
 def get_user_id_with_email(email):
-    user_id = -1 #When meeting and error or not found
+    user_id = "" #When meeting and error or not found
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
@@ -46,13 +46,13 @@ def get_user_id_with_email(email):
 
 # Adding User entries to the db.
 def add_user(nickname, email_address):
-    new_user_id = -1 #When meeting and error or not found
+    new_user_id = "" #When meeting and error or not found
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "INSERT INTO User (user_nickname , user_email_address) VALUES (?, ?)"
+        query = "INSERT INTO User (user_id, user_nickname , user_email_address) VALUES (?, ?, ?)"
         values = (nickname, email_address)
 
 
@@ -114,7 +114,7 @@ def add_tag(tag):
         cursor = conn.cursor()
 
         #First add the Post to Post table
-        #Set up query statement and values
+        #Set up query state ment and values
         query = "INSERT INTO Tag (tag_name) VALUES ?"
         values = (tag, )
 
@@ -137,23 +137,23 @@ def add_tag(tag):
 #Adding 9 users
 def populate_db_1():
     print("Adding dummy users...")
-    add_user('John', 'Johnny@gmail.com')
-    add_user('Mary', 'MaryHadALittleName@gmail.com')
-    add_user('Elizabeth', 'xXProMeisterXx@gmail.com')
-    add_user('Lia', 'LKia@gmail.com')
-    add_user('Hawon', 'hawonp@gmail.com')
-    add_user('Young1', 'zeroone@gmail.com')
-    add_user('jojo', 'jojobee@gmail.com')
-    add_user('Louis', 'louis23@gmail.com')
-    add_user('KimJung', 'undeuxtrois@gmail.com')
+    add_user('463572895246837', 'John', 'Johnny@gmail.com')
+    add_user('542364235342643', 'Mary', 'MaryHadALittleName@gmail.com')
+    add_user('645232456365423', 'Elizabeth', 'xXProMeisterXx@gmail.com')
+    add_user('568246852482654', 'Lia', 'LKia@gmail.com')
+    add_user('865248652286546', 'Hawon', 'hawonp@gmail.com')
+    add_user('865286255688245', 'Young1', 'zeroone@gmail.com')
+    add_user('284248652455665', 'jojo', 'jojobee@gmail.com')
+    add_user('246757265424525', 'Louis', 'louis23@gmail.com')
+    add_user('786457864587657', 'KimJung', 'undeuxtrois@gmail.com')
 
 #Option2
 #Adding 2 users
 #Adding 4 posts
 def populate_db_2():
     print("Adding dummy users...")
-    add_user('Jill', 'jilliandollars@gmail.com')
-    add_user('Squid', 'gganbu@gmail.com')
+    add_user('786123453217657', 'Jill', 'jilliandollars@gmail.com')
+    add_user('786459876987657', 'Squid', 'gganbu@gmail.com')
     
     print("Adding dummy posts for jill")
     jill_id = get_user_id_with_email('jilliandollars@gmail.com')

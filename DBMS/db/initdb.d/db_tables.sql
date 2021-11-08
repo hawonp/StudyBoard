@@ -16,7 +16,7 @@ USE studyboard_db;
 
 -- USER --
 CREATE TABLE User(
-    user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_id VARCHAR(64) NOT NULL,
     user_email_address VARCHAR(32) NOT NULL UNIQUE,
     user_nickname VARCHAR(16) NOT NULL,
     user_is_endorsed BOOLEAN NOT NULL DEFAULT 0,
@@ -30,7 +30,7 @@ CREATE TABLE User(
 
 CREATE TABLE Post(
     post_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     post_title VARCHAR(64) NOT NULL,
     post_text VARCHAR(2048) NOT NULL,
     post_image VARCHAR(512),
@@ -50,7 +50,7 @@ CREATE TABLE Post(
 -- );
 
 CREATE TABLE User_Post_Like(
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     post_id INTEGER NOT NULL,
     PRIMARY KEY(user_id, post_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id),
@@ -60,7 +60,7 @@ CREATE TABLE User_Post_Like(
 CREATE TABLE Post_Report(
     report_id INTEGER NOT NULL AUTO_INCREMENT,
     post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     report_text VARCHAR(256) NOT NULL,
     report_date DATETIME NOT NULL,
     PRIMARY KEY(report_id),
@@ -71,7 +71,7 @@ CREATE TABLE Post_Report(
 -- REPLY/REPLIES --
 CREATE TABLE Reply(
     reply_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     reply_text VARCHAR(512) NOT NULL,
     reply_like_count INTEGER NOT NULL DEFAULT 0,
     reply_date DATETIME NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE Reply_To_Reply(
 );
 
 CREATE TABLE User_Reply_Like(
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     reply_id INTEGER NOT NULL,
     PRIMARY KEY (user_id, reply_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id),
@@ -106,7 +106,7 @@ CREATE TABLE User_Reply_Like(
 CREATE TABLE Reply_Report(
     report_id INTEGER NOT NULL AUTO_INCREMENT,
     reply_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     report_text VARCHAR(256) NOT NULL,
     report_date DATETIME NOT NULL,
     PRIMARY KEY(report_id),
@@ -123,7 +123,7 @@ CREATE TABLE Tag(
 
 CREATE TABLE User_Tag(
     tag_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(tag_id, user_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id)
 );
@@ -138,7 +138,7 @@ CREATE TABLE Post_Tag(
 -- NOTIFICATION --
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     notification_text VARCHAR(128) NOT NULL,
     notification_date DATETIME NOT NULL,
     notification_seen BOOLEAN NOT NULL DEFAULT 0,
@@ -148,7 +148,7 @@ CREATE TABLE Notification(
 -- FAVOURITE QUESTION --
 CREATE TABLE Favourite_Question(
     post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(post_id, user_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id),
     FOREIGN KEY(post_id) REFERENCES Post(post_id)
@@ -157,7 +157,7 @@ CREATE TABLE Favourite_Question(
 -- SEARCH HISTORY --
 CREATE TABLE Search_History(
     search_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     search_text VARCHAR(128) NOT NULL,
     search_date DATETIME NOT NULL,
     PRIMARY KEY(search_id),
@@ -166,7 +166,7 @@ CREATE TABLE Search_History(
 
 -- BLACKLIST --
 CREATE TABLE Blacklisted_User(
-    user_id INTEGER NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(user_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id)
 );
