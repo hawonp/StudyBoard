@@ -10,6 +10,11 @@ from query.post_query import add_post, get_post_feed
 class FeedPostData(Resource):
     def get(self):
         posts = get_post_feed(1, "post_date", None)
+        for post in posts:
+            post["post_tags"] = ["yeet"]
+            print(type(post))
+            print(post)
+        print(type(posts))
         print(posts)
 
         return json.dumps(posts, default=str)
