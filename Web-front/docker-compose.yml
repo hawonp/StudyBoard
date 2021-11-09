@@ -8,6 +8,7 @@ services:
     environment:
       TZ: Asia/Seoul
       VIRTUAL_HOST: www.studyboard.info, studyboard.info
+      VIRTUAL_PORT: 3000
       LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
     networks:
       - nginx-proxy
