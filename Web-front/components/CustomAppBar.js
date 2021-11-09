@@ -7,6 +7,7 @@ import CustomMenu from "./CustomMenu";
 import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
+import Image from "next/image";
 
 export default function CustomAppBar() {
     const menuTwoList = [
@@ -43,7 +44,9 @@ export default function CustomAppBar() {
         <Container>
             <Toolbar>
                 <Link href={"/"} >
-                    <img style={{height:'5rem',display:'flex', marginTop: '1.2rem'}} src="/images/StudyBoard-logo.png" alt="logo" />
+                    <Image src = "/images/StudyBoard-logo.png" alt="logo" height="60rem" width ="150rem" display="flex"/>
+
+                    {/* <img style={{height:'5rem',display:'flex', marginTop: '1.2rem'}} src="/images/StudyBoard-logo.png" alt="logo" /> */}
                 </Link>
                 <Box sx={{ display: "flex", flex: 2, flexDirection: "row" }}>
                     <NavButton to={"/board"} title={"❓ AskQuesiton"} />
