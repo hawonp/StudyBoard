@@ -26,7 +26,15 @@ const dummy_prop = {
   tags: "#math",
 };
 
-export default function CardShow() {
+export default function CardShow({
+  user,
+  title,
+  content,
+  imageURL,
+  likeCount,
+  replyCount,
+  tags,
+}) {
   const { id, user, title, images, content, tags } = dummy_prop;
   return (
     <Card sx={{ maxWidth: 1250 }}>

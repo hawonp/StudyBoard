@@ -9,9 +9,7 @@ import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
 
 //Importing axois for HTTP req
-import axios from "axios";
-// const baseURL = "https://backend.studyboard.info/posts";
-const baseURL = "http://localhost:5000/posts";
+import axiosInstance from "../utils/routeUtil";
 
 //popover
 const options = ["Edit", "Delete"];
@@ -20,16 +18,15 @@ const ITEM_HEIGHT = 48;
 
 export default function Board() {
   const [expanded, setExpanded] = React.useState(false);
-  // const [page, setPage] = useState(1); //State to store data
-  // const [post, setPost] = useState(null); //State to store data
+  const [page, setPage] = useState(1); //State to store data
+  const [posts, setPosts] = useState([]); //State to store data
 
-  // //Load posts when component mounts
-  // useEffect(() => {
-  //   axios.get(baseURL).then((response) => {
-  //     setPost(response.data);
-  //     console.log(response);
-  //   });
-  // });
+  //Load posts when component mounts
+  useEffect(() => {
+    axiosInstance.get("/posts").then((response) => {
+      setPosts(response.data);
+    });
+  });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -45,6 +42,8 @@ export default function Board() {
     setAnchorEl(null);
   };
 
+  console.log(posts);
+  console.log(typeof posts);
   return (
     <div style={{ display: "flex" }}>
       <Container>
@@ -94,7 +93,18 @@ export default function Board() {
         </div>
 
         <div>
-          <CardShow />
+          {/* {posts.map((post) => (
+            <CardShow
+              id={post.post_id}
+              user={post.user_nickname}
+              title={post.post_title}
+              content={post.post_text}
+              imageURL={post.post_image}
+              likeCount={post.post_likeCount}
+              replyCount={post.post_replyCount}
+              tags={post.post_tags}
+            />
+          ))} */}
         </div>
 
         {/*pagnation*/}
