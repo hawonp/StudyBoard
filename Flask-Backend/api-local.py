@@ -1,3 +1,4 @@
+from flask_cors import CORS
 import config.imports as imports
 import config.db_connect as setting
 
@@ -9,6 +10,7 @@ import api.Dev as Dev
 # initialize Flask-RESTful
 app = imports.Flask(__name__)
 api = imports.Api(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # set connection setting
 setting.local_flask = False

@@ -6,8 +6,19 @@ from config.imports import Resource
 #Defining the routes
 class PostData(Resource):
     def get(self):
+        # Obtainting DB cursor
         cur = conn.cursor()
-        cur.execute("select * from Post")
+
+        #Set up query statements and values
+        limit = 10
+        page = 1
+        offset = (page - 1) * 10 #if page 1, then it should start from 1.
+        query = "SELECT * FROM Post "
+        values = (limit, offset)
+
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query, " and values ", values)
+        cur.execute()
 
         # serialize results into JSON
         row_headers=[x[0] for x in cur.description]
@@ -21,7 +32,7 @@ class PostData(Resource):
         cur.close()
 
         # return the results!
-        return json.dumps(json_data)
+        return json.dumps(json_data, default=str)
 
 #post related
 # Adding Post entries to the db.

@@ -45,7 +45,7 @@ def get_user_id_with_email(email):
     return user_id
 
 # Adding User entries to the db.
-def add_user(nickname, email_address):
+def add_user(id, nickname, email_address):
     new_user_id = "" #When meeting and error or not found
     try:
         #Obtain DB cursor
@@ -53,7 +53,7 @@ def add_user(nickname, email_address):
 
         #Set up query statement and values
         query = "INSERT INTO User (user_id, user_nickname , user_email_address) VALUES (?, ?, ?)"
-        values = (nickname, email_address)
+        values = (id, nickname, email_address)
 
 
         #Adding new data into table
