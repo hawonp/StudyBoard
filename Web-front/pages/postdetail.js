@@ -50,8 +50,7 @@ export default function Detail() {
                                     <a href="#">Need</a>
                                     <a href="#">Math</a>
                                 </div>
-
-                            </header>
+                            </div>
 
                             {/*image*/}
                             <div>
