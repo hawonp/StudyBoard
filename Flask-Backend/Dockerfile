@@ -13,9 +13,12 @@ COPY . .
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
-# expose port for listening
-# EXPOSE 9090
-EXPOSE 5000
+
+# expose port for listening (local)
+EXPOSE 9090
+
+# expose port for listening (prod)
+# EXPOSE 5000 
 
 # init gunicorn 
 RUN chmod +x ./entrypoint.sh
