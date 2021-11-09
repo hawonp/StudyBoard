@@ -1,25 +1,17 @@
+
 from config.db_connect import conn
+from config.imports import mariadb
 from config.imports import json
 from config.imports import Resource
 
-#Defining the routes
+from query.user_query import add_user, get_user_by_id, get_users
+############################
+# Flask RESTful API routes #
+############################
 class UserInfo(Resource):
     def get(self):
-        cur = conn.cursor()
-        cur.execute("select * from User")
-
-        # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
-        json_data=[]
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
-
-        #Close cursor
-        cur.close()
-        
-        # return the results!
-        return json.dumps(json_data)
+        users = get_users()
+        return json.dumps(users)
 
 #Add routes to api
 def init_routes(api):

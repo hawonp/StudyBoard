@@ -5,6 +5,9 @@ from config.imports import Resource
 from config.imports import mariadb
 from config.db_connect import conn
 
+from query.post_query import add_post
+from query.tag_query import add_tag
+from query.user_query import add_user, get_user_id_with_email
 # version 1
 # api to add dummy data has been added.
 # To add dummy data to the database:
@@ -17,143 +20,27 @@ from config.db_connect import conn
 # 1. option1: Adds 9 users
 # 2. option2: Adds 2 users and 4 posts
 
-#user related
-#Getting data
-def get_user_id_with_email(email):
-    user_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
-
-        #Set up query statement and values
-        query = "SELECT user_id FROM User WHERE user_email_address=?"
-        values = (email, )
-
-        #Getting data from table
-        print("Searching with query", query, " and values ", values)
-        cursor.execute(query, values)
-        res = cursor.fetchone()
-        user_id = res[0]
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-
-    
-    return user_id
-
-# Adding User entries to the db.
-def add_user(nickname, email_address):
-    new_user_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
-
-        #Set up query statement and values
-        query = "INSERT INTO User (user_nickname , user_email_address) VALUES (?, ?)"
-        values = (nickname, email_address)
-
-
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
-        
-        #Getting id of newly added user
-        new_user_id = cursor.lastrowid
-        print("cursor lastrowid is ", cursor.lastrowid)
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-    return new_user_id
-
-#post related
-# Adding Post entries to the db.
-def add_post(user, title, text, img_url, tags):
-    new_post_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
-
-        #First add the Post to Post table
-        #Set up query statement and values
-        date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO Post (user_id, post_title, post_text, post_image, post_date) VALUES (?, ?, ?, ?, ?)"
-        values = (int(user), title, text, img_url, date_time)
-
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
-
-        #Getting id of newly added post
-        new_post_id = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-
-        #Now add the tags related to this post. Add new tag if tag doesnt exist.
-        for tag in tags:
-            print(tag)
-
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-
-    return new_post_id
-
-#Tag related
-#Adding tags TODO: finish this part
-def add_tag(tag):
-    tag_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
-
-        #First add the Post to Post table
-        #Set up query statement and values
-        query = "INSERT INTO Tag (tag_name) VALUES ?"
-        values = (tag, )
-
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
-
-        #Getting id of newly added post
-        tag_id = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-    
-    return tag_id
-
 #Option 1
 #Adding 9 users
 def populate_db_1():
     print("Adding dummy users...")
-    add_user('John', 'Johnny@gmail.com')
-    add_user('Mary', 'MaryHadALittleName@gmail.com')
-    add_user('Elizabeth', 'xXProMeisterXx@gmail.com')
-    add_user('Lia', 'LKia@gmail.com')
-    add_user('Hawon', 'hawonp@gmail.com')
-    add_user('Young1', 'zeroone@gmail.com')
-    add_user('jojo', 'jojobee@gmail.com')
-    add_user('Louis', 'louis23@gmail.com')
-    add_user('KimJung', 'undeuxtrois@gmail.com')
+    add_user('463572895246837', 'John', 'Johnny@gmail.com')
+    add_user('542364235342643', 'Mary', 'MaryHadALittleName@gmail.com')
+    add_user('645232456365423', 'Elizabeth', 'xXProMeisterXx@gmail.com')
+    add_user('568246852482654', 'Lia', 'LKia@gmail.com')
+    add_user('865248652286546', 'Hawon', 'hawonp@gmail.com')
+    add_user('865286255688245', 'Young1', 'zeroone@gmail.com')
+    add_user('284248652455665', 'jojo', 'jojobee@gmail.com')
+    add_user('246757265424525', 'Louis', 'louis23@gmail.com')
+    add_user('786457864587657', 'KimJung', 'undeuxtrois@gmail.com')
 
 #Option2
 #Adding 2 users
 #Adding 4 posts
 def populate_db_2():
     print("Adding dummy users...")
-    add_user('Jill', 'jilliandollars@gmail.com')
-    add_user('Squid', 'gganbu@gmail.com')
+    add_user('786123453217657', 'Jill', 'jilliandollars@gmail.com')
+    add_user('786459876987657', 'Squid', 'gganbu@gmail.com')
     
     print("Adding dummy posts for jill")
     jill_id = get_user_id_with_email('jilliandollars@gmail.com')
