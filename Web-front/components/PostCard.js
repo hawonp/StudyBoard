@@ -21,6 +21,7 @@ export function PostCard() {
 
         // TODO: API CALL
 
+
     }
 
     return(

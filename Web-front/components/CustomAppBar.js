@@ -1,33 +1,15 @@
 import React from "react";
 import Link from 'next/link'
-import {Container, Toolbar, Typography, Box} from "@mui/material";
-import { Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
+import {Container, Toolbar, Badge, Box} from "@mui/material";
+import {Menu as MenuIcon, AccountCircle} from "@mui/icons-material";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import CustomMenu from "./CustomMenu";
 import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
+import IconButton from "@mui/material/IconButton";
 import Image from "next/image";
 
 export default function CustomAppBar() {
-    const menuOneList = [
-        {
-            title: "ABC",
-            onClick: () => {
-                alert("ABC");
-            },
-        },
-        {
-            title: "DEF",
-            onClick: () => {
-                alert("DEF");
-            },
-        },
-        {
-            title: "GHI",
-            onClick: () => {
-                alert("GHI");
-            },
-        },
-    ];
     const menuTwoList = [
         {
             title: "가나다",
@@ -68,13 +50,22 @@ export default function CustomAppBar() {
                 </Link>
                 <Box sx={{ display: "flex", flex: 2, flexDirection: "row" }}>
                     <NavButton to={"/board"} title={"❓ AskQuesiton"} />
-                    <NavButton to={"/about"} title={"📢 About"} sx={{ ml: 2 }} />
-                    <NavButton to={"/rank"} title={"👍 Rank"} sx={{ ml: 2 }} />
+                    <NavButton to={"/about"} title={"📢 About"} sx={{ ml: 3 }} />
+                    <NavButton to={"/rank"} title={"👍 Rank"} sx={{ ml: 3 }} />
                 </Box>
-                <Box sx={{ display: "flex", flex: 1.5 }}>
+                <Box sx={{ display: "flex", flex: 2.0 }}>
                     <SearchBar />
                 </Box>
-                <CustomMenu icon={<MenuIcon />} itemList={menuOneList} />
+
+                <Box sx={{ color: 'action.active' , ml: 2 , mr:2}}>
+                    <Link href="/notification/notification">
+                        <IconButton edge="end" aria-label="delete">
+                            <Badge color="secondary" variant="dot">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                    </Link>
+                </Box>
                 <CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />
                 <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
             </Toolbar>

@@ -21,10 +21,13 @@ export default function ProfileCard() {
                 }}
             >
 
-                <div style={{display: 'flex'}}>
-                    <Link sx={{ justifyContent: 'end'}} href="/admin/admin">
-                        <AdminPanelSettingsIcon />
-                    </Link>
+
+                <div >
+                    <dv style={{ alignItems: 'right'}}>
+                        <Link  href="/admin/admin">
+                            <AdminPanelSettingsIcon />
+                        </Link>
+                    </dv>
                     {/*양 옆으로 해야함 flex 사용해서 사용*/}
                     <div>
                         <Avatar>H</Avatar>
@@ -38,18 +41,21 @@ export default function ProfileCard() {
                 </div>
 
 
-                <div className="profile-bio" style={{display: 'flex'}}>
-                    <div className="article-content" style={{display: 'flex', flexDirection: 'column'}}>
+                <div style={{display: 'flex'}}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
                         <h5>HASH TAG</h5>
-                        <div className="nav tag-cloud" style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
-                            <a href="#">Math</a>
-                            <a href="#">Hard</a>
-                            <a href="#">Help</a>
-                            <a href="#">Need</a>
-                            <a href="#">Meaningofquesion</a>
+                        <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start',}}>
+                            <a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',
+                                background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>
+                                Math</a>
+                            <a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',
+                                background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>
+                                Hard</a>
                         </div>
                     </div>
                 </div>
+
+
 
                 <ul className="profile-social-links"
                     style={{ listStyle: 'outside none none', paddingTop: '30px',

@@ -18,39 +18,39 @@ import Image from 'next/image';
 export default function Detail() {
     return (
         <div style={{display: 'flex'}}>
-                <Container >
-                    <div style={{ alignItems: 'center',
-                        border:'0.1rem solid lightgray',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}
-                    >
-                        <article style={{ paddingRight: '0.2rem', paddingLeft: '1rem' }}>
+            <Container >
+                <div style={{ alignItems: 'center',
+                    border:'0.1rem solid lightgray',
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}
+                >
+                    <article style={{ paddingRight: '1rem', paddingLeft: '1rem' }}>
 
-                            {/*title*/}
-                            <header style={{ marginBottom: '1.5rem'}}>
-                                <h1>title</h1>
-                                {/*username*/}
-                                <div style={{ display: 'flex', marginBottom: '1.5rem' }}>
-                                    <div>user Name</div>
-                                    {/*date*/}
-                                    <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>
-                                        date
-                                    </div>
+                        {/*title*/}
+                        <header style={{ marginBottom: '1.5rem'}}>
+                            <h1>title</h1>
+                            {/*username*/}
+                            <div style={{ display: 'flex', marginBottom: '1.5rem' }}>
+                                <div>user Name</div>
+                                {/*date*/}
+                                <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>
+                                    date
                                 </div>
-                                {/*hashtag*/}
-                                <div className="article-content" style={{display: 'flex', flexDirection: 'column'}}>
-                                    <div className="nav tag-cloud" style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
-                                        <a href="#">Math</a>
-                                        <a href="#">Hard</a>
-                                        <a href="#">Help</a>
-                                        <a href="#">Meaningofquesion</a>
-                                        <a href="#">Need</a>
-                                        <a href="#">Math</a>
-                                    </div>
+                            </div>
+                            {/*hashtag*/}
+                            <div className="article-content" style={{display: 'flex', flexDirection: 'column'}}>
+                                <div className="nav tag-cloud" style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
+                                    <a href="#">Math</a>
+                                    <a href="#">Hard</a>
+                                    <a href="#">Help</a>
+                                    <a href="#">Meaningofquesion</a>
+                                    <a href="#">Need</a>
+                                    <a href="#">Math</a>
                                 </div>
+
                             </header>
 
                             {/*image*/}
@@ -58,59 +58,66 @@ export default function Detail() {
                                 <Image src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt=""/>
                                 {/* <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/> */}
                             </div>
-                            <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
-                                <IconButton aria-label="favorites">
-                                    <FavoriteIcon />
-                                </IconButton>
-                                <IconButton aria-label="thoumup">
-                                    <ThumbUpIcon />
-                                </IconButton>
-                                <IconButton aria-label="SmsIcon">
-                                    <SmsIcon />
-                                </IconButton>
-                                <IconButton aria-label="BookmarkIcon">
-                                    <BookmarkIcon />
-                                </IconButton>
+                        </header>
 
-                                <IconButton aria-label="share">
-                                    <ShareIcon />
-                                </IconButton>
-                            </CardActions>
-                            <section>
-                                <p>We have solutions for your book!
-                                    This problem has been solved:
-                                </p>
-                            </section>
-                        </article>
-                    </div>
-                </Container>
-                {/*comment section*/}
-                <div >
-                    {/*<div style={{ marginBottom: '16px' }}>*/}
-                    {/*    <h3 >Comment </h3>*/}
-                    {/*</div>*/}
+                        {/*image*/}
+                        <div>
+                            <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>
+                        </div>
+                        <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
+                            <IconButton aria-label="favorites">
+                                <FavoriteIcon />
+                            </IconButton>
+                            <IconButton aria-label="thoumup">
+                                <ThumbUpIcon />
+                            </IconButton>
+                            <IconButton aria-label="SmsIcon">
+                                <SmsIcon />
+                            </IconButton>
+                            <IconButton aria-label="BookmarkIcon">
+                                <BookmarkIcon />
+                            </IconButton>
 
-                    <div style={{ alignItems: 'center',
-                        border:'0.1rem solid lightgray',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}
-                    >
-
-
-                        <TextField
-                            fullWidth
-                            id="outlined-multiline-static"
-                            label="Comment"
-                            multiline
-                            rows={4}
-
-                        />
-
-                    </div>
+                            <IconButton aria-label="share">
+                                <ShareIcon />
+                            </IconButton>
+                        </CardActions>
+                        <section>
+                            <p>We have solutions for your book!
+                                This problem has been solved:
+                            </p>
+                        </section>
+                    </article>
                 </div>
+            </Container>
+            {/*comment section*/}
+            <Container >
+                {/*<div style={{ marginBottom: '16px' }}>*/}
+                {/*    <h3 >Comment </h3>*/}
+                {/*</div>*/}
+
+                <div style={{ alignItems: 'center',
+                    border:'0.1rem solid lightgray',
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}
+                >
+
+
+                    <TextField
+                        fullWidth
+                        id="outlined-multiline-static"
+                        label="Comment"
+                        multiline
+                        rows={4}
+
+                    />
+
+                </div>
+            </Container>
+
             <ProfileCard/>
         </div>
 

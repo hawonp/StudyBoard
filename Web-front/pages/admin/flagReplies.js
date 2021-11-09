@@ -16,8 +16,8 @@ import {Button, ListItem} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function createData( number ,name, nickname, contents, conform ) {
-    return { number,name, nickname, contents, conform };
+function createData( number ,name, nickname, contents) {
+    return { number,name, nickname, contents};
 }
 
 const rows = [
@@ -29,7 +29,7 @@ const rows = [
 ];
 
 
-export default function Admin() {
+export default function flagReplies() {
 
     return (
         <div >
@@ -49,7 +49,7 @@ export default function Admin() {
                                 <TableCell align="right">Name</TableCell>
                                 <TableCell align="right">Nick Name</TableCell>
                                 <TableCell align="right">Contents</TableCell>
-                                <TableCell align="right">Conform</TableCell>
+
                             </TableRow>
                         </TableHead>
 

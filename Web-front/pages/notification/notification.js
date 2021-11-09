@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import AdminNav from "../../components/AdminNav";
 import ProfileCard from "../../components/ProfileCard";
+import {Paper} from "@mui/material";
 
 export default function Notification() {
     return (
@@ -26,11 +27,19 @@ export default function Notification() {
                         }}/>
                         <div className="row gutters m-4">
 
-                            <div className="noti" >
-                                <div className="noti-box"></div>
-                                <div className="noti-text">
+                            <Paper sx={{ borderRadius: '10rem', boxShadow: '#d5d5d5 0 0 15px',
+                                maxWidth: '1200px', margin: '0.5rem auto', height: '5rem'}} >
+                                <div style={{ borderRadius: '10rem', objectFit: 'cover',
+                                    display:' inline-block', height: '5rem',
+                                    width: '5rem', verticalAlign: 'middle'}}></div>
+                                <div style={{ display: 'inline-block', width: 'calc(100% - 7rem)',
+                                    verticalAlign: 'middle', marginLeft: '2%',
+                                    marginTop: '.35rem' }}>
                                     <a>
-                                        <p className="noti-mes">
+                                        <p style={{ display: 'inline-block',
+                                            fontSize: '1rem', overflow: 'hidden',
+                                            maxHeight: '2.15rem', margin: 0,
+                                            lineHeight: 'normal', marginTop: '0.2rem' }}>
                                             <a>
                                                 <strong>User name </strong> 님이
                                             </a>
@@ -38,18 +47,26 @@ export default function Notification() {
                                                 <strong>이 게시글</strong>에 Like를 눌렀습니다
                                             </a>
                                         </p>
-                                        <p className="text-right mr-5 noti-date">
+                                        <p style={{ color:'#888', maginBottom: 0, fontSize: '0.8rem' }}>
                                             2021, 10 ,2
                                         </p>
                                     </a>
                                 </div>
-                            </div>
+                            </Paper>
 
-                            <div className="noti">
-                                <div className="noti-box"></div>
-                                <div className="noti-text">
+                            <Paper sx={{ borderRadius: '10rem', boxShadow: '#d5d5d5 0 0 15px',
+                                maxWidth: '1200px', margin: '0.5rem auto', height: '5rem'}} >
+                                <div style={{ borderRadius: '10rem', objectFit: 'cover',
+                                    display:' inline-block', height: '5rem',
+                                    width: '5rem', verticalAlign: 'middle'}}></div>
+                                <div style={{ display: 'inline-block', width: 'calc(100% - 7rem)',
+                                    verticalAlign: 'middle', marginLeft: '2%',
+                                    marginTop: '.35rem' }}>
                                     <a>
-                                        <p className="noti-mes">
+                                        <p style={{ display: 'inline-block',
+                                            fontSize: '1rem', overflow: 'hidden',
+                                            maxHeight: '2.15rem', margin: 0,
+                                            lineHeight: 'normal', marginTop: '0.2rem' }}>
                                             <a>
                                                 <strong>User name </strong> 님이
                                             </a>
@@ -57,18 +74,26 @@ export default function Notification() {
                                                 <strong>이 게시글</strong>에 Like를 눌렀습니다
                                             </a>
                                         </p>
-                                        <p className="text-right mr-5 noti-date">
+                                        <p style={{ color:'#888', maginBottom: 0, fontSize: '0.8rem' }}>
                                             2021, 10 ,2
                                         </p>
                                     </a>
                                 </div>
-                            </div>
+                            </Paper>
 
-                            <div className="noti">
-                                <div className="noti-box"></div>
-                                <div className="noti-text">
+                            <Paper sx={{ borderRadius: '10rem', boxShadow: '#d5d5d5 0 0 15px',
+                                maxWidth: '1200px', margin: '0.5rem auto', height: '5rem'}} >
+                                <div style={{ borderRadius: '10rem', objectFit: 'cover',
+                                    display:' inline-block', height: '5rem',
+                                    width: '5rem', verticalAlign: 'middle'}}></div>
+                                <div style={{ display: 'inline-block', width: 'calc(100% - 7rem)',
+                                    verticalAlign: 'middle', marginLeft: '2%',
+                                    marginTop: '.35rem' }}>
                                     <a>
-                                        <p className="noti-mes">
+                                        <p style={{ display: 'inline-block',
+                                            fontSize: '1rem', overflow: 'hidden',
+                                            maxHeight: '2.15rem', margin: 0,
+                                            lineHeight: 'normal', marginTop: '0.2rem' }}>
                                             <a>
                                                 <strong>User name </strong> 님이
                                             </a>
@@ -76,30 +101,12 @@ export default function Notification() {
                                                 <strong>이 게시글</strong>에 Like를 눌렀습니다
                                             </a>
                                         </p>
-                                        <p className="text-right mr-5 noti-date">
+                                        <p style={{ color:'#888', maginBottom: 0, fontSize: '0.8rem' }}>
                                             2021, 10 ,2
                                         </p>
                                     </a>
                                 </div>
-                            </div>
-                            <div className=" noti">
-                                <div className="noti-box"></div>
-                                <div className="noti-text">
-                                    <a>
-                                        <p className="noti-mes">
-                                            <a>
-                                                <strong>User name </strong> 님이
-                                            </a>
-                                            <a>
-                                                <strong>이 게시글</strong>에 Like를 눌렀습니다
-                                            </a>
-                                        </p>
-                                        <p className="text-right mr-5 noti-date">
-                                            2021, 10 ,2
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
+                            </Paper>
                         </div>
                     </Box>
                 </Container>

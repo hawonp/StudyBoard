@@ -1,5 +1,5 @@
-
 import * as React from 'react';
+import Link from 'next/link'
 import Box from '@mui/material/Box';
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
@@ -9,7 +9,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
-
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Home from '@mui/icons-material/Home';
 import Settings from '@mui/icons-material/Settings';
@@ -18,10 +17,11 @@ import PermMedia from '@mui/icons-material/PermMedia';
 import Dns from '@mui/icons-material/Dns';
 
 
+
 const data = [
-    { icon: <People />, label: 'User' },
-    { icon: <Dns />, label: 'Post' },
-    { icon: <PermMedia />, label: 'Replies' },
+    { icon: <People />, label: 'User'},
+    { icon: <PermMedia />, label: 'Post'},
+    { icon: <Dns />, label: 'Replies' },
 ];
 
 const FireNav = styled(List)({
@@ -53,17 +53,17 @@ export default function AdminNav() {
                         },
                     },
                     palette: {
-                        mode: 'dark',
-                        primary: { main: 'rgb(102, 157, 246)' },
+
+                        primary: { main: 'rgb(8,48,105)' },
                         background: { paper: 'rgb(255,255,255)' },
                     },
                 })}
             >
-                <Paper elevation={0} sx={{ maxWidth: 256 }}>
+                <Paper elevation={0} sx={{ maxWidth: 300 }}>
                     <FireNav component="nav" disablePadding>
 
                         <ListItem component="div" disablePadding>
-                            <ListItemButton sx={{ height: 56 }}>
+                            <ListItemButton sx={{ height: 80 }}>
                                 <ListItemIcon>
                                     <Home color="primary" />
                                 </ListItemIcon>
@@ -81,7 +81,7 @@ export default function AdminNav() {
 
                         <Box
                             sx={{
-                                bgcolor: open ? 'rgba(71, 98, 130, 0.2)' : null,
+                                bgcolor: open ? 'rgb(35,47,152)' : null,
                                 pb: open ? 2 : 0,
                             }}
                         >
@@ -96,19 +96,19 @@ export default function AdminNav() {
                                 }}
                             >
                                 <ListItemText
-                                    primary="Build"
+                                    primary=""
                                     primaryTypographyProps={{
                                         fontSize: 15,
                                         fontWeight: 'medium',
                                         lineHeight: '20px',
                                         mb: '2px',
                                     }}
-                                    secondary="Authentication, Firestore Database, Realtime Database, Storage, Hosting, Functions, and Machine Learning"
+                                    secondary=""
                                     secondaryTypographyProps={{
                                         noWrap: true,
                                         fontSize: 12,
                                         lineHeight: '16px',
-                                        color: open ? 'rgba(0,0,0,0)' : 'rgba(255,255,255,0.5)',
+                                        color: open ? 'rgb(255,255,255)' : 'rgb(255,255,255)',
                                     }}
                                     sx={{ my: 0 }}
                                 />
@@ -125,11 +125,13 @@ export default function AdminNav() {
                             data.map((item) => (
                                 <ListItemButton
                                     key={item.label}
-                                    sx={{ py: 0, minHeight: 32, color: 'rgba(255,255,255,.8)' }}
+                                    sx={{ py: 0, minHeight: 32, color: 'rgb(255,255,255)' }}
                                 >
-                                    <ListItemIcon sx={{ color: 'inherit' }}>
-                                        {item.icon}
-                                    </ListItemIcon>
+                                    {/*<Link>*/}
+                                        <ListItemIcon sx={{ color: 'inherit' }}>
+                                            {item.icon}
+                                        </ListItemIcon>
+                                    {/*</Link>*/}
                                     <ListItemText
                                         primary={item.label}
                                         primaryTypographyProps={{ fontSize: 14, fontWeight: 'medium' }}

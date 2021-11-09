@@ -31,60 +31,61 @@ export default function MyPost() {
                         borderColor: 'lightgray'
                     }}/>
 
+                    <Card sx={{ maxWidth: 345 }}>
+                        <CardActionArea>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
+                                alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Title
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Text question
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+
+                            <IconButton aria-label="favorites">
+                                <Link href="">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+
+                            <IconButton aria-label="favorites">
+                                <Link href="">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+
+                            <IconButton aria-label="favorites">
+                                <Link href="">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+
+                            <IconButton aria-label="favorites">
+                                <Link href="">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+
+                            <IconButton aria-label="favorites">
+                                <Link href="">
+                                    <a><BookmarkIcon /></a>
+                                </Link>
+                            </IconButton>
+
+                        </CardActions>
+                    </Card>
 
 
                 </Box>
-                <Card sx={{ maxWidth: 345 }}>
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="140"
-                            src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-                            alt="green iguana"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Title
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Text question
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
 
-                        <IconButton aria-label="favorites">
-                            <Link href="">
-                                <a><BookmarkIcon /></a>
-                            </Link>
-                        </IconButton>
-
-                        <IconButton aria-label="favorites">
-                            <Link href="">
-                                <a><BookmarkIcon /></a>
-                            </Link>
-                        </IconButton>
-
-                        <IconButton aria-label="favorites">
-                            <Link href="">
-                                <a><BookmarkIcon /></a>
-                            </Link>
-                        </IconButton>
-
-                        <IconButton aria-label="favorites">
-                            <Link href="">
-                                <a><BookmarkIcon /></a>
-                            </Link>
-                        </IconButton>
-
-                        <IconButton aria-label="favorites">
-                            <Link href="">
-                                <a><BookmarkIcon /></a>
-                            </Link>
-                        </IconButton>
-
-                    </CardActions>
-                </Card>
             </Container>
 
             <ProfileCard/>
