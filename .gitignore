@@ -189,3 +189,5 @@ nginx-proxy/certs/dhparam.pem
 nginx-proxy/conf.d/
 nginx-proxy/vhost.d/
 nginx-proxy/html/
+
+.idea
