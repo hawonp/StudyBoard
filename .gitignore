@@ -178,7 +178,9 @@ pip-selfcheck.json
 # DBMS data exclude
 DBMS/db/data/
 
-Web-React/node_modules/
+Web-front/node_modules/
+Web-front/.idea/
+
 .python-version
 DBMS/db/initdb.d/1.sql
 DBMS/db/initdb.d/2.sql
@@ -189,5 +191,3 @@ nginx-proxy/certs/dhparam.pem
 nginx-proxy/conf.d/
 nginx-proxy/vhost.d/
 nginx-proxy/html/
-
-.idea
