@@ -11,7 +11,7 @@ import api.User as User
 # initialize Flask-RESTful
 app = imports.Flask(__name__)
 api = imports.Api(app)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app, origins=["localhost:3000", "http://backend.studyboard.info", "*"])
 
 # set connection setting
 setting.local_flask = False

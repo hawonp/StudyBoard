@@ -10,7 +10,8 @@ import CardShow from "../components/CardShow";
 
 //Importing axois for HTTP req
 import axios from "axios";
-const baseURL = "http://backend.studyboard.info/posts";
+// const baseURL = "https://backend.studyboard.info/posts";
+const baseURL = "http://localhost:5000/posts";
 
 //popover
 const options = ["Edit", "Delete"];
@@ -19,16 +20,16 @@ const ITEM_HEIGHT = 48;
 
 export default function Board() {
   const [expanded, setExpanded] = React.useState(false);
-  const [page, setPage] = useState(1); //State to store data
-  const [post, setPost] = useState(null); //State to store data
+  // const [page, setPage] = useState(1); //State to store data
+  // const [post, setPost] = useState(null); //State to store data
 
-  //Load posts when component mounts
-  useEffect(() => {
-    axios.get(baseURL + page).then((response) => {
-      setPost(response.data);
-      console.log(response);
-    });
-  });
+  // //Load posts when component mounts
+  // useEffect(() => {
+  //   axios.get(baseURL).then((response) => {
+  //     setPost(response.data);
+  //     console.log(response);
+  //   });
+  // });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
