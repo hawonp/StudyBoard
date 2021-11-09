@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Container from "@mui/material/Container";
 import ProfileCard from "../components/ProfileCard";
 import * as React from "react";
-
 import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";

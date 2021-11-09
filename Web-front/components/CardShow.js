@@ -17,6 +17,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
+import ButtonComponets from "./ButtonComponets";
 
 
 const dummy_prop = {
@@ -25,20 +26,15 @@ const dummy_prop = {
     title:'Dummy Data title',
     content:'Dummy Data Content',
     tags: '#math',
-
 }
-
-
 export  default function CardShow(){
     const {id,user, title, images ,content, tags} =  dummy_prop
-
 
     return(
         <Card sx={{ maxWidth: 1250 }}>
             <StarIcon sx={{color:'blue', mt:'0.1rem'}} />
             <CardHeader
                 style={{ textAlign: 'left' }}
-
                 avatar={
                     // user icon
 
@@ -90,24 +86,7 @@ export  default function CardShow(){
             </CardContent>
 
             {/* this is icon */}
-            <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
-                <IconButton aria-label="favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="thoumup">
-                    <ThumbUpIcon />
-                </IconButton>
-                <IconButton aria-label="SmsIcon">
-                    <SmsIcon />
-                </IconButton>
-                <IconButton aria-label="BookmarkIcon">
-                    <BookmarkIcon />
-                </IconButton>
-
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-            </CardActions>
+            <ButtonComponets />
 
         </Card>
     )
