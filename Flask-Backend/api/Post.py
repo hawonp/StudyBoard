@@ -7,11 +7,13 @@ from query.post_query import add_post, get_post_feed
 ############################
 # Flask RESTful API routes #
 ############################
-class PostData(Resource):
+class FeedPostData(Resource):
     def get(self):
         posts = get_post_feed(1, "post_date", None)
+        print(posts)
+
         return json.dumps(posts, default=str)
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(PostData, '/posts')
+    api.add_resource(FeedPostData, '/posts')

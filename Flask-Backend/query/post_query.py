@@ -1,7 +1,9 @@
 from config.imports import mariadb
 from config.db_connect import conn
-
+#Import datetime to insert date time when creating row
 from datetime import datetime
+#Import tag to check/add tag for the post
+from query.tag_query import get_tag_by_name, add_tag, add_post_tag
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -31,7 +33,17 @@ def add_post(user, title, text, img_url, tags):
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
-            print(tag)
+            #Check if tag already exists.
+            tag_row = get_tag_by_name(tag)
+            
+            #If it doesnt, add a new tag,  If so, get the tag id
+            if tag_row == None:
+                tag_id = add_tag(tag)
+            else:
+                tag_id = tag_row[0]
+
+            #Add the entry to post_tag
+            add_post_tag(tag_id, new_post_id)
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -48,7 +60,7 @@ def get_post_feed(page, order, filter):
     #Set up query statements and values
     limit = 10
     offset = (page - 1) * 10 #if page 1, then it should start from 1.
-    query = "SELECT * FROM Post ORDER BY ? LIMIT ?, ?"
+    query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id ORDER BY ? LIMIT ?, ?"
     values = (order, offset, limit)
 
     #Fetching posts with filter, sort, limit, and offset

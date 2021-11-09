@@ -18,14 +18,6 @@ import SmsIcon from "@mui/icons-material/Sms";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 
-const dummy_prop = {
-  id: "1",
-  user: "pk",
-  title: "Dummy Data title",
-  content: "Dummy Data Content",
-  tags: "#math",
-};
-
 export default function CardShow({
   user,
   title,
@@ -35,7 +27,6 @@ export default function CardShow({
   replyCount,
   tags,
 }) {
-  const { id, user, title, images, content, tags } = dummy_prop;
   return (
     <Card sx={{ maxWidth: 1250 }}>
       <StarIcon sx={{ color: "blue", mt: "0.1rem" }} />
