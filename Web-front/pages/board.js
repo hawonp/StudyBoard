@@ -93,7 +93,7 @@ export default function Board() {
         </div>
 
         <div>
-          {/* {posts.map((post) => (
+          {/* {posts.map((post) => ( //TODO: uncomment
             <CardShow
               id={post.post_id}
               user={post.user_nickname}
