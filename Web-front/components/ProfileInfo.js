@@ -6,11 +6,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import {useState} from "react";
 
-export default function ProfileInfo() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [nick, setNickname] = useState("");
-    const [tag, setTag] = useState(null);
+export default function ProfileInfo({ profile }) {
+    const { name, email, nick, tag } = profile;
+    // const [name, setName] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [nick, setNickname] = useState("");
+    // const [tag, setTag] = useState("");
 
     return(
         <Box
@@ -25,6 +26,8 @@ export default function ProfileInfo() {
                         PK Hong&apos;s Information
                     </h5>
                 </div>
+
+                {/*edit button for profile*/}
                 <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>
                     <IconButton aria-label="edit">
                         <Link href="/user/updateprofile">
@@ -43,37 +46,27 @@ export default function ProfileInfo() {
                            fullWidth
                            disabled
                            id="outlined-disabled"
-                           label="Name"
-                           defaultValue="PK HONG"
-
-                           value={name} onChange={(event) => setName(event.target.value)}
+                           defaultValue={name}
                 />
                 <TextField sx={{marginBottom: '10px', marginTop:'8px'}}
                            fullWidth
                            disabled
                            id="outlined-disabled"
-                           label="Email"
-                           defaultValue="pyungkang@gmail.com"
-
-                           value={email} onChange={(event) => setEmail(event.target.value)}
+                           defaultValue={email}
                 />
                 <TextField sx={{marginBottom: '10px', marginTop:'8px'}}
                            fullWidth
                            disabled
                            id="outlined-disabled"
-                           label="NickName"
-                           defaultValue="PK-dev"
-
-                           value={nick} onChange={(event) => setNick(event.target.value)}
+                           label="Set your nick name"
+                           defaultValue={nick}
                 />
                 <TextField sx={{marginBottom: '10px', marginTop:'8px'}}
                            fullWidth
                            disabled
                            id="outlined-disabled"
                            label="HashTag"
-                           defaultValue="#Math #CSE"
-
-                           value={tag} onChange={(event) => setTag(event.target.value)}
+                           defaultValue={tag}
                 />
             </div>
 

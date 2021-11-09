@@ -19,7 +19,7 @@ export function PostCard() {
         console.log("content", content);
         console.log("tag", tag);
 
-        // TODO: API CALL(back -end)
+        // TODO: API CALL BACKEND NEED
 
 
     }

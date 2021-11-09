@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Container from "@mui/material/Container";
 import ProfileCard from "../components/ProfileCard";
 import * as React from "react";
@@ -16,6 +15,7 @@ import CardActions from "@mui/material/CardActions";
 export default function Detail() {
     return (
         <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
             <Container >
                 <div style={{ alignItems: 'center',
                     border:'0.1rem solid lightgray',
@@ -81,6 +81,7 @@ export default function Detail() {
                     </article>
                 </div>
             </Container>
+
             {/*comment section*/}
             <Container >
                 {/*<div style={{ marginBottom: '16px' }}>*/}
@@ -108,6 +109,7 @@ export default function Detail() {
 
                 </div>
             </Container>
+            </div>
 
             <ProfileCard/>
         </div>
