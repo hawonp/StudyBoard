@@ -6,6 +6,11 @@ from query.post_query import add_post, get_post_feed
 from query.tag_query import get_post_tags
 
 ############################
+#    CONSTANT URL PATH     #
+############################
+FEED = '/feed'
+POSTS = '/posts'
+############################
 # Flask RESTful API routes #
 ############################
 class FeedPostData(Resource):
@@ -21,9 +26,9 @@ class FeedPostData(Resource):
                 tags.append(tag[0])
             post["post_tags"] = tags
             
-
+        # print(json.dumps({"data":posts}, default=str))
         return json.dumps(posts, default=str)
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(FeedPostData, '/posts')
+    api.add_resource(FeedPostData, FEED)

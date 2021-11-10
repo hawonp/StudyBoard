@@ -24,9 +24,9 @@ export default function Board() {
   //Load posts when component mounts
   useEffect(() => {
     axiosInstance.get("/posts").then((response) => {
-      setPosts(response.data);
+      setPosts(JSON.parse(response.data)["posts"]);
     });
-  });
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -42,8 +42,6 @@ export default function Board() {
     setAnchorEl(null);
   };
 
-  console.log(posts);
-  console.log(typeof posts);
   return (
     <div style={{ display: "flex" }}>
       <Container>
@@ -93,9 +91,9 @@ export default function Board() {
         </div>
 
         <div>
-          {/* {posts.map((post) => ( //TODO: uncomment
+          {posts.map((post) => (
             <CardShow
-              id={post.post_id}
+              key={post.post_id}
               user={post.user_nickname}
               title={post.post_title}
               content={post.post_text}
@@ -104,7 +102,7 @@ export default function Board() {
               replyCount={post.post_replyCount}
               tags={post.post_tags}
             />
-          ))} */}
+          ))}
         </div>
 
         {/*pagnation*/}

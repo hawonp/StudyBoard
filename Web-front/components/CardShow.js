@@ -61,7 +61,7 @@ export default function CardShow({
             component="img"
             height="194"
             // <Image  alt="Trulli" width="100%" height="100%" />
-            src={images}
+            src={imageURL}
             alt="No image"
           />
         </a>
