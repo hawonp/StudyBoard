@@ -8,8 +8,9 @@ import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
 
-//Importing axois for HTTP req
+//Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
+const postFeed = "/feed/posts";
 
 //popover
 const options = ["Edit", "Delete"];
@@ -23,9 +24,20 @@ export default function Board() {
 
   //Load posts when component mounts
   useEffect(() => {
-    axiosInstance.get("/posts").then((response) => {
-      setPosts(JSON.parse(response.data)["posts"]);
-    });
+    axiosInstance
+      .get(postFeed, {
+        params: {
+          page: 1,
+          order: "newest",
+          filter: "None",
+        },
+      })
+      .then((response) => {
+        setPosts(JSON.parse(response.data));
+        console.log(response.status);
+        console.log(response);
+        console.log(postFeed);
+      });
   }, []);
 
   const handleExpandClick = () => {

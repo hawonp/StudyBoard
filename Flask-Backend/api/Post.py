@@ -31,4 +31,4 @@ class FeedPostData(Resource):
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(FeedPostData, FEED)
+    api.add_resource(FeedPostData, FEED+POSTS)

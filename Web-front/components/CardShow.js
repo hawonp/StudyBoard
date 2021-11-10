@@ -56,15 +56,19 @@ export default function CardShow({
       ></CardHeader>
 
       <Link href="/postdetail">
-        <a>
-          <CardMedia
-            component="img"
-            height="194"
-            // <Image  alt="Trulli" width="100%" height="100%" />
-            src={imageURL}
-            alt="No image"
-          />
-        </a>
+        {imageURL != "None" ? (
+          <a>
+            <CardMedia
+              component="img"
+              height="194"
+              // <Image  alt="Trulli" width="100%" height="100%" />
+              src={imageURL}
+              alt="No image"
+            />
+          </a>
+        ) : (
+          <></>
+        )}
       </Link>
 
       {/* card content  */}
