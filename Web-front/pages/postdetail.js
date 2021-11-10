@@ -4,14 +4,13 @@ import * as React from "react";
 import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-
+import FlagIcon from '@mui/icons-material/Flag';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SmsIcon from "@mui/icons-material/Sms";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import CardActions from "@mui/material/CardActions";
-import Image from 'next/image';
+
 import {Box} from "@mui/material";
 
 const DetailWrapper = ({ style, children}) => {
@@ -69,6 +68,14 @@ export default function Detail() {
                                 <img style={{maxHeight: '800px', objectFit: 'contain'}} src={'https://woulduin.com/assets/users/_meta/2021/07/18/39bd9107-13df-4172-af6a-3674215d3054_KakaoTalk_20210717_191956085.gif'} />
                             </div>
 
+
+                            <section>
+                                <p>
+                                    We have solutions for your book!
+                                    This problem has been solved:
+                                </p>
+                            </section>
+
                             <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
                                 <IconButton aria-label="favorites">
                                     <FavoriteIcon />
@@ -79,17 +86,13 @@ export default function Detail() {
                                 <IconButton aria-label="BookmarkIcon">
                                     <BookmarkIcon />
                                 </IconButton>
-
                                 <IconButton aria-label="share">
                                     <ShareIcon />
                                 </IconButton>
+                                <IconButton aria-label="report">
+                                    <FlagIcon />
+                                </IconButton>
                             </CardActions>
-                            <section>
-                                <p>
-                                    We have solutions for your book!
-                                    This problem has been solved:
-                                </p>
-                            </section>
                         </Box>
                     </DetailWrapper>
                 </Container>

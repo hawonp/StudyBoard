@@ -41,9 +41,11 @@ export  default function CardShow(){
                 action={
                     <div>
                         <Tooltip title="Edit">
-                            <IconButton aria-label="EditIcon">
-                                <EditIcon />
-                            </IconButton>
+                            <Link href="/postedit">
+                                <IconButton aria-label="EditIcon">
+                                    <EditIcon />
+                                </IconButton>
+                            </Link>
                         </Tooltip>
                         <Tooltip title="Delete">
                             <IconButton>

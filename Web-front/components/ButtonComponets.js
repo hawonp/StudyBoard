@@ -6,6 +6,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import CardActions from "@mui/material/CardActions";
 import React from "react";
+import FlagIcon from "@mui/icons-material/Flag";
 
 
 export default function ButtonComponets() {
@@ -23,9 +24,8 @@ export default function ButtonComponets() {
             <IconButton aria-label="BookmarkIcon">
                 <BookmarkIcon />
             </IconButton>
-
-            <IconButton aria-label="share">
-                <ShareIcon />
+            <IconButton aria-label="report">
+                <FlagIcon />
             </IconButton>
         </CardActions>
     )

@@ -16,7 +16,6 @@ const options = [
     'Delete'
 ];
 
-const ITEM_HEIGHT = 48;
 
 export default function Board() {
     const [expanded, setExpanded] = React.useState(false);
