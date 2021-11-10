@@ -14,6 +14,9 @@ import CardActions from "@mui/material/CardActions";
 import Image from 'next/image';
 
 export default function Detail() {
+
+
+
     return (
         <div style={{display: 'flex'}}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -40,8 +43,8 @@ export default function Detail() {
                                 </div>
                             </div>
                             {/*hashtag*/}
-                            <div className="article-content" style={{display: 'flex', flexDirection: 'column'}}>
-                                <div className="nav tag-cloud" style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
+                            <div style={{display: 'flex', flexDirection: 'column'}}>
+                                <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
                                     <a href="#">Math</a>
                                     <a href="#">Hard</a>
                                     <a href="#">Help</a>
@@ -53,8 +56,10 @@ export default function Detail() {
 
                             {/*image*/}
                             <div>
-                                <Image src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt=""/>
-                                {/* <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/> */}
+                                {/*<Image src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt=""/>*/}
+                                {/*이미지 스타일링 */}
+                                <div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>
+                                <img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>
                             </div>
                         </header>
 
@@ -62,15 +67,13 @@ export default function Detail() {
                         <div>
                             <img src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>
                         </div>
+
                         <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
                             <IconButton aria-label="favorites">
                                 <FavoriteIcon />
                             </IconButton>
                             <IconButton aria-label="thoumup">
                                 <ThumbUpIcon />
-                            </IconButton>
-                            <IconButton aria-label="SmsIcon">
-                                <SmsIcon />
                             </IconButton>
                             <IconButton aria-label="BookmarkIcon">
                                 <BookmarkIcon />
@@ -81,7 +84,8 @@ export default function Detail() {
                             </IconButton>
                         </CardActions>
                         <section>
-                            <p>We have solutions for your book!
+                            <p>
+                                We have solutions for your book!
                                 This problem has been solved:
                             </p>
                         </section>

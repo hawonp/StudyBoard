@@ -7,10 +7,25 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Card from "@mui/material/Card";
 import * as React from "react";
+import {useEffect, useState} from "react";
 
-export default function MyPostList(){
-    
+export default function MyPostList({ mypost }){
+    const [mypostData, setMyPostData] = useState({});
 
+    useEffect(() => {
+        // TODO: API CALL BACKEND NEED
+        // mypost는 post id
+        // post 정보 불러오는 api 호출 (밑은 예시 결과값)
+        const result = {
+            date: '2021-11-09',
+            title: favorite,
+            username: 'PK HONG',
+            image: "https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
+            content: `THIS IS ${mypost}`
+        }
+        setMyPostData(result)
+
+    },[mypost])
     return(
         <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
@@ -22,10 +37,10 @@ export default function MyPostList(){
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Title
+                        {mypostData.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Text question
+                        {mypostData.content}
                     </Typography>
                 </CardContent>
             </CardActionArea>
