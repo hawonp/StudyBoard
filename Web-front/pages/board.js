@@ -19,24 +19,25 @@ const ITEM_HEIGHT = 48;
 
 export default function Board() {
   const [expanded, setExpanded] = React.useState(false);
-  const [page, setPage] = useState(1); //State to store data
-  const [posts, setPosts] = useState([]); //State to store data
+  const [feedPage, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [feedOrder, setFeedOrder] = useState("newest");
+  const [feedFilter, setFeedFilter] = useState("placeholder");
+  const [posts, setPosts] = useState([]);
 
   //Load posts when component mounts
   useEffect(() => {
     axiosInstance
       .get(postFeed, {
         params: {
-          page: 1,
-          order: "newest",
-          filter: "None",
+          page: feedPage,
+          order: feedOrder,
+          filter: feedFilter,
         },
       })
       .then((response) => {
-        setPosts(JSON.parse(response.data));
-        console.log(response.status);
-        console.log(response);
-        console.log(postFeed);
+        setPosts(JSON.parse(response.data)["posts"]);
+        setMaxPage(JSON.parse(response.data)["maxPageCount"]);
       });
   }, []);
 
@@ -119,7 +120,7 @@ export default function Board() {
 
         {/*pagnation*/}
         <div style={{ marginTop: "2rem", textAlign: "center" }}>
-          <PaginationButton />
+          <PaginationButton maxPageCount={maxPage} />
         </div>
       </Container>
 

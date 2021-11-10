@@ -1,8 +1,6 @@
 
 from config.db_connect import conn
-from config.imports import mariadb
-from config.imports import json
-from config.imports import Resource
+from config.imports import mariadb, json, Resource
 
 from query.user_query import add_user, get_user_by_id, get_users
 ############################
