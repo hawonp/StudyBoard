@@ -11,19 +11,15 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SmsIcon from "@mui/icons-material/Sms";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ShareIcon from "@mui/icons-material/Share";
-import ButtonComponets from "./ButtonComponets";
 
+import ButtonComponets from "./ButtonComponets";
+import Box from "@mui/material/Box";
 
 const dummy_prop = {
     id: '1',
     user:'pk',
     title:'Dummy Data title',
+    images: 'https://woulduin.com/assets/users/_meta/2021/07/18/39bd9107-13df-4172-af6a-3674215d3054_KakaoTalk_20210717_191956085.gif',
     content:'Dummy Data Content',
     tags: '#math',
 }
@@ -31,6 +27,7 @@ export  default function CardShow(){
     const {id,user, title, images ,content, tags} =  dummy_prop
 
     return(
+
         <Card sx={{ maxWidth: 1250 }}>
             <StarIcon sx={{color:'blue', mt:'0.1rem'}} />
             <CardHeader
@@ -61,15 +58,18 @@ export  default function CardShow(){
             >
             </CardHeader>
 
-            <Link href="/postdetail"><a>
-                <CardMedia
-                    component="img"
-                    height="194"
-                    // <Image  alt="Trulli" width="100%" height="100%" />
-                    src={images}
-                    alt="No image"
-                />
-            </a></Link>
+            <Link href="/postdetail">
+                <Box sx={{width: '90%', marginLeft: '5%', marginRight: '5%',}}>
+                    <CardMedia
+                        component="img"
+                        sx={{ maxHeight: '400px', objectFit: 'contain'}}
+
+                        // <Image  alt="Trulli" width="100%" height="100%" />
+                        src={images}
+                        alt="No image"
+                    />
+                </Box>
+            </Link>
 
             {/* card content  */}
             <CardContent
@@ -89,6 +89,7 @@ export  default function CardShow(){
             <ButtonComponets />
 
         </Card>
+
     )
 
 
