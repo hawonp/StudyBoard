@@ -22,7 +22,7 @@ export default function Board() {
   const [feedPage, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [feedOrder, setFeedOrder] = useState("newest");
-  const [feedFilter, setFeedFilter] = useState("placeholder");
+  const [feedFilter, setFeedFilter] = useState("None");
   const [posts, setPosts] = useState([]);
 
   //Load posts when component mounts

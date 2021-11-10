@@ -101,3 +101,29 @@ def get_user_by_id(id):
         print(f"Error adding entry to database: {e}")
     
     return res
+
+##########################################################
+#                         UPDATE                         #
+##########################################################
+#UPDATE table_name SET column1 = value1, column2 = value2 WHERE id=100;
+def update_user_nickname(id, nickname):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "UPDATE User SET user_nickname = ? WHERE user_id=?"
+        values = (nickname, id)
+
+
+        #Adding new data into table
+        print("Adding with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        id = "-1"
+    return id
