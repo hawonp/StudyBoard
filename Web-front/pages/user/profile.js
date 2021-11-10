@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import Container from "@mui/material/Container";
 import ProfileCard from "../../components/ProfileCard";
 import * as React from "react";

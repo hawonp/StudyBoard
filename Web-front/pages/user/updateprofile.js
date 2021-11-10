@@ -1,4 +1,3 @@
-import styles from '../../styles/Home.module.css'
 import Link from "next/link";
 import ProfileCard from "../../components/ProfileCard";
 import Container from "@mui/material/Container";
@@ -20,7 +19,7 @@ export default function UpdateProfile() {
 
     return (
         <div style={{display: 'flex'}}>
-            <div className={styles.container}>
+            <div >
                 <Container >
 
                     <EditProfile profile={profile} />

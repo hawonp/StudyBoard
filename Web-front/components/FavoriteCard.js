@@ -13,7 +13,7 @@ export default function FavoriteCard({ favorite }){
     const [postData, setPostData] = useState({});
 
     useEffect(() => {
-        // TODO: API CALL
+        // TODO: API CALL BACKEND NEED
         // favorite는 post id
         // post 정보 불러오는 api 호출 (밑은 예시 결과값)
         const result = {
@@ -45,36 +45,27 @@ export default function FavoriteCard({ favorite }){
                     </Typography>
                 </CardContent>
             </CardActionArea>
+
+            {/*Icone*/}
             <CardActions>
-
                 <IconButton aria-label="favorites">
-                    <Link href="">
-                        <a><BookmarkIcon /></a>
-                    </Link>
+                    <Link href=""><BookmarkIcon /></Link>
                 </IconButton>
 
                 <IconButton aria-label="favorites">
-                    <Link href="">
-                        <a><BookmarkIcon /></a>
-                    </Link>
+                    <Link href=""><BookmarkIcon /></Link>
                 </IconButton>
 
                 <IconButton aria-label="favorites">
-                    <Link href="">
-                        <a><BookmarkIcon /></a>
-                    </Link>
+                    <Link href=""><BookmarkIcon /></Link>
                 </IconButton>
 
                 <IconButton aria-label="favorites">
-                    <Link href="">
-                        <a><BookmarkIcon /></a>
-                    </Link>
+                    <Link href=""><BookmarkIcon /></Link>
                 </IconButton>
 
                 <IconButton aria-label="favorites">
-                    <Link href="">
-                        <a><BookmarkIcon /></a>
-                    </Link>
+                    <Link href=""><BookmarkIcon /></Link>
                 </IconButton>
 
             </CardActions>

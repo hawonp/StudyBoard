@@ -22,6 +22,7 @@ const data = [
     { icon: <People />, label: 'User', href: "/admin/admin"},
     { icon: <PermMedia />, label: 'Post', href: "/admin/flagPost" },
     { icon: <Dns />, label: 'Replies' , href: "/admin/flagReplies"},
+
 ];
 
 const FireNav = styled(List)({
@@ -44,7 +45,7 @@ export default function AdminNav() {
 
     return (
 
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' ,margin:'1rem 1rem' }}>
             <ThemeProvider
                 theme={createTheme({
                     components: {
@@ -61,11 +62,11 @@ export default function AdminNav() {
                     },
                 })}
             >
-                <Paper elevation={0} sx={{ maxWidth: 300 }}>
+                <Paper >
                     <FireNav component="nav" disablePadding>
 
                         <ListItem component="div" disablePadding>
-                            <ListItemButton sx={{ height: 80 }}>
+                            <ListItemButton sx={{  margin: '1rem 1rem' }}>
                                 <ListItemIcon>
                                     <Home color="primary" />
                                 </ListItemIcon>
@@ -83,7 +84,7 @@ export default function AdminNav() {
 
                         <Box
                             sx={{
-                                bgcolor: open ? 'rgb(35,47,152)' : null,
+                                bgcolor: open ? 'rgb(35,47,152)' : 'rgb(35,47,152)',
                                 pb: open ? 2 : 0,
                             }}
                         >

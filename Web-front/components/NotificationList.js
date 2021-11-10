@@ -8,7 +8,9 @@ export default function NotificationList (){
             maxWidth: '1200px', margin: '0.5rem auto', height: '5rem'}} >
             <div style={{ borderRadius: '10rem', objectFit: 'cover',
                 display:' inline-block', height: '5rem',
-                width: '5rem', verticalAlign: 'middle'}}></div>
+                width: '5rem', verticalAlign: 'middle'}}/>
+
+
             <div style={{ display: 'inline-block', width: 'calc(100% - 7rem)',
                 verticalAlign: 'middle', marginLeft: '2%',
                 marginTop: '.35rem' }}>
