@@ -11,8 +11,8 @@ COPY . .
 
 # install necessary modules
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
-RUN pip install Flask-Dance
+# RUN pip install gunicorn
+# RUN pip install Flask-Dance
 
 # expose port for listening (local)
 EXPOSE 9090
