@@ -86,12 +86,34 @@ def get_user_by_id(id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT user_id FROM User WHERE user_id=?"
+        query = "SELECT * FROM User WHERE user_id=?"
         values = (id, )
 
         #Getting data from table
         print("Searching with query", query, " and values ", values)
         cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+    
+    return res
+
+#Get user by rank (rank page)
+def get_users_order_by_rank(id):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT user_id, user_nickname FROM User ORDER BY user_likes_received DESC, user_flags_received ASC LIMIT 10"
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query)
         res = cursor.fetchone()
         
         #Closing cursor
@@ -117,13 +139,14 @@ def update_user_nickname(id, nickname):
 
 
         #Adding new data into table
-        print("Adding with query", query, " and values ", values)
+        print("Updating with query", query, " and values ", values)
         cursor.execute(query, values)
 
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        res = 1
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        id = "-1"
-    return id
+        res = 0
+    return res
