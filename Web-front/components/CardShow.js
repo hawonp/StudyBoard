@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import StarIcon from "@mui/icons-material/Star";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
@@ -26,6 +26,19 @@ const dummy_prop = {
 export  default function CardShow(){
     const {id,user, title, images ,content, tags} =  dummy_prop
 
+    //EditPost
+    const [postCard, setpostCard] = useState({
+        title: "PK",
+        content: "PKPKPK",
+        images: "",
+        tag: "#MATH #CSE #HARD"
+    });
+
+    useEffect(() => {
+        // TODO: API CALL (BACKEND)
+    }, [])
+
+
     return(
 
         <Card sx={{ maxWidth: 1250 }}>
@@ -43,7 +56,7 @@ export  default function CardShow(){
                         <Tooltip title="Edit">
                             <Link href="/postedit">
                                 <IconButton aria-label="EditIcon">
-                                    <EditIcon />
+                                    <EditIcon postCard={postCard} />
                                 </IconButton>
                             </Link>
                         </Tooltip>

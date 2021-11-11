@@ -5,9 +5,26 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
 import MyPostList from "../components/MyPostList";
+import {useEffect, useState} from "react";
+import FavoriteCard from "../components/FavoriteCard";
 
 
 export default function MyPost() {
+    const [myPosts, setMyPosts] = useState([
+        'id1',
+        'id2',
+        'id3',
+        'id4',
+        'id5',
+        'id6',
+    ]);
+
+    useEffect(() => {
+        // TODO: API CALL (BACKEND)
+
+    }, [])
+
+
     return (
         <div style={{display: 'flex'}}>
             <Container >
@@ -25,7 +42,9 @@ export default function MyPost() {
                         borderColor: 'lightgray'
                     }}/>
 
-                    <MyPostList />
+                    {
+                        myPosts.map((id) => <MyPostList key={id} mypost={id}/>)
+                    }
 
 
                 </Box>

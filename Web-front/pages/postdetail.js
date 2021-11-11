@@ -26,6 +26,17 @@ const DetailWrapper = ({ style, children}) => {
     )
 }
 
+const HashtagWrapper = ({ style, children}) => {
+    return (
+        <div style={{padding: '4px 15px', fontSize: '13px',
+            color: '#ffffff',background: '#20247b',
+            borderRadius: '3px', marginRight: '4px',
+            marginBottom: '4px',
+            ...style}}
+        > {children} </div>
+    )
+}
+
 export default function Detail() {
 
     return (
@@ -49,16 +60,12 @@ export default function Detail() {
                                 {/*hashtag*/}
                                 <div style={{display: 'flex', flexDirection: 'column'}}>
                                     <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
-                                        <a href="#">Math</a>
-                                        <a href="#">Hard</a>
-                                        <a href="#">Help</a>
-                                        <a href="#">Meaningofquesion</a>
-                                        <a href="#">Need</a>
-                                        <a href="#">Math</a>
+                                        <HashtagWrapper>Math</HashtagWrapper>
+                                        <HashtagWrapper>Hard</HashtagWrapper>
+                                        <HashtagWrapper>Help</HashtagWrapper>
+
                                     </div>
                                 </div>
-
-
                             </header>
 
                             {/*image*/}

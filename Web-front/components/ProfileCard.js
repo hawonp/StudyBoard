@@ -21,18 +21,19 @@ export default function ProfileCard() {
                 }}
             >
 
+                <div style={{  justifyContent:'end', }}>
+                    <Link  href="/admin/admin">
+                        <AdminPanelSettingsIcon />
+                    </Link>
+                </div>
 
-                <div >
-                    <dv style={{ alignItems: 'right'}}>
-                        <Link  href="/admin/admin">
-                            <AdminPanelSettingsIcon />
-                        </Link>
-                    </dv>
+                <div style={{ display: 'flex' }} >
+
                     {/*양 옆으로 해야함 flex 사용해서 사용*/}
                     <div>
-                        <Avatar>H</Avatar>
+                        <Avatar></Avatar>
                     </div>
-                    <div style={{  flex: 1, justifyContent:'end' }}>
+                    <div style={{  flex: 1}}>
 
                         {/*양 옆으로 해야함 flex 사용해서 사용*/}
                         <h3>PK HONG</h3>
@@ -42,25 +43,24 @@ export default function ProfileCard() {
 
 
                 <div style={{display: 'flex'}}>
-                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <div style={{flex:'1', flexDirection: 'column'}}>
                         <h5>HASH TAG</h5>
                         <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start',}}>
                             <a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',
                                 background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>
-                                Math</a>
-                            <a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',
-                                background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>
-                                Hard</a>
+                                Math
+                            </a>
+                            {/*<a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',*/}
+                            {/*    background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>*/}
+                            {/*    Hard</a>*/}
                         </div>
                     </div>
                 </div>
 
 
-
-                <ul className="profile-social-links"
-                    style={{ listStyle: 'outside none none', paddingTop: '30px',
-                        textAlign: 'center', marginLeft: '-40px'}}>
-                    <li style={{ display: 'inline-block'}}>
+                {/*Link to My Post, Favorite, Notification*/}
+                <div style={{ display: 'block',  paddingTop: '30px', marginLeft: 'auto', marginRight: 'auto'}}>
+                    <div style={{ display: 'inline-block'}}>
                         <Tooltip title="Post">
                             <IconButton aria-label="favorites">
                                 <Link href="/myPost">
@@ -68,9 +68,9 @@ export default function ProfileCard() {
                                 </Link>
                             </IconButton>
                         </Tooltip>
-                    </li>
+                    </div>
 
-                    <li style={{ display: 'inline-block'}}>
+                    <div style={{ display: 'inline-block'}}>
                         <Tooltip title="favorite">
                             <IconButton aria-label="favorites">
                                 <Link href="/favorite/favorite">
@@ -78,9 +78,9 @@ export default function ProfileCard() {
                                 </Link>
                             </IconButton>
                         </Tooltip>
-                    </li>
+                    </div>
 
-                    <li style={{ display: 'inline-block'}}>
+                    <div style={{ display: 'inline-block'}}>
                         <Tooltip title="Notification">
                             <IconButton aria-label="favorites">
                                 <Link href="/notification/notification">
@@ -88,8 +88,8 @@ export default function ProfileCard() {
                                 </Link>
                             </IconButton>
                         </Tooltip>
-                    </li>
-                </ul>
+                    </div>
+                </div>
 
             </Box>
 

@@ -18,7 +18,7 @@ export default function MyPostList({ mypost }){
         // post 정보 불러오는 api 호출 (밑은 예시 결과값)
         const result = {
             date: '2021-11-09',
-            title: favorite,
+            title: mypost,
             username: 'PK HONG',
             image: "https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
             content: `THIS IS ${mypost}`

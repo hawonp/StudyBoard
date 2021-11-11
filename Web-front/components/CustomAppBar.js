@@ -8,6 +8,7 @@ import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
 import Image from "next/image";
+import LoginAuth from "./LoginAuth";
 
 export default function CustomAppBar() {
     const menuTwoList = [
@@ -55,6 +56,8 @@ export default function CustomAppBar() {
                     <SearchBar />
                 </Box>
 
+                <LoginAuth />
+
                 <Box sx={{ color: 'action.active' , ml: 2 , mr:2}}>
                     <Link href="/notification/notification">
                         <IconButton edge="end" aria-label="delete">
@@ -64,7 +67,8 @@ export default function CustomAppBar() {
                         </IconButton>
                     </Link>
                 </Box>
-                <CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />
+
+                {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
                 <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
             </Toolbar>
         </Container>

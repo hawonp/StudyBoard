@@ -5,8 +5,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import List from "@mui/material/List";
+import {useState} from "react";
 
 export default function RankUserList (){
+    const [user, setUser] = useState("");
+    const [tag, setTag] = useState("");
+
 
 
     return(
@@ -33,6 +37,8 @@ export default function RankUserList (){
                             >
                                 User Name
                             </Typography>
+
+                            {/* hastage */}
                             {" — #MATH #CSE"}
                         </React.Fragment>
                     }
