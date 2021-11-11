@@ -18,7 +18,7 @@ def add_post(user, title, text, img_url, tags):
         #Set up query statement and values
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = "INSERT INTO Post (user_id, post_title, post_text, post_image, post_date) VALUES (?, ?, ?, ?, ?)"
-        values = (int(user), title, text, img_url, date_time)
+        values = (user, title, text, img_url, date_time)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -99,3 +99,26 @@ def get_post_feed(page, order, filter):
     # return the results!
     res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
     return res_data
+
+#Get post by id
+def get_post_by_id(id):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT * FROM Post WHERE post_id=?"
+        values = (int(id), )
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+    
+    return res

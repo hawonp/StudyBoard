@@ -10,6 +10,7 @@ from query.tag_query import get_post_tags
 ############################
 FEED = '/feed'
 POSTS = '/posts'
+POST_ID = '/<string:id>'
 
 ############################
 #    Marshmallow Schema    #
@@ -19,9 +20,16 @@ class FeedPostSchema(Schema):
     order = fields.Str(required=True)
     filter = fields.Str(required=True)
 
+class PostCreateSchema(Schema):
+    title = fields.Str(required=True)
+    text = fields.Str(required=True)
+    imageURL = fields.Str(required=True)
+    tags = fields.Str(required=True)
+
 ############################
 # Flask RESTful API routes #
 ############################
+#Post feed
 class FeedPostData(Resource):
     def get(self):
         #Validate params first
@@ -49,8 +57,36 @@ class FeedPostData(Resource):
         # print(json.dumps({"data":posts}, default=str))
         return json.dumps(feed, default=str)
 
+#Post (detail) TODO: PUT is pass
+class PostData(Resource):
+    def get(self, id):
+        post = get_post_by_id(id)
+        return json.dumps(post)
+
+    def put(self, id):
+        pass
+
+#Post creation TODO: NEEDS TO BE TESTED
+class PostCreate(Resource):
+    def post(self):
+        #Validate params first
+        errors = post_create_schema.validate(request.args)
+        if errors:
+            abort(400, str(errors))
+        
+        #Now fetch the params
+        title = request.args.get('title')
+        text = request.args.get('text')
+        iamgeURL = request.args.get('iamgeURL')
+        tags = request.args.get('tags')
+
+        res = add_post(userid, title, text, imageURL, tags)
+        return res
+
 #Add routes to api
 def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
+    api.add_resource(PostData, POSTS+)
 
 feed_post_schema = FeedPostSchema()
+post_create_schema = PostCreateSchema()
