@@ -56,6 +56,32 @@ def add_post_tag(tag_id, post_id):
     
     return tag_id
 
+def add_user_tag(tag_id, user_id):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #First add the Post to Post table
+        #Set up query statement and values
+        query = "INSERT INTO User_Tag (tag_id, user_id) VALUES (?,?)"
+        values = (tag_id, user_id)
+
+        #Adding new data into table
+        print("Adding with query", query, "and values", values)
+        cursor.execute(query, values)
+
+        #Getting id of newly added post
+        tag_id = cursor.lastrowid
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        tag_id = -1
+    
+    return tag_id
+
 ##########################################################
 #                         SELECT                         #
 ##########################################################
