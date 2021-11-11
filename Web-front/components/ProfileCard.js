@@ -1,16 +1,18 @@
-import Link from 'next/link'
+import Link from "next/link";
 import Avatar from "@mui/material/Avatar";
-import {CardMedia, Tooltip} from "@mui/material";
+import { CardMedia, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 import React from "react";
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import Box from "@mui/material/Box";
+
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+
 export default function ProfileCard() {
+
     return (
         <Grid item xs={2}>
             <Box
@@ -90,9 +92,8 @@ export default function ProfileCard() {
                         </Tooltip>
                     </div>
                 </div>
-
             </Box>
-
         </Grid>
+
     );
 }
