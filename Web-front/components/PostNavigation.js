@@ -3,18 +3,13 @@ import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import Button from "@mui/material/Button";
 import React from "react";
 
 export default function PostNavigation() {
 
     return (
-        <div style={{ alignItems: 'center',
-            border:'0.1rem solid lightgray',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            boxSizing: 'border-box',
-            display: 'flex',
+        <div style={{ alignItems: 'center',border:'0.1rem solid lightgray',
+            backgroundColor: 'white',borderRadius: '8px',boxSizing: 'border-box',display: 'flex',
             marginBottom: '16px', marginTop: '20px', padding: '10px 12px' }}>
 
             <Box
@@ -32,9 +27,9 @@ export default function PostNavigation() {
 
 
             <IconButton>
-                <Link href="/writePost"><a>
+                <Link href="/writePost">
                     <ImageSearchIcon />
-                </a></Link>
+                </Link>
             </IconButton>
         </div>
     );

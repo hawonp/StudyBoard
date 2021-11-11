@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
+import FilterButton from "../components/FilterButton";
 
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
@@ -14,8 +15,6 @@ const postFeed = "/feed/posts";
 
 //popover
 const options = ["Edit", "Delete"];
-
-const ITEM_HEIGHT = 48;
 
 export default function Board() {
   const [expanded, setExpanded] = React.useState(false);
@@ -78,40 +77,19 @@ export default function Board() {
             padding: "10px 12px",
           }}
         >
-          <Stack direction="row" spacing={1}>
-            <Chip
-              label="Recently"
-              component="a"
-              href="#basic-chip"
-              variant="outlined"
-              clickable
-            />
-            <Chip
-              label="Most popular"
-              component="a"
-              href="#basic-chip"
-              variant="outlined"
-              clickable
-            />
-            <Chip
-              label="preferred tags"
-              component="a"
-              href="#basic-chip"
-              variant="outlined"
-              clickable
-            />
-          </Stack>
+          <FilterButton />
         </div>
 
         <div>
+          {/*Pre view user post Card*/}
           {posts.map((post) => (
             <CardShow key={post.post_id} post={post} />
           ))}
         </div>
 
         {/*pagnation*/}
-        <div style={{ marginTop: "2rem", textAlign: "center" }}>
-          <PaginationButton maxPageCount={maxPage} />
+        <div style={{ marginTop: "2rem" }}>
+          <PaginationButton />
         </div>
       </Container>
 

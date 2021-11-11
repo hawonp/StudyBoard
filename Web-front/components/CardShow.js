@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
@@ -11,17 +11,28 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import SmsIcon from "@mui/icons-material/Sms";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ShareIcon from "@mui/icons-material/Share";
+
+import ButtonComponets from "./ButtonComponets";
+import Box from "@mui/material/Box";
 
 export default function CardShow({ post }) {
+  const { id, user, title, images, content, tags } = dummy_prop;
+
+  //EditPost
+  const [postCard, setpostCard] = useState({
+    id: 1,
+    title: "PK",
+    content: "PKPKPK",
+    images: "",
+    tags: "#MATH #CSE #HARD",
+  });
+
+  useEffect(() => {
+    // TODO: API CALL (BACKEND)
+  }, []);
+
   return (
     <Card sx={{ maxWidth: 1250 }}>
-      <StarIcon sx={{ color: "blue", mt: "0.1rem" }} />
       <CardHeader
         style={{ textAlign: "left" }}
         avatar={
@@ -31,36 +42,32 @@ export default function CardShow({ post }) {
         }
         action={
           <div>
-            <Tooltip title="Edit">
-              <IconButton aria-label="EditIcon">
-                <EditIcon />
-              </IconButton>
+            <Tooltip title="This is Endorsed User post ">
+              <StarIcon sx={{ color: "yellow", mt: "0.1rem" }} />
             </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+
+            {/*<Tooltip title="Edit">*/}
+            {/*<Link href={`/postedit/${id}/${title}/${content}/${images}/${tag}`} >*/}
+            {/*    <IconButton aria-label="EditIcon">*/}
+            {/*        <EditIcon />*/}
+            {/*    </IconButton>*/}
+            {/*</Link>*/}
           </div>
         }
         title={post.post_title}
         subheader={post.user_nickname}
       ></CardHeader>
-
+      {/*<Link href={`/postdetai/${post.id}/`}>*/}
       <Link href="/postdetail">
-        {post.post_image != "None" ? (
-          <a>
-            <CardMedia
-              component="img"
-              height="194"
-              // <Image  alt="Trulli" width="100%" height="100%" />
-              src={post.post_image}
-              alt="No image"
-            />
-          </a>
-        ) : (
-          <></>
-        )}
+        <Box sx={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
+          <CardMedia
+            component="img"
+            sx={{ maxHeight: "400px", objectFit: "contain" }}
+            // <Image  alt="Trulli" width="100%" height="100%" />
+            src={post.post_image}
+            alt="No image"
+          />
+        </Box>
       </Link>
 
       {/* card content  */}
@@ -71,31 +78,14 @@ export default function CardShow({ post }) {
               {post.post_text}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {post.post_tags}
+              {post.tags}
             </Typography>
           </a>
         </Link>
       </CardContent>
 
       {/* this is icon */}
-      <CardActions disableSpacing sx={{ justifyContent: "end" }}>
-        <IconButton aria-label="favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="thoumup">
-          <ThumbUpIcon />
-        </IconButton>
-        <IconButton aria-label="SmsIcon">
-          <SmsIcon />
-        </IconButton>
-        <IconButton aria-label="BookmarkIcon">
-          <BookmarkIcon />
-        </IconButton>
-
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
+      <ButtonComponets />
     </Card>
   );
 }

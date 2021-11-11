@@ -32,11 +32,12 @@ const rows = [
 export default function Admin() {
 
     return (
-        <div >
+        <div style={{display: 'flex'}}>
             <AdminNav />
 
             <Box
                 sx={{
+                    flex: 1,
                     border:'0.1rem solid lightgray',
                     borderRadius: '8px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white'
                 }}
@@ -84,6 +85,8 @@ export default function Admin() {
                     </Table>
                 </TableContainer>
             </Box>
+
+
         </div>
 
 

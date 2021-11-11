@@ -19,13 +19,13 @@ export function PostCard() {
         console.log("content", content);
         console.log("tag", tag);
 
-        // TODO: API CALL
+        // TODO: API CALL BACKEND NEED
 
 
     }
 
     return(
-        <Container >
+        <Container>
 
             <Box style={{border:'0.1rem solid lightgray',
                 borderRadius: '4px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}

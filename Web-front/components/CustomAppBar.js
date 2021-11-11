@@ -8,6 +8,7 @@ import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
 import Image from "next/image";
+import LoginAuth from "./LoginAuth";
 
 export default function CustomAppBar() {
     const menuTwoList = [
@@ -44,9 +45,7 @@ export default function CustomAppBar() {
         <Container>
             <Toolbar>
                 <Link href={"/"} >
-                    <Image src = "/images/StudyBoard-logo.png" alt="logo" height="60rem" width ="150rem" display="flex"/>
-
-                    {/* <img style={{height:'5rem',display:'flex', marginTop: '1.2rem'}} src="/images/StudyBoard-logo.png" alt="logo" /> */}
+                    <img style={{height:'4rem',display:'flex', marginTop: '1.2rem' }} src="/images/StudyBoard-logo.png" alt="logo" />
                 </Link>
                 <Box sx={{ display: "flex", flex: 2, flexDirection: "row" }}>
                     <NavButton to={"/board"} title={"❓ AskQuesiton"} />
@@ -57,6 +56,8 @@ export default function CustomAppBar() {
                     <SearchBar />
                 </Box>
 
+                <LoginAuth />
+
                 <Box sx={{ color: 'action.active' , ml: 2 , mr:2}}>
                     <Link href="/notification/notification">
                         <IconButton edge="end" aria-label="delete">
@@ -66,7 +67,8 @@ export default function CustomAppBar() {
                         </IconButton>
                     </Link>
                 </Box>
-                <CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />
+
+                {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
                 <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
             </Toolbar>
         </Container>

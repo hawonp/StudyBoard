@@ -8,8 +8,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 import React from "react";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+
 export default function ProfileCard() {
   return (
     <Grid item xs={2}>
@@ -25,24 +26,25 @@ export default function ProfileCard() {
           flexWrap: "wrap",
         }}
       >
-        <div>
-          <div style={{ alignItems: "right" }}>
-            <Link href="/admin/admin">
-              <AdminPanelSettingsIcon />
-            </Link>
-          </div>
+        <div style={{ justifyContent: "end" }}>
+          <Link href="/admin/admin">
+            <AdminPanelSettingsIcon />
+          </Link>
+        </div>
+
+        <div style={{ display: "flex" }}>
           {/*양 옆으로 해야함 flex 사용해서 사용*/}
           <div>
-            <Avatar>H</Avatar>
+            <Avatar></Avatar>
           </div>
-          <div style={{ flex: 1, justifyContent: "end" }}>
+          <div style={{ flex: 1 }}>
             {/*양 옆으로 해야함 flex 사용해서 사용*/}
             <h3>PK HONG</h3>
           </div>
         </div>
 
         <div style={{ display: "flex" }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: "1", flexDirection: "column" }}>
             <h5>HASH TAG</h5>
             <div
               style={{
@@ -65,34 +67,23 @@ export default function ProfileCard() {
               >
                 Math
               </a>
-              <a
-                href="#"
-                style={{
-                  padding: "4px 15px",
-                  fontSize: "13px",
-                  color: "#ffffff",
-                  background: "#20247b",
-                  borderRadius: "3px",
-                  marginRight: "4px",
-                  marginBottom: "4px",
-                }}
-              >
-                Hard
-              </a>
+              {/*<a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',*/}
+              {/*    background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>*/}
+              {/*    Hard</a>*/}
             </div>
           </div>
         </div>
 
-        <ul
-          className="profile-social-links"
+        {/*Link to My Post, Favorite, Notification*/}
+        <div
           style={{
-            listStyle: "outside none none",
+            display: "block",
             paddingTop: "30px",
-            textAlign: "center",
-            marginLeft: "-40px",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
-          <li style={{ display: "inline-block" }}>
+          <div style={{ display: "inline-block" }}>
             <Tooltip title="Post">
               <IconButton aria-label="favorites">
                 <Link href="/myPost">
@@ -100,9 +91,9 @@ export default function ProfileCard() {
                 </Link>
               </IconButton>
             </Tooltip>
-          </li>
+          </div>
 
-          <li style={{ display: "inline-block" }}>
+          <div style={{ display: "inline-block" }}>
             <Tooltip title="favorite">
               <IconButton aria-label="favorites">
                 <Link href="/favorite/favorite">
@@ -110,9 +101,9 @@ export default function ProfileCard() {
                 </Link>
               </IconButton>
             </Tooltip>
-          </li>
+          </div>
 
-          <li style={{ display: "inline-block" }}>
+          <div style={{ display: "inline-block" }}>
             <Tooltip title="Notification">
               <IconButton aria-label="favorites">
                 <Link href="/notification/notification">
@@ -120,8 +111,8 @@ export default function ProfileCard() {
                 </Link>
               </IconButton>
             </Tooltip>
-          </li>
-        </ul>
+          </div>
+        </div>
       </Box>
     </Grid>
   );
