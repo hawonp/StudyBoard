@@ -15,7 +15,6 @@ def add_user(id, nickname, email_address):
         query = "INSERT INTO User (user_id, user_nickname , user_email_address) VALUES (?, ?, ?)"
         values = (id, nickname, email_address)
 
-
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
         cursor.execute(query, values)
