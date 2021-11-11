@@ -1,33 +1,49 @@
+
 from config.db_connect import conn
-from config.imports import json
-from config.imports import Resource
+from config.imports import mariadb, json, Resource, request, abort
+from config.imports import Schema, fields
 
-#Defining the routes
-class HelloWorld(Resource):
-    def get(self):
-        return {
-            'Galaxies': ['Milkyway', 'Andromeda', 
-            'Large Magellanic Cloud (LMC)']
-        }
+from query.user_query import add_user, get_user_by_id, get_users, update_user_nickname
+
+############################
+#    CONSTANT URL PATH     #
+############################
+USERS = '/users'
+USER_ID = '/<string:id>'
+
+############################
+#    Marshmallow Schema    #
+############################
+class UserInfoSchema(Schema):
+    nickname = fields.Str(required=True)
+    tags = fields.Str(required=True)
+
+############################
+# Flask RESTful API routes #
+############################
 class UserInfo(Resource):
-    def get(self):
-        cur = conn.cursor()
-        cur.execute("select * from User")
+    def get(self, id):
+        user = get_user_by_id(id)
+        return json.dumps(user)
+    
+    def put(self, id): #TODO: NEEDS TO BE TESTED
+        #Validate params first    
+        errors = user_info_schema.validate(request.args)
+        if errors:
+            abort(400, str(errors))
 
-        # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
-        json_data=[]
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
+        #Get the params
+        user_nickname = request.args.get('nickname')
+        print(request.args)
 
-        #Close cursor
-        cur.close()
-        
-        # return the results!
-        return json.dumps(json_data)
+        #Update user nickname
+        if not (update_user_nickname(id, user_nickname)):
+            abort(500, str("An internal error occured"))
+
+        return json.dumps(user)
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(HelloWorld, '/api')
-    api.add_resource(UserInfo, '/api/user')
+    api.add_resource(UserInfo, USERS+USER_ID)
+
+user_info_schema = UserInfoSchema()
