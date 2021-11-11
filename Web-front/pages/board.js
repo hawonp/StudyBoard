@@ -105,16 +105,7 @@ export default function Board() {
 
         <div>
           {posts.map((post) => (
-            <CardShow
-              key={post.post_id}
-              user={post.user_nickname}
-              title={post.post_title}
-              content={post.post_text}
-              imageURL={post.post_image}
-              likeCount={post.post_likeCount}
-              replyCount={post.post_replyCount}
-              tags={post.post_tags}
-            />
+            <CardShow key={post.post_id} post={post} />
           ))}
         </div>
 

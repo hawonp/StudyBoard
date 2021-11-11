@@ -18,15 +18,7 @@ import SmsIcon from "@mui/icons-material/Sms";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 
-export default function CardShow({
-  user,
-  title,
-  content,
-  imageURL,
-  likeCount,
-  replyCount,
-  tags,
-}) {
+export default function CardShow({ post }) {
   return (
     <Card sx={{ maxWidth: 1250 }}>
       <StarIcon sx={{ color: "blue", mt: "0.1rem" }} />
@@ -51,18 +43,18 @@ export default function CardShow({
             </Tooltip>
           </div>
         }
-        title={user}
-        subheader={title}
+        title={post.post_title}
+        subheader={post.user_nickname}
       ></CardHeader>
 
       <Link href="/postdetail">
-        {imageURL != "None" ? (
+        {post.post_image != "None" ? (
           <a>
             <CardMedia
               component="img"
               height="194"
               // <Image  alt="Trulli" width="100%" height="100%" />
-              src={imageURL}
+              src={post.post_image}
               alt="No image"
             />
           </a>
@@ -76,10 +68,10 @@ export default function CardShow({
         <Link href="/postdetail">
           <a>
             <Typography variant="body2" color="text.secondary">
-              {content}
+              {post.post_text}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {tags}
+              {post.post_tags}
             </Typography>
           </a>
         </Link>
