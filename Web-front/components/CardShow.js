@@ -28,10 +28,11 @@ export  default function CardShow(){
 
     //EditPost
     const [postCard, setpostCard] = useState({
+        id: 1,
         title: "PK",
         content: "PKPKPK",
         images: "",
-        tag: "#MATH #CSE #HARD"
+        tags: "#MATH #CSE #HARD"
     });
 
     useEffect(() => {
@@ -42,7 +43,7 @@ export  default function CardShow(){
     return(
 
         <Card sx={{ maxWidth: 1250 }}>
-            <StarIcon sx={{color:'blue', mt:'0.1rem'}} />
+
             <CardHeader
                 style={{ textAlign: 'left' }}
                 avatar={
@@ -53,18 +54,16 @@ export  default function CardShow(){
 
                 action={
                     <div>
-                        <Tooltip title="Edit">
-                            <Link href="/postedit">
-                                <IconButton aria-label="EditIcon">
-                                    <EditIcon postCard={postCard} />
-                                </IconButton>
-                            </Link>
+                        <Tooltip title="This is Endorsed User post ">
+                            <StarIcon sx={{color:'yellow', mt:'0.1rem'}} />
                         </Tooltip>
-                        <Tooltip title="Delete">
-                            <IconButton>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
+
+                        {/*<Tooltip title="Edit">*/}
+                        {/*<Link href={`/postedit/${id}/${title}/${content}/${images}/${tag}`} >*/}
+                        {/*    <IconButton aria-label="EditIcon">*/}
+                        {/*        <EditIcon />*/}
+                        {/*    </IconButton>*/}
+                        {/*</Link>*/}
                     </div>
                 }
 
@@ -72,7 +71,7 @@ export  default function CardShow(){
                 subheader= {title}
             >
             </CardHeader>
-
+            {/*<Link href={`/postdetai/${post.id}/`}>*/}
             <Link href="/postdetail">
                 <Box sx={{width: '90%', marginLeft: '5%', marginRight: '5%',}}>
                     <CardMedia

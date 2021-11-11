@@ -8,13 +8,18 @@ import {useRouter} from "next/router";
 import {useState} from "react";
 
 export default function EditPost ({ postCard }){
-    const {title, contents, images, tag } = postCard;
+    const {title, content, images, tags } = postCard ?? {
+        title: null,
+        content: null,
+        images: null,
+        tags: null
+    };
     const router = useRouter()
 
     const [inputTitle, setInputTitle] = useState(title);
-    const [inputContents, setInputContents] = useState(contents);
+    const [inputContents, setInputContents] = useState(content);
     const [inputImages, setInputImages] = useState(images);
-    const [inputTag, setInputTag] = useState(tag);
+    const [inputTag, setInputTag] = useState(tags);
 
     const savePost = async () => {
         // TODO: API CALL BACKEND NEED
@@ -24,7 +29,6 @@ export default function EditPost ({ postCard }){
         // // { data: "failed" }
         // if ((await result.json()).data === "failed") { alert("SAVE 실패") }
         // else { router.replace("/user/profile") }
-
     }
     return(
 
@@ -32,7 +36,7 @@ export default function EditPost ({ postCard }){
             borderRadius: '4px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white' }}
         >
             <div style={{marginTop: '8px', marginBottom: '16px', padding: '0.5rem'}}>
-                <Typography variant={"button"}>Post Your Question</Typography>
+                <Typography variant={"button"}>Edit Your Post</Typography>
             </div>
 
 

@@ -64,7 +64,7 @@ SimpleDialog.propTypes = {
 
 export default function LoginAuth () {
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+    const [selectedValue, setSelectedValue] = React.useState(emails[0]);
 
     const handleClickOpen = () => {
         setOpen(true);

@@ -58,7 +58,7 @@ export default function ProfileInfo({ profile }) {
                            fullWidth
                            disabled
                            id="outlined-disabled"
-                           label="Set your nick name"
+                           label="NickName"
                            defaultValue={nick}
                 />
                 <TextField sx={{marginBottom: '10px', marginTop:'8px'}}

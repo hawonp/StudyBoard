@@ -28,11 +28,11 @@ export default function FavoriteCard({ favorite }){
     },[favorite])
 
     return(
-        <Card sx={{ width: '250px', marginTop: '20px', marginBottom:'20px' }}>
+        <Card sx={{ width: '300px', marginTop: '20px', marginBottom:'20px' }}>
             <CardActionArea>
                 <CardMedia
                     component="img"
-                    height="140"
+                    height="150"
                     src={postData.image}
                     alt="green iguana"
                 />
@@ -46,7 +46,7 @@ export default function FavoriteCard({ favorite }){
                 </CardContent>
             </CardActionArea>
 
-            {/*Icone*/}
+            {/*Icon*/}
             <CardActions>
                 <IconButton aria-label="favorites">
                     <Link href=""><BookmarkIcon /></Link>

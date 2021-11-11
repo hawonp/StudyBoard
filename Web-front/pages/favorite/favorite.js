@@ -16,6 +16,7 @@ export default function Favorite() {
         'id4',
         'id5',
         'id6',
+        'id6',
     ]);
 
 
