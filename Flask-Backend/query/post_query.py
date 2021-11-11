@@ -78,5 +78,24 @@ def get_post_feed(page, order, filter):
     #Close cursor
     cur.close()
 
+    #Obtain max page count
+    # Obtainting DB cursor
+    cur = conn.cursor()
+
+    #Set up query statement and values
+    query = "SELECT COUNT(*) FROM Post"
+    # values = (order, offset, limit)
+    #Fetching count with given filter
+    print("Selecting with query", query, " and values ", values)
+    cur.execute(query)
+
+    # serialize results into JSON
+    rv = cur.fetchone()
+
+    #Close cursor
+    cur.close()
+    conn.commit()
+
     # return the results!
-    return json_data
+    res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
+    return res_data

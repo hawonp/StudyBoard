@@ -1,8 +1,6 @@
 from datetime import datetime
 
-from config.imports import json
-from config.imports import Resource
-from config.imports import mariadb
+from config.imports import json, Resource, mariadb
 from config.db_connect import conn
 
 from query.post_query import add_post

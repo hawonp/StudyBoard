@@ -8,8 +8,9 @@ import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
 
-//Importing axois for HTTP req
+//Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
+const postFeed = "/feed/posts";
 
 //popover
 const options = ["Edit", "Delete"];
@@ -18,15 +19,27 @@ const ITEM_HEIGHT = 48;
 
 export default function Board() {
   const [expanded, setExpanded] = React.useState(false);
-  const [page, setPage] = useState(1); //State to store data
-  const [posts, setPosts] = useState([]); //State to store data
+  const [feedPage, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [feedOrder, setFeedOrder] = useState("newest");
+  const [feedFilter, setFeedFilter] = useState("None");
+  const [posts, setPosts] = useState([]);
 
   //Load posts when component mounts
   useEffect(() => {
-    axiosInstance.get("/posts").then((response) => {
-      setPosts(response.data);
-    });
-  });
+    axiosInstance
+      .get(postFeed, {
+        params: {
+          page: feedPage,
+          order: feedOrder,
+          filter: feedFilter,
+        },
+      })
+      .then((response) => {
+        setPosts(JSON.parse(response.data)["posts"]);
+        setMaxPage(JSON.parse(response.data)["maxPageCount"]);
+      });
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -42,8 +55,6 @@ export default function Board() {
     setAnchorEl(null);
   };
 
-  console.log(posts);
-  console.log(typeof posts);
   return (
     <div style={{ display: "flex" }}>
       <Container>
@@ -93,9 +104,9 @@ export default function Board() {
         </div>
 
         <div>
-          {/* {posts.map((post) => (
+          {posts.map((post) => (
             <CardShow
-              id={post.post_id}
+              key={post.post_id}
               user={post.user_nickname}
               title={post.post_title}
               content={post.post_text}
@@ -104,12 +115,12 @@ export default function Board() {
               replyCount={post.post_replyCount}
               tags={post.post_tags}
             />
-          ))} */}
+          ))}
         </div>
 
         {/*pagnation*/}
         <div style={{ marginTop: "2rem", textAlign: "center" }}>
-          <PaginationButton />
+          <PaginationButton maxPageCount={maxPage} />
         </div>
       </Container>
 
