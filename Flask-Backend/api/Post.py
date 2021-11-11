@@ -86,7 +86,8 @@ class PostCreate(Resource):
 #Add routes to api
 def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
-    api.add_resource(PostData, POSTS+)
+    api.add_resource(PostData, POSTS+POST_ID)
+    api.add_resource(PostCreate, POSTS)
 
 feed_post_schema = FeedPostSchema()
 post_create_schema = PostCreateSchema()
