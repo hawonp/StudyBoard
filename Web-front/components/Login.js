@@ -12,9 +12,9 @@ const clientID =
 function Login() {
   const onSuccess = (res) => {
     console.log("[Login Success!] currentUser: ", res.profileObj);
-    console.log(res.tokenObj["access_token"]);
-    console.log(res.tokenObj["id_token"]);
-    console.log(res.tokenObj);
+    // console.log(res.tokenObj["access_token"]);
+    // console.log(res.tokenObj["id_token"]);
+    // console.log(res.tokenObj);
 
     refreshTokenSetup(res);
 
@@ -26,13 +26,15 @@ function Login() {
       })
       .then((response) => {
         if (response["status"] == 200) {
-          console.log(response);
-          console.log(response["data"]);
-          if (cookies.get("user_token") == "null") {
+          //   console.log(response);
+          console.log("response from backend", response["data"]);
+          if (cookies.get("user_token") == null) {
             cookies.set("user_token", response["data"], { path: "/" });
           }
           console.log("yes");
           console.log(cookies.get("user_token"));
+          console.log(cookies.getAll());
+          window.location.reload();
         }
       });
   };
@@ -49,7 +51,7 @@ function Login() {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={"single_host_origin"}
-        isSignedIn={true}
+        isSignedIn={false}
       />
     </div>
   );

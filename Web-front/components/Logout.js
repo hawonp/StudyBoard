@@ -9,9 +9,11 @@ function Logout() {
   const onSuccess = () => {
     alert("Logout Success!");
 
-    cookies.set("user_token", "null", { path: "/" });
+    cookies.remove("user_token", { path: "/" })
+    // cookies.set("user_token", null, { path: "/" });
+    window.location.reload();
   };
-
+  
   return (
     <GoogleLogout
       clientId={clientID}
