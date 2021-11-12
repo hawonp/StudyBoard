@@ -2,7 +2,7 @@ from config.db_connect import conn
 
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
-from query.post_query import add_post, get_post_feed
+from query.post_query import add_post, get_post_feed, get_post_by_id
 from query.tag_query import get_post_tags
 
 ############################
@@ -77,7 +77,7 @@ class PostCreate(Resource):
         #Now fetch the params
         title = request.args.get('title')
         text = request.args.get('text')
-        iamgeURL = request.args.get('iamgeURL')
+        imageURL = request.args.get('iamgeURL')
         tags = request.args.get('tags')
 
         res = add_post(userid, title, text, imageURL, tags)

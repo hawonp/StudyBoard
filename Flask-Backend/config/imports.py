@@ -8,5 +8,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.consumer import oauth_authorized
 from flask_restful import Resource, Api
 from marshmallow import Schema, fields
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from blinker import signal
+from google.oauth2 import id_token
+from google.auth.transport import requests
