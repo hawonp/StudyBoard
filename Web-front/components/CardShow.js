@@ -16,7 +16,7 @@ import ButtonComponets from "./ButtonComponets";
 import Box from "@mui/material/Box";
 
 export default function CardShow({ post }) {
-  const { id, user, title, images, content, tags } = dummy_prop;
+  // const { id, user, title, images, content, tags } = dummy_prop;
 
   //EditPost
   const [postCard, setpostCard] = useState({
