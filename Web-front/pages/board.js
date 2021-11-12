@@ -62,7 +62,7 @@ export default function Board() {
                     <title>StudyBoard</title>
                 </Head>
 
-
+                
                 {/* Write Qeustion */}
                 <PostNavigation />
 

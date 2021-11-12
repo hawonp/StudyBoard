@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
-export default function ProfileCard() {
+export default function ProfileCard() {   
   return (
     <Grid item xs={2}>
       <Box
@@ -39,7 +39,7 @@ export default function ProfileCard() {
           </div>
           <div style={{ flex: 1 }}>
             {/*양 옆으로 해야함 flex 사용해서 사용*/}
-            <h3>PK HONG</h3>
+            <h3>Hawon Park</h3>
           </div>
         </div>
 
