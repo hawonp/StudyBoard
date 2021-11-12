@@ -17,75 +17,69 @@ const postFeed = "/feed/posts";
 const options = ["Edit", "Delete"];
 
 export default function Board() {
-  const [expanded, setExpanded] = React.useState(false);
-  const [feedPage, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
-  const [feedOrder, setFeedOrder] = useState("newest");
-  const [feedFilter, setFeedFilter] = useState("None");
-  const [posts, setPosts] = useState([]);
+    const [expanded, setExpanded] = React.useState(false);
 
-  //Load posts when component mounts
-  useEffect(() => {
-    axiosInstance
-      .get(postFeed, {
-        params: {
-          page: feedPage,
-          order: feedOrder,
-          filter: feedFilter,
-        },
-      })
-      .then((response) => {
-        setPosts(JSON.parse(response.data)["posts"]);
-        setMaxPage(JSON.parse(response.data)["maxPageCount"]);
-      });
-  }, []);
+    const [feedPage, setPage] = useState(1);
+    const [maxPage, setMaxPage] = useState(1);
+    const [feedOrder, setFeedOrder] = useState("newest");
+    const [feedFilter, setFeedFilter] = useState("None");
+    const [posts, setPosts] = useState([]);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+    //Load posts when component mounts
+    useEffect(() => {
+      axiosInstance
+        .get(postFeed, {
+          params: {
+            page: feedPage,
+            order: feedOrder,
+            filter: feedFilter,
+          },
+        })
+        .then((response) => {
+          setPosts(JSON.parse(response.data)["posts"]);
+          setMaxPage(JSON.parse(response.data)["maxPageCount"]);
+        });
+    }, []);
 
-  //popover
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
-  return (
-    <div style={{ display: "flex" }}>
-      <Container>
-        <Head>
-          <title>StudyBoard</title>
-        </Head>
+    //popover
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
-        {/* Write Qeustion */}
-        <PostNavigation />
+    return (
+        <div style={{display: 'flex'}}>
+            <Container >
+                <Head>
+                    <title>StudyBoard</title>
+                </Head>
 
-        {/*filter*/}
-        <div
-          style={{
-            alignItems: "center",
-            backgroundColor: "white",
-            border: "0.1rem solid lightgray",
-            borderRadius: "4px",
-            boxSizing: "border-box",
-            display: "flex",
-            marginBottom: "16px",
-            padding: "10px 12px",
-          }}
-        >
-          <FilterButton />
-        </div>
 
-        <div>
-          {/*Pre view user post Card*/}
-          {posts.map((post) => (
-            <CardShow key={post.post_id} post={post} />
-          ))}
-        </div>
+                {/* Write Qeustion */}
+                <PostNavigation />
+
+                {/*filter*/}
+                <div style={{ alignItems: 'center',backgroundColor: 'white',border:'0.1rem solid lightgray',borderRadius: '4px',
+                    boxSizing: 'border-box', display: 'flex', marginBottom: '16px', padding: '10px 12px' }}>
+                    <FilterButton />
+                </div>
+
+                <div>
+                  {/*Pre view user post Card*/}
+                  {posts.map((post) => (
+                    <CardShow key={post.post_id} post={post} />
+                  ))}
+                </div>
+
+
 
         {/*pagnation*/}
         <div style={{ marginTop: "2rem" }}>
