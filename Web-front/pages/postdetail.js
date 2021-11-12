@@ -17,6 +17,7 @@ import { useRef, useState, useEffect } from "react";
 import EditPost from "../components/EditPost";
 import DetailPost from "../components/DetailPost";
 import { CommentBox } from "../components/CommentBox";
+import Cookies from "universal-cookie";
 const dummy_prop = {
   id: "1",
   user: "pk",
@@ -45,10 +46,10 @@ const DetailWrapper = ({ style, children }) => {
     </div>
   );
 };
-
+const cookies = new Cookies();
 export default function Detail() {
   const [isEdit, setIsEdit] = useState(false);
-
+  console.log(cookies.get("user_token"));
   return (
     <div style={{ display: "flex" }}>
       <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>

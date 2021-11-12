@@ -23,9 +23,10 @@ class VerifyToken(Resource):
             user_id = idinfo['sub']
             user_email = idinfo['email']
             user_nickname = idinfo['name']
-
+            print("sd")
             print(user_id, user_email, user_nickname) 
             print(idinfo)
+            print("ehusia")
             # check if user already exists in the database
             res = check_user_id_exists(user_id)
             
@@ -35,8 +36,8 @@ class VerifyToken(Resource):
 
             return user_id
             
-        except ValueError:
-            pass
+        except ValueError as e:
+            print(e)
 
 def init_routes(api):
     api.add_resource(Default, '/')
