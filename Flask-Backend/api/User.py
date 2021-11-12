@@ -26,21 +26,21 @@ class UserInfo(Resource):
         user = get_user_by_id(id)
         return json.dumps(user)
     
-    def put(self, id): #TODO: NEEDS TO BE TESTED
-        #Validate params first    
-        errors = user_info_schema.validate(request.args)
-        if errors:
-            abort(400, str(errors))
+    # def put(self, id): #TODO: NEEDS TO BE TESTED
+    #     #Validate params first    
+    #     errors = user_info_schema.validate(request.args)
+    #     if errors:
+    #         abort(400, str(errors))
 
-        #Get the params
-        user_nickname = request.args.get('nickname')
-        print(request.args)
+    #     #Get the params
+    #     user_nickname = request.args.get('nickname')
+    #     print(request.args)
 
-        #Update user nickname
-        if not (update_user_nickname(id, user_nickname)):
-            abort(500, str("An internal error occured"))
+    #     #Update user nickname
+    #     if not (update_user_nickname(id, user_nickname)):
+    #         abort(500, str("An internal error occured"))
 
-        return json.dumps(user)
+    #     return json.dumps(user)
 
 #Add routes to api
 def init_routes(api):

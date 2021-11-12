@@ -38,12 +38,6 @@ export default function CustomAppBar() {
         window.location.href = "/user/profile";
       },
     },
-    {
-      title: "Log Out",
-      onClick: () => {
-        alert("Log Out");
-      },
-    },
   ];
 
   return (
@@ -66,19 +60,33 @@ export default function CustomAppBar() {
         </Box>
 
         <div>{name == undefined ? <Login /> : <Logout />}</div>
-
-        <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
-          <Link href="/notification/notification">
-            <IconButton edge="end" aria-label="delete">
-              <Badge color="secondary" variant="dot">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Link>
-        </Box>
-
-        {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
-        <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
+        <div>
+          {name == undefined ? (
+            <> </>
+          ) : (
+            <div>
+              <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
+                <Link href="/notification/notification">
+                  <IconButton edge="end" aria-label="delete">
+                    <Badge color="secondary" variant="dot">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              </Box>
+            </div>
+          )}
+        </div>
+        <div>
+          {name == undefined ? (
+            <> </>
+          ) : (
+            <div>
+              {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
+              <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
+            </div>
+          )}
+        </div>
       </Toolbar>
     </Container>
   );

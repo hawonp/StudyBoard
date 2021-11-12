@@ -10,14 +10,31 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { useState, useEffect } from "react";
+
+//Importing and settings vars for axios parse
+import axiosInstance from "../utils/routeUtil";
+const users = "/users/";
 
 export default function ProfileCard() {
   const cookies = new Cookies();
-  const name = cookies.get("user_token");
+  const id = cookies.get("user_token");
+
+  const [nickname, setNickname] = useState("");
+
+  //Load posts when component mounts
+  useEffect(() => {
+    const user_info_url = users + id;
+    axiosInstance.get(user_info_url).then((response) => {
+      const temp = response["data"];
+      const chars = temp.split(",");
+      setNickname(chars[2]);
+    });
+  }, []);
 
   return (
     <div>
-      {name == undefined ? (
+      {id == undefined ? (
         <></>
       ) : (
         <Grid item xs={2}>
@@ -46,7 +63,7 @@ export default function ProfileCard() {
               </div>
               <div style={{ flex: 1 }}>
                 {/*양 옆으로 해야함 flex 사용해서 사용*/}
-                <h3>{name}</h3>
+                <h3>{nickname}</h3>
               </div>
             </div>
 
