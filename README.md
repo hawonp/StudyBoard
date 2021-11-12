@@ -42,7 +42,7 @@ enabling each person to leave with the exact information that they were looking 
   > cd DBMS
 
 - Initialize Database Docker Container
-  > docker-compose -f docker-compose.yml up --build
+  > docker-compose -f docker-compose-local.yml up --build
 
 - Go back to root directory
   > cd ..
