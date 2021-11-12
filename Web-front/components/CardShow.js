@@ -42,7 +42,7 @@ export  default function CardShow(){
 
     return(
 
-        <Card sx={{ maxWidth: 1250 }}>
+        <Card sx={{ maxWidth: 1250,marginTop: '1rem'}}>
 
             <CardHeader
                 style={{ textAlign: 'left' }}
