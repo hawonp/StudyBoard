@@ -32,7 +32,7 @@ export default function CardShow({ post }) {
   }, []);
 
   return (
-      <Card sx={{ maxWidth: 1250,marginTop: '1rem'}}>
+    <Card sx={{ maxWidth: 1250, marginTop: "1rem" }}>
       <CardHeader
         style={{ textAlign: "left" }}
         avatar={
@@ -60,13 +60,17 @@ export default function CardShow({ post }) {
       {/*<Link href={`/postdetai/${post.id}/`}>*/}
       <Link href="/postdetail">
         <Box sx={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
-          <CardMedia
-            component="img"
-            sx={{ maxHeight: "400px", objectFit: "contain" }}
-            // <Image  alt="Trulli" width="100%" height="100%" />
-            src={post.post_image}
-            alt="No image"
-          />
+          {post.post_image == "None" ? (
+            <></>
+          ) : (
+            <CardMedia
+              component="img"
+              sx={{ maxHeight: "400px", objectFit: "contain" }}
+              // <Image  alt="Trulli" width="100%" height="100%" />
+              src={post.post_image}
+              alt="No image"
+            />
+          )}
         </Box>
       </Link>
 
@@ -78,7 +82,7 @@ export default function CardShow({ post }) {
               {post.post_text}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {post.tags}
+              {post.post_tags}
             </Typography>
           </a>
         </Link>
