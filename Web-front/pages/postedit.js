@@ -12,6 +12,7 @@ export default function Postedit({ }) {
 //         <Container>
 //             <EditPost PostCard={PostCard}/>
 //         </Container>
+        <div/>
     )
 }
 
