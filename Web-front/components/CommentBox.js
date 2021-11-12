@@ -85,11 +85,16 @@ const CommentForm = ({ addComment }) => {
                 <TextField fullWidth id="outlined-multiline-static" sx={{ marginTop: '1rem'}}
                            label="User Name"
                            multiline
-                           required inputRef={inputRef}></TextField><br />
+                           required inputRef={inputRef}>
+                </TextField>
+
+                <br />
+
                 <TextField fullWidth label="Comment" sx={{ marginTop: '1rem'}}
                            multiline
                            rows={4}
-                           required inputRef={textRef}></TextField>
+                           required inputRef={textRef}>
+                </TextField>
 
             </div>
             <div className="comment-form-actions" style={{ display: 'flex', flex: 1, justifyContent:'end', marginTop: '0.5rem' }}>
@@ -105,6 +110,56 @@ const CommentForm = ({ addComment }) => {
 const Comment = ({ author, body, replyComments, deleteSelf }) => {
     return(
         <>
+            <div className="row">
+                <div className="col-md-12">
+                    <div style={{paddingTop: '15px',borderBottom: '1px dashed #ddd',paddingBottom: '20px'}} className="media">
+                        <img className="mr-3 rounded-circle" src="https://i.imgur.com/stD0Q19.jpg"/>
+                        <div className="media-body" style={{paddingLeft: '8px'}}>
+                            <div className="row">
+                                <div className="col-8 d-flex">
+                                    <h5>Jeongho Shin</h5> <span>- 2 hours ago</span>
+                                </div>
+                                <div className="col-4">
+                                    <div className="pull-right reply">
+                                        <i className="fa fa-heart-o "></i>
+                                        <a href="#"><span style={{display: 'block',fontSize: '12px'}}><i className="fa fa-reply"></i> </span></a>
+                                        <i className="fa fa-flag " aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                really dont know that answer?
+                            </p>
+
+
+                            {/*<!--  댓글에 댓글  -->*/}
+                            <div className="media mt-4">
+                                <a className="pr-3" href="#">
+                                    <img className="rounded-circle" src="https://i.imgur.com/xELPaag.jpg"/>
+                                </a>
+                                <div className="media-body">
+                                    <div className="row">
+                                        <div className="col-8 d-flex">
+                                            <h5>Hawon Park</h5> <span>- 2 hours ago</span>
+                                        </div>
+                                        <div className="col-4">
+                                            <div className="pull-right reply">
+                                                <i className="fa fa-heart-o "></i>
+                                                <a href="#"><span><i className="fa fa-reply"></i> </span></a>
+                                                <i className="fa fa-flag " aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        yes answer that question
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="comment">
                 <p className="comment-header">{author}</p>
                 <p className="comment-body">{body}</p>
