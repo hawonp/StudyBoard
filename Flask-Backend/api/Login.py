@@ -1,4 +1,3 @@
-import re
 from flask.helpers import get_flashed_messages
 from config.imports import json
 from config.imports import Resource
@@ -10,9 +9,13 @@ from config.imports import session
 from config.imports import oauthlib
 from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError, TokenExpiredError
 from config.imports import sys
-from query.user_query import add_user
 from config.imports import oauth_authorized
 from config.imports import flash
+import config.URL as URL
+
+from query.user_query import add_user, check_user_id_exists
+
+local_redirect_url = URL.front_root + URL.front_board
 
 class Default(Resource):
     def get(self):
@@ -33,7 +36,7 @@ class Login(Resource):
         if not google.authorized:
             return redirect(url_for("google.login"))
         else:
-            return redirect('/')
+            return redirect(local_redirect_url)
 
     @oauth_authorized.connect
     def logged_in(blueprint, token):
@@ -49,7 +52,12 @@ class Login(Resource):
             user_nickname = resp.json()['name']
             print(user_id, user_email, user_nickname) 
             
-            add_user(user_id, user_nickname, user_email)
+            res = check_user_id_exists(user_id)
+            print("Result code: ", res, res[0])
+
+            if res[0] != 1:
+                add_user(user_id, user_nickname, user_email)
+
             # print(session, token)
 
         except (TokenExpiredError) as e:  # or maybe any OAuth2Error

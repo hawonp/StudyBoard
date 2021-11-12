@@ -16,7 +16,7 @@ import ButtonComponets from "./ButtonComponets";
 import Box from "@mui/material/Box";
 
 export default function CardShow({ post }) {
-  const { id, user, title, images, content, tags } = dummy_prop;
+  // const { id, user, title, images, content, tags } = dummy_prop;
 
   //EditPost
   const [postCard, setpostCard] = useState({
@@ -32,7 +32,7 @@ export default function CardShow({ post }) {
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 1250 }}>
+      <Card sx={{ maxWidth: 1250,marginTop: '1rem'}}>
       <CardHeader
         style={{ textAlign: "left" }}
         avatar={
