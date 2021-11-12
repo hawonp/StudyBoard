@@ -13,11 +13,10 @@ import CardActions from "@mui/material/CardActions";
 
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import EditPost from "../components/EditPost";
 import DetailPost from "../components/DetailPost";
 import { CommentBox } from "../components/CommentBox";
-
 const dummy_prop = {
   id: "1",
   user: "pk",

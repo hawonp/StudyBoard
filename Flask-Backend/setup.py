@@ -14,7 +14,8 @@ import api.User as User
 # initialize Flask, Flask-RESTful, CORS
 app = imports.Flask(__name__)
 api = imports.Api(app)
-cors = imports.CORS(app, origins=["localhost:3000", "http://backend.studyboard.info", "*"])
+google_local = "https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?response_type=code&client_id=1477798809-45238qspaivuvrrpn8ocnp6sbpeu567l.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A9090%2Flogin%2Fgoogle%2Fauthorized&scope=openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&state=EEm2IZCf2kUngRsREXTJEs9xmtKv87&flowName=GeneralOAuthFlow"
+cors = imports.CORS(app, origins=[google_local, "localhost:3000", "http://backend.studyboard.info", "*", "http://localhost:3000"])
 app.secret_key = "supersekrit"  # Replace this with your own secret!
 
 # initialize Flask-Dance

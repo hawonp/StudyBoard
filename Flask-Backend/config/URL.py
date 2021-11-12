@@ -6,8 +6,8 @@ front_root = "http://localhost:3000/"
 front_board = "board"
 
 flask_root = "http://localhost:3000/"
-
-
+flask_login = "login"
+flask_logout = "login"
 ##########################################################
 #                      Production                        #
 ##########################################################
