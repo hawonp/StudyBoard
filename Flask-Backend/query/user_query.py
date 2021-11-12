@@ -77,6 +77,28 @@ def get_user_id_with_email(email):
     #Return result
     return user_id
 
+#Check if User exists by Id
+def check_user_id_exists(id):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT EXISTS(SELECT 1 FROM User WHERE user_id =? LIMIT 1)"
+        values = (id, )
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"No user exists: {e}")
+
+    return res
 
 #Get user by id
 def get_user_by_id(id):
