@@ -2,7 +2,6 @@ from config.imports import Resource, request
 from config.imports import id_token, requests
 from config.auth import GOOGLE_CLIENT_ID
 
-from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
 from query.user_query import add_user, check_user_id_exists
 
 class Default(Resource):
@@ -26,14 +25,16 @@ class VerifyToken(Resource):
             user_nickname = idinfo['name']
 
             print(user_id, user_email, user_nickname) 
-            
+            print(idinfo)
             # check if user already exists in the database
             res = check_user_id_exists(user_id)
-
+            
             # add user to database if doesn't exist
             if res[0] != 1:
                 add_user(user_id, user_nickname, user_email)
-    
+
+            return user_id
+            
         except ValueError:
             pass
 

@@ -24,8 +24,12 @@ function Login () {
               },
           })
           .then((response) => {
-            console.log(response)
+            if(response["status"] == 200){
+                console.log(response)
+                console.log(response["data"])
+            }
         });    
+
     };
   
     const onFailure = (res) => {
