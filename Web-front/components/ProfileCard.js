@@ -24,12 +24,12 @@ export default function ProfileCard() {
 
   //Load posts when component mounts
   useEffect(() => {
-    const user_info_url = users + id;
-    axiosInstance.get(user_info_url).then((response) => {
-      const temp = response["data"];
-      const chars = temp.split(",");
-      setNickname(chars[2]);
-    });
+    if (id != undefined) {
+      axiosInstance.get(users + id).then((response) => {
+        const temp = response["data"];
+        setNickname(JSON.parse(temp).user_nickname);
+      });
+    }
   }, []);
 
   return (
