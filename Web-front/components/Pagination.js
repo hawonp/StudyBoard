@@ -1,19 +1,15 @@
-import Head from 'next/head'
-import {Pagination} from "@mui/material";
+import Head from "next/head";
+import { Pagination } from "@mui/material";
 import React from "react";
 
+export default function PaginationButton({ maxPageCount }) {
+  return (
+    <div>
+      <Head>
+        <title>StudyBoard</title>
+      </Head>
 
-export default function PaginationButton() {
-    return (
-        <div>
-            <Head>
-                <title>StudyBoard</title>
-
-            </Head>
-
-            <Pagination count={10} variant="outlined" color="primary" />
-
-        </div>
-    )
+      <Pagination count={maxPageCount} variant="outlined" color="primary" />
+    </div>
+  );
 }
-

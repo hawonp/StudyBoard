@@ -1,90 +1,93 @@
 from config.db_connect import conn
 
-from config.imports import json
-from config.imports import Resource
+from config.imports import json, Resource, request, abort
+from config.imports import Schema, fields
+from query.post_query import add_post, get_post_feed
+from query.tag_query import get_post_tags
 
-#Defining the routes
-class PostData(Resource):
+############################
+#    CONSTANT URL PATH     #
+############################
+FEED = '/feed'
+POSTS = '/posts'
+POST_ID = '/<string:id>'
+
+############################
+#    Marshmallow Schema    #
+############################
+class FeedPostSchema(Schema):
+    page = fields.Str(required=True)
+    order = fields.Str(required=True)
+    filter = fields.Str(required=True)
+
+class PostCreateSchema(Schema):
+    title = fields.Str(required=True)
+    text = fields.Str(required=True)
+    imageURL = fields.Str(required=True)
+    tags = fields.Str(required=True)
+
+############################
+# Flask RESTful API routes #
+############################
+#Post feed
+class FeedPostData(Resource):
     def get(self):
-        cur = conn.cursor()
-        cur.execute("select * from Post")
+        #Validate params first
+        errors = feed_post_schema.validate(request.args)
+        if errors:
+            abort(400, str(errors))
+        
+        #Assuming all params have been validated.
+        page = int(request.args.get('page'))
+        order = request.args.get('order')
+        filter = request.args.get('filter')
 
-        # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
-        json_data=[]
+        #Get posts with given offset, sort order and tag filter
+        feed = get_post_feed(page, "post_date", None)
 
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
+        #For every post, get the tags and append it to the respective post object
+        for post in feed['posts']:            
+            #Finding and adding related tags to each post
+            post_tags = get_post_tags(post["post_id"])
+            tags = []
+            for tag in post_tags:
+                tags.append(tag[0])
+            post["post_tags"] = tags
+            
+        # print(json.dumps({"data":posts}, default=str))
+        return json.dumps(feed, default=str)
 
-        #Close cursor
-        cur.close()
+#Post (detail) TODO: PUT is pass
+class PostData(Resource):
+    def get(self, id):
+        post = get_post_by_id(id)
+        return json.dumps(post)
 
-        # return the results!
-        return json.dumps(json_data)
+    def put(self, id):
+        pass
 
-#post related
-# Adding Post entries to the db.
-def add_post(user, title, text, img_url, tags):
-    new_post_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
+#Post creation TODO: NEEDS TO BE TESTED
+class PostCreate(Resource):
+    def post(self):
+        #Validate params first
+        errors = post_create_schema.validate(request.args)
+        if errors:
+            abort(400, str(errors))
+        
+        #Now fetch the params
+        title = request.args.get('title')
+        text = request.args.get('text')
+        iamgeURL = request.args.get('iamgeURL')
+        tags = request.args.get('tags')
 
-        #First add the Post to Post table
-        #Set up query statement and values
-        date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO Post (user_id, post_title, post_text, post_image, post_date) VALUES (?, ?, ?, ?, ?)"
-        values = (int(user), title, text, img_url, date_time)
-
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
-
-        #Getting id of newly added post
-        new_post_id = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-
-        #Now add the tags related to this post. Add new tag if tag doesnt exist.
-        for tag in tags:
-            print(tag)
-
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-
-    return new_post_id
-
-#Tag related
-#Adding tags TODO: finish this part
-def add_tag(tag):
-    tag_id = -1 #When meeting and error or not found
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
-
-        #First add the Post to Post table
-        #Set up query statement and values
-        query = "INSERT INTO Tag (tag_name) VALUES ?"
-        values = (tag, )
-
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
-
-        #Getting id of newly added post
-        tag_id = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-    
-    return tag_id
+        res = add_post(userid, title, text, imageURL, tags)
+        return res
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(PostData, '/posts')
+    api.add_resource(FeedPostData, FEED+POSTS)
+    api.add_resource(PostData, POSTS+POST_ID)
+    api.add_resource(PostCreate, POSTS)
+
+feed_post_schema = FeedPostSchema()
+post_create_schema = PostCreateSchema()
