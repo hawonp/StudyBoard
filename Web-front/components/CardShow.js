@@ -58,12 +58,7 @@ export  default function CardShow(){
                             <StarIcon sx={{color:'yellow', mt:'0.1rem'}} />
                         </Tooltip>
 
-                        {/*<Tooltip title="Edit">*/}
-                        {/*<Link href={`/postedit/${id}/${title}/${content}/${images}/${tag}`} >*/}
-                        {/*    <IconButton aria-label="EditIcon">*/}
-                        {/*        <EditIcon />*/}
-                        {/*    </IconButton>*/}
-                        {/*</Link>*/}
+
                     </div>
                 }
 

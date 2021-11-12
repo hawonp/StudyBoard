@@ -56,6 +56,7 @@ export default function Board() {
                 <div >
                     {/*Pre view user post Card*/}
                     <CardShow />
+                    <CardShow />
                 </div>
 
                 {/*pagnation*/}

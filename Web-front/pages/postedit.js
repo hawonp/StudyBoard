@@ -9,9 +9,10 @@ export default function Postedit({ }) {
     // const router = useRouter()
     // const { id, user, title, images ,content, tags } = router.query;
     return (
-        <Container>
-            <EditPost postCard={postCard}/>
-        </Container>
+        <></>
+        // <Container>
+        //     <EditPost postCard={postCard}/>
+        // </Container>
     )
 }
 
