@@ -114,8 +114,8 @@ def get_user_by_id(id):
         print("Searching with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchone()
-            # serialize results into JSON
-
+        
+        # serialize results into JSON
         row_headers=[x[0] for x in cursor.description]
         res = dict(zip(row_headers,res))
 

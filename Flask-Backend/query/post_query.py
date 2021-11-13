@@ -107,7 +107,7 @@ def get_post_by_id(id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT * FROM Post WHERE post_id=?"
+        query = "SELECT u.user_nickname, pst.* FROM User u INNER JOIN (SELECT * FROM Post WHERE post_id=?) AS pst ON pst.user_id = u.user_id"
         values = (int(id), )
 
         #Getting data from table
@@ -115,6 +115,10 @@ def get_post_by_id(id):
         cursor.execute(query, values)
         res = cursor.fetchone()
         
+        #Serialise result into json
+        row_headers=[x[0] for x in cursor.description]
+        res = dict(zip(row_headers,res))
+
         #Closing cursor
         cursor.close()
         conn.commit()

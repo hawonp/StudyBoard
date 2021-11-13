@@ -54,14 +54,22 @@ class FeedPostData(Resource):
                 tags.append(tag[0])
             post["post_tags"] = tags
             
-        # print(json.dumps({"data":posts}, default=str))
         return json.dumps(feed, default=str)
 
 #Post (detail) TODO: PUT is pass
 class PostData(Resource):
     def get(self, id):
+        #First get post
         post = get_post_by_id(id)
-        return json.dumps(post)
+
+        #Now get the tags
+        post_tags = get_post_tags(post["post_id"])
+        tags = []
+        for tag in post_tags:
+            tags.append(tag[0])
+        post["post_tags"] = tags
+
+        return json.dumps(post, default=str)
 
     def put(self, id):
         pass

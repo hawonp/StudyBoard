@@ -48,7 +48,8 @@ const DetailWrapper = ({ style, children }) => {
 };
 
 export default function DetailPost({ postData }) {
-  const { post_id, user, title, images, content, tags } = postData;
+  const { post_id, user, title, images, text, tags } = postData;
+
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
@@ -72,31 +73,33 @@ export default function DetailPost({ postData }) {
                 justifyContent: "start",
               }}
             >
-              <HashtagWrapper>{tags}</HashtagWrapper>
-              {/*<HashtagWrapper>Hard</HashtagWrapper>*/}
-              {/*<HashtagWrapper>Help</HashtagWrapper>*/}
+              {tags.map((tag, i) => (
+                <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+              ))}
             </div>
           </div>
         </header>
-
         {/*image*/}
+        {/*<div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>*/}
+        {/*<img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>*/}
         <div>
-          {/*<div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>*/}
-          {/*<img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>*/}
-          <img
-            style={{ maxHeight: "800px", objectFit: "contain" }}
-            src={images}
-          />
+          {images == "None" ? (
+            <></>
+          ) : (
+            <img
+              style={{ maxHeight: "800px", objectFit: "contain" }}
+              src={images}
+            />
+          )}
         </div>
 
         <section>
           <p>
             {/*We have solutions for your book!*/}
             {/*This problem has been solved:*/}
-            {content}
+            {text}
           </p>
         </section>
-
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
           <IconButton aria-label="favorites">
             <FavoriteIcon />

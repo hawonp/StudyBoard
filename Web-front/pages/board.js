@@ -11,7 +11,7 @@ import FilterButton from "../components/FilterButton";
 
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
-const postFeed = "/feed/posts";
+const POST_FEED = "/feed/posts";
 
 //popover
 const options = ["Edit", "Delete"];
@@ -28,7 +28,7 @@ export default function Board() {
   //Load posts when component mounts
   useEffect(() => {
     axiosInstance
-      .get(postFeed, {
+      .get(POST_FEED, {
         params: {
           page: feedPage,
           order: feedOrder,
