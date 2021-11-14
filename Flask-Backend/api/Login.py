@@ -14,7 +14,6 @@ class Login(Resource):
         token = request.args.get('id_token')
         print("BE: Received auth req from FE")
         
-
         # authenticate token_id from signin
         success, idinfo = verify_id_token(token)
             

@@ -3,8 +3,8 @@ from config.db_connect import conn
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields
 
-from query.user_query import add_user, get_user_by_id, get_users, update_user_nickname
-
+from query.user_query import get_user_by_id
+from query.login_query import verify_id_token
 ############################
 #    CONSTANT URL PATH     #
 ############################
@@ -23,9 +23,15 @@ class UserInfoSchema(Schema):
 ############################
 class UserInfo(Resource):
     def get(self, id):
-        user = get_user_by_id(id)
-        return json.dumps(user)
-    
+        
+        token = request.args.get('id_token')
+        success, unused = verify_id_token(token)
+        print("USER: verifying user token", success, token)
+        if(success):
+            user = get_user_by_id(id)
+            return json.dumps(user)
+        else:
+            abort(403)
     # def put(self, id): #TODO: NEEDS TO BE TESTED
     #     #Validate params first    
     #     errors = user_info_schema.validate(request.args)

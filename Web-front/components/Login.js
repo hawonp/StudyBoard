@@ -33,9 +33,9 @@ function Login() {
             cookies.set("user_id", response["data"], { path: "/" });
             cookies.set("user_token", id_token, { path: "/" });
           }
-          // alert("Log-In Success!");
           window.location.reload();
         } else if (response["status"] == 403) {
+          console.log("sad face");
           alert("Could not verify token at Backend");
         }
       });

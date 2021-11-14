@@ -20,8 +20,7 @@ export default function ProfileCard() {
   const [nickname, setNickname] = useState("");
   const cookies = new Cookies();
   const user_id = cookies.get("user_id");
-  console.log("Profile Card User ID: " + user_id);
-  // console.log("id_token: " + cookies.get("user_token"));
+  const id_token = cookies.get("user_token");
 
   //Load posts when component mounts
   useEffect(() => {
@@ -29,10 +28,20 @@ export default function ProfileCard() {
       console.log("User Id is null");
     } else {
       console.log("Crawling User Profile Data");
-      axiosInstance.get(users + user_id).then((response) => {
-        const temp = response["data"];
-        setNickname(JSON.parse(temp).user_nickname);
-      });
+      axiosInstance
+        .get(users + user_id, {
+          params: {
+            id_token: id_token,
+          },
+        })
+        .then((response) => {
+          if (response["status"] == 200) {
+            const temp = response["data"];
+            setNickname(JSON.parse(temp).user_nickname);
+          } else if (response["status"] == 403) {
+            alert("Could not verify token at Backend");
+          }
+        });
     }
   }, []);
 
