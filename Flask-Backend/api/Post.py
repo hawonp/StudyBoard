@@ -68,6 +68,7 @@ class PostData(Resource):
         post = get_post_by_id(id)
 
         #Now get the tags
+        print("Getting post tags with retrieved post data:", post)
         post_tags = get_post_tags(post["post_id"])
         tags = []
         for tag in post_tags:

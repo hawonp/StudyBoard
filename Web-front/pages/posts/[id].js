@@ -69,6 +69,8 @@ export default function PostDetailPage() {
     date: "DATE",
     didUserLike: false,
   });
+
+  //Load in  the post data upon render
   useEffect(() => {
     axiosInstance
       .get(POSTDATAENDPOINT + "/" + router.query.id, {
@@ -103,8 +105,27 @@ export default function PostDetailPage() {
         setIsLoading(false);
       });
   }, [isLoading]);
-  console.log(isLoading);
-  console.log(postData);
+
+  //Handle like press
+  const handleLikePressed = () => {
+    const id = cookies.get("user_token");
+    const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/likes";
+    axiosInstance
+      .post(requestEndpoint, {
+        params: {
+          userID: id,
+          didUserLike: postData.didUserLike,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setPostData((prevData) => {
+          return { ...prevData, didUserLike: !prevData.didUserLike };
+        });
+      });
+  };
+
+  //Render if the post has loaded
   if (isLoading) {
     return <div> Loading... </div>;
   } else {
@@ -128,7 +149,10 @@ export default function PostDetailPage() {
             {isEdit ? (
               <EditPost postCard={postData} />
             ) : (
-              <DetailPost postData={postData} />
+              <DetailPost
+                postData={postData}
+                onLikePressed={handleLikePressed}
+              />
             )}
           </Container>
 

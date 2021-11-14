@@ -11,11 +11,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
 
-import axiosInstance from "../utils/routeUtil";
-
-const cookies = new Cookies();
-const POSTDATAENDPOINT = "/posts";
-
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -54,28 +49,8 @@ const DetailWrapper = ({ style, children }) => {
     </div>
   );
 };
-function likeButtonHandler(didUserLike) {
-  const id = cookies.get("user_token");
-  console.log(POSTDATAENDPOINT + "/" + "likes");
-  axiosInstance.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
-    return request;
-  });
-  axiosInstance
-    .post(POSTDATAENDPOINT + "/" + "likes", {
-      params: {
-        userID: id,
-        didUserLike: didUserLike,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-    });
-}
 
-export default function DetailPost({ postData }) {
-  POSTDATAENDPOINT = "/posts/" + postData.id;
-
+export default function DetailPost({ postData, onLikePressed }) {
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
@@ -129,7 +104,7 @@ export default function DetailPost({ postData }) {
           </IconButton>
           <IconButton
             aria-label="thumbup"
-            onClick={() => likeButtonHandler(postData.didUserLike)}
+            onClick={() => onLikePressed(postData.id, postData.didUserLike)}
           >
             <ThumbUpIcon />
           </IconButton>
