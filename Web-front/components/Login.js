@@ -5,40 +5,38 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
-const verifyToken = "/verify";
+const verifyToken = "/login";
 const clientID =
   "1477798809-45238qspaivuvrrpn8ocnp6sbpeu567l.apps.googleusercontent.com";
 
 function Login() {
   const onSuccess = (res) => {
-    console.log("[Login Success!] currentUser: ", res.profileObj);
-    // console.log(res.tokenObj["access_token"]);
-    // console.log(res.tokenObj["id_token"]);
-    // console.log(res.tokenObj);
+    console.log("Login Success!");
+    console.log(res.tokenObj);
+    const id_token = res.tokenObj["id_token"];
 
     refreshTokenSetup(res);
-
+    console.log("Make AXIOS call to BE");
     axiosInstance
       .get(verifyToken, {
         params: {
-          token: res.tokenObj["id_token"],
+          id_token: id_token,
         },
       })
       .then((response) => {
         if (response["status"] == 200) {
-          //   console.log(response);
-          console.log("response from backend", response["data"]);
           if (
             cookies.get("user_token") == null ||
             cookies.get("user_token") == "null" ||
             cookies.get("user_token") == undefined
           ) {
-            cookies.set("user_token", response["data"], { path: "/" });
+            cookies.set("user_id", response["data"], { path: "/" });
+            cookies.set("user_token", id_token, { path: "/" });
           }
-          console.log("yes");
-          console.log(cookies.get("user_token"));
-          console.log(cookies.getAll());
-          // window.location.reload();
+          // alert("Log-In Success!");
+          window.location.reload();
+        } else if (response["status"] == 403) {
+          alert("Could not verify token at Backend");
         }
       });
   };

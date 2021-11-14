@@ -1,7 +1,8 @@
 # imports
-import config.imports as imports
 import config.db_connect as setting
-from config.auth import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from flask_session import Session
+from config.imports import Flask, CORS, Api
+from config.config import ApplicationConfig
 
 #Import APIs
 import api.Login as Login
@@ -9,17 +10,20 @@ import api.Post as Post
 import api.Dev as Dev
 import api.User as User
 
-# initialize Flask, Flask-RESTful, CORS
-app = imports.Flask(__name__)
-api = imports.Api(app)
 
-cors = imports.CORS(app, origins=["localhost:3000", "http://backend.studyboard.info", "*", "localhost:9090"])
-app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin'
+# initialize Flask, 
+app = Flask(__name__)
+app.config.from_object(ApplicationConfig)
+setting.local_flask = False #set to true for production
 
-app.secret_key = "supersekrit"  # Replace this with your own secret!
+# initialize CORS
+CORS(app, origins=["localhost:3000", "http://backend.studyboard.info", "*", "localhost:9090"])
 
-# set connection setting
-setting.local_flask = False
+# initialize Flask-RESTful
+api = Api(app)
+
+# initialize REDIS
+server_session = Session(app)
 
 # import dev_tools api
 Dev.init_routes(api)

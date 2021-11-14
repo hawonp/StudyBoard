@@ -14,7 +14,8 @@ import Cookies from "universal-cookie";
 
 export default function CustomAppBar() {
   const cookies = new Cookies();
-  const id = cookies.get("user_token");
+  const user_id = cookies.get("user_token");
+  console.log("App Bar:\nID_TOKEN= ", user_id);
 
   const menuTwoList = [
     {
@@ -60,14 +61,10 @@ export default function CustomAppBar() {
         </Box>
 
         <div>
-          {id == undefined || id == "null" || id == null ? (
-            <Login />
-          ) : (
-            <Logout />
-          )}
+          {user_id == undefined || user_id == "null" ? <Login /> : <Logout />}
         </div>
         <div>
-          {id == undefined || id == "null" || id == null ? (
+          {user_id == undefined || user_id == "null" ? (
             <> </>
           ) : (
             <div>
@@ -84,7 +81,7 @@ export default function CustomAppBar() {
           )}
         </div>
         <div>
-          {id == undefined || id == "null" || id == null ? (
+          {user_id == undefined || user_id == "null" ? (
             <> </>
           ) : (
             <div>

@@ -8,7 +8,6 @@ services:
       TZ: Asia/Seoul
     networks:
       - dbms_network
-
 networks:
   dbms_network:
     external: true
