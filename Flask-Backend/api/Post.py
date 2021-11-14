@@ -29,7 +29,6 @@ class PostCreateSchema(Schema):
 
 class PostLikeFormSchema(Schema):
     userID = fields.Str(required=True)
-    didUserLike = fields.Boolean(required=True)
 
 ############################
 # Flask RESTful API routes #
@@ -76,7 +75,7 @@ class PostData(Resource):
         post["post_tags"] = tags
 
         #Now check if the user liked the post
-        viewer = request.args.get('user_id')
+        viewer = request.args.get('userID')
         did_user_like_post = check_if_user_liked_post(viewer, post["post_id"])
         post["did_user_like_post"] = did_user_like_post
         return json.dumps(post, default=str)
@@ -112,16 +111,24 @@ class PostLike(Resource):
             abort(400, str(errors))
         user_id = formData["userID"]
 
-        #Act accordingly
-        if formData["didUserLike"]:
-            print("Removing user like from post")
-            res = delete_user_like_post(user_id, id)
-            return res
-        else:
-            user_id = formData["userID"]
-            print("Adding user like to post")
-            res = add_user_like_post(user_id, id)
-            return res
+        #Like
+        user_id = formData["userID"]
+        print("Adding user like to post")
+        res = add_user_like_post(user_id, id)
+        return res
+    
+    def delete(self, id):
+        #Validate params and assign variables
+        errors = post_like_form_schema.validate(request.args)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
+        user_id = request.args.get('userID')
+
+        #Un-like
+        print("Removing user like from post")
+        res = delete_user_like_post(user_id, id)
+        return res
 
 #Add routes to api
 def init_routes(api):

@@ -6,7 +6,9 @@ import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
@@ -106,7 +108,7 @@ export default function DetailPost({ postData, onLikePressed }) {
             aria-label="thumbup"
             onClick={() => onLikePressed(postData.id, postData.didUserLike)}
           >
-            <ThumbUpIcon />
+            {postData.didUserLike ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
           </IconButton>
           <IconButton
             aria-label="share"

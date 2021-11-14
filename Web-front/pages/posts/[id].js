@@ -74,7 +74,7 @@ export default function PostDetailPage() {
   useEffect(() => {
     axiosInstance
       .get(POSTDATAENDPOINT + "/" + router.query.id, {
-        params: { user_id: userID },
+        params: { userID: userID },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
@@ -110,19 +110,33 @@ export default function PostDetailPage() {
   const handleLikePressed = () => {
     const id = cookies.get("user_token");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/likes";
-    axiosInstance
-      .post(requestEndpoint, {
-        params: {
-          userID: id,
-          didUserLike: postData.didUserLike,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        setPostData((prevData) => {
-          return { ...prevData, didUserLike: !prevData.didUserLike };
+    if (postData.didUserLike) {
+      axiosInstance
+        .delete(requestEndpoint, {
+          params: {
+            userID: id,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setPostData((prevData) => {
+            return { ...prevData, didUserLike: !prevData.didUserLike };
+          });
         });
-      });
+    } else {
+      axiosInstance
+        .post(requestEndpoint, {
+          params: {
+            userID: id,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setPostData((prevData) => {
+            return { ...prevData, didUserLike: !prevData.didUserLike };
+          });
+        });
+    }
   };
 
   //Render if the post has loaded
