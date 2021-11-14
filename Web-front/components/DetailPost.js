@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Cookies from "universal-cookie";
 //Importing MUI
 import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
@@ -9,6 +10,11 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
+
+import axiosInstance from "../utils/routeUtil";
+
+const cookies = new Cookies();
+const POSTDATAENDPOINT = "/posts";
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -48,10 +54,27 @@ const DetailWrapper = ({ style, children }) => {
     </div>
   );
 };
+function likeButtonHandler(didUserLike) {
+  const id = cookies.get("user_token");
+  console.log(POSTDATAENDPOINT + "/" + "likes");
+  axiosInstance.interceptors.request.use((request) => {
+    console.log("Starting Request", JSON.stringify(request, null, 2));
+    return request;
+  });
+  axiosInstance
+    .post(POSTDATAENDPOINT + "/" + "likes", {
+      params: {
+        userID: id,
+        didUserLike: didUserLike,
+      },
+    })
+    .then((response) => {
+      console.log(response);
+    });
+}
 
 export default function DetailPost({ postData }) {
-  //Post data state
-  console.log(postData);
+  POSTDATAENDPOINT = "/posts/" + postData.id;
 
   return (
     <DetailWrapper>
@@ -104,13 +127,18 @@ export default function DetailPost({ postData }) {
           <IconButton aria-label="favorites">
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="thumbup">
+          <IconButton
+            aria-label="thumbup"
+            onClick={() => likeButtonHandler(postData.didUserLike)}
+          >
             <ThumbUpIcon />
           </IconButton>
-          <IconButton aria-label="BookmarkIcon">
-            <BookmarkIcon />
-          </IconButton>
-          <IconButton aria-label="share">
+          <IconButton
+            aria-label="share"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+            }}
+          >
             <ShareIcon />
           </IconButton>
           <IconButton aria-label="report">

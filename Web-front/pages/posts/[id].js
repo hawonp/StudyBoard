@@ -53,6 +53,10 @@ const DetailWrapper = ({ style, children }) => {
 
 export default function PostDetailPage() {
   const router = useRouter();
+  let userID = cookies.get("user_token");
+  if (userID == undefined) {
+    userID = -1;
+  }
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [postData, setPostData] = useState({
@@ -63,21 +67,39 @@ export default function PostDetailPage() {
     images: "IMAGES",
     tags: ["TAG1", "TAG2"],
     date: "DATE",
+    didUserLike: false,
   });
   useEffect(() => {
     axiosInstance
-      .get(POSTDATAENDPOINT + "/" + router.query.id)
+      .get(POSTDATAENDPOINT + "/" + router.query.id, {
+        params: { user_id: userID },
+      })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        setPostData({
-          id: responseData["post_id"],
-          user: responseData["user_nickname"],
-          title: responseData["post_title"],
-          text: responseData["post_text"],
-          images: responseData["post_image"],
-          tags: responseData["post_tags"],
-          date: responseData["post_date"],
-        });
+        //Assign data according to whether the user liked the post
+        if (responseData["did_user_like_post"] != 0) {
+          setPostData({
+            id: responseData["post_id"],
+            user: responseData["user_nickname"],
+            title: responseData["post_title"],
+            text: responseData["post_text"],
+            images: responseData["post_image"],
+            tags: responseData["post_tags"],
+            date: responseData["post_date"],
+            didUserLike: true,
+          });
+        } else {
+          setPostData({
+            id: responseData["post_id"],
+            user: responseData["user_nickname"],
+            title: responseData["post_title"],
+            text: responseData["post_text"],
+            images: responseData["post_image"],
+            tags: responseData["post_tags"],
+            date: responseData["post_date"],
+            didUserLike: false,
+          });
+        }
         setIsLoading(false);
       });
   }, [isLoading]);

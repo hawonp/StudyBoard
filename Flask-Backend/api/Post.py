@@ -2,7 +2,8 @@ from config.db_connect import conn
 
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
-from query.post_query import add_post, get_post_feed, get_post_by_id
+from query.post_query import add_post, get_post_feed, get_post_by_id, check_if_user_liked_post
+from query.post_query import add_user_like_post, delete_user_like_post
 from query.tag_query import get_post_tags
 
 ############################
@@ -25,6 +26,10 @@ class PostCreateSchema(Schema):
     text = fields.Str(required=True)
     imageURL = fields.Str(required=True)
     tags = fields.Str(required=True)
+
+class PostLikeFormSchema(Schema):
+    userID = fields.Str(required=True)
+    didUserLike = fields.Boolean(required=True)
 
 ############################
 # Flask RESTful API routes #
@@ -69,6 +74,10 @@ class PostData(Resource):
             tags.append(tag[0])
         post["post_tags"] = tags
 
+        #Now check if the user liked the post
+        viewer = request.args.get('user_id')
+        did_user_like_post = check_if_user_liked_post(viewer, post["post_id"])
+        post["did_user_like_post"] = did_user_like_post
         return json.dumps(post, default=str)
 
     def put(self, id):
@@ -91,11 +100,35 @@ class PostCreate(Resource):
         res = add_post(userid, title, text, imageURL, tags)
         return res
 
+#Post like
+class PostLike(Resource):
+    def post(self, id):
+        #Validate params and assign variables
+        formData = request.get_json()["params"]
+        errors = post_like_form_schema.validate(formData)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
+        user_id = formData["userID"]
+
+        #Act accordingly
+        if formData["didUserLike"]:
+            print("Removing user like from post")
+            res = delete_user_like_post(user_id, id)
+            return res
+        else:
+            user_id = formData["userID"]
+            print("Adding user like to post")
+            res = add_user_like_post(user_id, id)
+            return res
+
 #Add routes to api
 def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
     api.add_resource(PostData, POSTS+POST_ID)
     api.add_resource(PostCreate, POSTS)
+    api.add_resource(PostLike, POSTS+POST_ID+"/likes")
 
 feed_post_schema = FeedPostSchema()
 post_create_schema = PostCreateSchema()
+post_like_form_schema = PostLikeFormSchema()
