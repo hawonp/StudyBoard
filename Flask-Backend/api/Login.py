@@ -14,7 +14,7 @@ class VerifyToken(Resource):
     def get(self):
         #Assuming all params have been validated.
         token = request.args.get('token')
-        print(token)
+        print("token received from FE: " + token)
         try:
             # authenticate token_id from signin
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)

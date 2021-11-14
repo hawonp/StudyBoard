@@ -105,6 +105,9 @@ def get_user_by_id(id):
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
+        
+        if(id == None):
+            return -1
 
         #Set up query statement and values
         query = "SELECT * FROM User WHERE user_id=?"

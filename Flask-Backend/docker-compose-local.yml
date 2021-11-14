@@ -4,7 +4,8 @@ services:
     build: .
     ports:
       - "9090:9090"
-
+    environment:
+      TZ: Asia/Seoul
     networks:
       - dbms_network
 

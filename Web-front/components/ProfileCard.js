@@ -17,14 +17,25 @@ import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
 
 export default function ProfileCard() {
-  const cookies = new Cookies();
-  const id = cookies.get("user_token");
-
   const [nickname, setNickname] = useState("");
+  const cookies = new Cookies();
+  console.log("Print all cookies: " + cookies.getAll());
+  const id = cookies.get("user_token");
+  console.log("Profile Card User ID: " + id);
 
   //Load posts when component mounts
   useEffect(() => {
-    if (id != undefined) {
+    if (id == null || id == undefined || id == "null") {
+      console.log("User Id is null");
+    } else {
+      console.log("Making axios call");
+      if (id == null) {
+        console.log("a");
+      } else if (id == undefined) {
+        console.log("b");
+      } else if (id == "null") {
+        console.log("c");
+      }
       axiosInstance.get(users + id).then((response) => {
         const temp = response["data"];
         setNickname(JSON.parse(temp).user_nickname);
@@ -34,7 +45,7 @@ export default function ProfileCard() {
 
   return (
     <div>
-      {id == undefined ? (
+      {id == undefined || id == null || id == "null" ? (
         <></>
       ) : (
         <Grid item xs={2}>

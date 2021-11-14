@@ -28,13 +28,17 @@ function Login() {
         if (response["status"] == 200) {
           //   console.log(response);
           console.log("response from backend", response["data"]);
-          if (cookies.get("user_token") == null) {
+          if (
+            cookies.get("user_token") == null ||
+            cookies.get("user_token") == "null" ||
+            cookies.get("user_token") == undefined
+          ) {
             cookies.set("user_token", response["data"], { path: "/" });
           }
           console.log("yes");
           console.log(cookies.get("user_token"));
           console.log(cookies.getAll());
-          window.location.reload();
+          // window.location.reload();
         }
       });
   };
