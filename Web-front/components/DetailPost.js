@@ -1,3 +1,6 @@
+import * as React from "react";
+import { useState, useEffect } from "react";
+//Importing MUI
 import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
@@ -6,7 +9,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
-import * as React from "react";
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -48,20 +50,21 @@ const DetailWrapper = ({ style, children }) => {
 };
 
 export default function DetailPost({ postData }) {
-  const { post_id, user, title, images, text, tags } = postData;
+  //Post data state
+  console.log(postData);
 
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         {/*title*/}
         <header style={{ marginBottom: "1.5rem" }}>
-          <h1>{title}</h1>
+          <h1>{postData.title}</h1>
           {/*username*/}
           <div style={{ display: "flex", marginBottom: "1.5rem" }}>
-            <div>{user}</div>
+            <div>{postData.user}</div>
             {/*date*/}
             <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-              date
+              {postData.date}
             </div>
           </div>
           {/*hashtag*/}
@@ -73,22 +76,19 @@ export default function DetailPost({ postData }) {
                 justifyContent: "start",
               }}
             >
-              {tags.map((tag, i) => (
+              {postData.tags.map((tag, i) => (
                 <HashtagWrapper key={i}>{tag}</HashtagWrapper>
               ))}
             </div>
           </div>
         </header>
-        {/*image*/}
-        {/*<div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>*/}
-        {/*<img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>*/}
         <div>
-          {images == "None" ? (
+          {postData.images == "None" ? (
             <></>
           ) : (
             <img
               style={{ maxHeight: "800px", objectFit: "contain" }}
-              src={images}
+              src={postData.images}
             />
           )}
         </div>
@@ -97,14 +97,14 @@ export default function DetailPost({ postData }) {
           <p>
             {/*We have solutions for your book!*/}
             {/*This problem has been solved:*/}
-            {text}
+            {postData.text}
           </p>
         </section>
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
           <IconButton aria-label="favorites">
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="thoumup">
+          <IconButton aria-label="thumbup">
             <ThumbUpIcon />
           </IconButton>
           <IconButton aria-label="BookmarkIcon">

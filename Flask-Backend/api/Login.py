@@ -1,7 +1,7 @@
 from config.imports import Resource, request
 from config.imports import id_token, requests
 from config.auth import GOOGLE_CLIENT_ID
-
+import datetime
 from query.user_query import add_user, check_user_id_exists
 
 class Default(Resource):
@@ -15,6 +15,7 @@ class VerifyToken(Resource):
         #Assuming all params have been validated.
         token = request.args.get('token')
         print(token)
+        print(datetime.datetime.now())
         try:
             # authenticate token_id from signin
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
@@ -23,10 +24,8 @@ class VerifyToken(Resource):
             user_id = idinfo['sub']
             user_email = idinfo['email']
             user_nickname = idinfo['name']
-            print("sd")
             print(user_id, user_email, user_nickname) 
             print(idinfo)
-            print("ehusia")
             # check if user already exists in the database
             res = check_user_id_exists(user_id)
             

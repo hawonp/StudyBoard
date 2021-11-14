@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Cookies from "universal-cookie";
@@ -54,13 +54,15 @@ const DetailWrapper = ({ style, children }) => {
 export default function PostDetailPage() {
   const router = useRouter();
   const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [postData, setPostData] = useState({
-    id: "0",
+    id: "-1",
     user: "USER",
     title: "TITLE",
-    images: "IMAGES",
     text: "TEXT",
-    tags: [],
+    images: "IMAGES",
+    tags: ["TAG1", "TAG2"],
+    date: "DATE",
   });
   useEffect(() => {
     axiosInstance
@@ -68,48 +70,55 @@ export default function PostDetailPage() {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         setPostData({
-          id: responseData.post_id,
-          user: responseData.user_nickname,
-          title: responseData.post_title,
-          text: responseData.post_text,
-          images: responseData.post_image,
-          tags: responseData.post_tags,
+          id: responseData["post_id"],
+          user: responseData["user_nickname"],
+          title: responseData["post_title"],
+          text: responseData["post_text"],
+          images: responseData["post_image"],
+          tags: responseData["post_tags"],
+          date: responseData["post_date"],
         });
+        setIsLoading(false);
       });
-  }, []);
-
-  return (
-    <div style={{ display: "flex" }}>
-      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-        {isEdit ? (
-          <Button
-            title={"I want to edit"}
-            onClick={() => setIsEdit(false)}
-            sx={{ width: "100px", height: "50px" }}
-          ></Button>
-        ) : (
-          <Button
-            title={"I want to edit"}
-            onClick={() => setIsEdit(true)}
-            sx={{ width: "100px", height: "50px" }}
-          ></Button>
-        )}
-        <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
+  }, [isLoading]);
+  console.log(isLoading);
+  console.log(postData);
+  if (isLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
           {isEdit ? (
-            <EditPost postCard={postData} />
+            <Button
+              title={"I want to edit"}
+              onClick={() => setIsEdit(false)}
+              sx={{ width: "100px", height: "50px" }}
+            ></Button>
           ) : (
-            <DetailPost postData={postData} />
+            <Button
+              title={"I want to edit"}
+              onClick={() => setIsEdit(true)}
+              sx={{ width: "100px", height: "50px" }}
+            ></Button>
           )}
-        </Container>
+          <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
+            {isEdit ? (
+              <EditPost postCard={postData} />
+            ) : (
+              <DetailPost postData={postData} />
+            )}
+          </Container>
 
-        <Container>
-          <DetailWrapper>
-            <CommentBox />
-          </DetailWrapper>
-        </Container>
+          <Container>
+            <DetailWrapper>
+              <CommentBox />
+            </DetailWrapper>
+          </Container>
+        </div>
+
+        <ProfileCard />
       </div>
-
-      <ProfileCard />
-    </div>
-  );
+    );
+  }
 }
