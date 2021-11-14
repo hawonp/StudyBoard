@@ -21,6 +21,9 @@ export default function ProfileCard() {
   const cookies = new Cookies();
   const user_id = cookies.get("user_id");
   const id_token = cookies.get("user_token");
+  const [tags, setTags] = useState([]);
+
+  const tag_url = users + user_id + tags;
 
   //Load posts when component mounts
   useEffect(() => {
@@ -37,7 +40,11 @@ export default function ProfileCard() {
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];
-            setNickname(JSON.parse(temp).user_nickname);
+            const temp_json = JSON.parse(temp);
+            const user_nickname = temp_json.user.user_nickname;
+            const tag = temp_json.tags;
+            setNickname(user_nickname);
+            setTags(tag);
           } else if (response["status"] == 403) {
             alert("Could not verify token at Backend");
           }

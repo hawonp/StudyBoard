@@ -5,6 +5,7 @@ def verify_id_token(token):
     print("Verifying ID Token, Current Time: " + str(datetime.datetime.now()))
     print("Token Received: ", token)
     try: 
+        print("Attempt to verify token")
         decoded_token = id_token.verify_oauth2_token(token, requests.Request(), ApplicationConfig.GOOGLE_CLIENT_ID)
         print("Token is verified!\n",decoded_token)
         return True, decoded_token

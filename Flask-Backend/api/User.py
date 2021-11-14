@@ -1,8 +1,9 @@
 
+from flask.json import jsonify
 from config.db_connect import conn
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields
-
+from query.tag_query import get_user_tags
 from query.user_query import get_user_by_id
 from query.login_query import verify_id_token
 ############################
@@ -29,7 +30,12 @@ class UserInfo(Resource):
         print("USER: verifying user token", success, token)
         if(success):
             user = get_user_by_id(id)
-            return json.dumps(user)
+            tags = get_user_tags(id)
+            data = {
+                "user" : user,
+                "tags" : tags
+            }
+            return json.dumps(data)
         else:
             abort(403)
     # def put(self, id): #TODO: NEEDS TO BE TESTED
