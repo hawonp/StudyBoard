@@ -55,11 +55,6 @@ export default function CardShow({ post }) {
         <Card sx={{ maxWidth: 1250, marginTop: '1rem' }}>
             <CardHeader
                 style={{ textAlign: 'left' }}
-                avatar={
-                    // user icon
-
-                    <Avatar sx={{ bgcolor: 'black' }} aria-label="recipe"></Avatar>
-                }
                 action={
                     <div>
                         <Tooltip title="This is Endorsed User post ">
@@ -100,19 +95,21 @@ export default function CardShow({ post }) {
                         <Typography variant="body2" color="text.secondary">
                             {post.post_text}
                         </Typography>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexFlow: 'row wrap',
-                                justifyContent: 'start',
-                                marginTop: '0.5rem',
-                                marginBottom: '0.5rem',
-                            }}
-                        >
-                            <HashtagWrapper>{post.post_tags}</HashtagWrapper>
-                        </div>
                     </a>
                 </Link>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexFlow: 'row wrap',
+                        justifyContent: 'start',
+                        marginTop: '0.5rem',
+                        marginBottom: '0.5rem',
+                    }}
+                >
+                    {post.post_tags.map((post_tags, i) => (
+                        <HashtagWrapper>{post_tags}</HashtagWrapper>
+                    ))}
+                </div>
             </CardContent>
 
             {/* this is icon */}
