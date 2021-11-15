@@ -98,8 +98,6 @@ export default function ProfileCard() {
   const id_token = cookies.get("user_token");
   const [tags, setTags] = useState([]);
 
-  const tag_url = users + user_id + tags;
-
   //Load posts when component mounts
   useEffect(() => {
     if (user_id == null || user_id == undefined || user_id == "null") {

@@ -2,11 +2,16 @@ import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+
+import Cookies from "universal-cookie";
+//Importing and settings vars for axios parse
+import axiosInstance from "../utils/routeUtil";
+const users = "/users/";
 
 export default function EditProfile({ profile }) {
-  const { name, email, nick, tag } = profile;
+  const { email, nick, tag } = profile;
   const router = useRouter();
 
   const [inputNick, setInputNick] = useState(nick);
@@ -19,6 +24,29 @@ export default function EditProfile({ profile }) {
     // // { data: "failed" }
     // if ((await result.json()).data === "failed") { alert("업로드 실패") }
     // else { router.replace("/user/profile") }
+    axiosInstance
+      .get(users + user_id, {
+        params: {
+          id_token: id_token,
+        },
+      })
+      .then((response) => {
+        if (response["status"] == 200) {
+          const temp = response["data"];
+          const temp_json = JSON.parse(temp);
+          const user_info = temp_json.user;
+
+          console.log(temp_json);
+          setProfile({
+            email: user_info.user_email_address,
+            nick: user_info.user_nickname,
+            tag: temp_json.tags,
+          });
+          setIsLoading(false);
+        } else if (response["status"] == 403) {
+          alert("Could not verify token at Backend");
+        }
+      });
   };
 
   return (
@@ -34,7 +62,7 @@ export default function EditProfile({ profile }) {
     >
       <div style={{ display: "flex" }}>
         <div>
-          <h5>PK Hong&apos;s Information</h5>
+          <h5>Edit your Profile Information!</h5>
         </div>
       </div>
       <hr
@@ -49,14 +77,6 @@ export default function EditProfile({ profile }) {
         }}
       />
       <div>
-        <TextField
-          style={{ marginBottom: "10px", marginTop: "8px" }}
-          fullWidth
-          disabled
-          id="outlined-disabled"
-          label="Name"
-          defaultValue={name}
-        />
         <TextField
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -77,7 +97,7 @@ export default function EditProfile({ profile }) {
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="HashTag"
+          label="Please edit your personal tags"
           value={inputTag}
           onChange={(e) => setInputTag(e.target.value)}
         />
