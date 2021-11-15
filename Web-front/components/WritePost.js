@@ -13,7 +13,7 @@ import axiosInstance from "../utils/routeUtil";
 const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
-export function CreatePost() {
+export function WritePost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
@@ -91,7 +91,7 @@ export function CreatePost() {
           label="#tag"
           variant="outlined"
           value={tag}
-          onChange={(event) => setTag(event.target.value)}
+          onChange={(event) => setTag(event.target.value.split(","))}
         />
         <div style={{ display: "flex" }}>
           <label htmlFor="icon-button-file">

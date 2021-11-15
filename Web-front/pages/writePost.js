@@ -1,6 +1,6 @@
 import * as React from "react";
 import Head from "next/head";
-import { CreatePost } from "../components/CreatePost";
+import { WritePost } from "../components/WritePost";
 
 export default function WritePost() {
   return (
@@ -9,7 +9,7 @@ export default function WritePost() {
         <title>StudyBoard</title>
       </Head>
 
-      <CreatePost />
+      <WritePost />
     </div>
   );
 }
