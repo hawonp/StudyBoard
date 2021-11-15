@@ -1,11 +1,18 @@
+import * as React from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Cookies from "universal-cookie";
+//Importing MUI
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
-import * as React from "react";
-import { useRouter } from "next/router";
-import { useState } from "react";
+
+import axiosInstance from "../utils/routeUtil";
+
+const cookies = new Cookies();
+const POSTDATAENDPOINT = "/posts";
 
 export default function EditPost({ postCard, finish }) {
   const { title, text, images, tags } = postCard ?? {
@@ -22,16 +29,22 @@ export default function EditPost({ postCard, finish }) {
   const [inputTag, setInputTag] = useState(tags);
 
   const savePost = async () => {
-    // TODO: API CALL BACKEND NEED
-    // 보낼 데이터는 title, contents, images, tags
-
-    // const result = await fetch('URL', {method: "POST", body: {}})
-    // // { data: "failed" }
-    // if ((await result.json()).data === "failed") { alert("SAVE 실패") }
-    // else { router.replace("/user/profile") }
-
-    // POST 응답이 성공으로 왔을 시 Edit 종료
-    finish();
+    axiosInstance
+      .put(POSTDATAENDPOINT + "/" + router.query.id, {
+        params: {
+          userID: cookies.get("user_id"),
+          title: inputTitle,
+          text: inputContents,
+          imageURL: inputImages,
+          tags: inputTag,
+        },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+        if (responseData == 1) {
+          finish();
+        }
+      });
   };
   return (
     <Box
@@ -81,7 +94,7 @@ export default function EditPost({ postCard, finish }) {
         label="#tag"
         variant="outlined"
         value={inputTag}
-        onChange={(event) => setInputTag(event.target.value)}
+        onChange={(event) => setInputTag(event.target.value.split(","))}
       />
 
       <div style={{ display: "flex" }}>

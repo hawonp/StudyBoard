@@ -154,3 +154,30 @@ def get_user_tags(user_id):
         res = None
     
     return res
+
+##########################################################
+#                         DELETE                         #
+##########################################################
+#Delete all tags of given post
+def delete_all_tags_of_post(post_id):
+    res = 1
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "DELETE FROM Post_Tag WHERE post_id=?"
+        values = (post_id,)
+
+        #Getting data from table
+        print("Deleting with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    return res
