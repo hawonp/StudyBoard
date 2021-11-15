@@ -98,35 +98,33 @@ export default function ProfileCard() {
     const id_token = cookies.get('user_token');
     const [tags, setTags] = useState([]);
 
-    const tag_url = users + user_id + tags;
-
-    //Load posts when component mounts
-    useEffect(() => {
-        if (user_id == null || user_id == undefined || user_id == 'null') {
-            console.log('User Id is null');
-        } else {
-            console.log('Crawling User Profile Data');
-            axiosInstance
-                .get(users + user_id, {
-                    params: {
-                        id_token: id_token,
-                    },
-                })
-                .then((response) => {
-                    if (response['status'] == 200) {
-                        const temp = response['data'];
-                        const temp_json = JSON.parse(temp);
-                        const user_nickname = temp_json.user.user_nickname;
-                        const tag = temp_json.tags;
-                        setNickname(user_nickname);
-                        setTags(tag);
-                        console.log(tag);
-                    } else if (response['status'] == 403) {
-                        alert('Could not verify token at Backend');
-                    }
-                });
-        }
-    }, []);
+  //Load posts when component mounts
+  useEffect(() => {
+    if (user_id == null || user_id == undefined || user_id == "null") {
+      console.log("User Id is null");
+    } else {
+      console.log("Crawling User Profile Data");
+      axiosInstance
+        .get(users + user_id, {
+          params: {
+            id_token: id_token,
+          },
+        })
+        .then((response) => {
+          if (response["status"] == 200) {
+            const temp = response["data"];
+            const temp_json = JSON.parse(temp);
+            const user_nickname = temp_json.user.user_nickname;
+            const tag = temp_json.tags;
+            setNickname(user_nickname);
+            setTags(tag);
+            console.log(tag);
+          } else if (response["status"] == 403) {
+            alert("Could not verify token at Backend");
+          }
+        });
+    }
+  }, []);
 
     return (
         <div>
