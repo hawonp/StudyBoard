@@ -183,32 +183,32 @@ def check_if_user_liked_post(uid, pid):
 ##########################################################
 
 def update_post(id, title, text, image):
-    res = 1
-    try:
-        #Obtain DB cursor
-        cursor = conn.cursor()
+    # res = 1
+    # try:
+    #     #Obtain DB cursor
+    #     cursor = conn.cursor()
 
-        #First add the Post to Post table
-        #Set up query statement and values
-        query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
-        values = (title, text, image, id)
+    #     #First add the Post to Post table
+    #     #Set up query statement and values
+    #     query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
+    #     values = (title, text, image, id)
 
-        #Adding new data into table
-        print("Adding with query", query, " and values ", values)
-        cursor.execute(query, values)
+    #     #Adding new data into table
+    #     print("Adding with query", query, " and values ", values)
+    #     cursor.execute(query, values)
 
-        #Getting id of newly added post
-        new_post_id = cursor.lastrowid
+    #     #Getting id of newly added post
+    #     new_post_id = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
+    #     #Closing cursor and commiting  connection
+    #     cursor.close()
+    #     conn.commit()
 
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-        res = 0
+    # except mariadb.Error as e:
+    #     print(f"Error adding entry to database: {e}")
+    #     res = 0
 
-    return res
+    # return res
 
 ##########################################################
 #                         DELETE                         #
