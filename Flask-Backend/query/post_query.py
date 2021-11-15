@@ -209,6 +209,7 @@ def update_post(id, title, text, image):
     #     res = 0
 
     # return res
+    pass
 
 ##########################################################
 #                         DELETE                         #
