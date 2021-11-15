@@ -51,7 +51,7 @@ def add_post(user, title, text, img_url, tags):
     return new_post_id
 
 # Adding Post entries to the db.
-def add_user_like_post(user_id, post_id):
+def add_user_like_post(uid, pid):
     new_user_post_like_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
@@ -59,7 +59,7 @@ def add_user_like_post(user_id, post_id):
 
         #Set up query statement and values
         query = "INSERT INTO User_Post_Like (user_id, post_id) VALUES (?, ?)"
-        values = (user_id, post_id)
+        values = (uid, pid)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -181,6 +181,35 @@ def check_if_user_liked_post(uid, pid):
 ##########################################################
 #                         UPDATE                         #
 ##########################################################
+
+def update_post(id, title, text, image):
+    # res = 1
+    # try:
+    #     #Obtain DB cursor
+    #     cursor = conn.cursor()
+
+    #     #First add the Post to Post table
+    #     #Set up query statement and values
+    #     query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
+    #     values = (title, text, image, id)
+
+    #     #Adding new data into table
+    #     print("Adding with query", query, " and values ", values)
+    #     cursor.execute(query, values)
+
+    #     #Getting id of newly added post
+    #     new_post_id = cursor.lastrowid
+
+    #     #Closing cursor and commiting  connection
+    #     cursor.close()
+    #     conn.commit()
+
+    # except mariadb.Error as e:
+    #     print(f"Error adding entry to database: {e}")
+    #     res = 0
+
+    # return res
+    pass
 
 ##########################################################
 #                         DELETE                         #
