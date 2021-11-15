@@ -178,6 +178,7 @@ export default function PostDetailPage() {
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
           <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
+            {console.log(isEdit)}
             {isEdit ? (
               <EditPost postCard={postData} finish={() => setIsEdit(false)} />
             ) : (
