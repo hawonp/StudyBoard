@@ -9,7 +9,9 @@ import Cookies from "universal-cookie";
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
-
+const cookies = new Cookies();
+const user_id = cookies.get("user_id");
+const id_token = cookies.get("user_token");
 export default function EditProfile({ profile }) {
   const { email, nick, tag } = profile;
   const router = useRouter();
@@ -25,26 +27,17 @@ export default function EditProfile({ profile }) {
     // if ((await result.json()).data === "failed") { alert("업로드 실패") }
     // else { router.replace("/user/profile") }
     axiosInstance
-      .get(users + user_id, {
+      .put(users + user_id, {
         params: {
-          id_token: id_token,
+          user_nickname: inputNick,
+          user_tags: inputTag,
         },
       })
       .then((response) => {
-        if (response["status"] == 200) {
-          const temp = response["data"];
-          const temp_json = JSON.parse(temp);
-          const user_info = temp_json.user;
-
-          console.log(temp_json);
-          setProfile({
-            email: user_info.user_email_address,
-            nick: user_info.user_nickname,
-            tag: temp_json.tags,
-          });
-          setIsLoading(false);
-        } else if (response["status"] == 403) {
-          alert("Could not verify token at Backend");
+        const responseData = JSON.parse(response["data"]);
+        if (responseData == 1) {
+          // TODO proper reloading
+          window.location.reload();
         }
       });
   };
@@ -99,7 +92,7 @@ export default function EditProfile({ profile }) {
           id="outlined-disabled"
           label="Please edit your personal tags"
           value={inputTag}
-          onChange={(e) => setInputTag(e.target.value)}
+          onChange={(e) => setInputTag(e.target.value.split(","))}
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
