@@ -1,21 +1,6 @@
-from flask.helpers import get_flashed_messages
-from config.imports import json
-from config.imports import Resource
-from config.imports import google
-from config.imports import redirect, url_for
-from config.imports import oauth_authorized
-from config.imports import Flask
-from config.imports import session
-from config.imports import oauthlib
-from oauthlib.oauth2.rfc6749.errors import InvalidClientIdError, TokenExpiredError
-from config.imports import sys
-from config.imports import oauth_authorized
-from config.imports import flash
-import config.URL as URL
-
+from config.imports import Resource, request, abort
 from query.user_query import add_user, check_user_id_exists
-
-local_redirect_url = URL.front_root + URL.front_board
+from query.login_query import verify_id_token, get_user_from_id_token
 
 class Default(Resource):
     def get(self):
@@ -23,49 +8,50 @@ class Default(Resource):
             'Galaxies': ['Milkyway', 'Andromeda', 
             'Large Magellanic Cloud (LMC)']
         }
-
-class TestAuth(Resource):
-    def get(self):
-        if not google.authorized:
-            return "You are not authorized!"
-        else:
-            return "You are authorized!"
-
 class Login(Resource):
     def get(self):
-        if not google.authorized:
-            return redirect(url_for("google.login"))
-        else:
-            return redirect(local_redirect_url)
-
-    @oauth_authorized.connect
-    def logged_in(blueprint, token):
-        try:
-            flash("Signed in successfully with {name}!".format(
-                name=blueprint.name.capitalize()
-            ))
-            print(get_flashed_messages)
-            resp = google.get("/oauth2/v1/userinfo")
-            assert resp.ok, resp.text
-            user_id = resp.json()['id']
-            user_email = resp.json()["email"]
-            user_nickname = resp.json()['name']
-            print(user_id, user_email, user_nickname) 
+        # get id_token from URL call
+        token = request.args.get('id_token')
+        print("BE: Received auth req from FE")
+        
+        # authenticate token_id from signin
+        success, idinfo = verify_id_token(token)
             
-            res = check_user_id_exists(user_id)
-            print("Result code: ", res, res[0])
+        if(success == False):
+            abort(403)
 
-            if res[0] != 1:
-                add_user(user_id, user_nickname, user_email)
+        # get logged in users info (used for first time log in)
+        user_id, user_email, user_nickname = get_user_from_id_token(idinfo)
 
-            # print(session, token)
+        # check if user already exists in the database
+        res = check_user_id_exists(user_id)
+        print("Check if User Exists in DB: ", res[0])
+            
+        # add user to database if doesn't exist
+        if res[0] != 1:
+            print("Add Current user to DB")
+            add_user(user_id, user_nickname, user_email)
 
-        except (TokenExpiredError) as e:  # or maybe any OAuth2Error
-            return redirect(url_for("google.login"))
+        return user_id
+        # print("Save to Session")
+        # session["user_id"] = user_id
+        # print(session.get('user_id', None))
        
-
+class Verify_ID_Token(Resource):
+    def get(self):
+        # get id_token from URL call
+        token = request.args.get('id_token')
+        print("BE: Received auth req from FE")
+        
+        # authenticate token_id from signin
+        success = verify_id_token(token)
+            
+        print("Return ID_token back to frontend")
+        if(success == False):
+            abort(403)
+        
 def init_routes(api):
     api.add_resource(Default, '/')
     api.add_resource(Login, '/login')
-    api.add_resource(TestAuth, '/test')
+    api.add_resource(Verify_ID_Token, '/verifyIDToken')
 

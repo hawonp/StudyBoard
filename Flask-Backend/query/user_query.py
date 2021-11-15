@@ -105,6 +105,9 @@ def get_user_by_id(id):
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
+        
+        if(id == None):
+            return -1
 
         #Set up query statement and values
         query = "SELECT * FROM User WHERE user_id=?"
@@ -115,6 +118,10 @@ def get_user_by_id(id):
         cursor.execute(query, values)
         res = cursor.fetchone()
         
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        res = dict(zip(row_headers,res))
+
         #Closing cursor
         cursor.close()
         conn.commit()

@@ -50,6 +50,33 @@ def add_post(user, title, text, img_url, tags):
 
     return new_post_id
 
+# Adding Post entries to the db.
+def add_user_like_post(user_id, post_id):
+    new_user_post_like_id = -1 #When meeting and error or not found
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "INSERT INTO User_Post_Like (user_id, post_id) VALUES (?, ?)"
+        values = (user_id, post_id)
+
+        #Adding new data into table
+        print("Adding with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        #Getting id of newly added post
+        new_post_id = cursor.lastrowid
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+
+    return new_user_post_like_id
+
 ##########################################################
 #                         SELECT                         #
 ##########################################################
@@ -107,11 +134,39 @@ def get_post_by_id(id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT * FROM Post WHERE post_id=?"
+        query = "SELECT u.user_nickname, pst.* FROM User u INNER JOIN (SELECT * FROM Post WHERE post_id=?) AS pst ON pst.user_id = u.user_id"
         values = (int(id), )
 
         #Getting data from table
         print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Serialise result into json
+        row_headers=[x[0] for x in cursor.description]
+        res = dict(zip(row_headers,res))
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+    
+    return res
+
+#Check if the user liked the post
+def check_if_user_liked_post(uid, pid):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT EXISTS(SELECT * FROM User_Post_like WHERE user_id=? AND post_id=?)"
+        values = (uid, int(pid))
+
+        #Getting data from table
+        print("Checking existance with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchone()
         
@@ -120,5 +175,36 @@ def get_post_by_id(id):
         conn.commit()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+    
+    return res[0]
+
+##########################################################
+#                         UPDATE                         #
+##########################################################
+
+##########################################################
+#                         DELETE                         #
+##########################################################
+#User un-likes a post. Delete from User_Post_like
+def delete_user_like_post(uid, pid):
+    res = 1
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "DELETE FROM User_Post_Like WHERE user_id=? AND post_id=?"
+        values = (uid, int(pid))
+
+        #Getting data from table
+        print("Deleting with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
     
     return res

@@ -131,3 +131,26 @@ def get_post_tags(post_id):
         res = None
     
     return res
+
+def get_user_tags(user_id):
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT t.tag_name FROM Tag t INNER JOIN (SELECT ut.tag_id FROM User_Tag ut WHERE ut.user_id = ?) AS ut ON ut.tag_id = t.tag_id"
+        values = (user_id, )
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchall()
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = None
+    
+    return res
