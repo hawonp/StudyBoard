@@ -7,8 +7,20 @@ import CustomMenu from "./CustomMenu";
 import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
-import Image from "next/image";
 import LoginAuth from "./LoginAuth";
+
+const ContainerWrapper = ({ style, children }) => {
+    return (
+        <Container
+            style={{maxWidth: '1338px ',...style,
+            }}
+        >
+            {" "}
+            {children}{" "}
+        </Container>
+    );
+};
+
 
 export default function CustomAppBar() {
     const menuTwoList = [
@@ -42,8 +54,8 @@ export default function CustomAppBar() {
     ];
 
     return (
-        <Container>
-            <Toolbar>
+        <ContainerWrapper>
+            <Toolbar >
                 <Link href={"/"} >
                     <img style={{height:'4rem',display:'flex', marginTop: '1.2rem' }} src="/images/StudyBoard-logo.png" alt="logo" />
                 </Link>
@@ -71,6 +83,6 @@ export default function CustomAppBar() {
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
                 <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
             </Toolbar>
-        </Container>
+        </ContainerWrapper>
     );
 }

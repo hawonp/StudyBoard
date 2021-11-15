@@ -8,6 +8,9 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Card from "@mui/material/Card";
 import * as React from "react";
 import {useEffect, useState} from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import SmsIcon from "@mui/icons-material/Sms";
 
 export default function FavoriteCard({ favorite }){
     const [postData, setPostData] = useState({});
@@ -48,24 +51,15 @@ export default function FavoriteCard({ favorite }){
 
             {/*Icon*/}
             <CardActions>
-                <IconButton aria-label="favorites">
-                    <Link href=""><BookmarkIcon /></Link>
-                </IconButton>
 
                 <IconButton aria-label="favorites">
-                    <Link href=""><BookmarkIcon /></Link>
+                    <FavoriteIcon />
                 </IconButton>
-
-                <IconButton aria-label="favorites">
-                    <Link href=""><BookmarkIcon /></Link>
+                <IconButton aria-label="thoumup">
+                    <ThumbUpIcon />
                 </IconButton>
-
-                <IconButton aria-label="favorites">
-                    <Link href=""><BookmarkIcon /></Link>
-                </IconButton>
-
-                <IconButton aria-label="favorites">
-                    <Link href=""><BookmarkIcon /></Link>
+                <IconButton aria-label="SmsIcon">
+                    <SmsIcon />
                 </IconButton>
 
             </CardActions>

@@ -7,6 +7,20 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
 import * as React from "react";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import EditPost from "./EditPost";
+import {useState} from "react";
+
+const dummy_prop = {
+    id: "1",
+    user: "pk",
+    title: "Dummy Data title",
+    images:
+        "https://woulduin.com/assets/users/_meta/2021/07/18/39bd9107-13df-4172-af6a-3674215d3054_KakaoTalk_20210717_191956085.gif",
+    content: "Dummy Data Content",
+    tags: "#math",
+};
 
 const HashtagWrapper = ({ style, children}) => {
     return (
@@ -32,50 +46,50 @@ const DetailWrapper = ({ style, children}) => {
     )
 }
 
-export default function DetailPost({ postData }) {
+export default function DetailPost({ postData, edit }) {
     const { post_id, user, title, images, content, tags } = postData;
     return (
         <DetailWrapper>
             <Box style={{ flex: 1, paddingRight: '1rem', paddingLeft: '1rem' }}>
 
-                {/*title*/}
+
                 <header style={{ marginBottom: '1.5rem'}}>
+                    {/*title*/}
                     <h1>{title}</h1>
+
                     {/*username*/}
                     <div style={{ display: 'flex', marginBottom: '1.5rem' }}>
                         <div>{user}</div>
+
                         {/*date*/}
                         <div style={{ display: 'flex', flex: 1, justifyContent:'end' }}>
                             date
                         </div>
                     </div>
+
                     {/*hashtag*/}
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <div style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'start'}}>
                             <HashtagWrapper>{tags}</HashtagWrapper>
-                            {/*<HashtagWrapper>Hard</HashtagWrapper>*/}
-                            {/*<HashtagWrapper>Help</HashtagWrapper>*/}
                         </div>
                     </div>
+
                 </header>
 
                 {/*image*/}
-                <div>
-                    {/*<div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>*/}
-                    {/*<img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>*/}
-                    <img style={{maxHeight: '800px', objectFit: 'contain'}} src={images} />
-                </div>
-
+                <img style={{maxWidth: "100%", maxHeight: '800px', objectFit: 'contain'}} src={'https://res.cloudinary.com/picked/image/upload/q_60,h_600,f_auto/v1631286117/cms/aptitude-test-sample-questions-and-answers-1631286117'} />
 
                 <section>
-                    <p>
-                        {/*We have solutions for your book!*/}
-                        {/*This problem has been solved:*/}
-                        {content}
-                    </p>
+
+                    <p>{content}</p>
                 </section>
 
                 <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
+
+                    <Button title={"I want to edit"} onClick={edit} sx={{ width: "100px", height: "50px" }} >
+                        수정하기
+                    </Button>
+
                     <IconButton aria-label="favorites">
                         <FavoriteIcon />
                     </IconButton>
