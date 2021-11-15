@@ -60,13 +60,6 @@ export default function CardShow({ post }) {
                         <Tooltip title="This is Endorsed User post ">
                             <StarIcon sx={{ color: 'yellow', mt: '0.1rem' }} />
                         </Tooltip>
-
-                        {/*<Tooltip title="Edit">*/}
-                        {/*<Link href={`/postedit/${id}/${title}/${content}/${images}/${tag}`} >*/}
-                        {/*    <IconButton aria-label="EditIcon">*/}
-                        {/*        <EditIcon />*/}
-                        {/*    </IconButton>*/}
-                        {/*</Link>*/}
                     </div>
                 }
                 title={post.post_title}
