@@ -13,7 +13,7 @@ import axiosInstance from "../utils/routeUtil";
 const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
-export function WritePost() {
+export function PostWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
