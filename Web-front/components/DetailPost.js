@@ -8,6 +8,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
 import * as React from "react";
 import Button from "@mui/material/Button";
+import EditIcon from '@mui/icons-material/Edit';
 import Container from "@mui/material/Container";
 import EditPost from "./EditPost";
 import {useState} from "react";
@@ -86,9 +87,9 @@ export default function DetailPost({ postData, edit }) {
 
                 <CardActions disableSpacing sx ={{ justifyContent:'end' }} >
 
-                    <Button title={"I want to edit"} onClick={edit} sx={{ width: "100px", height: "50px" }} >
-                        수정하기
-                    </Button>
+                    <IconButton title={"I want to edit"} onClick={edit}>
+                        <EditIcon />
+                    </IconButton>
 
                     <IconButton aria-label="favorites">
                         <FavoriteIcon />
