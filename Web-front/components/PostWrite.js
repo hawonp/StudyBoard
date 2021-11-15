@@ -29,10 +29,10 @@ export function PostWrite() {
       .post(POSTDATAENDPOINT + "/write", {
         params: {
           userID: cookies.get("user_id"),
-          title: inputTitle,
-          text: inputContents,
+          title: title,
+          text: content,
           imageURL: "None",
-          tags: inputTag,
+          tags: tag,
         },
       })
       .then((response) => {
