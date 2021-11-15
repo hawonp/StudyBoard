@@ -158,13 +158,13 @@ export default function ProfileCard() {
               style={{ display: "flex", flex: "1", flexDirection: "column" }}
             >
               <h5>HASH TAG</h5>
-
+              {/* 
               {tags.map((tag, i) => (
                 <TagWrapper>
-                  {/*여기가 해쉬태그들 보이는곳*/}
                   <TagA key={i}>{tag}</TagA>
                 </TagWrapper>
               ))}
+              */}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

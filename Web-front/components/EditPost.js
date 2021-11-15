@@ -8,16 +8,16 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function EditPost({ postCard, finish }) {
-  const { title, content, images, tags } = postCard ?? {
+  const { title, text, images, tags } = postCard ?? {
     title: null,
-    content: null,
+    text: null,
     images: null,
     tags: null,
   };
   const router = useRouter();
 
   const [inputTitle, setInputTitle] = useState(title);
-  const [inputContents, setInputContents] = useState(content);
+  const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
   const [inputTag, setInputTag] = useState(tags);
 
