@@ -7,9 +7,17 @@ import * as React from "react";
 import List from "@mui/material/List";
 import { useState } from "react";
 
+const dummy_rank = {
+  user_id: 1,
+  user_nickname: "Nick PK",
+  tags: "#math #cse",
+};
+
 export default function RankUserList() {
-  const [user, setUser] = useState("");
-  const [tag, setTag] = useState("");
+  const { user_nickname, tags } = dummy_rank;
+
+  // const [user, setUser] = useState("");
+  // const [tag, setTag] = useState("");
 
   return (
     <List
@@ -31,17 +39,18 @@ export default function RankUserList() {
           }
           secondary={
             <React.Fragment>
+              {/*maping 돌려서 12개가 나오겠금*/}
               <Typography
                 sx={{ display: "inline" }}
                 component="span"
                 variant="body2"
                 color="text.primary"
               >
-                User Name
+                {user_nickname}
               </Typography>
 
               {/* hastage */}
-              {" — #MATH #CSE"}
+              {` — ${tags}`}
             </React.Fragment>
           }
         ></ListItemText>
