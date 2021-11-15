@@ -101,7 +101,12 @@ export default function DetailPost({ postData, onLikePressed }) {
           </p>
         </section>
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
-          <IconButton aria-label="favorites">
+          <IconButton
+            aria-label="favorites"
+            onClick={() =>
+              onFavouritePressed(postData.id, postData.didUserFavourite)
+            }
+          >
             <FavoriteIcon />
           </IconButton>
           <IconButton

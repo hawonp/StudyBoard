@@ -27,7 +27,7 @@ class PostCreateSchema(Schema):
     imageURL = fields.Str(required=True)
     tags = fields.Str(required=True)
 
-class PostLikeFormSchema(Schema):
+class PostInteractorIDSchema(Schema):
     userID = fields.Str(required=True)
 
 ############################
@@ -105,7 +105,7 @@ class PostLike(Resource):
     def post(self, id):
         #Validate params and assign variables
         formData = request.get_json()["params"]
-        errors = post_like_form_schema.validate(formData)
+        errors = post_interactor_id_schema.validate(formData)
         if errors:
             print("Request parameters error")
             abort(400, str(errors))
@@ -119,7 +119,7 @@ class PostLike(Resource):
     
     def delete(self, id):
         #Validate params and assign variables
-        errors = post_like_form_schema.validate(request.args)
+        errors = post_interactor_id_schema.validate(request.args)
         if errors:
             print("Request parameters error")
             abort(400, str(errors))
@@ -128,6 +128,36 @@ class PostLike(Resource):
         #Un-like
         print("Removing user like from post")
         res = delete_user_like_post(user_id, id)
+        return res
+
+#Add post to favourites
+class PostFavourite(Resource):
+    def post(self, id):
+        #Validate params and assign variables
+        formData = request.get_json()["params"]
+        errors = post_interactor_id_schema.validate(formData)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
+        user_id = formData["userID"]
+
+        #fav
+        user_id = formData["userID"]
+        print("Adding user like to post")
+        res = add_user_favourite_post(user_id, id)
+        return res
+    
+    def delete(self, id):
+        #Validate params and assign variables
+        errors = post_interactor_id_schema.validate(request.args)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
+        user_id = request.args.get('userID')
+
+        #Un-fav
+        print("Removing user like from post")
+        res = delete_user_favourite_post(user_id, id)
         return res
 
 #Add routes to api
@@ -139,4 +169,4 @@ def init_routes(api):
 
 feed_post_schema = FeedPostSchema()
 post_create_schema = PostCreateSchema()
-post_like_form_schema = PostLikeFormSchema()
+post_interactor_id_schema = PostInteractorIDSchema()

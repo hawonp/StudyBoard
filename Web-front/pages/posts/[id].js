@@ -100,6 +100,7 @@ export default function PostDetailPage() {
             tags: responseData["post_tags"],
             date: responseData["post_date"],
             didUserLike: false,
+            didUserFavourite: false,
           });
         }
         setIsLoading(false);
@@ -139,6 +140,39 @@ export default function PostDetailPage() {
     }
   };
 
+  //Handle favourite press
+  const handleFavouritePressed = () => {
+    const id = cookies.get("user_token");
+    const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/favourite";
+    if (postData.didUserLike) {
+      axiosInstance
+        .delete(requestEndpoint, {
+          params: {
+            userID: id,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setPostData((prevData) => {
+            return { ...prevData, didUserLike: !prevData.didUserFavourite };
+          });
+        });
+    } else {
+      axiosInstance
+        .post(requestEndpoint, {
+          params: {
+            userID: id,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setPostData((prevData) => {
+            return { ...prevData, didUserLike: !prevData.didUserFavourite };
+          });
+        });
+    }
+  };
+
   //Render if the post has loaded
   if (isLoading) {
     return <div> Loading... </div>;
@@ -165,7 +199,8 @@ export default function PostDetailPage() {
             ) : (
               <DetailPost
                 postData={postData}
-                onLikePressed={handleLikePressed}
+                onLikePressed={handleFavouritePressed}
+                onFavouritePressed={}
               />
             )}
           </Container>
