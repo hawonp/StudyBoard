@@ -15,9 +15,10 @@ import Card from "@mui/material/Card";
 import ButtonComponets from "./ButtonComponets";
 import Box from "@mui/material/Box";
 
-export default function CardShow({ post }) {
-  // const { id, user, title, images, content, tags } = dummy_prop;
+//link to post detail page
+const ROUTE_ID = "posts/[id]";
 
+export default function CardShow({ post }) {
   //EditPost
   const [postCard, setpostCard] = useState({
     id: 1,
@@ -57,8 +58,7 @@ export default function CardShow({ post }) {
         title={post.post_title}
         subheader={post.user_nickname}
       ></CardHeader>
-      {/*<Link href={`/postdetai/${post.id}/`}>*/}
-      <Link href="/postdetail">
+      <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
         <Box sx={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
           {post.post_image == "None" ? (
             <></>
@@ -76,7 +76,7 @@ export default function CardShow({ post }) {
 
       {/* card content  */}
       <CardContent style={{ textAlign: "left" }}>
-        <Link href="/postdetail">
+        <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
           <a>
             <Typography variant="body2" color="text.secondary">
               {post.post_text}

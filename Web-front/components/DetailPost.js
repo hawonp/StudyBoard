@@ -1,12 +1,17 @@
+import * as React from "react";
+import { useRouter } from "next/router";
+import Cookies from "universal-cookie";
+//Importing MUI
 import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
-import * as React from "react";
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -47,20 +52,23 @@ const DetailWrapper = ({ style, children }) => {
   );
 };
 
-export default function DetailPost({ postData }) {
-  const { post_id, user, title, images, content, tags } = postData;
+export default function DetailPost({
+  postData,
+  onLikePressed,
+  onFavouritePressed,
+}) {
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         {/*title*/}
         <header style={{ marginBottom: "1.5rem" }}>
-          <h1>{title}</h1>
+          <h1>{postData.title}</h1>
           {/*username*/}
           <div style={{ display: "flex", marginBottom: "1.5rem" }}>
-            <div>{user}</div>
+            <div>{postData.user}</div>
             {/*date*/}
             <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-              date
+              {postData.date}
             </div>
           </div>
           {/*hashtag*/}
@@ -72,42 +80,55 @@ export default function DetailPost({ postData }) {
                 justifyContent: "start",
               }}
             >
-              <HashtagWrapper>{tags}</HashtagWrapper>
-              {/*<HashtagWrapper>Hard</HashtagWrapper>*/}
-              {/*<HashtagWrapper>Help</HashtagWrapper>*/}
+              {postData.tags.map((tag, i) => (
+                <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+              ))}
             </div>
           </div>
         </header>
-
-        {/*image*/}
         <div>
-          {/*<div style={{width:'400px' ,height:'200px',objectFit: 'cover' }}></div>*/}
-          {/*<img style={{width:'400px' ,height:'200px',objectFit: 'cover' }} src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"/>*/}
-          <img
-            style={{ maxHeight: "800px", objectFit: "contain" }}
-            src={images}
-          />
+          {postData.images == "None" ? (
+            <></>
+          ) : (
+            <img
+              style={{ maxHeight: "800px", objectFit: "contain" }}
+              src={postData.images}
+            />
+          )}
         </div>
 
         <section>
           <p>
             {/*We have solutions for your book!*/}
             {/*This problem has been solved:*/}
-            {content}
+            {postData.text}
           </p>
         </section>
-
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
-          <IconButton aria-label="favorites">
-            <FavoriteIcon />
+          <IconButton
+            aria-label="favorites"
+            onClick={() =>
+              onFavouritePressed(postData.id, postData.didUserFavourite)
+            }
+          >
+            {postData.didUserFavourite ? (
+              <FavoriteIcon />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
-          <IconButton aria-label="thoumup">
-            <ThumbUpIcon />
+          <IconButton
+            aria-label="thumbup"
+            onClick={() => onLikePressed(postData.id, postData.didUserLike)}
+          >
+            {postData.didUserLike ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
           </IconButton>
-          <IconButton aria-label="BookmarkIcon">
-            <BookmarkIcon />
-          </IconButton>
-          <IconButton aria-label="share">
+          <IconButton
+            aria-label="share"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+            }}
+          >
             <ShareIcon />
           </IconButton>
           <IconButton aria-label="report">
