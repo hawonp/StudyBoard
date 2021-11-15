@@ -120,6 +120,7 @@ export default function ProfileCard() {
             const tag = temp_json.tags;
             setNickname(user_nickname);
             setTags(tag);
+            console.log(tag);
           } else if (response["status"] == 403) {
             alert("Could not verify token at Backend");
           }
@@ -149,7 +150,7 @@ export default function ProfileCard() {
               </div>
               <div style={{ flex: 1 }}>
                 {/*user name*/}
-                <h3>PK HONG</h3>
+                <h3>{nickname}</h3>
               </div>
             </div>
 
@@ -157,10 +158,13 @@ export default function ProfileCard() {
               style={{ display: "flex", flex: "1", flexDirection: "column" }}
             >
               <h5>HASH TAG</h5>
-              <TagWrapper>
-                {/*여기가 해쉬태그들 보이는곳*/}
-                <TagA href="#">Math</TagA>
-              </TagWrapper>
+
+              {tags.map((tag, i) => (
+                <TagWrapper>
+                  {/*여기가 해쉬태그들 보이는곳*/}
+                  <TagA key={i}>{tag}</TagA>
+                </TagWrapper>
+              ))}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

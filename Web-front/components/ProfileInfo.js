@@ -27,7 +27,7 @@ const BoxWrapper = ({ style, children }) => {
 
 const HrWrapper = ({ style, children }) => {
   return (
-    <hr
+    <div
       style={{
         margin: "0px",
         flexShrink: "0",
@@ -41,7 +41,7 @@ const HrWrapper = ({ style, children }) => {
     >
       {" "}
       {children}{" "}
-    </hr>
+    </div>
   );
 };
 
