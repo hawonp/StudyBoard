@@ -3,14 +3,38 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import Link from "next/link";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Card from "@mui/material/Card";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import SmsIcon from "@mui/icons-material/Sms";
+
+const CardActionsWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        display: "block",
+        paddingTop: "10px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+const dummy_count = {
+  user_post_like: 3,
+  reply_count: 2,
+  user_is_endorsed_like: 1,
+};
 
 export default function MyPostList({ mypost }) {
-  const [mypostData, setMyPostData] = useState({});
+  const { user_post_like, user_is_endorsed_like, reply_count } = dummy_count;
+  const [myPostData, setMyPostData] = useState({});
 
   useEffect(() => {
     // TODO: API CALL BACKEND NEED
@@ -27,7 +51,7 @@ export default function MyPostList({ mypost }) {
     setMyPostData(result);
   }, [mypost]);
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: "300px", marginTop: "20px", marginBottom: "20px" }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -37,54 +61,33 @@ export default function MyPostList({ mypost }) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {mypostData.title}
+            {myPostData.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {mypostData.content}
+            {myPostData.content}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <a>
-              <BookmarkIcon />
-            </a>
-          </Link>
-        </IconButton>
-
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <a>
-              <BookmarkIcon />
-            </a>
-          </Link>
-        </IconButton>
-
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <a>
-              <BookmarkIcon />
-            </a>
-          </Link>
-        </IconButton>
-
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <a>
-              <BookmarkIcon />
-            </a>
-          </Link>
-        </IconButton>
-
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <a>
-              <BookmarkIcon />
-            </a>
-          </Link>
-        </IconButton>
-      </CardActions>
+      <CardActionsWrapper>
+        <div style={{ display: "inline-block" }}>
+          <IconButton aria-label="favorites">
+            <FavoriteIcon />
+            <div>: {user_post_like}</div>
+          </IconButton>
+        </div>
+        <div style={{ display: "inline-block" }}>
+          <IconButton aria-label="thoumup">
+            <ThumbUpIcon />
+            <div>: {user_is_endorsed_like}</div>
+          </IconButton>
+        </div>
+        <div style={{ display: "inline-block" }}>
+          <IconButton aria-label="SmsIcon">
+            <SmsIcon />
+            <div>: {reply_count}</div>
+          </IconButton>
+        </div>
+      </CardActionsWrapper>
     </Card>
   );
 }

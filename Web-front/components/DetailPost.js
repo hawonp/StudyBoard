@@ -12,6 +12,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
+import EditIcon from "@mui/icons-material/Edit";
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -56,6 +57,7 @@ export default function DetailPost({
   postData,
   onLikePressed,
   onFavouritePressed,
+  edit,
 }) {
   return (
     <DetailWrapper>
@@ -91,20 +93,24 @@ export default function DetailPost({
             <></>
           ) : (
             <img
-              style={{ maxHeight: "800px", objectFit: "contain" }}
+              style={{
+                maxHeight: "800px",
+                maxWidth: "100%",
+                objectFit: "contain",
+              }}
               src={postData.images}
             />
           )}
         </div>
 
         <section>
-          <p>
-            {/*We have solutions for your book!*/}
-            {/*This problem has been solved:*/}
-            {postData.text}
-          </p>
+          <p>{postData.text}</p>
         </section>
+
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
+          <IconButton title={"I want to edit"} onClick={edit}>
+            <EditIcon />
+          </IconButton>
           <IconButton
             aria-label="favorites"
             onClick={() =>

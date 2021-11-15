@@ -12,25 +12,20 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Cookies from "universal-cookie";
 
+const ContainerWrapper = ({ style, children }) => {
+  return (
+    <Container style={{ maxWidth: "1338px ", ...style }}>
+      {" "}
+      {children}{" "}
+    </Container>
+  );
+};
+
 export default function CustomAppBar() {
   const cookies = new Cookies();
   const user_id = cookies.get("user_token");
   console.log("App Bar:\nID_TOKEN= ", user_id);
 
-  const menuTwoList = [
-    {
-      title: "가나다",
-      onClick: () => {
-        alert("가나다");
-      },
-    },
-    {
-      title: "라마바",
-      onClick: () => {
-        alert("라마바");
-      },
-    },
-  ];
   const menuThreeList = [
     {
       title: "Profile",
@@ -42,7 +37,7 @@ export default function CustomAppBar() {
   ];
 
   return (
-    <Container>
+    <ContainerWrapper>
       <Toolbar>
         <Link href={"/"}>
           <img
@@ -91,6 +86,6 @@ export default function CustomAppBar() {
           )}
         </div>
       </Toolbar>
-    </Container>
+    </ContainerWrapper>
   );
 }

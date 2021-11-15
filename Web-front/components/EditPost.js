@@ -7,7 +7,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function EditPost({ postCard }) {
+export default function EditPost({ postCard, finish }) {
   const { title, content, images, tags } = postCard ?? {
     title: null,
     content: null,
@@ -24,10 +24,14 @@ export default function EditPost({ postCard }) {
   const savePost = async () => {
     // TODO: API CALL BACKEND NEED
     // 보낼 데이터는 title, contents, images, tags
+
     // const result = await fetch('URL', {method: "POST", body: {}})
     // // { data: "failed" }
     // if ((await result.json()).data === "failed") { alert("SAVE 실패") }
     // else { router.replace("/user/profile") }
+
+    // POST 응답이 성공으로 왔을 시 Edit 종료
+    finish();
   };
   return (
     <Box
@@ -98,6 +102,14 @@ export default function EditPost({ postCard }) {
           </IconButton>
         </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+          <Button
+            sx={{ borderRadius: "8px" }}
+            variant="contained"
+            color="success"
+            onClick={finish}
+          >
+            CANCEL
+          </Button>
           <Button
             sx={{ borderRadius: "8px" }}
             variant="contained"
