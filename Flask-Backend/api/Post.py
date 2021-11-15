@@ -4,6 +4,7 @@ from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.post_query import add_post, get_post_feed, get_post_by_id, check_if_user_liked_post
 from query.post_query import add_user_like_post, delete_user_like_post
+from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
 
 ############################
@@ -12,6 +13,8 @@ from query.tag_query import get_post_tags
 FEED = '/feed'
 POSTS = '/posts'
 POST_ID = '/<string:id>'
+LIKES = '/likes'
+FAVOURITE = '/favourite'
 
 ############################
 #    Marshmallow Schema    #
@@ -187,7 +190,8 @@ def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
     api.add_resource(PostData, POSTS+POST_ID)
     api.add_resource(PostCreate, POSTS)
-    api.add_resource(PostLike, POSTS+POST_ID+"/likes")
+    api.add_resource(PostLike, POSTS+POST_ID+LIKES)
+    api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
 
 feed_post_schema = FeedPostSchema()
 post_data_schema = PostDataSchema()

@@ -131,9 +131,10 @@ export default function PostDetailPage() {
 
   //Handle favourite press
   const handleFavouritePressed = () => {
+    console.log(postData.didUserFavourite);
     const id = cookies.get("user_token");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/favourite";
-    if (postData.didUserLike) {
+    if (postData.didUserFavourite) {
       axiosInstance
         .delete(requestEndpoint, {
           params: {
@@ -143,7 +144,10 @@ export default function PostDetailPage() {
         .then((response) => {
           console.log(response);
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserFavourite };
+            return {
+              ...prevData,
+              didUserFavourite: !prevData.didUserFavourite,
+            };
           });
         });
     } else {
@@ -156,7 +160,10 @@ export default function PostDetailPage() {
         .then((response) => {
           console.log(response);
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserFavourite };
+            return {
+              ...prevData,
+              didUserFavourite: !prevData.didUserFavourite,
+            };
           });
         });
     }

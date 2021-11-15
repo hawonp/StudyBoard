@@ -52,7 +52,11 @@ const DetailWrapper = ({ style, children }) => {
   );
 };
 
-export default function DetailPost({ postData, onLikePressed }) {
+export default function DetailPost({
+  postData,
+  onLikePressed,
+  onFavouritePressed,
+}) {
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
@@ -107,7 +111,11 @@ export default function DetailPost({ postData, onLikePressed }) {
               onFavouritePressed(postData.id, postData.didUserFavourite)
             }
           >
-            <FavoriteIcon />
+            {postData.didUserFavourite ? (
+              <FavoriteIcon />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
           <IconButton
             aria-label="thumbup"
