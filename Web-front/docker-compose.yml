@@ -12,6 +12,9 @@ services:
       LETSENCRYPT_HOST: www.studyboard.info, studyboard.info
     networks:
       - nginx-proxy
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
 networks:
   nginx-proxy:
     external: true

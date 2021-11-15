@@ -12,7 +12,9 @@ services:
     networks:
       - dbms_network
       - nginx-proxy
-
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
 networks:
   dbms_network:
     external: true

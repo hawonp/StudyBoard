@@ -1,15 +1,12 @@
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function Leadership() {
-    return (
-        <div>
-            <Head>
-                <title>StudyBoard</title>
-
-            </Head>
-
-            Leadership
-        </div>
-    )
+  return (
+    <div>
+      <Head>
+        <title>StudyBoard</title>
+      </Head>
+      Leadership
+    </div>
+  );
 }
-
