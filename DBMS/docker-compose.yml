@@ -35,13 +35,16 @@ services:
       - "3030:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_ROOT_PASSWORD: root
       VIRTUAL_HOST: www.db.studyboard.info, db.studyboard.info
       VIRTUAL_PORT: 3030
       LETSENCRYPT_HOST: www.db.studyboard.info, db.studyboard.info
     networks:
       - dbms_network
       - nginx-proxy
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
 
 networks:
   dbms_network:

@@ -15,9 +15,10 @@ import Card from "@mui/material/Card";
 import ButtonComponets from "./ButtonComponets";
 import Box from "@mui/material/Box";
 
-export default function CardShow({ post }) {
-  // const { id, user, title, images, content, tags } = dummy_prop;
+//link to post detail page
+const ROUTE_ID = "posts/[id]";
 
+export default function CardShow({ post }) {
   //EditPost
   const [postCard, setpostCard] = useState({
     id: 1,
@@ -32,7 +33,7 @@ export default function CardShow({ post }) {
   }, []);
 
   return (
-      <Card sx={{ maxWidth: 1250,marginTop: '1rem'}}>
+    <Card sx={{ maxWidth: 1250, marginTop: "1rem" }}>
       <CardHeader
         style={{ textAlign: "left" }}
         avatar={
@@ -57,28 +58,31 @@ export default function CardShow({ post }) {
         title={post.post_title}
         subheader={post.user_nickname}
       ></CardHeader>
-      {/*<Link href={`/postdetai/${post.id}/`}>*/}
-      <Link href="/postdetail">
+      <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
         <Box sx={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
-          <CardMedia
-            component="img"
-            sx={{ maxHeight: "400px", objectFit: "contain" }}
-            // <Image  alt="Trulli" width="100%" height="100%" />
-            src={post.post_image}
-            alt="No image"
-          />
+          {post.post_image == "None" ? (
+            <></>
+          ) : (
+            <CardMedia
+              component="img"
+              sx={{ maxHeight: "400px", objectFit: "contain" }}
+              // <Image  alt="Trulli" width="100%" height="100%" />
+              src={post.post_image}
+              alt="No image"
+            />
+          )}
         </Box>
       </Link>
 
       {/* card content  */}
       <CardContent style={{ textAlign: "left" }}>
-        <Link href="/postdetail">
+        <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
           <a>
             <Typography variant="body2" color="text.secondary">
               {post.post_text}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {post.tags}
+              {post.post_tags}
             </Typography>
           </a>
         </Link>

@@ -1,21 +1,16 @@
+import Head from "next/head";
 import * as React from "react";
 import AdminNav from "../../components/AdminNav";
-import AdminPostList from "../../components/AdminPostList";
+import AdminRepliesList from "../../components/AdminRepliesList";
 
+export default function FlagReplies() {
+  return (
+    <div style={{ display: "flex" }}>
+      {/*Admin Navigation*/}
+      <AdminNav />
 
-export default function FlagPost() {
-
-    return (
-        <div style={{display: 'flex'}}>
-
-            {/*Admin Navigation*/}
-            <AdminNav />
-
-            {/* Admin Report List*/}
-            <AdminPostList />
-        </div>
-
-
-    )
+      {/*Admin Replies Report List*/}
+      <AdminRepliesList />
+    </div>
+  );
 }
-
