@@ -68,6 +68,7 @@ export default function PostDetailPage() {
     tags: ["TAG1", "TAG2"],
     date: "DATE",
     didUserLike: false,
+    didUserFavourite: false,
   });
 
   //Load in  the post data upon render
@@ -79,30 +80,18 @@ export default function PostDetailPage() {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         //Assign data according to whether the user liked the post
-        if (responseData["did_user_like_post"] != 0) {
-          setPostData({
-            id: responseData["post_id"],
-            user: responseData["user_nickname"],
-            title: responseData["post_title"],
-            text: responseData["post_text"],
-            images: responseData["post_image"],
-            tags: responseData["post_tags"],
-            date: responseData["post_date"],
-            didUserLike: true,
-          });
-        } else {
-          setPostData({
-            id: responseData["post_id"],
-            user: responseData["user_nickname"],
-            title: responseData["post_title"],
-            text: responseData["post_text"],
-            images: responseData["post_image"],
-            tags: responseData["post_tags"],
-            date: responseData["post_date"],
-            didUserLike: false,
-            didUserFavourite: false,
-          });
-        }
+        setPostData({
+          id: responseData["post_id"],
+          user: responseData["user_nickname"],
+          title: responseData["post_title"],
+          text: responseData["post_text"],
+          images: responseData["post_image"],
+          tags: responseData["post_tags"],
+          date: responseData["post_date"],
+          didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
+          didUserFavourite:
+            responseData["did_user_favourite_post"] != 0 ? true : false,
+        });
         setIsLoading(false);
       });
   }, [isLoading]);
@@ -199,8 +188,8 @@ export default function PostDetailPage() {
             ) : (
               <DetailPost
                 postData={postData}
-                onLikePressed={handleFavouritePressed}
-                onFavouritePressed={}
+                onLikePressed={handleLikePressed}
+                onFavouritePressed={handleFavouritePressed}
               />
             )}
           </Container>

@@ -21,7 +21,7 @@ class FeedPostSchema(Schema):
     order = fields.Str(required=True)
     filter = fields.Str(required=True)
 
-class PostCreateSchema(Schema):
+class PostDataSchema(Schema):
     title = fields.Str(required=True)
     text = fields.Str(required=True)
     imageURL = fields.Str(required=True)
@@ -78,16 +78,38 @@ class PostData(Resource):
         viewer = request.args.get('userID')
         did_user_like_post = check_if_user_liked_post(viewer, post["post_id"])
         post["did_user_like_post"] = did_user_like_post
+
+        #Now check if the user favourited the post
+        did_user_favourite_post = check_if_user_favourited_post(viewer, post["post_id"])
+        post["did_user_favourite_post"] = did_user_favourite_post
+
         return json.dumps(post, default=str)
 
     def put(self, id):
+        # #Validate params first
+        # errors = post_data_schema.validate(request.args)
+        # if errors:
+        #     abort(400, str(errors))
+        
+        # #Now fetch the params
+        # title = request.args.get('title')
+        # text = request.args.get('text')
+        # imageURL = request.args.get('iamgeURL')
+        # tags = request.args.get('tags')
+
+        # res = add_post(userid, title, text, imageURL, tags)
+
+        #Update tags
+
+        # return res
         pass
+
 
 #Post creation TODO: NEEDS TO BE TESTED
 class PostCreate(Resource):
     def post(self):
         #Validate params first
-        errors = post_create_schema.validate(request.args)
+        errors = post_data_schema.validate(request.args)
         if errors:
             abort(400, str(errors))
         
@@ -168,5 +190,5 @@ def init_routes(api):
     api.add_resource(PostLike, POSTS+POST_ID+"/likes")
 
 feed_post_schema = FeedPostSchema()
-post_create_schema = PostCreateSchema()
+post_data_schema = PostDataSchema()
 post_interactor_id_schema = PostInteractorIDSchema()
