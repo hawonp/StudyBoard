@@ -15,6 +15,7 @@ POSTS = '/posts'
 POST_ID = '/<string:id>'
 LIKES = '/likes'
 FAVOURITE = '/favourite'
+WRITE = '/write'
 
 ############################
 #    Marshmallow Schema    #
@@ -111,7 +112,7 @@ class PostData(Resource):
 
 
 #Post creation TODO: NEEDS TO BE TESTED
-class PostCreate(Resource):
+class PostWrite(Resource):
     def post(self):
         #Validate params first
         formData = request.get_json()["params"]
@@ -193,7 +194,7 @@ class PostFavourite(Resource):
 def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
     api.add_resource(PostData, POSTS+POST_ID)
-    api.add_resource(PostCreate, POSTS)
+    api.add_resource(PostWrite, POSTS+WRITE)
     api.add_resource(PostLike, POSTS+POST_ID+LIKES)
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
 
