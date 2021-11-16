@@ -27,7 +27,8 @@ These features, when combined, would facilitate active discussion and improved l
 enabling each person to leave with the exact information that they were looking for.
 
 ## Where to get the Latest Version of StudyBoard?
-- The [main](https://github.com/hawonp/StudyBoard) branch of this git repository will always be the latest version of StudyBoard
+- The [dev](https://github.com/hawonp/StudyBoard/tree/dev) branch of this git repository will always be the latest development version of StudyBoard
+- The [main](https://github.com/hawonp/StudyBoard) branch of this git repository will always have the latest production version of StudyBoard
 
 ## Step 1) Local Development Prep
 - Download/Clone the [main](https://github.com/hawonp/StudyBoard) branch of StudyBoard
@@ -42,7 +43,7 @@ enabling each person to leave with the exact information that they were looking 
   > cd DBMS
 
 - Initialize Database Docker Container
-  > docker-compose -f docker-compose.yml up --build
+  > docker-compose -f docker-compose-local.yml up --build
 
 - Go back to root directory
   > cd ..
@@ -75,10 +76,10 @@ enabling each person to leave with the exact information that they were looking 
 ## Deployment to Production Server (DO NOT RUN YET, NOT YET SET UP)
 ```diff
 - SSH to production server
-  >ssh root@141.164.51.144
+  >ssh root@158.247.220.205
  
 - Enter Password Authentication
-  > 5{tCAbweQ!JMzY7(
+  > )R5mDP)Xq#dJ[zZ}
 
 - Navigate to StudyBoard repository
   > cd StudyBoard
