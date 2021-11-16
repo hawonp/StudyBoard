@@ -110,7 +110,7 @@ export default function DetailPost({ postData, onLikePressed, onFavouritePressed
                         {postData.didUserFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
                     <IconButton aria-label="thumbup" onClick={() => onLikePressed(postData.id, postData.didUserLike)}>
-                        {postData.didUserLike ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+                        {postData.didUserLike ? <BookmarkIcon /> : <BookmarkIcon />}
                     </IconButton>
                     <IconButton
                         aria-label="share"
