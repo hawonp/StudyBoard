@@ -53,7 +53,8 @@ const DetailWrapper = ({ style, children }) => {
 
 export default function PostDetailPage() {
   const router = useRouter();
-  let userID = cookies.get("user_token");
+  let userID = cookies.get("user_id");
+  console.log(userID);
   if (userID == undefined) {
     userID = -1;
   }
@@ -98,7 +99,7 @@ export default function PostDetailPage() {
 
   //Handle like press
   const handleLikePressed = () => {
-    const id = cookies.get("user_token");
+    const id = cookies.get("user_id");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/likes";
     if (postData.didUserLike) {
       axiosInstance
@@ -132,7 +133,7 @@ export default function PostDetailPage() {
   //Handle favourite press
   const handleFavouritePressed = () => {
     console.log(postData.didUserFavourite);
-    const id = cookies.get("user_token");
+    const id = cookies.get("user_id");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/favourite";
     if (postData.didUserFavourite) {
       axiosInstance
@@ -176,36 +177,33 @@ export default function PostDetailPage() {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-          {isEdit ? (
-            <Button
-              title={"I want to edit"}
-              onClick={() => setIsEdit(false)}
-              sx={{ width: "100px", height: "50px" }}
-            ></Button>
-          ) : (
-            <Button
-              title={"I want to edit"}
-              onClick={() => setIsEdit(true)}
-              sx={{ width: "100px", height: "50px" }}
-            ></Button>
-          )}
           <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
+            {console.log(isEdit)}
             {isEdit ? (
-              <EditPost postCard={postData} />
+              <EditPost
+                postCard={postData}
+                finish={() => {
+                  setIsEdit(false);
+                  setIsLoading(true);
+                }}
+              />
             ) : (
               <DetailPost
                 postData={postData}
                 onLikePressed={handleLikePressed}
                 onFavouritePressed={handleFavouritePressed}
+                edit={() => setIsEdit(true)}
               />
             )}
           </Container>
-
-          <Container>
-            <DetailWrapper>
-              <CommentBox />
-            </DetailWrapper>
-          </Container>
+          {!isEdit && (
+            <Container>
+              <DetailWrapper>
+                {/*comment*/}
+                <CommentBox />
+              </DetailWrapper>
+            </Container>
+          )}
         </div>
 
         <ProfileCard />

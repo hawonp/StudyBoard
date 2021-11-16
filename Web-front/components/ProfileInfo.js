@@ -6,27 +6,53 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 
-export default function ProfileInfo({ profile }) {
-  const { name, email, nick, tag } = profile;
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [nick, setNickname] = useState("");
-  // const [tag, setTag] = useState("");
-
+const BoxWrapper = ({ style, children }) => {
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         border: "0.1rem solid lightgray",
         borderRadius: "8px",
         marginBottom: "16px",
         marginTop: "20px",
         padding: "10px 12px",
         backgroundColor: "white",
+        ...style,
       }}
     >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+const HrWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        margin: "0px",
+        flexShrink: "0",
+        borderWidth: "0px 0px thin",
+        borderStyle: "solid",
+        marginBottom: "10px",
+        opacity: 1,
+        borderColor: "rgb(227, 242, 253)",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+export default function ProfileInfo({ profile }) {
+  const { email, nick, tag } = profile;
+
+  return (
+    <BoxWrapper>
       <div style={{ display: "flex" }}>
         <div>
-          <h5>PK Hong&apos;s Information</h5>
+          <h5>Profile Page!</h5>
         </div>
 
         {/*edit button for profile*/}
@@ -39,26 +65,9 @@ export default function ProfileInfo({ profile }) {
         </div>
       </div>
 
-      <hr
-        style={{
-          margin: "0px",
-          flexShrink: "0",
-          borderWidth: "0px 0px thin",
-          borderStyle: "solid",
-          marginBottom: "10px",
-          opacity: 1,
-          borderColor: "rgb(227, 242, 253)",
-        }}
-      />
+      <HrWrapper />
 
       <div>
-        <TextField
-          sx={{ marginBottom: "10px", marginTop: "8px" }}
-          fullWidth
-          disabled
-          id="outlined-disabled"
-          defaultValue={name}
-        />
         <TextField
           sx={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -79,10 +88,10 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="HashTag"
+          label="A list of hashtags!"
           defaultValue={tag}
         />
       </div>
-    </Box>
+    </BoxWrapper>
   );
 }

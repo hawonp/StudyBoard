@@ -1,5 +1,6 @@
 from config.imports import mariadb
 from config.db_connect import conn
+from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name
 
 ##########################################################
 #                         INSERT                         #
@@ -155,8 +156,8 @@ def get_users_order_by_rank(id):
 ##########################################################
 #                         UPDATE                         #
 ##########################################################
-#UPDATE table_name SET column1 = value1, column2 = value2 WHERE id=100;
-def update_user_nickname(id, nickname):
+def update_user(id, nickname, tags):
+    res = 1
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
@@ -173,8 +174,30 @@ def update_user_nickname(id, nickname):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
-        res = 1
+
+        #Obtain DB cursor
+        cursor = conn.cursor()
+
+        #Clear all the tags from the post
+        if delete_all_tags_of_user(id) == 0:
+            return 0
+
+        #Now add the tags related to this post. Add new tag if tag doesnt exist.
+        for tag in tags:
+            #Check if tag already exists.
+            tag_row = get_tag_by_name(tag)
+            
+            #If it doesnt, add a new tag,  If so, get the tag id
+            if tag_row == None:
+                tag_id = add_tag(tag)
+            else:
+                tag_id = tag_row[0]
+
+            #Add the entry to post_tag
+            add_user_tag(tag_id, id)
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
+
     return res

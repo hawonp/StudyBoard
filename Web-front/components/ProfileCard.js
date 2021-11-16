@@ -7,6 +7,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 import React from "react";
+
 import Box from "@mui/material/Box";
 import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
@@ -16,14 +17,86 @@ import { useState, useEffect } from "react";
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
 
+const BoxWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        backgroundColor: "#ffffff",
+        borderRadius: "24px",
+        boxShadow: "0 68px 118px lightgray",
+        margin: "1.0rem auto 0",
+        padding: "1.3rem",
+        width: "300px",
+        display: "flex",
+        flexDirection: "column",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+const HashtagWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        padding: "4px 15px",
+        fontSize: "13px",
+        color: "#ffffff",
+        background: "#20247b",
+        borderRadius: "3px",
+        marginRight: "4px",
+        marginBottom: "4px",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+const IconWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        display: "block",
+        paddingTop: "30px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+const TagWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexFlow: "row wrap",
+        justifyContent: "start",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
 export default function ProfileCard() {
   const [nickname, setNickname] = useState("");
   const cookies = new Cookies();
   const user_id = cookies.get("user_id");
   const id_token = cookies.get("user_token");
   const [tags, setTags] = useState([]);
-
-  const tag_url = users + user_id + tags;
 
   //Load posts when component mounts
   useEffect(() => {
@@ -45,6 +118,7 @@ export default function ProfileCard() {
             const tag = temp_json.tags;
             setNickname(user_nickname);
             setTags(tag);
+            console.log(tag);
           } else if (response["status"] == 403) {
             alert("Could not verify token at Backend");
           }
@@ -58,75 +132,41 @@ export default function ProfileCard() {
         <></>
       ) : (
         <Grid item xs={2}>
-          <Box
-            sx={{
-              backgroundColor: "#ffffff",
-              borderRadius: "24px",
-              boxShadow: "0 68px 118px lightgray",
-              margin: "1.0rem auto 0",
-              padding: "1.3rem",
-              width: "300px",
-              display: "flex",
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ justifyContent: "end" }}>
+          <BoxWrapper>
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              {/*만약 수퍼유저가 아니면 안보이게 */}
+              {/* */}
               <Link href="/admin/admin">
-                <AdminPanelSettingsIcon />
+                <AdminPanelSettingsIcon sx={{ color: "darkred" }} />
               </Link>
             </div>
 
-            <div style={{ display: "flex" }}>
-              {/*양 옆으로 해야함 flex 사용해서 사용*/}
-              <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {/*프로필 아바타*/}
+              <div style={{ marginRight: "0.5rem" }}>
                 <Avatar></Avatar>
               </div>
               <div style={{ flex: 1 }}>
-                {/*양 옆으로 해야함 flex 사용해서 사용*/}
+                {/*user name*/}
                 <h3>{nickname}</h3>
               </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <div style={{ flex: "1", flexDirection: "column" }}>
-                <h5>HASH TAG</h5>
-                <div
-                  style={{
-                    display: "flex",
-                    flexFlow: "row wrap",
-                    justifyContent: "start",
-                  }}
-                >
-                  <a
-                    href="#"
-                    style={{
-                      padding: "4px 15px",
-                      fontSize: "13px",
-                      color: "#ffffff",
-                      background: "#20247b",
-                      borderRadius: "3px",
-                      marginRight: "4px",
-                      marginBottom: "4px",
-                    }}
-                  >
-                    Math
-                  </a>
-                  {/*<a href="#" style={{padding: '4px 15px', fontSize: '13px', color: '#ffffff',*/}
-                  {/*    background: '#20247b', borderRadius: '3px', marginRight: '4px', marginBottom: '4px'}}>*/}
-                  {/*    Hard</a>*/}
-                </div>
-              </div>
+            <div
+              style={{ display: "flex", flex: "1", flexDirection: "column" }}
+            >
+              <h5>HASH TAG</h5>
+
+              {tags.map((tag, i) => (
+                <TagWrapper key={i}>
+                  <HashtagWrapper>{tag}</HashtagWrapper>
+                </TagWrapper>
+              ))}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}
-            <div
-              style={{
-                display: "block",
-                paddingTop: "30px",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
+            <IconWrapper>
+              {/* 자기 자신이 쓴글들이 모이는곳*/}
               <div style={{ display: "inline-block" }}>
                 <Tooltip title="Post">
                   <IconButton aria-label="favorites">
@@ -137,6 +177,7 @@ export default function ProfileCard() {
                 </Tooltip>
               </div>
 
+              {/* 자기가 좋아하는걸 모이게 하는곳*/}
               <div style={{ display: "inline-block" }}>
                 <Tooltip title="favorite">
                   <IconButton aria-label="favorites">
@@ -147,6 +188,7 @@ export default function ProfileCard() {
                 </Tooltip>
               </div>
 
+              {/* 노티가 다 모여져서 보이는 곳 */}
               <div style={{ display: "inline-block" }}>
                 <Tooltip title="Notification">
                   <IconButton aria-label="favorites">
@@ -156,8 +198,8 @@ export default function ProfileCard() {
                   </IconButton>
                 </Tooltip>
               </div>
-            </div>
-          </Box>
+            </IconWrapper>
+          </BoxWrapper>
         </Grid>
       )}
     </div>

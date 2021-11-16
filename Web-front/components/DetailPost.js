@@ -12,7 +12,8 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
-
+import EditIcon from "@mui/icons-material/Edit";
+import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -56,6 +57,7 @@ export default function DetailPost({
   postData,
   onLikePressed,
   onFavouritePressed,
+  edit,
 }) {
   return (
     <DetailWrapper>
@@ -71,51 +73,53 @@ export default function DetailPost({
               {postData.date}
             </div>
           </div>
-          {/*hashtag*/}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div
-              style={{
-                display: "flex",
-                flexFlow: "row wrap",
-                justifyContent: "start",
-              }}
-            >
-              {postData.tags.map((tag, i) => (
-                <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-              ))}
-            </div>
-          </div>
         </header>
         <div>
           {postData.images == "None" ? (
             <></>
           ) : (
             <img
-              style={{ maxHeight: "800px", objectFit: "contain" }}
+              style={{
+                maxHeight: "800px",
+                maxWidth: "100%",
+                objectFit: "contain",
+              }}
               src={postData.images}
             />
           )}
         </div>
 
+        {/* question text */}
         <section>
-          <p>
-            {/*We have solutions for your book!*/}
-            {/*This problem has been solved:*/}
-            {postData.text}
-          </p>
+          <p>{postData.text}</p>
         </section>
+
+        {/*hashtag*/}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              flexFlow: "row wrap",
+              justifyContent: "start",
+            }}
+          >
+            {postData.tags.map((tag, i) => (
+              <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+            ))}
+          </div>
+        </div>
+
         <CardActions disableSpacing sx={{ justifyContent: "end" }}>
+          <IconButton title={"I want to edit"} onClick={edit}>
+            <EditIcon />
+          </IconButton>
           <IconButton
             aria-label="favorites"
             onClick={() =>
               onFavouritePressed(postData.id, postData.didUserFavourite)
             }
           >
-            {postData.didUserFavourite ? (
-              <FavoriteIcon />
-            ) : (
-              <FavoriteBorderIcon />
-            )}
+            {postData.didUserFavourite ? <BookmarkIcon /> : <TurnedInNotIcon />}
           </IconButton>
           <IconButton
             aria-label="thumbup"

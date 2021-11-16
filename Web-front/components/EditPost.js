@@ -1,33 +1,50 @@
+import * as React from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Cookies from "universal-cookie";
+//Importing MUI
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
-import * as React from "react";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
-export default function EditPost({ postCard }) {
-  const { title, content, images, tags } = postCard ?? {
+import axiosInstance from "../utils/routeUtil";
+
+const cookies = new Cookies();
+const POSTDATAENDPOINT = "/posts";
+
+export default function EditPost({ postCard, finish }) {
+  const { title, text, images, tags } = postCard ?? {
     title: null,
-    content: null,
+    text: null,
     images: null,
     tags: null,
   };
   const router = useRouter();
 
   const [inputTitle, setInputTitle] = useState(title);
-  const [inputContents, setInputContents] = useState(content);
+  const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
   const [inputTag, setInputTag] = useState(tags);
 
   const savePost = async () => {
-    // TODO: API CALL BACKEND NEED
-    // 보낼 데이터는 title, contents, images, tags
-    // const result = await fetch('URL', {method: "POST", body: {}})
-    // // { data: "failed" }
-    // if ((await result.json()).data === "failed") { alert("SAVE 실패") }
-    // else { router.replace("/user/profile") }
+    axiosInstance
+      .put(POSTDATAENDPOINT + "/" + router.query.id, {
+        params: {
+          userID: cookies.get("user_id"),
+          title: inputTitle,
+          text: inputContents,
+          imageURL: inputImages,
+          tags: inputTag,
+        },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+        if (responseData == 1) {
+          finish();
+        }
+      });
   };
   return (
     <Box
@@ -77,7 +94,7 @@ export default function EditPost({ postCard }) {
         label="#tag"
         variant="outlined"
         value={inputTag}
-        onChange={(event) => setInputTag(event.target.value)}
+        onChange={(event) => setInputTag(event.target.value.split(","))}
       />
 
       <div style={{ display: "flex" }}>
@@ -98,6 +115,14 @@ export default function EditPost({ postCard }) {
           </IconButton>
         </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+          <Button
+            sx={{ borderRadius: "8px" }}
+            variant="contained"
+            color="success"
+            onClick={finish}
+          >
+            CANCEL
+          </Button>
           <Button
             sx={{ borderRadius: "8px" }}
             variant="contained"
