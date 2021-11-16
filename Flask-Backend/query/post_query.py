@@ -162,7 +162,7 @@ def check_if_user_liked_post(uid, pid):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT EXISTS(SELECT * FROM User_Post_like WHERE user_id=? AND post_id=?)"
+        query = "SELECT EXISTS(SELECT * FROM User_Post_Like WHERE user_id=? AND post_id=?)"
         values = (uid, int(pid))
 
         #Getting data from table
