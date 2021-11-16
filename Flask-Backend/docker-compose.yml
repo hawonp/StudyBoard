@@ -2,13 +2,21 @@ version: "3"
 services:
   web:
     build: .
-    command: >
-      sh -c "python api-production.py"
     ports:
-      - "5000:5000"
+      - "5000:80"
+    environment:
+      TZ: Asia/Seoul
+      VIRTUAL_HOST: www.backend.studyboard.info, backend.studyboard.info
+      VIRTUAL_PORT: 5000
+      LETSENCRYPT_HOST: www.backend.studyboard.info, backend.studyboard.info
     networks:
       - dbms_network
-
+      - nginx-proxy
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
 networks:
   dbms_network:
+    external: true
+  nginx-proxy:
     external: true
