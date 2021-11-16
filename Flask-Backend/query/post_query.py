@@ -87,7 +87,7 @@ def get_post_feed(page, order, filter):
     #Set up query statements and values
     limit = 10
     offset = (page - 1) * 10 #if page 1, then it should start from 1.
-    query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id ORDER BY ? LIMIT ?, ?"
+    query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY ? LIMIT ?, ?"
     values = (order, offset, limit)
 
     #Fetching posts with filter, sort, limit, and offset
