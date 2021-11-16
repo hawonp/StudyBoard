@@ -3,9 +3,6 @@ import StarIcon from '@mui/icons-material/Star';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -70,13 +67,7 @@ export default function CardShow({ post }) {
                     {post.post_image == 'None' ? (
                         <></>
                     ) : (
-                        <CardMedia
-                            component="img"
-                            sx={{ maxHeight: '400px', objectFit: 'contain' }}
-                            // <Image  alt="Trulli" width="100%" height="100%" />
-                            src={post.post_image}
-                            alt="No image"
-                        />
+                        <CardMedia component="img" sx={{ maxHeight: '400px', objectFit: 'contain' }} src={post.post_image} alt="No image" />
                     )}
                 </Box>
             </Link>
@@ -104,9 +95,6 @@ export default function CardShow({ post }) {
                     ))}
                 </div>
             </CardContent>
-
-            {/* this is icon */}
-            {/* <ButtonComponets /> */}
         </Card>
     );
 }
