@@ -26,6 +26,8 @@ const CardActionsWrapper = ({ style, children }) => {
     </div>
   );
 };
+
+
 const dummy_count = {
   user_post_like: 3,
   reply_count: 2,

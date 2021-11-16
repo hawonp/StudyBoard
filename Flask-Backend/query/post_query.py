@@ -127,6 +127,34 @@ def get_post_feed(page, order, filter):
     res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
     return res_data
 
+#Get posts by user-id
+def get_posts_by_user(user_id):
+    try:
+        # Obtainting DB cursor
+        cur = conn.cursor()
+
+        #Set up query statements and values
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id and Post.user_id = ?"
+        values = (user_id)
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Close cursor
+        cur.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+
+    return { 'posts': json_data }
+
 #Get post by id
 def get_post_by_id(id):
     try:

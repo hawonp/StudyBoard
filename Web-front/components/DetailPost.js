@@ -10,6 +10,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ShareIcon from '@mui/icons-material/Share';
 import FlagIcon from '@mui/icons-material/Flag';
 import EditIcon from '@mui/icons-material/Edit';
@@ -106,11 +107,13 @@ export default function DetailPost({ postData, onLikePressed, onFavouritePressed
                     <IconButton title={'I want to edit'} onClick={edit}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="favorites" onClick={() => onFavouritePressed(postData.id, postData.didUserFavourite)}>
-                        {postData.didUserFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </IconButton>
+                    {/*일반유저좋아요*/}
                     <IconButton aria-label="thumbup" onClick={() => onLikePressed(postData.id, postData.didUserLike)}>
-                        {postData.didUserLike ? <BookmarkIcon /> : <BookmarkIcon />}
+                        {postData.didUserLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </IconButton>
+                    {/*즐겨찾기 저장버튼*/}
+                    <IconButton aria-label="favorites" onClick={() => onFavouritePressed(postData.id, postData.didUserFavourite)}>
+                        {postData.didUserFavourite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                     </IconButton>
                     <IconButton
                         aria-label="share"
