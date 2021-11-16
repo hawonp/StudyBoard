@@ -76,10 +76,10 @@ enabling each person to leave with the exact information that they were looking 
 ## Deployment to Production Server (DO NOT RUN YET, NOT YET SET UP)
 ```diff
 - SSH to production server
-  >ssh root@141.164.51.144
+  >ssh root@158.247.220.205
  
 - Enter Password Authentication
-  > 5{tCAbweQ!JMzY7(
+  > )R5mDP)Xq#dJ[zZ}
 
 - Navigate to StudyBoard repository
   > cd StudyBoard
