@@ -180,7 +180,13 @@ export default function PostDetailPage() {
           <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
             {console.log(isEdit)}
             {isEdit ? (
-              <EditPost postCard={postData} finish={() => setIsEdit(false)} />
+              <EditPost
+                postCard={postData}
+                finish={() => {
+                  setIsEdit(false);
+                  setIsLoading(true);
+                }}
+              />
             ) : (
               <DetailPost
                 postData={postData}

@@ -3,7 +3,7 @@ from config.db_connect import conn
 #Import datetime to insert date time when creating row
 from datetime import datetime
 #Import tag to check/add tag for the post
-from query.tag_query import get_tag_by_name, add_tag, add_post_tag
+from query.tag_query import get_tag_by_name, add_tag, add_post_tag, delete_all_tags_of_post
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -182,34 +182,48 @@ def check_if_user_liked_post(uid, pid):
 #                         UPDATE                         #
 ##########################################################
 
-def update_post(id, title, text, image):
-    # res = 1
-    # try:
-    #     #Obtain DB cursor
-    #     cursor = conn.cursor()
+def update_post(id, title, text, image, tags):
+    res = 1
+    try:
+        #Obtain DB cursor
+        cursor = conn.cursor()
 
-    #     #First add the Post to Post table
-    #     #Set up query statement and values
-    #     query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
-    #     values = (title, text, image, id)
+        #First add the Post to Post table
+        #Set up query statement and values
+        query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
+        values = (title, text, image, id)
 
-    #     #Adding new data into table
-    #     print("Adding with query", query, " and values ", values)
-    #     cursor.execute(query, values)
+        #Adding new data into table
+        print("Adding with query", query, " and values ", values)
+        cursor.execute(query, values)
 
-    #     #Getting id of newly added post
-    #     new_post_id = cursor.lastrowid
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
 
-    #     #Closing cursor and commiting  connection
-    #     cursor.close()
-    #     conn.commit()
+        #Clear all the tags from the post
+        if delete_all_tags_of_post(id) == 0:
+            return 0
 
-    # except mariadb.Error as e:
-    #     print(f"Error adding entry to database: {e}")
-    #     res = 0
+        #Now add the tags related to this post. Add new tag if tag doesnt exist.
+        for tag in tags:
+            #Check if tag already exists.
+            tag_row = get_tag_by_name(tag.strip())
+            
+            #If it doesnt, add a new tag,  If so, get the tag id
+            if tag_row == None:
+                tag_id = add_tag(tag.strip())
+            else:
+                tag_id = tag_row[0]
 
-    # return res
-    pass
+            #Add the entry to post_tag
+            add_post_tag(tag_id, id)
+
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+
+    return res
 
 ##########################################################
 #                         DELETE                         #

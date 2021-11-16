@@ -1,13 +1,19 @@
+import * as React from "react";
+import { useState } from "react";
+import Cookies from "universal-cookie";
+//Importing MUI
 import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import * as React from "react";
-import { useState } from "react";
+import axiosInstance from "../utils/routeUtil";
 
-export function PostCard() {
+const cookies = new Cookies();
+const POSTDATAENDPOINT = "/posts";
+
+export function PostWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
@@ -18,7 +24,21 @@ export function PostCard() {
     console.log("content", content);
     console.log("tag", tag);
 
-    // TODO: API CALL BACKEND NEED
+    // TODO: IMAGE
+    axiosInstance
+      .post(POSTDATAENDPOINT + "/write", {
+        params: {
+          userID: cookies.get("user_id"),
+          title: title,
+          text: content,
+          imageURL: "None",
+          tags: tag,
+        },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+        alert("post added!");
+      });
   };
 
   return (
@@ -71,7 +91,7 @@ export function PostCard() {
           label="#tag"
           variant="outlined"
           value={tag}
-          onChange={(event) => setTag(event.target.value)}
+          onChange={(event) => setTag(event.target.value.split(","))}
         />
         <div style={{ display: "flex" }}>
           <label htmlFor="icon-button-file">

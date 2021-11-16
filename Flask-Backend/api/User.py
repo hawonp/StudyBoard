@@ -1,10 +1,11 @@
 
 from flask.json import jsonify
+from google.oauth2 import id_token
 from config.db_connect import conn
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields
 from query.tag_query import get_user_tags
-from query.user_query import get_user_by_id
+from query.user_query import get_user_by_id, update_user
 from query.login_query import verify_id_token
 ############################
 #    CONSTANT URL PATH     #
@@ -16,9 +17,10 @@ USER_ID = '/<string:id>'
 #    Marshmallow Schema    #
 ############################
 class UserInfoSchema(Schema):
-    nickname = fields.Str(required=True)
-    tags = fields.Str(required=True)
-
+    # id_token = fields.Str(re)
+    user_nickname = fields.Str(required=True)
+    user_tags = fields.List(fields.Str(), required=True)
+    
 ############################
 # Flask RESTful API routes #
 ############################
@@ -38,21 +40,23 @@ class UserInfo(Resource):
             return json.dumps(data)
         else:
             abort(403)
-    # def put(self, id): #TODO: NEEDS TO BE TESTED
-    #     #Validate params first    
-    #     errors = user_info_schema.validate(request.args)
-    #     if errors:
-    #         abort(400, str(errors))
 
-    #     #Get the params
-    #     user_nickname = request.args.get('nickname')
-    #     print(request.args)
+    # TODO fix validation
+    def put(self, id): #TODO: NEEDS TO BE TESTED
+        #Validate params first    
+        formData = request.get_json()["params"]
+        # print(formData)
+        # errors = UserInfoSchema.validate(formData)        
+        # if errors:
+        #     abort(400, str(errors))
 
-    #     #Update user nickname
-    #     if not (update_user_nickname(id, user_nickname)):
-    #         abort(500, str("An internal error occured"))
+        #Get the params
+        user_nickname = formData['user_nickname']
+        user_tags = formData['user_tags']
+        print(request.args)
 
-    #     return json.dumps(user)
+        res = update_user(id, user_nickname, user_tags)
+        return res
 
 #Add routes to api
 def init_routes(api):

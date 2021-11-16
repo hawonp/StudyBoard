@@ -12,8 +12,27 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 
-import ButtonComponets from "./ButtonComponets";
 import Box from "@mui/material/Box";
+
+const HashtagWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        padding: "4px 15px",
+        fontSize: "13px",
+        color: "#ffffff",
+        background: "#20247b",
+        borderRadius: "3px",
+        marginRight: "4px",
+        marginBottom: "4px",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
@@ -36,23 +55,11 @@ export default function CardShow({ post }) {
     <Card sx={{ maxWidth: 1250, marginTop: "1rem" }}>
       <CardHeader
         style={{ textAlign: "left" }}
-        avatar={
-          // user icon
-
-          <Avatar sx={{ bgcolor: "black" }} aria-label="recipe"></Avatar>
-        }
         action={
           <div>
             <Tooltip title="This is Endorsed User post ">
               <StarIcon sx={{ color: "yellow", mt: "0.1rem" }} />
             </Tooltip>
-
-            {/*<Tooltip title="Edit">*/}
-            {/*<Link href={`/postedit/${id}/${title}/${content}/${images}/${tag}`} >*/}
-            {/*    <IconButton aria-label="EditIcon">*/}
-            {/*        <EditIcon />*/}
-            {/*    </IconButton>*/}
-            {/*</Link>*/}
           </div>
         }
         title={post.post_title}
@@ -81,15 +88,25 @@ export default function CardShow({ post }) {
             <Typography variant="body2" color="text.secondary">
               {post.post_text}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {post.post_tags}
-            </Typography>
           </a>
         </Link>
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "start",
+            marginTop: "0.5rem",
+            marginBottom: "0.5rem",
+          }}
+        >
+          {post.post_tags.map((post_tags, i) => (
+            <HashtagWrapper key={i}>{post_tags}</HashtagWrapper>
+          ))}
+        </div>
       </CardContent>
 
       {/* this is icon */}
-      <ButtonComponets />
+      {/* <ButtonComponets /> */}
     </Card>
   );
 }

@@ -17,7 +17,7 @@ class Login(Resource):
         # authenticate token_id from signin
         success, idinfo = verify_id_token(token)
             
-        if(success == False):
+        if(success != True):
             abort(403)
 
         # get logged in users info (used for first time log in)

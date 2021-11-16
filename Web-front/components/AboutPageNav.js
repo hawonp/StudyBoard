@@ -68,13 +68,16 @@ export default function AboutPageNav() {
         <Tab label="Contact US" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        About
+        <br />
+        Page Under Construction!
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Leadership
+        <br />
+        Page Under Construction!
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Contact US
+        <br />
+        Page Under Construction!
       </TabPanel>
     </Box>
   );
