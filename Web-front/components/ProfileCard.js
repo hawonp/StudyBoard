@@ -158,8 +158,8 @@ export default function ProfileCard() {
               <h5>HASH TAG</h5>
 
               {tags.map((tag, i) => (
-                <TagWrapper>
-                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                <TagWrapper key={i}>
+                  <HashtagWrapper>{tag}</HashtagWrapper>
                 </TagWrapper>
               ))}
             </div>
