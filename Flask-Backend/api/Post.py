@@ -2,7 +2,7 @@ from config.db_connect import conn
 
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
-from query.post_query import add_post, get_post_feed, get_posts_by_user, get_post_by_id, update_post
+from query.post_query import add_post, get_post_feed, get_posts, get_post_by_id, update_post
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
@@ -193,10 +193,14 @@ class PostFavourite(Resource):
 #Get favourite posts
 class PostFavourites(Resource):
     def get(self):
+        errors = post_interactor_id_schema.validate(request.args)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
         user_id = request.args.get('userID')
 
         filtered = []
-        posts = get_posts_by_user(user_id)
+        posts = get_posts()
         for post in posts['posts']:
             #Now check if the user favourited the post
             did_user_favourite_post = check_if_user_favourited_post(user_id, post["post_id"])

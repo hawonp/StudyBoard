@@ -51,10 +51,12 @@ export default function Favorite() {
 
   useEffect(async () =>  {
     // TODO: API CALL (BACKEND)
+      const uid = (new Cookies()).get("user_id")
+      console.log('call api for uid', uid)
       axiosInstance
           .get('/posts/favourite', {
               params: {
-                  userID: (new Cookies()).get("user_id")
+                  userID: uid
               }
           }).then((response) => {
               const posts = JSON.parse(response.data)['posts']

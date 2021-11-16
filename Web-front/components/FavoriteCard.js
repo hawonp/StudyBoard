@@ -14,7 +14,7 @@ import SmsIcon from "@mui/icons-material/Sms";
 
 export default function FavoriteCard({ favorite }) {
   const [postData, setPostData] = useState({});
-
+  console.log(favorite)
   useEffect(() => {
     // TODO: API CALL BACKEND NEED
     // favorite는 post id
@@ -36,15 +36,15 @@ export default function FavoriteCard({ favorite }) {
         <CardMedia
           component="img"
           height="150"
-          src={postData.image}
+          src={postData.post_image}
           alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {postData.title}
+            {postData.post_title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {postData.content}
+            {postData.post_text}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -61,6 +61,7 @@ export default function FavoriteCard({ favorite }) {
         <CardActions>
           <IconButton aria-label="favorites">
             <FavoriteIcon />
+            : {postData.post_like_count}
           </IconButton>
           <IconButton aria-label="thoumup">
             <ThumbUpIcon />

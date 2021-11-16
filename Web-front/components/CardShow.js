@@ -64,7 +64,9 @@ export default function CardShow({ post }) {
                 }
                 title={post.post_title}
                 subheader={post.user_nickname}
-            ></CardHeader>
+            >
+            </CardHeader>
+
             <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
                 <Box sx={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
                     {post.post_image == 'None' ? (
@@ -84,8 +86,8 @@ export default function CardShow({ post }) {
             {/* card content  */}
             <CardContent style={{ textAlign: 'left' }}>
                 <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
-                    <a>
-                        <Typography variant="body2" color="text.secondary">
+                    <a style={{ textDecoration: 'none'}}>
+                        <Typography sx={{ marginBottom: '1.2rem'}} variant="body2" color="text.secondary">
                             {post.post_text}
                         </Typography>
                     </a>
