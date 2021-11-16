@@ -2,11 +2,18 @@ import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
+import Cookies from "universal-cookie";
+//Importing and settings vars for axios parse
+import axiosInstance from "../utils/routeUtil";
+const users = "/users/";
+const cookies = new Cookies();
+const user_id = cookies.get("user_id");
+const id_token = cookies.get("user_token");
 export default function EditProfile({ profile }) {
-  const { name, email, nick, tag } = profile;
+  const { email, nick, tag } = profile;
   const router = useRouter();
 
   const [inputNick, setInputNick] = useState(nick);
@@ -19,6 +26,20 @@ export default function EditProfile({ profile }) {
     // // { data: "failed" }
     // if ((await result.json()).data === "failed") { alert("업로드 실패") }
     // else { router.replace("/user/profile") }
+    axiosInstance
+      .put(users + user_id, {
+        params: {
+          user_nickname: inputNick,
+          user_tags: inputTag,
+        },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+        if (responseData == 1) {
+          // TODO proper reloading
+          window.location.reload();
+        }
+      });
   };
 
   return (
@@ -34,7 +55,7 @@ export default function EditProfile({ profile }) {
     >
       <div style={{ display: "flex" }}>
         <div>
-          <h5>PK Hong&apos;s Information</h5>
+          <h5>Edit your Profile Information!</h5>
         </div>
       </div>
       <hr
@@ -49,14 +70,6 @@ export default function EditProfile({ profile }) {
         }}
       />
       <div>
-        <TextField
-          style={{ marginBottom: "10px", marginTop: "8px" }}
-          fullWidth
-          disabled
-          id="outlined-disabled"
-          label="Name"
-          defaultValue={name}
-        />
         <TextField
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -77,9 +90,9 @@ export default function EditProfile({ profile }) {
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="HashTag"
+          label="Please edit your personal tags"
           value={inputTag}
-          onChange={(e) => setInputTag(e.target.value)}
+          onChange={(e) => setInputTag(e.target.value.split(","))}
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>

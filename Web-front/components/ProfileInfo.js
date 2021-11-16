@@ -46,17 +46,13 @@ const HrWrapper = ({ style, children }) => {
 };
 
 export default function ProfileInfo({ profile }) {
-  const { name, email, nick, tag } = profile;
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [nick, setNickname] = useState("");
-  // const [tag, setTag] = useState("");
+  const { email, nick, tag } = profile;
 
   return (
     <BoxWrapper>
       <div style={{ display: "flex" }}>
         <div>
-          <h5>PK Hong&apos;s Information</h5>
+          <h5>Profile Page!</h5>
         </div>
 
         {/*edit button for profile*/}
@@ -77,13 +73,6 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          defaultValue={name}
-        />
-        <TextField
-          sx={{ marginBottom: "10px", marginTop: "8px" }}
-          fullWidth
-          disabled
-          id="outlined-disabled"
           defaultValue={email}
         />
         <TextField
@@ -99,7 +88,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="HashTag"
+          label="A list of hashtags!"
           defaultValue={tag}
         />
       </div>

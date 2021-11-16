@@ -1,6 +1,6 @@
-import Head from "next/head";
 import * as React from "react";
-import { PostCard } from "../components/PostCard";
+import Head from "next/head";
+import { PostWrite } from "../components/PostWrite";
 
 export default function WritePost() {
   return (
@@ -9,7 +9,7 @@ export default function WritePost() {
         <title>StudyBoard</title>
       </Head>
 
-      <PostCard />
+      <PostWrite />
     </div>
   );
 }
