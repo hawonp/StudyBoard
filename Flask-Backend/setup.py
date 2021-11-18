@@ -9,6 +9,8 @@ import api.Login as Login
 import api.Post as Post
 import api.Dev as Dev
 import api.User as User
+import api.Reply as Reply
+import api.Mod as Mod
 import api.MySql as MySql
 import api.Image as Image
 
@@ -33,6 +35,8 @@ Dev.init_routes(api)
 Login.init_routes(api)
 User.init_routes(api)
 Post.init_routes(api)
+Reply.init_routes(api)
+Mod.init_routes(api)
 MySql.init_routes(api)
 Image.init_routes(api)
 
