@@ -32,6 +32,8 @@ Dev.init_routes(api)
 Login.init_routes(api)
 User.init_routes(api)
 Post.init_routes(api)
+Reply.init_routes(api)
+Mod.init_routes(api)
 MySql.init_routes(api)
 
 # Run the application
