@@ -1,4 +1,4 @@
-from config.imports import load_dotenv, os, redis
+from config.imports import load_dotenv, os
 
 load_dotenv()
 
