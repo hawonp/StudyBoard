@@ -1,6 +1,7 @@
 from config.imports import mariadb
 from config.db_connect import conn
-
+#Import datetime to insert date time when creating row
+from datetime import datetime
 ##########################################################
 #                         INSERT                         #
 ##########################################################

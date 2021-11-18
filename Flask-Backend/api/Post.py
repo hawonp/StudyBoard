@@ -13,7 +13,7 @@ from query.flag_query import flag_post
 ############################
 FEED = '/feed'
 POSTS = '/posts'
-POST_ID = '/<string:id>'
+POST_ID = '/<int:id>'
 LIKES = '/likes'
 FAVOURITE = '/favourite'
 WRITE = '/write'
