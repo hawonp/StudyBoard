@@ -8,7 +8,7 @@ try:
         conn = mariadb.connect(
             user="mod",
             password="studyboard2021",
-            host="dbms_container",
+            host="studyboard_db",
             port=3306,
             database="studyboard_db"
         )
