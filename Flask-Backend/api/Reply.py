@@ -40,6 +40,6 @@ class ReplyFlag(Resource):
 
 #Add routes to api
 def init_routes(api):
-    api.add_resource(ReplyFlag, REPLIES+REPLY_ID+FAVOURITE)
+    api.add_resource(ReplyFlag, REPLIES+REPLY_ID+FLAG)
 
 reply_flag_schema = ReplyFlagSchema()
