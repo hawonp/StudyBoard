@@ -1,12 +1,12 @@
 from config.db_connect import conn
 
-from config.imports import json, Resource, request, abort
+from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
 from query.post_query import add_post, get_post_feed, get_post_by_id, update_post
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
-
+from config.config import ApplicationConfig
 ############################
 #    CONSTANT URL PATH     #
 ############################
@@ -31,6 +31,7 @@ class PostDataSchema(Schema):
     text = fields.Str(required=True)
     imageURL = fields.Str(required=True)
     tags = fields.List(fields.Str(), required=True)
+    uuid = fields.Str(required=True)
 
 class PostInteractorIDSchema(Schema):
     userID = fields.Str(required=True)
@@ -114,6 +115,7 @@ class PostData(Resource):
 #Post creation TODO: NEEDS TO BE TESTED
 class PostWrite(Resource):
     def post(self):
+        print("validate inputs")
         #Validate params first
         formData = request.get_json()["params"]
         errors = post_data_schema.validate(formData)
@@ -126,7 +128,17 @@ class PostWrite(Resource):
         text = formData["text"]
         imageURL = formData["imageURL"]
         tags = formData["tags"]
+        uuid = formData["uuid"]
 
+        print("store image permanently")
+        auth = "Uploadcare.Simple" + ApplicationConfig.PUBLIC_KEY + ":" + ApplicationConfig.IMG_SECRET_KEY
+        headers = {'Accept': 'application/vnd.uploadcare-v0.5+json', 'Authorization': auth}
+        image_url = "https://api.uploadcare.com/files/" + uuid + "/storage/"
+        payload = {'UPLOADCARE_STORE ': '1'}
+        response = requests.put(image_url, params=payload, headers=headers)
+        print("permanently storing image: ", response)
+
+        print("add post")
         res = add_post(userID, title, text, imageURL, tags)
         return res
 
