@@ -89,7 +89,7 @@ export const CommentBox = ({ postID }) => {
     //     console.log(responseData);
     //   });
     console.log(comments);
-    comments.map((comment) => (
+    return comments.map((comment) => (
       <Comment
         author={comment.author}
         body={comment.body}
