@@ -95,20 +95,20 @@ export const CommentBox = () => {
     <div className="comment-box">
       <h2>Join the Discussion!</h2>
       <CommentForm addComment={_addComment} />
-      <button
+      {/*  버튼 */}
+      <Button
         style={{
           float: "right",
-          margin: "1rem 1rem",
-          backgroundColor: "green",
-          borderRadius: "4px",
+          margin: "1rem 1rem", borderRadius: "8px",
           padding: "0.5rem 0.5rem",
-          color: "#FFFFF",
         }}
-        id="comment-reveal"
+        variant="contained"
+        color="success"
+        type="submit"
         onClick={toggleComments}
       >
         {buttonText}
-      </button>
+      </Button>
       <h3>Comments</h3>
       {/* 댓글 카운트 수 */}
       <h5>{_getCommentsTitle(comments.length)}</h5>
@@ -288,7 +288,7 @@ const InputReply = ({ add, finish }) => {
         <Button
           sx={{ borderRadius: "8px", height: "2rem", marginRight: "0.5rem" }}
           variant="contained"
-          color="error"
+          type="error"
           onClick={finish}
         >
           CANCEL

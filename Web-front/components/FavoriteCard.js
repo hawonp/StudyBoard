@@ -51,17 +51,14 @@ export default function FavoriteCard({ favorite }) {
 
       {/*Icon*/}
       <CardActions>
-        <IconButton aria-label="favorites">
-          <Link href="">
-            <BookmarkIcon />
-          </Link>
-        </IconButton>
 
         {/*Icon*/}
         <CardActions>
           <IconButton aria-label="favorites">
             <FavoriteIcon />
+            <div>
             : {postData.post_like_count}
+            </div>
           </IconButton>
           <IconButton aria-label="thoumup">
             <ThumbUpIcon />
@@ -70,6 +67,10 @@ export default function FavoriteCard({ favorite }) {
             <SmsIcon />
           </IconButton>
         </CardActions>
+        <IconButton aria-label="favorites">
+          <BookmarkIcon />
+        </IconButton>
+
       </CardActions>
     </Card>
   );

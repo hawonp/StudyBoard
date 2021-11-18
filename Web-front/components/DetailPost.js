@@ -1,8 +1,8 @@
-import * as React from 'react';
+// import * as React from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'universal-cookie';
 //Importing MUI
-import { Box } from '@mui/material';
+import {Alert, Box, Modal, TextField} from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -15,6 +15,23 @@ import ShareIcon from '@mui/icons-material/Share';
 import FlagIcon from '@mui/icons-material/Flag';
 import EditIcon from '@mui/icons-material/Edit';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import Button from "@mui/material/Button";
+import {useState, useContext} from "react";
+import {ReportContext} from "../contexts/ReportContext";
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+};
 
 const HashtagWrapper = ({ style, children }) => {
     return (
@@ -55,7 +72,27 @@ const DetailWrapper = ({ style, children }) => {
     );
 };
 
+function createData( number ,name, nickname, contents, conform ) {
+    return { number,name, nickname, contents, conform };
+}
+
 export default function DetailPost({ postData, onLikePressed, onFavouritePressed, edit }) {
+    const [open, setOpen] = useState(false);
+    const [reportText, setReportText] = useState("");
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const [reportList, setReportList] = useContext(ReportContext)
+    const report = () => {
+        // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
+        // setReportList([...reportList, reportData])
+        // TODO: API POST (BACKEND NEED)
+
+
+        setReportText("")
+        setOpen(false)
+    }
+
     return (
         <DetailWrapper>
             <Box style={{ flex: 1, paddingRight: '1rem', paddingLeft: '1rem' }}>
@@ -116,15 +153,41 @@ export default function DetailPost({ postData, onLikePressed, onFavouritePressed
                     <IconButton aria-label="favorites" onClick={() => onFavouritePressed(postData.id, postData.didUserFavourite)}>
                         {postData.didUserFavourite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                     </IconButton>
+                    {/* copy the link */}
                     <IconButton
                         aria-label="share"
                         onClick={() => {
                             navigator.clipboard.writeText(window.location.href);
+                            <Alert severity="success"> Copy Successfuly </Alert>
                         }}
                     >
                         <ShareIcon />
                     </IconButton>
-                    <IconButton aria-label="report">
+                    {/* report button*/}
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Box sx={{ ...modalStyle }}>
+                            <h4 id="child-modal-title">신고</h4>
+                            <div style={{flex: 1}}>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    label={'신고 내용'}
+                                    value={reportText}
+                                    onChange={(e) => setReportText(e.target.value)}
+                                />
+                            </div>
+                            <div style={{display: 'flex', flex: 1, justifyContent: 'end'}}>
+                                <Button onClick={report}>Report</Button>
+                            </div>
+
+                        </Box>
+                    </Modal>
+                    <IconButton aria-label="report" onClick={handleOpen} >
                         <FlagIcon />
                     </IconButton>
                 </CardActions>

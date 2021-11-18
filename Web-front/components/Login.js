@@ -14,6 +14,7 @@ function Login() {
         console.log(res.tokenObj);
         const id_token = res.tokenObj['id_token'];
 
+
         refreshTokenSetup(res);
         console.log('Make AXIOS call to BE');
         axiosInstance
@@ -47,6 +48,7 @@ function Login() {
     return (
         <div style={{ marginRight: '3rem' }}>
             <GoogleLogin
+
                 clientId={clientID}
                 buttonText="Login"
                 onSuccess={onSuccess}

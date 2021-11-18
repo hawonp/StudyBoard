@@ -52,7 +52,7 @@ export default function CardShow({ post }) {
     }, []);
 
     return (
-        <Card sx={{ maxWidth: 1250, marginTop: '1rem' }}>
+        <Card sx={{ maxWidth: 1250, marginTop: '1rem', border: "0.1rem solid lightgray"}}>
             <CardHeader
                 style={{ textAlign: 'left' }}
                 action={
