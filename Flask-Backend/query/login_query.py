@@ -1,4 +1,4 @@
-from config.imports import id_token, datetime, requests, cachecontrol, google
+from config.imports import id_token, datetime, requests, cachecontrol, google, abort
 from config.config import ApplicationConfig
 
 def verify_id_token(token):
@@ -14,7 +14,8 @@ def verify_id_token(token):
         return True, decoded_token
 
     except ValueError as e:
-        pass
+        print("Could not verify token")
+        abort(403)
 
 # assumption is that idinfo is already verified
 def get_user_from_id_token(decoded_token):
