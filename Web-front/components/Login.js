@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GoogleLogin } from "react-google-login";
-import { refreshTokenSetup } from "../utils/refreshToken";
+import { refreshTokenSetup, delCookies } from "../utils/utils";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -36,8 +36,15 @@ function Login() {
             cookies.set("user_token", id_token, { path: "/" });
           }
           window.location.reload();
-        } else if (response["status"] == 403) {
-          alert("Could not verify token at Backend");
+        }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 401) {
+          // TODO temp redirection
+          cookies.remove("user_token", { path: "/" });
+          cookies.remove("user_id", { path: "/" });
+          window.location.href = "./error/401";
         }
       });
   };

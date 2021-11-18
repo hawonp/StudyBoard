@@ -1,7 +1,9 @@
-from config.imports import Resource, request, abort
+from config.imports import Resource, request, abort, datetime
+from config.imports import id_token, google_requests, cachecontrol, google, requests
+from config.config import ApplicationConfig
+
 from query.user_query import add_user, check_user_id_exists
 from query.login_query import verify_id_token, get_user_from_id_token
-
 class Default(Resource):
     def get(self):
         return {
@@ -11,14 +13,20 @@ class Default(Resource):
 class Login(Resource):
     def get(self):
         # get id_token from URL call
+        print("BE: Login Flow")
         token = request.args.get('id_token')
         print("BE: Received auth req from FE")
         
         # authenticate token_id from signin
-        success, idinfo = verify_id_token(token)
-            
-        if(success != True):
-            abort(403)
+        try:
+            print("BE: Verify token with google-auth")
+            session = requests.session()
+            cached_session = cachecontrol.CacheControl(session)
+            request = google.auth.transport.requests.Request(session=cached_session)
+            decoded_token = id_token.verify_oauth2_token(token, request, ApplicationConfig.GOOGLE_CLIENT_ID)
+        except ValueError as e:
+            print("BE:")
+            abort(401)
 
         # get logged in users info (used for first time log in)
         user_id, user_email, user_nickname = get_user_from_id_token(idinfo)

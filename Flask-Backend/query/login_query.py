@@ -11,7 +11,7 @@ def verify_id_token(token):
         request = google.auth.transport.requests.Request(session=cached_session)
         decoded_token = id_token.verify_oauth2_token(token, request, ApplicationConfig.GOOGLE_CLIENT_ID)
         print("Token is verified!\n",decoded_token)
-        return True, decoded_token
+        return decoded_token
 
     except ValueError as e:
         print("Could not verify token")
