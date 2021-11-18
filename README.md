@@ -96,3 +96,13 @@ enabling each person to leave with the exact information that they were looking 
 ## How to Submit an issue
  - You can submit an issue through the [Github issues](https://github.com/hawonp/StudyBoard/issues) tab
  - All outstanding issues will be located in the issues tab
+
+## Useful Docker commands
+ - Check which containers are running
+  > docker ps
+
+ - Go into the docker container
+  > docker exec -it container_id/container_name bash
+
+ - See logs
+  > docker logs --follow container_id
