@@ -6,16 +6,18 @@ from query.post_query import add_post, get_post_feed, get_post_by_id, update_pos
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
+from query.flag_query import flag_post
 
 ############################
 #    CONSTANT URL PATH     #
 ############################
 FEED = '/feed'
 POSTS = '/posts'
-POST_ID = '/<string:id>'
+POST_ID = '/<int:id>'
 LIKES = '/likes'
 FAVOURITE = '/favourite'
 WRITE = '/write'
+FLAG = '/flag'
 
 ############################
 #    Marshmallow Schema    #
@@ -34,6 +36,10 @@ class PostDataSchema(Schema):
 
 class PostInteractorIDSchema(Schema):
     userID = fields.Str(required=True)
+
+class PostFlagSchema(Schema):
+    userID = fields.Str(required=True)
+    text = fields.Str(required=True)
 
 ############################
 # Flask RESTful API routes #
@@ -101,13 +107,12 @@ class PostData(Resource):
             abort(400, str(errors))
         
         #Now fetch the params
-        userID = formData["userID"]
         title = formData["title"]
         text = formData["text"]
-        imageURL = formData["imageURL"]
+        image_url = formData["imageURL"]
         tags = formData["tags"]
 
-        res = update_post(id, title, text, imageURL, tags)
+        res = update_post(id, title, text, image_url, tags)
         return res
 
 
@@ -121,13 +126,13 @@ class PostWrite(Resource):
             abort(400, str(errors))
         
         #Now fetch the params
-        userID = formData["userID"]
+        user_id = formData["userID"]
         title = formData["title"]
         text = formData["text"]
-        imageURL = formData["imageURL"]
+        image_url = formData["imageURL"]
         tags = formData["tags"]
 
-        res = add_post(userID, title, text, imageURL, tags)
+        res = add_post(user_id, title, text, image_url, tags)
         return res
 
 #Post like
@@ -173,7 +178,7 @@ class PostFavourite(Resource):
 
         #fav
         user_id = formData["userID"]
-        print("Adding user like to post")
+        print("Adding post to favourites")
         res = add_user_favourite_post(user_id, id)
         return res
     
@@ -186,9 +191,27 @@ class PostFavourite(Resource):
         user_id = request.args.get('userID')
 
         #Un-fav
-        print("Removing user like from post")
+        print("Removing post from favourites")
         res = delete_user_favourite_post(user_id, id)
         return res
+
+#Add flag a post
+class PostFlag(Resource):
+    def post(self, id):
+        #Validate params and assign variables
+        formData = request.get_json()["params"]
+        errors = post_flag_schema.validate(formData)
+        if errors:
+            print("Request parameters error")
+            abort(400, str(errors))
+        
+        #Fetch the params
+        flag_text = formData["text"]
+        user_id = formData["userID"]
+        
+        res = flag_post(id, user_id, flag_text)
+        return res
+
 
 #Add routes to api
 def init_routes(api):
@@ -197,7 +220,9 @@ def init_routes(api):
     api.add_resource(PostWrite, POSTS+WRITE)
     api.add_resource(PostLike, POSTS+POST_ID+LIKES)
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
+    api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
 
 feed_post_schema = FeedPostSchema()
 post_data_schema = PostDataSchema()
 post_interactor_id_schema = PostInteractorIDSchema()
+post_flag_schema = PostFlagSchema()

@@ -8,7 +8,7 @@ from query.tag_query import get_tag_by_name, add_tag, add_post_tag, delete_all_t
 #                         INSERT                         #
 ##########################################################
 # Adding Post entries to the db.
-def add_post(user, title, text, img_url, tags):
+def add_post(user_id, title, text, img_url, tags):
     new_post_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
@@ -18,7 +18,7 @@ def add_post(user, title, text, img_url, tags):
         #Set up query statement and values
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         query = "INSERT INTO Post (user_id, post_title, post_text, post_image, post_date) VALUES (?, ?, ?, ?, ?)"
-        values = (user, title, text, img_url, date_time)
+        values = (user_id, title, text, img_url, date_time)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -51,7 +51,7 @@ def add_post(user, title, text, img_url, tags):
     return new_post_id
 
 # Adding Post entries to the db.
-def add_user_like_post(uid, pid):
+def add_user_like_post(user_id, post_id):
     new_user_post_like_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
@@ -59,7 +59,7 @@ def add_user_like_post(uid, pid):
 
         #Set up query statement and values
         query = "INSERT INTO User_Post_Like (user_id, post_id) VALUES (?, ?)"
-        values = (uid, pid)
+        values = (user_id, post_id)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -128,14 +128,14 @@ def get_post_feed(page, order, filter):
     return res_data
 
 #Get post by id
-def get_post_by_id(id):
+def get_post_by_id(post_id):
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT u.user_nickname, pst.* FROM User u INNER JOIN (SELECT * FROM Post WHERE post_id=?) AS pst ON pst.user_id = u.user_id"
-        values = (int(id), )
+        query = "SELECT u.user_nickname, u.user_id, pst.* FROM User u INNER JOIN (SELECT * FROM Post WHERE post_id=?) AS pst ON pst.user_id = u.user_id"
+        values = (int(post_id), )
 
         #Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -182,7 +182,7 @@ def check_if_user_liked_post(uid, pid):
 #                         UPDATE                         #
 ##########################################################
 
-def update_post(id, title, text, image, tags):
+def update_post(post_id, title, text, image, tags):
     res = 1
     try:
         #Obtain DB cursor
@@ -191,7 +191,7 @@ def update_post(id, title, text, image, tags):
         #First add the Post to Post table
         #Set up query statement and values
         query = "UPDATE Post SET post_title=?, post_text=?, post_image=? WHERE post_id=?"
-        values = (title, text, image, id)
+        values = (title, text, image, post_id)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -229,7 +229,7 @@ def update_post(id, title, text, image, tags):
 #                         DELETE                         #
 ##########################################################
 #User un-likes a post. Delete from User_Post_like
-def delete_user_like_post(uid, pid):
+def delete_user_like_post(user_id, post_id):
     res = 1
     try:
         #Obtain DB cursor
@@ -237,7 +237,7 @@ def delete_user_like_post(uid, pid):
 
         #Set up query statement and values
         query = "DELETE FROM User_Post_Like WHERE user_id=? AND post_id=?"
-        values = (uid, int(pid))
+        values = (user_id, int(post_id))
 
         #Getting data from table
         print("Deleting with query", query, " and values ", values)
