@@ -2,7 +2,6 @@ version: "3"
 
 services:
   db:
-    container_name: dbms_container
     image: mariadb:10
     container_name: studyboard_db
     # command: mysqld --general-log=1 --general-log-file=/var/log/mysql/general-log.log

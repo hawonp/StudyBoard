@@ -15,7 +15,6 @@ import api.MySql as MySql
 # initialize Flask, 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
-setting.local_flask = False #set to true for production
 
 # initialize CORS
 CORS(app, origins=["localhost:3000", "http://backend.studyboard.info", "*", "localhost:9090"])

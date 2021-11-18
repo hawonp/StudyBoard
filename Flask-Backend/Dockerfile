@@ -15,10 +15,10 @@ RUN pip install -r requirements.txt
 # RUN pip install Flask-Dance
 
 # expose port for listening (local)
-# EXPOSE 9090
+EXPOSE 9090
 
 # expose port for listening (prod)
-EXPOSE 5000 
+# EXPOSE 5000 
 
 # init gunicorn 
 RUN chmod +x ./entrypoint.sh
