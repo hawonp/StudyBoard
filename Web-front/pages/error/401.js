@@ -34,7 +34,7 @@ export default function Error_401_page() {
             width: " 75%",
           }}
         >
-          Authentication Unsuccessful!
+          Could not Sign In to Google. <br /> Please try again! <br />
           <Button sx={{ borderRadius: "20px" }} variant="text" color="success">
             <Link href="/">
               <a style={{ textDecoration: "none", color: "blue" }}>

@@ -35,7 +35,7 @@ function Login() {
             cookies.set("user_id", response["data"], { path: "/" });
             cookies.set("user_token", id_token, { path: "/" });
           }
-          window.location.reload();
+          window.location.href = "./board";
         }
       })
       .catch((e) => {
