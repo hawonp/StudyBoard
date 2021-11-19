@@ -18,8 +18,8 @@ import Button from "@mui/material/Button";
 
 import axiosInstance from "../../utils/routeUtil";
 import ProfileCard from "../../components/ProfileCard";
-import EditPost from "../../components/EditPost";
-import DetailPost from "../../components/DetailPost";
+import PostEdit from "../../components/PostEdit";
+import PostDetail from "../../components/PostDetail";
 import { CommentBox } from "../../components/CommentBox";
 
 const cookies = new Cookies();
@@ -54,7 +54,6 @@ const DetailWrapper = ({ style, children }) => {
 export default function PostDetailPage() {
   const router = useRouter();
   let userID = cookies.get("user_id");
-  console.log(userID);
   if (userID == undefined) {
     userID = -1;
   }
@@ -109,7 +108,6 @@ export default function PostDetailPage() {
           },
         })
         .then((response) => {
-          console.log(response);
           setPostData((prevData) => {
             return { ...prevData, didUserLike: !prevData.didUserLike };
           });
@@ -122,7 +120,6 @@ export default function PostDetailPage() {
           },
         })
         .then((response) => {
-          console.log(response);
           setPostData((prevData) => {
             return { ...prevData, didUserLike: !prevData.didUserLike };
           });
@@ -143,7 +140,6 @@ export default function PostDetailPage() {
           },
         })
         .then((response) => {
-          console.log(response);
           setPostData((prevData) => {
             return {
               ...prevData,
@@ -159,7 +155,6 @@ export default function PostDetailPage() {
           },
         })
         .then((response) => {
-          console.log(response);
           setPostData((prevData) => {
             return {
               ...prevData,
@@ -180,7 +175,7 @@ export default function PostDetailPage() {
           <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
             {console.log(isEdit)}
             {isEdit ? (
-              <EditPost
+              <PostEdit
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);
@@ -188,7 +183,7 @@ export default function PostDetailPage() {
                 }}
               />
             ) : (
-              <DetailPost
+              <PostDetail
                 postData={postData}
                 onLikePressed={handleLikePressed}
                 onFavouritePressed={handleFavouritePressed}
