@@ -26,15 +26,15 @@ export default function CustomAppBar() {
   const user_id = cookies.get("user_token");
   console.log("App Bar:\nID_TOKEN= ", user_id);
 
-  const menuThreeList = [
-    {
-      title: "Profile",
-      onClick: () => {
-        // alert("Profile");
-        window.location.href = "/user/profile";
-      },
-    },
-  ];
+  // const menuThreeList = [
+  //   {
+  //     title: "Profile",
+  //     onClick: () => {
+  //       // alert("Profile");
+  //       window.location.href = "/user/profile";
+  //     },
+  //   },
+  // ];
 
   return (
     <ContainerWrapper>
@@ -81,7 +81,8 @@ export default function CustomAppBar() {
           ) : (
             <div>
               {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
-              <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
+              {/* <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} /> */}
+              <NavButton to={"/user/profile"} title={"Profile"} />
             </div>
           )}
         </div>

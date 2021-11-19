@@ -28,18 +28,15 @@ class UserInfo(Resource):
     def get(self, id):
         
         token = request.args.get('id_token')
-        success, unused = verify_id_token(token)
-        print("USER: verifying user token", success, token)
-        if(success):
-            user = get_user_by_id(id)
-            tags = get_user_tags(id)
-            data = {
-                "user" : user,
-                "tags" : tags
-            }
-            return json.dumps(data)
-        else:
-            abort(403)
+        verify_id_token(token)
+        print("USER: verifying user token: ", token)
+        user = get_user_by_id(id)
+        tags = get_user_tags(id)
+        data = {
+            "user" : user,
+            "tags" : tags
+        }
+        return json.dumps(data)
 
     # TODO fix validation
     def put(self, id): #TODO: NEEDS TO BE TESTED
