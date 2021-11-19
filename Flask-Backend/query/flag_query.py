@@ -14,7 +14,7 @@ def flag_post(id, user_id, flag_text):
         #First add the Post to Post table
         #Set up query statement and values
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO Post_Report (post_id, user_id, report_text, report_date) VALUES (?, ?, ?, ?, ?)"
+        query = "INSERT INTO Post_Report (post_id, user_id, report_text, report_date) VALUES (?, ?, ?, ?)"
         values = (int(id), user_id, flag_text, date_time)
 
         #Adding new data into table
@@ -43,7 +43,7 @@ def flag_reply(id, user_id, flag_text):
         #First add the Post to Post table
         #Set up query statement and values
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO Reply_Report (reply_id, user_id, report_text, report_date) VALUES (?, ?, ?, ?, ?)"
+        query = "INSERT INTO Reply_Report (reply_id, user_id, report_text, report_date) VALUES (?, ?, ?, ?)"
         values = (int(id), user_id, flag_text, date_time)
 
         #Adding new data into table

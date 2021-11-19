@@ -1,4 +1,5 @@
 // import * as React from 'react';
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 //Importing MUI
@@ -16,8 +17,12 @@ import FlagIcon from "@mui/icons-material/Flag";
 import EditIcon from "@mui/icons-material/Edit";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import Button from "@mui/material/Button";
-import { useState, useContext } from "react";
+
+import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";
+
+const POSTDATAENDPOINT = "/posts";
+const FLAGENDPOINT = "/flag";
 
 const modalStyle = {
   position: "absolute",
@@ -78,18 +83,29 @@ export default function PostDetail({
   onFavouritePressed,
   edit,
 }) {
+  //Necessary hooks
   const [open, setOpen] = useState(false);
-  const [reportText, setReportText] = useState("");
+  const [flagText, setFlagText] = useState("");
+  const [flagList, setFlagList] = useContext(ReportContext);
+  const router = useRouter();
+
+  //Setting functions
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [reportList, setReportList] = useContext(ReportContext);
   const report = () => {
-    // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
-    // setReportList([...reportList, reportData])
+    // const flagData = createData(flagList.length+1, postData.user, postData.user, "입력값")
+    // setFlagList([...flagList, flagData])
     // TODO: API POST (BACKEND NEED)
-
-    setReportText("");
+    const cookies = new Cookies();
+    axiosInstance
+      .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
+        params: { userID: cookies.get("user_id"), text: flagText },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+      });
+    setFlagText("");
     setOpen(false);
   };
 
@@ -191,8 +207,8 @@ export default function PostDetail({
                   fullWidth
                   multiline
                   label={"신고 내용"}
-                  value={reportText}
-                  onChange={(e) => setReportText(e.target.value)}
+                  value={flagText}
+                  onChange={(e) => setFlagText(e.target.value)}
                 />
               </div>
               <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
