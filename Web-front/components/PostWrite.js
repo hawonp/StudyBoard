@@ -4,8 +4,6 @@ import Cookies from "universal-cookie";
 //Importing MUI
 import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
