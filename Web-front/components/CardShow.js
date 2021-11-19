@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import CardHeader from "@mui/material/CardHeader";
-import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Link from "next/link";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-
 import Box from "@mui/material/Box";
 
 const HashtagWrapper = ({ style, children }) => {
@@ -38,8 +33,27 @@ const HashtagWrapper = ({ style, children }) => {
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
+  //EditPost
+  const [postCard, setpostCard] = useState({
+    id: 1,
+    title: "PK",
+    content: "PKPKPK",
+    images: "",
+    tags: "#MATH #CSE #HARD",
+  });
+
+  useEffect(() => {
+    // TODO: API CALL (BACKEND)
+  }, []);
+
   return (
-    <Card sx={{ maxWidth: 1250, marginTop: "1rem" }}>
+    <Card
+      sx={{
+        maxWidth: 1250,
+        marginTop: "1rem",
+        border: "0.1rem solid lightgray",
+      }}
+    >
       <CardHeader
         style={{ textAlign: "left" }}
         action={

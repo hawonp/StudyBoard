@@ -116,9 +116,9 @@ export default function EditPost({ postCard, finish }) {
         </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button
-            sx={{ borderRadius: "8px" }}
+            sx={{ borderRadius: "8px", marginRight: '0.5rem'}}
             variant="contained"
-            color="success"
+            color="error"
             onClick={finish}
           >
             CANCEL

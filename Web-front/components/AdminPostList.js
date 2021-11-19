@@ -11,6 +11,8 @@ import {ListItem} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from '@mui/icons-material/Check';
+import {useContext} from "react";
+import {ReportContext} from "../contexts/ReportContext";
 
 const BoxWrapper = ({ style, children }) => {
     return (
@@ -27,19 +29,27 @@ const BoxWrapper = ({ style, children }) => {
     );
 };
 
-function createData( number ,name, nickname, contents, conform ) {
-    return { number,name, nickname, contents, conform };
-}
-
-const rows = [
-    createData(1,'PK', 'pk-dev', 'whawahwawh'),
-    createData(2,'Hawon', 'hawonjjang', 'KIN'),
-    createData(3,'JeongHo', 'HOHO', 'I am smart'),
-    createData(4,'Tim', 'Temp', 'this is dumb'),
-    createData(5,'Alex', 'Prof', 'this is stupid'),
-];
+// export function createData( number ,name, nickname, contents, conform ) {
+//     return { number,name, nickname, contents, conform };
+// }
+//
+// export const rows = [
+//     createData(1,'PK', 'pk-dev', 'whawahwawh'),
+//     createData(2,'Hawon', 'hawonjjang', 'KIN'),
+//     createData(3,'JeongHo', 'HOHO', 'I am smart'),
+//     createData(4,'Tim', 'Temp', 'this is dumb'),
+//     createData(5,'Alex', 'Prof', 'this is stupid'),
+//
+// ];
 
 export default function AdminPostList (){
+    const [rows, setRows] = useContext(ReportContext)
+    console.log(rows)
+
+    const deleteReport = (number) => {
+        setRows(rows.filter((row) => row.number !== number))
+    }
+
     return(
         <BoxWrapper>
             <TableContainer component={Paper}>
@@ -74,7 +84,7 @@ export default function AdminPostList (){
                                                 <IconButton edge="end" aria-label="check">
                                                     <CheckIcon />
                                                 </IconButton>
-                                                <IconButton edge="end" aria-label="delete">
+                                                <IconButton edge="end" aria-label="delete" onClick={() => deleteReport(row.number)} >
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </>
