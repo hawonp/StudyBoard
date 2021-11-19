@@ -30,7 +30,7 @@ export default function CustomMenu({ icon, itemList }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {itemList.map((item, index) => (
+        {itemList.map((item, index) => item.type === 'normal' ? (
           <MenuItem
             key={`${item.title}-${index}`}
             onClick={() => {
@@ -40,7 +40,7 @@ export default function CustomMenu({ icon, itemList }) {
           >
             {item.title}
           </MenuItem>
-        ))}
+        ) : ( item.component ))}
       </Menu>
     </>
   );

@@ -5,7 +5,7 @@ import {useState} from "react";
 const PaperWrapper = ({ style, children}) => {
     return (
         <div style={{ borderRadius: '10rem', boxShadow: '#d5d5d5 0 0 15px',
-            maxWidth: '1200px', margin: '0.5rem auto', height: '5rem',
+            maxWidth: '1200px', margin: '1rem auto', height: '5rem',
             ...style}}
         > {children} </div>
     )
