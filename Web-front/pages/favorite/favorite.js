@@ -5,6 +5,8 @@ import * as React from "react";
 
 import FavoriteCard from "../../components/FavoriteCard";
 import { useEffect, useState } from "react";
+import axiosInstance from "../../utils/routeUtil";
+import Cookies from 'universal-cookie'
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -45,18 +47,21 @@ const LineWrapper = ({ style, children }) => {
 };
 
 export default function Favorite() {
-  const [favorites, setFavorites] = useState([
-    "id1",
-    "id2",
-    "id3",
-    "id4",
-    "id5",
-    "id6",
-    "id6",
-  ]);
+  const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () =>  {
     // TODO: API CALL (BACKEND)
+      const uid = (new Cookies()).get("user_id")
+      console.log('call api for uid', uid)
+      axiosInstance
+          .get('/posts/favourite', {
+              params: {
+                  userID: uid
+              }
+          }).then((response) => {
+              const posts = JSON.parse(response.data)['posts']
+          setFavorites(posts)
+      })
   }, []);
 
   return (
@@ -77,8 +82,8 @@ export default function Favorite() {
             <LineWrapper />
             {/*고정되는거가 minwidth , */}
             <BoxWrapper>
-              {favorites.map((id) => (
-                <FavoriteCard key={id} favorite={id} />
+              {favorites.map((post) => (
+                <FavoriteCard key={post.post_id} favorite={post} />
               ))}
             </BoxWrapper>
           </Box>
