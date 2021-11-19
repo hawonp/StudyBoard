@@ -2,8 +2,10 @@ version: "3"
 
 services:
   db:
-    container_name: dbms_container
     image: mariadb:10
+    container_name: studyboard_db
+    # command: mysqld --general-log=1 --general-log-file=/var/log/mysql/general-log.log
+    command: mysqld --console
     ports:
       - 3306:3306
     volumes:
@@ -26,7 +28,7 @@ services:
       - nginx-proxy
     restart: always
   phpmyadmin:
-    container_name: myphpadmin_container
+    container_name: studyboard_phpMyAdmin
     depends_on:
       - db
     image: phpmyadmin/phpmyadmin

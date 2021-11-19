@@ -43,8 +43,15 @@ export default function Profile() {
               tag: temp_json.tags,
             });
             setIsLoading(false);
-          } else if (response["status"] == 403) {
-            alert("Could not verify token at Backend");
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            // TODO temp redirection
+            cookies.remove("user_token", { path: "/" });
+            cookies.remove("user_id", { path: "/" });
+            window.location.href = "../error/403";
           }
         });
     }

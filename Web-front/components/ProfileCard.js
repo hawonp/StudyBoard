@@ -111,6 +111,7 @@ export default function ProfileCard() {
                     },
                 })
                 .then((response) => {
+                    console.log('response from backend' + response);
                     if (response['status'] == 200) {
                         const temp = response['data'];
                         const temp_json = JSON.parse(temp);
@@ -119,8 +120,15 @@ export default function ProfileCard() {
                         setNickname(user_nickname);
                         setTags(tag);
                         console.log(tag);
-                    } else if (response['status'] == 403) {
-                        alert('Could not verify token at Backend');
+                    }
+                })
+                .catch((e) => {
+                    const resp = e.response;
+                    if (resp['status'] == 403) {
+                        // TODO temp redirection
+                        cookies.remove('user_token', { path: '/' });
+                        cookies.remove('user_id', { path: '/' });
+                        window.location.href = './error/403';
                     }
                 });
         }

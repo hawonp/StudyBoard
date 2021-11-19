@@ -18,7 +18,7 @@ const POST_FEED = '/feed/posts';
 const options = ['Edit', 'Delete'];
 
 export default function Board() {
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const isBig = useMediaQuery('(min-width:850px)');
 
@@ -65,7 +65,7 @@ export default function Board() {
                     <title>StudyBoard</title>
                 </Head>
 
-                {!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}
+                {/*{!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}*/}
                 {!isBig && <ProfileCard />}
 
                 {/* Write Qeustion */}
@@ -100,7 +100,7 @@ export default function Board() {
                 </div>
             </Container>
 
-            {isBig && <div style={{ width: isBig ? '300px' : '100%', backgroundColor: 'red' }} />}
+            {/*{isBig && <div style={{ width: isBig ? '300px' : '100%', backgroundColor: 'red' }} />}*/}
             {isBig && <ProfileCard />}
         </div>
     );

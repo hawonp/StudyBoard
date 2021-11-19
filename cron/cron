@@ -1,0 +1,2 @@
+@daily docker container restart studyboard_db
+@daily docker container restart studyboard_api

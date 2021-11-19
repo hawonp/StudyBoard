@@ -107,7 +107,7 @@ export default function CustomAppBar() {
                         ) : (
                             <div>
                                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
-                                <CustomMenu icon={<AccountCircle />} itemList={menuThreeList} />
+                                <NavButton to={'/user/profile'} title={'Profile'} />
                             </div>
                         )
                     ) : (

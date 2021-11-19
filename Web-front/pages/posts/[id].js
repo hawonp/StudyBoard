@@ -200,7 +200,7 @@ export default function PostDetailPage() {
             <Container>
               <DetailWrapper>
                 {/*comment*/}
-                <CommentBox />
+                <CommentBox postID={postData.id} />
               </DetailWrapper>
             </Container>
           )}
