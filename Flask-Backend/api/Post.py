@@ -33,7 +33,7 @@ class PostDataSchema(Schema):
     userID = fields.Str(required=True)
     title = fields.Str(required=True)
     text = fields.Str(required=True)
-    image_url = fields.Str(required=True)
+    imageURL = fields.Str(required=True)
     tags = fields.List(fields.Str(), required=True)
     uuid = fields.Str(required=True)
 
