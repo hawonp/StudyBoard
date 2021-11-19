@@ -4,7 +4,7 @@ services:
     build:
       context: .
     restart: always
-    container_name: studyboard_prod_v1
+    container_name: studyboard_front
     environment:
       TZ: Asia/Seoul
       VIRTUAL_HOST: www.studyboard.info, studyboard.info

@@ -9,6 +9,7 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
+import { Widget } from "@uploadcare/react-widget";
 
 const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
@@ -18,26 +19,52 @@ export function PostWrite() {
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
   const [image, setImage] = useState(null);
+  const [uuid, setUuid] = useState(null);
+
+  // widget.onChange(function (file) {
+  //   console.log(file);
+  // });
+  // Widget.onUploadComplete(function (info) {
+  //   // Handle uploaded file info.
+  //   console.log(info);
+  // });
+
+  // // Same as above:
+  // Widget.onChange(function (file) {
+  //   if (file) {
+  //     file.done(function (info) {
+  //       console.log(info);
+  //     });
+  //   }
+  // });
 
   const post = () => {
     console.log("title", title);
     console.log("content", content);
     console.log("tag", tag);
-
-    // TODO: IMAGE
+    console.log(image);
+    // Create an object of formData
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
           userID: cookies.get("user_id"),
           title: title,
           text: content,
-          imageURL: "None",
+          imageURL: image,
           tags: tag,
+          uuid: uuid,
         },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         alert("post added!");
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          console.log("Bad request");
+          //todo redirect
+        }
       });
   };
 
@@ -58,7 +85,6 @@ export function PostWrite() {
         >
           <Typography variant={"button"}>Post Your Question</Typography>
         </div>
-
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
@@ -94,23 +120,18 @@ export function PostWrite() {
           onChange={(event) => setTag(event.target.value.split(","))}
         />
         <div style={{ display: "flex" }}>
-          <label htmlFor="icon-button-file">
-            <input
-              style={{ display: "none" }}
-              accept="image/*"
-              id="icon-button-file"
-              type="file"
-              onChange={(event) => setImage(event.target.files[0])}
+          <p>
+            <label htmlFor="file">Your file:</label>{" "}
+            <Widget
+              publicKey="6bbd404d21507ac51c8f"
+              id="file"
+              onChange={(info) => {
+                console.log(info), setImage(info.cdnUrl), setUuid(info.uuid);
+              }}
+              clearable
+              imagesOnly
             />
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-              style={{}}
-            >
-              <PhotoCamera />
-            </IconButton>
-          </label>
+          </p>
           <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
             <Button
               sx={{ borderRadius: "8px" }}
@@ -122,6 +143,7 @@ export function PostWrite() {
             </Button>
           </div>
         </div>
+        {/* {console.log("file: " + file["value"])}; */}
       </Box>
     </Container>
   );

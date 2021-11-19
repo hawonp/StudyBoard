@@ -1,19 +1,24 @@
+import * as React from "react";
 import { useRef, useState } from "react";
+import Cookies from "universal-cookie";
+//Importing MUI
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FlagIcon from "@mui/icons-material/Flag";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteIcon from "@mui/icons-material/Delete";
-import * as React from "react";
-import axios from "axios";
+
 import axiosInstance from "../utils/routeUtil";
 
 //dummy user (글쓴이)
+const POSTDATAENDPOINT = "/posts";
+const REPLYDATAENDPOINT = "/replies";
+const cookies = new Cookies();
 const userName = "dummy user";
 
 // Comment whole thing Container
-export const CommentBox = () => {
+export const CommentBox = ({ postID }) => {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([
     // 더미 데이터 , 그리고 replyComment 는 댓글에 댓글 더미데이터
@@ -53,17 +58,38 @@ export const CommentBox = () => {
   const toggleComments = () => setShowComments(!showComments);
 
   const _addComment = (body) => {
-    const comment = {
-      id: comments.length + 1,
-      author: userName,
-      body,
-      replyComments: [],
-    };
-    setComments(comments.concat([comment]));
+    // Add reply to db
+    console.log(postID);
+    axiosInstance
+      .post(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
+        params: { userID: cookies.get("user_id"), text: body },
+      })
+      .then((response) => {
+        const responseData = JSON.parse(response["data"]);
+        //Assign data according to whether the user liked the post
+        if (responseData != -1) {
+          const comment = {
+            id: responseData,
+            author: userName,
+            body,
+            replyComments: [],
+          };
+          setComments(comments.concat([comment]));
+        }
+      });
   };
 
-  const _getComments = () =>
-    comments.map((comment) => (
+  const _getComments = () => {
+    //Get the comments from db
+    // axiosInstance
+    //   .get(POSTDATAENDPOINT + postID + REPLYDATAENDPOINT)
+    //   .then((response) => {
+    //     const responseData = JSON.parse(response["data"]);
+    //     //Assign data according to whether the user liked the post
+    //     console.log(responseData);
+    //   });
+    console.log(comments);
+    return comments.map((comment) => (
       <Comment
         author={comment.author}
         body={comment.body}
@@ -79,6 +105,7 @@ export const CommentBox = () => {
         key={comment.id}
       />
     ));
+  };
   let commentNodes = showComments ? <div>{_getComments()}</div> : <></>;
 
   const _getCommentsTitle = (commentCount) => {
@@ -158,7 +185,7 @@ const CommentForm = ({ addComment }) => {
           color="success"
           type="submit"
         >
-          Post Comment
+          Submit Reply
         </Button>
       </div>
     </form>
@@ -169,7 +196,7 @@ const CommentForm = ({ addComment }) => {
 const Comment = ({ author, body, replyComments, deleteSelf }) => {
   const [isReplying, setIsReplying] = useState(false);
   const [replys, setReplys] = useState(replyComments);
-
+  console.log("wads");
   return (
     <>
       <div style={{ diplay: "flex" }} className="row">
