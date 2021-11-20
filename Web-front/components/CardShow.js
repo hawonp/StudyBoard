@@ -11,8 +11,8 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-
 import Box from '@mui/material/Box';
+import ButtonComponets from '../components/ButtonComponets';
 
 const HashtagWrapper = ({ style, children }) => {
     return (
@@ -52,7 +52,7 @@ export default function CardShow({ post }) {
     }, []);
 
     return (
-        <Card sx={{ maxWidth: 1250, marginTop: '1rem', border: "0.1rem solid lightgray"}}>
+        <Card sx={{ maxWidth: 1250, marginTop: '1rem', border: '0.1rem solid lightgray' }}>
             <CardHeader
                 style={{ textAlign: 'left' }}
                 action={
@@ -64,8 +64,7 @@ export default function CardShow({ post }) {
                 }
                 title={post.post_title}
                 subheader={post.user_nickname}
-            >
-            </CardHeader>
+            ></CardHeader>
 
             <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
                 <Box sx={{ width: '90%', marginLeft: '5%', marginRight: '5%' }}>
@@ -86,8 +85,8 @@ export default function CardShow({ post }) {
             {/* card content  */}
             <CardContent style={{ textAlign: 'left' }}>
                 <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
-                    <a style={{ textDecoration: 'none'}}>
-                        <Typography sx={{ marginBottom: '1.2rem'}} variant="body2" color="text.secondary">
+                    <a style={{ textDecoration: 'none' }}>
+                        <Typography sx={{ marginBottom: '1.2rem' }} variant="body2" color="text.secondary">
                             {post.post_text}
                         </Typography>
                     </a>
@@ -108,7 +107,7 @@ export default function CardShow({ post }) {
             </CardContent>
 
             {/* this is icon */}
-            {/* <ButtonComponets /> */}
+            <ButtonComponets />
         </Card>
     );
 }

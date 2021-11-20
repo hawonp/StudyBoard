@@ -9,6 +9,36 @@ import PaginationButton from '../components/Pagination';
 import CardShow from '../components/CardShow';
 import FilterButton from '../components/FilterButton';
 
+const PageNav = ({ style, children }) => {
+    return (
+        <div style={{ flex: 1, display: 'flex', flex: '1', justifyContent: 'center', marginTop: '2rem', marginBottom: '2rem', ...style }}>
+            {' '}
+            {children}{' '}
+        </div>
+    );
+};
+
+const FilterBox = ({ style, children }) => {
+    return (
+        <div
+            style={{
+                alignItems: 'center',
+                backgroundColor: 'white',
+                border: '0.1rem solid lightgray',
+                borderRadius: '4px',
+                boxSizing: 'border-box',
+                display: 'flex',
+                marginBottom: '16px',
+                padding: '10px 12px',
+                ...style,
+            }}
+        >
+            {' '}
+            {children}{' '}
+        </div>
+    );
+};
+
 //Importing and settings vars for axios parse
 import axiosInstance from '../utils/routeUtil';
 import { useMediaQuery } from '@mui/material';
@@ -72,20 +102,9 @@ export default function Board() {
                 <PostNavigation />
 
                 {/*filter*/}
-                <div
-                    style={{
-                        alignItems: 'center',
-                        backgroundColor: 'white',
-                        border: '0.1rem solid lightgray',
-                        borderRadius: '4px',
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        marginBottom: '16px',
-                        padding: '10px 12px',
-                    }}
-                >
+                <FilterBox>
                     <FilterButton />
-                </div>
+                </FilterBox>
 
                 <div>
                     {/*Pre view user post Card*/}
@@ -95,9 +114,9 @@ export default function Board() {
                 </div>
 
                 {/*pagnation*/}
-                <div style={{ marginTop: '2rem' }}>
+                <PageNav>
                     <PaginationButton />
-                </div>
+                </PageNav>
             </Container>
 
             {/*{isBig && <div style={{ width: isBig ? '300px' : '100%', backgroundColor: 'red' }} />}*/}
