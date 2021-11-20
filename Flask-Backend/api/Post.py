@@ -74,7 +74,7 @@ class FeedPostData(Resource):
             
         return json.dumps(feed, default=str)
 
-#Post (detail) TODO: PUT is pass
+#Post (detail) TODO: 
 class PostData(Resource):
     def get(self, id):
         #First get post

@@ -8,13 +8,14 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
 import { Widget } from "@uploadcare/react-widget";
+import PostEditor from "./PostEditor";
 
 const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
 export function PostWrite() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState();
   const [tag, setTag] = useState("");
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState(null);
@@ -38,10 +39,34 @@ export function PostWrite() {
 
   const post = () => {
     console.log("title", title);
+    console.log(typeof content);
     console.log("content", content);
     console.log("tag", tag);
     console.log(image);
-    // Create an object of formData
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      console.log("Starting Request", JSON.stringify(request, null, 2));
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      console.log("Response:", JSON.stringify(response, null, 2));
+      return response;
+    });
+
+    // Add a response interceptor
+    axiosInstance.interceptors.response.use(
+      function (response) {
+        // Do something with response data
+        console.log(response);
+        return response;
+      },
+      function (error) {
+        // Do something with response error
+        console.log(error);
+        return Promise.reject(error);
+      }
+    );
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
@@ -93,20 +118,7 @@ export function PostWrite() {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <TextField
-          rows={12}
-          multiline
-          style={{ marginTop: "10px", marginBottom: "10px" }}
-          className="post-text"
-          fullWidth
-          id="title"
-          label="Question?"
-          variant="outlined"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        >
-          <span>hi</span>
-        </TextField>
+        <PostEditor setContent={setContent} />
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"

@@ -2,6 +2,7 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
+import parse from "html-react-parser";
 //Importing MUI
 import { Alert, Box, Modal, TextField } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
@@ -140,9 +141,7 @@ export default function PostDetail({
         </div>
 
         {/* question text */}
-        <section>
-          <p>{postData.text}</p>
-        </section>
+        <section>{parse(postData.text)}</section>
 
         {/*hashtag*/}
         <div style={{ display: "flex", flexDirection: "column" }}>
