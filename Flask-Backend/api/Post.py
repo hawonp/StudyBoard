@@ -148,6 +148,12 @@ class PostWrite(Resource):
         res = add_post(user_id, title, text, image_url, tags)
         return res
 
+#Post Search
+class PostSearch(Resource):
+    def post(self):
+        input = request.args.get('input')
+        
+
 #Post like
 class PostLike(Resource):
     def post(self, id):
@@ -263,6 +269,9 @@ def init_routes(api):
     # 유저의 모든 북마크들 가져오는 endpoint
     api.add_resource(PostFavourites, POSTS+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
+    
+    api.add_resource(PostSearch, POSTS + "/search")
+
 
 feed_post_schema = FeedPostSchema()
 post_data_schema = PostDataSchema()
