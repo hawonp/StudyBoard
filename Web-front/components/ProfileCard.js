@@ -192,19 +192,6 @@ export default function ProfileCard() {
                                     </IconButton>
                                 </Tooltip>
                             </div>
-
-                            {/* 노티가 다 모여져서 보이는 곳 */}
-                            <div style={{ display: 'inline-block' }}>
-                                <Tooltip title="Notification">
-                                    <Link href="/notification/notification">
-                                        <IconButton edge="end" aria-label="delete">
-                                            <Badge color="secondary" variant="dot">
-                                                <NotificationsIcon />
-                                            </Badge>
-                                        </IconButton>
-                                    </Link>
-                                </Tooltip>
-                            </div>
                         </IconWrapper>
                     </BoxWrapper>
                 </Grid>

@@ -15,6 +15,7 @@ export default function PaginationButton({ maxPageCount, page, setPage }) {
         color="primary"
         page={page}
         onChange={setPage}
+        size="large"
       />
     </div>
   );
