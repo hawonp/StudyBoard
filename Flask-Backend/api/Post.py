@@ -25,8 +25,8 @@ FLAG = '/flag'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
-    page = fields.Str(required=True)
-    order = fields.Str(required=True)
+    page = fields.Int(required=True)
+    order = fields.Int(required=True)
     filter = fields.Str(required=True)
 
 class PostDataSchema(Schema):
@@ -57,11 +57,11 @@ class FeedPostData(Resource):
         
         #Assuming all params have been validated.
         page = int(request.args.get('page'))
-        order = request.args.get('order')
+        order = int(request.args.get('order'))
         filter = request.args.get('filter')
 
         #Get posts with given offset, sort order and tag filter
-        feed = get_post_feed(page, "post_date", None)
+        feed = get_post_feed(page, order, None)
 
         #For every post, get the tags and append it to the respective post object
         for post in feed['posts']:            

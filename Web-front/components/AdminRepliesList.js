@@ -1,5 +1,7 @@
-import { Container, ListItem } from "@mui/material";
+import { useState, useEffect } from "react";
 import * as React from "react";
+//Importing MUI
+import { Container, ListItem } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -12,6 +14,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
 import axiosInstance from "../utils/routeUtil";
+
+const FLAGGEDENDPOINT = "/flagged";
 
 const BoxWrapper = ({ style, children }) => {
   return (
