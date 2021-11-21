@@ -1,9 +1,17 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import ProfileCard from "../components/ProfileCard";
+import Cookies from "universal-cookie";
+//Importing MUI
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+//Importing components
+import ProfileCard from "../components/ProfileCard";
 import MyPostList from "../components/MyPostList";
+//Importing and settings vars for axios parse
+import axiosInstance from "../utils/routeUtil";
+
+const POSTS = "/posts";
+const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -53,9 +61,15 @@ export default function MyPost() {
     "my6",
   ]);
 
-  useEffect(() => {
-    // TODO: API CALL (BACKEND)
-  }, []);
+  // useEffect(() => {
+  //   const cookies = new Cookies();
+  //   axiosInstance
+  //     .get(USERS + cookies.get("user_id") + POSTS)
+  //     .then((response) => {
+  //       setMyPosts(JSON.parse(response.data)["posts"]);
+  //       console.log(response);
+  //     });
+  // }, []);
 
   return (
     <div style={{ display: "flex" }}>
