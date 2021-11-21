@@ -25,15 +25,15 @@ FLAG = '/flag'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
-    page = fields.Str(required=True)
-    order = fields.Str(required=True)
+    page = fields.Int(required=True)
+    order = fields.Int(required=True)
     filter = fields.Str(required=True)
 
 class PostDataSchema(Schema):
     userID = fields.Str(required=True)
     title = fields.Str(required=True)
     text = fields.Str(required=True)
-    image_url = fields.Str(required=True)
+    imageURL = fields.Str(required=True)
     tags = fields.List(fields.Str(), required=True)
     uuid = fields.Str(required=True)
 
@@ -57,11 +57,11 @@ class FeedPostData(Resource):
         
         #Assuming all params have been validated.
         page = int(request.args.get('page'))
-        order = request.args.get('order')
+        order = int(request.args.get('order'))
         filter = request.args.get('filter')
 
         #Get posts with given offset, sort order and tag filter
-        feed = get_post_feed(page, "post_date", None)
+        feed = get_post_feed(page, order, None)
 
         #For every post, get the tags and append it to the respective post object
         for post in feed['posts']:            
@@ -74,7 +74,7 @@ class FeedPostData(Resource):
             
         return json.dumps(feed, default=str)
 
-#Post (detail) TODO: PUT is pass
+#Post (detail) TODO: 
 class PostData(Resource):
     def get(self, id):
         #First get post
@@ -147,6 +147,12 @@ class PostWrite(Resource):
 
         res = add_post(user_id, title, text, image_url, tags)
         return res
+
+#Post Search
+class PostSearch(Resource):
+    def post(self):
+        input = request.args.get('input')
+        
 
 #Post like
 class PostLike(Resource):
@@ -263,6 +269,9 @@ def init_routes(api):
     # 유저의 모든 북마크들 가져오는 endpoint
     api.add_resource(PostFavourites, POSTS+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
+    
+    api.add_resource(PostSearch, POSTS + "/search")
+
 
 feed_post_schema = FeedPostSchema()
 post_data_schema = PostDataSchema()

@@ -87,19 +87,24 @@ def get_post_feed(page, order, filter):
     #Set up query statements and values
     limit = 10
     offset = (page - 1) * 10 #if page 1, then it should start from 1.
-    query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY ? LIMIT ?, ?"
-    values = (order, offset, limit)
+    if order:
+        #If the order is in likes
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
+    else:
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_date DESC LIMIT ?, ?"
+    values = (offset, limit)
 
     #Fetching posts with filter, sort, limit, and offset
     print("Selecting with query", query, " and values ", values)
     cur.execute(query, values)
-
+    print(cur.statement)
     # serialize results into JSON
     row_headers=[x[0] for x in cur.description]
     rv = cur.fetchall()
     json_data=[]
-
+    print("Getting data")
     for result in rv:
+        print(result)
         json_data.append(dict(zip(row_headers,result)))
 
     #Close cursor
@@ -154,6 +159,36 @@ def get_posts():
         return None
 
     return { 'posts': json_data }
+
+# Search for posts
+def search_posts(input):
+    try:
+        # Obtainting DB cursor
+        cur = conn.cursor()
+
+        #Set up query statements and values
+        # query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id"
+        query = "SELECT * From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id and Tag.tag_name LIKE \"?%\""
+        values = (input)
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Close cursor
+        cur.close()
+    except mariadb.Error as e:
+        print(f"Error search database for tags: {e}")
+        return None
+
+    return { 'tags': json_data }
+    
 
 #Get post by id
 def get_post_by_id(post_id):

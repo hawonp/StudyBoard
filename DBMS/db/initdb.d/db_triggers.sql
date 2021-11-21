@@ -87,4 +87,6 @@ BEGIN
     UPDATE Post SET Post.post_favourite_count = Post.post_favourite_count-1 WHERE post_id = OLD.post_id;
 END; //
 delimiter ;
+
+
 -- -- NOTIFICATIONS --
