@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
+import ButtonComponets from "../components/ButtonComponets";
+
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -118,7 +120,7 @@ export default function CardShow({ post }) {
           </CardContent>
 
           {/* this is icon */}
-          {/* <ButtonComponets /> */}
+          <ButtonComponets />
         </Card>
       </a>
     </Link>

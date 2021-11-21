@@ -187,7 +187,6 @@ export default function PostDetail({
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
-              <Alert severity="success"> Copy Successfuly </Alert>;
             }}
           >
             <ShareIcon />
@@ -200,18 +199,30 @@ export default function PostDetail({
             aria-describedby="parent-modal-description"
           >
             <Box sx={{ ...modalStyle }}>
-              <h4 id="child-modal-title">신고</h4>
+              <h4 id="child-modal-title">Report</h4>
               <div style={{ flex: 1 }}>
                 <TextField
                   fullWidth
                   multiline
-                  label={"신고 내용"}
+                  label={"Report Information"}
                   value={flagText}
                   onChange={(e) => setFlagText(e.target.value)}
                 />
               </div>
               <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-                <Button onClick={report}>Report</Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  onClick={report}
+                >
+                  Report
+                </Button>
               </div>
             </Box>
           </Modal>
