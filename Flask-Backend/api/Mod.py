@@ -15,8 +15,8 @@ USERS = '/users'
 ############################
 #    Marshmallow Schema    #
 ############################
-class FlaggedItemsOffsetSchema(Schema):
-    page = fields.Int(required=True)
+# class FlaggedItemsOffsetSchema(Schema):
+#     page = fields.Int(required=True)
 
 ############################
 # Flask RESTful API routes #
@@ -24,18 +24,11 @@ class FlaggedItemsOffsetSchema(Schema):
 
 class FlaggedPosts(Resource):
     def get(self):
-        #Validate params first
-        errors = flagged_items_offset_schema.validate(request.args)
-        if errors:
-            abort(400, str(errors))
-        
-        #Assuming all params have been validated.
-        page = int(request.args.get('page'))
 
         #Get posts with given offset, sort order and tag filter
-        reports = get_flagged_posts(page)
+        reports = get_flagged_posts()
             
-        return json.dumps(reports)
+        return json.dumps(reports, default=str)
 
     def delete(self):
         pass
@@ -54,7 +47,7 @@ class FlaggedReplies(Resource):
         #Get posts with given offset, sort order and tag filter
         reports = get_flagged_replies(page)
             
-        return json.dumps(reports)
+        return json.dumps(reports, default=str)
 
     def delete(self):
         pass
@@ -70,4 +63,4 @@ def init_routes(api):
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
     api.add_resource(FlaggedUsers, FLAGGED+USERS)
 
-flagged_items_offset_schema = FlaggedItemsOffsetSchema()
+# flagged_items_offset_schema = FlaggedItemsOffsetSchema()
