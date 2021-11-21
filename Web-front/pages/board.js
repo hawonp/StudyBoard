@@ -32,7 +32,6 @@ export default function Board() {
 
   //Load posts when component mounts
   useEffect(() => {
-    console.log(feedOrder);
     axiosInstance
       .get(POST_FEED, {
         params: {
@@ -48,7 +47,8 @@ export default function Board() {
       });
   }, [feedPage, feedOrder, feedFilter]);
 
-  const updatePage = (page) => {
+  const updatePage = (event, page) => {
+    console.log(page);
     setFeedPage(page);
   };
   const updateOrder = (order) => {
@@ -107,7 +107,11 @@ export default function Board() {
 
         {/*pagnation*/}
         <div style={{ marginTop: "2rem" }}>
-          <PaginationButton page={feedPage} setPage={updatePage} />
+          <PaginationButton
+            page={feedPage}
+            setPage={updatePage}
+            maxPageCount={maxPage}
+          />
         </div>
       </Container>
 

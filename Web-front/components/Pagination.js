@@ -2,7 +2,7 @@ import Head from "next/head";
 import { Pagination } from "@mui/material";
 import React from "react";
 
-export default function PaginationButton({ maxPageCount, setPage, page }) {
+export default function PaginationButton({ maxPageCount, page, setPage }) {
   return (
     <div>
       <Head>
@@ -13,8 +13,8 @@ export default function PaginationButton({ maxPageCount, setPage, page }) {
         count={maxPageCount}
         variant="outlined"
         color="primary"
-        onChange={setPage}
         page={page}
+        onChange={setPage}
       />
     </div>
   );

@@ -53,20 +53,6 @@ export function PostWrite() {
       console.log("Response:", JSON.stringify(response, null, 2));
       return response;
     });
-
-    // Add a response interceptor
-    axiosInstance.interceptors.response.use(
-      function (response) {
-        // Do something with response data
-        console.log(response);
-        return response;
-      },
-      function (error) {
-        // Do something with response error
-        console.log(error);
-        return Promise.reject(error);
-      }
-    );
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
