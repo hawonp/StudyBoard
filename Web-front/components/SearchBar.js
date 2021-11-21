@@ -46,8 +46,14 @@ export default function SearchBar() {
             {/* <SearchIconWrapper>
                 <SearchIcon />:{ tag: string; post: string; }:string
             </SearchIconWrapper> */}
-
             <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={popularTag}
+                sx={{ width: 'auto' }}
+                renderInput={(params) => <TextField {...params} label="Search" placeholder="Search for what you want" />}
+            />
+            {/* <Autocomplete
                 multiple
                 id="tags"
                 options={popularTag}
@@ -55,23 +61,18 @@ export default function SearchBar() {
                 defaultValue={[popularTag[5]]}
                 filterSelectedOptions
                 renderInput={(params) => <TextField {...params} label="Search" placeholder="Search for what you want" />}
-            />
+            /> */}
 
             {/* <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} /> */}
         </Search>
     );
 }
 const popularTag = [
-    { tag: 'something', post: 1994 },
-    { tag: 'tag', post: 1972 },
-    { tag: 'something', post: 1974 },
-    { tag: 'tag', post: 2008 },
-    { tag: 'something', post: 1957 },
-    { tag: 'something', post: 1994 },
-    { tag: 'tag', post: 1972 },
-    { tag: 'something', post: 1974 },
-    { tag: 'tag', post: 2008 },
-    { tag: 'something', post: 1957 },
-    { tag: 'tags', post: 1993 },
-    { tag: 'MATH Tag', post: 1994 },
+    { label: 'I love nico' },
+    { label: 'I love nico2' },
+    { label: 'I love nico3' },
+    { label: 'I love nico4' },
+    { label: 'I love nico5' },
+    { label: 'I love nico6' },
+    { label: 'I love nico7' },
 ];
