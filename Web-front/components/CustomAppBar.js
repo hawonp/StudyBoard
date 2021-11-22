@@ -78,7 +78,7 @@ export default function CustomAppBar() {
     const menuList = [
         {
             type: 'normal',
-            title: '❓ AskQuestion',
+            title: 'AskQuestion',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/board';
@@ -86,7 +86,7 @@ export default function CustomAppBar() {
         },
         {
             type: 'normal',
-            title: '📢 About',
+            title: 'About',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/about';
@@ -94,7 +94,7 @@ export default function CustomAppBar() {
         },
         {
             type: 'normal',
-            title: '👍 Rank',
+            title: 'Rank',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/rank';
@@ -118,9 +118,9 @@ export default function CustomAppBar() {
                 </Link>
                 {isBig && (
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                        <NavButton to={'/board'} title={'❓ AskQuestion'} />
-                        <NavButton to={'/about'} title={'📢 About'} sx={{ ml: 3 }} />
-                        <NavButton to={'/rank'} title={'👍 Rank'} sx={{ ml: 3 }} />
+                        <NavButton to={'/board'} title={'AskQuestion'} />
+                        <NavButton to={'/about'} title={'About'} sx={{ ml: 3 }} />
+                        <NavButton to={'/rank'} title={'Rank'} sx={{ ml: 3 }} />
                     </Box>
                 )}
                 <Box sx={{ display: 'flex', flex: 1.0 }}>
