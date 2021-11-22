@@ -124,7 +124,7 @@ export default function Board() {
 
         {/*filter*/}
         <FilterBox>
-          <FilterButton />
+          <FilterButton handleSortClick={updateOrder} />
         </FilterBox>
 
         <div>
