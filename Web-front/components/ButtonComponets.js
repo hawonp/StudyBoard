@@ -16,22 +16,22 @@ export default function ButtonComponets() {
     return (
         <CardActions disableSpacing sx={{ justifyContent: 'end' }}>
             <IconButton aria-label="favorites">
-                <FavoriteIcon />
+                <FavoriteIcon sx={{ fontSize: '1.2rem' }} />
             </IconButton>
             {/* post_like_count */}
-            <CountNumber>: 0</CountNumber>
+            <CountNumber>0</CountNumber>
 
             {/* <IconButton aria-label="thoumup">
-                <ThumbUpIcon />
+                <ThumbUpIcon sx={{ fontSize: '1.2rem' }}/>
             </IconButton>
             <CountNumber>: 0</CountNumber> */}
             {/* Comment button &  */}
 
             <IconButton aria-label="SmsIcon">
-                <SmsIcon />
+                <SmsIcon sx={{ fontSize: '1.2rem' }} />
             </IconButton>
             {/* post_reply_count */}
-            <CountNumber>: 0</CountNumber>
+            <CountNumber>0</CountNumber>
         </CardActions>
     );
 }

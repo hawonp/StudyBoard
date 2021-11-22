@@ -21,7 +21,7 @@ const BoxWrapper = ({ style, children }) => {
             style={{
                 marginTop: '1rem',
                 backgroundColor: '#ffffff',
-                borderRadius: '24px',
+                borderRadius: '4px',
                 boxShadow: '0 3px 110px lightgray',
                 margin: '1.0rem auto 0',
                 padding: '1.3rem',
@@ -137,8 +137,6 @@ export default function ProfileCard() {
     return (
         <div>
             {user_id == undefined || user_id == 'null' ? (
-                <></>
-            ) : (
                 <Grid item xs={2}>
                     <BoxWrapper>
                         <div style={{ display: 'flex', justifyContent: 'end' }}>
@@ -150,11 +148,10 @@ export default function ProfileCard() {
 
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             {/*프로필 아바타*/}
-                            <div style={{ marginRight: '0.5rem' }}>
-                                <Avatar></Avatar>
-                            </div>
+
                             <div style={{ flex: 1 }}>
                                 {/*user name*/}
+                                <h3>PKHONG</h3>
                                 <h3>{nickname}</h3>
                             </div>
                         </div>
@@ -195,6 +192,8 @@ export default function ProfileCard() {
                         </IconWrapper>
                     </BoxWrapper>
                 </Grid>
+            ) : (
+                <></>
             )}
         </div>
     );
