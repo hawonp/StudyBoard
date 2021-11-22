@@ -1,8 +1,7 @@
-import Typography from "@mui/material/Typography";
 import * as React from "react";
-
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+//Importing MUI
+import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +9,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+
+import axiosInstance from "../utils/routeUtil";
+
+const USERSENDPOINT = "/users";
+const RANKENDPOINT = "/rank";
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -52,21 +56,15 @@ const dummy_rank = {
   tags: "#math #cse",
 };
 
-function createData(name, rank, like, tag) {
-  return { name, rank, like, tag };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 1, 6, "CSE"),
-  createData("Ice cream sandwich", 2, 9, "MATH"),
-  createData("Eclair", 3, 16, "HARD"),
-  createData("Cupcake", 4, 3, "HELP"),
-  createData("Gingerbread", 5, 16, "END"),
-];
-
 export default function RankUserList() {
-  const { user_nickname, tags } = dummy_rank;
+  const [list, setList] = useState([]);
 
+  useEffect(() => {
+    axiosInstance.get(USERSENDPOINT + RANKENDPOINT).then((response) => {
+      setList(JSON.parse(response.data));
+      console.log(response);
+    });
+  }, []);
   // const [user, setUser] = useState("");
   // const [tag, setTag] = useState("");
 
@@ -89,16 +87,16 @@ export default function RankUserList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {list.map((user, i) => (
               <TableRow
-                key={row.name}
+                key={user.user_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {user.user_nickname}
                 </TableCell>
-                <TableCell align="center">{row.rank}</TableCell>
-                <TableCell align="left">{row.like}</TableCell>
+                <TableCell align="center">{i + 1}</TableCell>
+                <TableCell align="left">{user.user_likes_received}</TableCell>
                 <TableCell align="left">
                   <TagWrapper>
                     {/* {post.post_tags.map((post_tags, i) => (
@@ -109,9 +107,10 @@ export default function RankUserList() {
                                         </Link>
                                     ))} */}
 
-                    <HashtagWrapper>{row.tag}</HashtagWrapper>
-                    <HashtagWrapper>{row.tag}</HashtagWrapper>
-                    <HashtagWrapper>{row.tag}</HashtagWrapper>
+                    {user.tags &&
+                      user.tags.map((tag) => (
+                        <HashtagWrapper key={tag}>{tag}</HashtagWrapper>
+                      ))}
                   </TagWrapper>
                 </TableCell>
               </TableRow>
