@@ -36,7 +36,7 @@ const TagWrapper = ({ style, children }) => {
             style={{
                 display: 'flex',
                 flexFlow: 'row wrap',
-                justifyContent: 'center',
+                justifyContent: 'left',
                 ...style,
             }}
         >
@@ -57,11 +57,11 @@ function createData(name, rank, like, tag) {
 }
 
 const rows = [
-    createData('Frozen yoghurt', 1, 6.0, 'CSE'),
-    createData('Ice cream sandwich', 2, 9.0, 'MATH'),
-    createData('Eclair', 3, 16.0, 'HARD'),
-    createData('Cupcake', 4, 3.7, 'HELP'),
-    createData('Gingerbread', 5, 16.0, 'END'),
+    createData('Frozen yoghurt', 1, 6, 'CSE'),
+    createData('Ice cream sandwich', 2, 9, 'MATH'),
+    createData('Eclair', 3, 16, 'HARD'),
+    createData('Cupcake', 4, 3, 'HELP'),
+    createData('Gingerbread', 5, 16, 'END'),
 ];
 
 export default function RankUserList() {
@@ -80,10 +80,10 @@ export default function RankUserList() {
                             <TableCell sx={{ fontWeight: 'bold' }} align="center">
                                 Rank
                             </TableCell>
-                            <TableCell sx={{ fontWeight: 'bold' }} align="center">
+                            <TableCell sx={{ fontWeight: 'bold' }} align="left">
                                 Like
                             </TableCell>
-                            <TableCell sx={{ fontWeight: 'bold' }} align="center">
+                            <TableCell sx={{ fontWeight: 'bold' }} align="left">
                                 Tag
                             </TableCell>
                         </TableRow>
@@ -95,8 +95,8 @@ export default function RankUserList() {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="center">{row.rank}</TableCell>
-                                <TableCell align="center">{row.like}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="left">{row.like}</TableCell>
+                                <TableCell align="left">
                                     <TagWrapper>
                                         {/* {post.post_tags.map((post_tags, i) => (
                                         <Link key={i} href="/board">
