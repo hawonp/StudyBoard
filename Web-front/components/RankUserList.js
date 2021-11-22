@@ -1,61 +1,121 @@
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import List from "@mui/material/List";
-import { useState } from "react";
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
-const dummy_rank = {
-  user_id: 1,
-  user_nickname: "Nick PK",
-  tags: "#math #cse",
+import { useState } from 'react';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+const HashtagWrapper = ({ style, children }) => {
+    return (
+        <div
+            style={{
+                padding: '4px 10px',
+                fontSize: '12px',
+                color: '#ffffff',
+                background: '#20247b',
+                borderRadius: '4px',
+                marginRight: '2px',
+                ...style,
+            }}
+        >
+            {' '}
+            {children}{' '}
+        </div>
+    );
 };
 
+const TagWrapper = ({ style, children }) => {
+    return (
+        <div
+            style={{
+                display: 'flex',
+                flexFlow: 'row wrap',
+                justifyContent: 'center',
+                ...style,
+            }}
+        >
+            {' '}
+            {children}{' '}
+        </div>
+    );
+};
+
+const dummy_rank = {
+    user_id: 1,
+    user_nickname: 'Nick PK',
+    tags: '#math #cse',
+};
+
+function createData(name, rank, like, tag) {
+    return { name, rank, like, tag };
+}
+
+const rows = [
+    createData('Frozen yoghurt', 1, 6.0, 'CSE'),
+    createData('Ice cream sandwich', 2, 9.0, 'MATH'),
+    createData('Eclair', 3, 16.0, 'HARD'),
+    createData('Cupcake', 4, 3.7, 'HELP'),
+    createData('Gingerbread', 5, 16.0, 'END'),
+];
+
 export default function RankUserList() {
-  const { user_nickname, tags } = dummy_rank;
+    const { user_nickname, tags } = dummy_rank;
 
-  // const [user, setUser] = useState("");
-  // const [tag, setTag] = useState("");
+    // const [user, setUser] = useState("");
+    // const [tag, setTag] = useState("");
 
-  return (
-    <List
-      sx={{
-        width: "100%",
-        maxWidth: 800,
-        bgcolor: "background.paper",
-        boxShadow: "#d5d5d5 0 0 15px",
-        borderRadius: "1rem",
-      }}
-    >
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary={
-            <Typography sx={{ display: "inline" }}>Rank : Top 1</Typography>
-          }
-          secondary={
-            <React.Fragment>
-              {/*maping 돌려서 12개가 나오겠금*/}
-              <Typography
-                sx={{ display: "inline" }}
-                component="span"
-                variant="body2"
-                color="text.primary"
-              >
-                {user_nickname}
-              </Typography>
+    return (
+        <div style={{ minWidth: 750 }}>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Nick Name</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }} align="center">
+                                Rank
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }} align="center">
+                                Like
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }} align="center">
+                                Tag
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell component="th" scope="row">
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="center">{row.rank}</TableCell>
+                                <TableCell align="center">{row.like}</TableCell>
+                                <TableCell align="right">
+                                    <TagWrapper>
+                                        {/* {post.post_tags.map((post_tags, i) => (
+                                        <Link key={i} href="/board">
+                                            <a>
+                                                <HashtagWrapper key={i}>{post_tags}</HashtagWrapper>
+                                            </a>
+                                        </Link>
+                                    ))} */}
 
-              {/* hastage */}
-              {` — ${tags}`}
-            </React.Fragment>
-          }
-        ></ListItemText>
-      </ListItem>
-      <hr />
-    </List>
-  );
+                                        <HashtagWrapper>{row.tag}</HashtagWrapper>
+                                        <HashtagWrapper>{row.tag}</HashtagWrapper>
+                                        <HashtagWrapper>{row.tag}</HashtagWrapper>
+                                    </TagWrapper>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+    );
 }

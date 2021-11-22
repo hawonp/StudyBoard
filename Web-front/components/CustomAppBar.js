@@ -78,7 +78,7 @@ export default function CustomAppBar() {
     const menuList = [
         {
             type: 'normal',
-            title: '❓ AskQuestion',
+            title: 'AskQuestion',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/board';
@@ -86,7 +86,7 @@ export default function CustomAppBar() {
         },
         {
             type: 'normal',
-            title: '📢 About',
+            title: 'About',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/about';
@@ -94,7 +94,7 @@ export default function CustomAppBar() {
         },
         {
             type: 'normal',
-            title: '👍 Rank',
+            title: 'Rank',
             onClick: () => {
                 // alert("Profile");
                 window.location.href = '/rank';

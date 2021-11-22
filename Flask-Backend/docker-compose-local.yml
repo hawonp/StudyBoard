@@ -1,15 +1,15 @@
-version: "3"
+version: '3'
 services:
-  web:
-    build: .
-    ports:
-      - "9090:9090"
-    # environment:
-    #   TZ: Asia/Seoul
-    networks:
-      - dbms_network
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
+    web:
+        build: .
+        ports:
+            - '9090:9090'
+        environment:
+            TZ: Asia/Seoul
+        networks:
+            - dbms_network
+        volumes:
+            # - /etc/timezone:/etc/timezone:ro
 networks:
-  dbms_network:
-    external: true
+    dbms_network:
+        external: true
