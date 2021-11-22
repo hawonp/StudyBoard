@@ -137,6 +137,8 @@ export default function ProfileCard() {
     return (
         <div>
             {user_id == undefined || user_id == 'null' ? (
+                <></>
+            ) : (
                 <Grid item xs={2}>
                     <BoxWrapper>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -144,7 +146,6 @@ export default function ProfileCard() {
 
                             <div style={{ flex: 1, marginLeft: '1rem' }}>
                                 {/*user name*/}
-                                <h4>PKHONG</h4>
                                 <h4>{nickname}</h4>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'end', marginRight: '0.8rem' }}>
@@ -156,15 +157,10 @@ export default function ProfileCard() {
                         </div>
 
                         <div style={{ display: 'flex', flex: '1', flexDirection: 'column', marginLeft: '1rem' }}>
-                            {/* <TagWrapper>
+                            <TagWrapper>
                                 {tags.map((tag, i) => (
                                     <HashtagWrapper key={i}>{tag}</HashtagWrapper>
                                 ))}
-                            </TagWrapper> */}
-                            <TagWrapper>
-                                <HashtagWrapper>tag</HashtagWrapper>
-                                <HashtagWrapper>TAG</HashtagWrapper>
-                                <HashtagWrapper>TAG</HashtagWrapper>
                             </TagWrapper>
                         </div>
 
@@ -192,8 +188,6 @@ export default function ProfileCard() {
                         </IconWrapper>
                     </BoxWrapper>
                 </Grid>
-            ) : (
-                <></>
             )}
         </div>
     );
