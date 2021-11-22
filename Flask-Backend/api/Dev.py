@@ -65,3 +65,18 @@ class Dev(Resource):
 #Add routes to api
 def init_routes(api):
     api.add_resource(Dev, '/dev/<string:option>')
+
+
+#Following are some functions that may turn out useful when building queries or routes 
+#
+# To print the last executed query
+# print(cur.statement)
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 

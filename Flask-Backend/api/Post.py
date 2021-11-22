@@ -163,7 +163,6 @@ class PostLike(Resource):
         if errors:
             print("Request parameters error")
             abort(400, str(errors))
-        user_id = formData["userID"]
 
         #Like
         user_id = formData["userID"]

@@ -160,6 +160,34 @@ def get_posts():
 
     return { 'posts': json_data }
 
+#Get posts by user
+def get_posts_by_user(user_id):
+    try:
+        # Obtainting DB cursor
+        cur = conn.cursor()
+
+        #Set up query statements and values
+        query = "SELECT * FROM Post WHERE user_id=?"
+        values = (user_id, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Close cursor
+        cur.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return -1
+
+    return json_data
+
 # Search for posts
 def search_posts(input):
     try:
@@ -219,14 +247,14 @@ def get_post_by_id(post_id):
     return res
 
 #Check if the user liked the post
-def check_if_user_liked_post(uid, pid):
+def check_if_user_liked_post(user_id, post_id):
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
 
         #Set up query statement and values
         query = "SELECT EXISTS(SELECT * FROM User_Post_Like WHERE user_id=? AND post_id=?)"
-        values = (uid, int(pid))
+        values = (user_id, int(post_id))
 
         #Getting data from table
         print("Checking existance with query", query, " and values ", values)
