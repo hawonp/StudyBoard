@@ -4,10 +4,12 @@ services:
     build: .
     ports:
       - "9090:9090"
-    environment:
-      TZ: Asia/Seoul
+    # environment:
+    #   TZ: Asia/Seoul
     networks:
       - dbms_network
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
 networks:
   dbms_network:
     external: true
