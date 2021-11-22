@@ -10,15 +10,15 @@ export default function Rank() {
             <Container>
                 <Box
                     style={{
-                        border: '0.1rem solid lightgray',
-                        borderRadius: '8px',
-                        marginBottom: '16px',
-                        marginTop: '20px',
-                        padding: '10px 12px',
+                        // border: '0.1rem solid lightgray',
+                        // borderRadius: '8px',
+                        // marginBottom: '16px',
+                        // marginTop: '20px',
+                        // padding: '10px 12px',
                         backgroundColor: 'white',
                     }}
                 >
-                    <h1 style={{ textAlign: 'center' }}>🔱TOP RANK🔱</h1>
+                    <h1 style={{ textAlign: 'center', paddingTop: '1rem' }}>🔱TOP RANK🔱</h1>
                     <hr
                         style={{
                             margin: '0px',
@@ -30,15 +30,8 @@ export default function Rank() {
                             borderColor: 'lightgray',
                         }}
                     />
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            padding: '1rem 1rem',
-                            justifyContent: 'space-around',
-                        }}
-                    >
-                        <RankUserList />
-                    </Box>
+
+                    <RankUserList />
                 </Box>
             </Container>
         </div>

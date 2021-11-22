@@ -46,9 +46,9 @@ const HashtagWrapper = ({ style, children }) => {
                 fontSize: '13px',
                 color: '#ffffff',
                 background: '#20247b',
-                borderRadius: '3px',
+                borderRadius: '4px',
                 marginRight: '4px',
-                marginBottom: '4px',
+                marginBottom: '2px',
                 ...style,
             }}
         >
@@ -137,8 +137,6 @@ export default function ProfileCard() {
     return (
         <div>
             {user_id == undefined || user_id == 'null' ? (
-                <></>
-            ) : (
                 <Grid item xs={2}>
                     <BoxWrapper>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -146,6 +144,7 @@ export default function ProfileCard() {
 
                             <div style={{ flex: 1, marginLeft: '1rem' }}>
                                 {/*user name*/}
+                                <h4>PKHONG</h4>
                                 <h4>{nickname}</h4>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'end', marginRight: '0.8rem' }}>
@@ -157,10 +156,15 @@ export default function ProfileCard() {
                         </div>
 
                         <div style={{ display: 'flex', flex: '1', flexDirection: 'column', marginLeft: '1rem' }}>
-                            <TagWrapper>
+                            {/* <TagWrapper>
                                 {tags.map((tag, i) => (
                                     <HashtagWrapper key={i}>{tag}</HashtagWrapper>
                                 ))}
+                            </TagWrapper> */}
+                            <TagWrapper>
+                                <HashtagWrapper>tag</HashtagWrapper>
+                                <HashtagWrapper>TAG</HashtagWrapper>
+                                <HashtagWrapper>TAG</HashtagWrapper>
                             </TagWrapper>
                         </div>
 
@@ -170,7 +174,7 @@ export default function ProfileCard() {
                             <div style={{ display: 'inline-block' }}>
                                 <IconButton aria-label="favorites" sx={{ borderRadius: '4px' }}>
                                     <Link href="/myPost">
-                                        <DescriptionIcon />
+                                        <DescriptionIcon sx={{ fontSize: '1.2rem' }} />
                                     </Link>
                                     <p style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>My Post</p>
                                 </IconButton>
@@ -180,7 +184,7 @@ export default function ProfileCard() {
                             <div style={{ display: 'inline-block' }}>
                                 <IconButton aria-label="favorites" sx={{ borderRadius: '4px' }}>
                                     <Link href="/favorite/favorite">
-                                        <BookmarkIcon />
+                                        <BookmarkIcon sx={{ fontSize: '1.2rem' }} />
                                     </Link>
                                     <p style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>Favorite</p>
                                 </IconButton>
@@ -188,6 +192,8 @@ export default function ProfileCard() {
                         </IconWrapper>
                     </BoxWrapper>
                 </Grid>
+            ) : (
+                <></>
             )}
         </div>
     );

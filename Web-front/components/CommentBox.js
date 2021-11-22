@@ -137,15 +137,9 @@ export const CommentBox = ({ postID }) => {
             <CommentForm addComment={_addComment} />
             {/* Switich 버튼 */}
             <div style={{ display: 'flex' }}>
+                <h3 style={{ display: 'flex', flex: 1 }}>Comments</h3>
                 <Switch
-                    // flex: 1,하면 늘어남
-                    sx={{ display: 'flex', justifyContent: 'end' }}
-                    // style={{
-                    //     float: 'right',
-                    //     marginTop: '0.5rem',
-                    //     borderRadius: '8px',
-                    //     // padding: '0.5rem 0.5rem',
-                    // }}
+                    sx={{ display: 'flex', justifyContent: 'end', marginTop: '1.2rem' }}
                     // variant="contained"
                     // type="submit"
 
@@ -155,8 +149,6 @@ export const CommentBox = ({ postID }) => {
                     {buttonText}
                 </Switch>
             </div>
-
-            <h3>Comments</h3>
 
             {/* 댓글 카운트 수 */}
             {/* post_reply_count */}
@@ -182,7 +174,7 @@ const CommentForm = ({ addComment }) => {
     return (
         <form className="comment-form" onSubmit={_handleSubmit}>
             <div className="comment-form-fields">
-                <TextField fullWidth label="Comment" sx={{ marginTop: '1rem' }} multiline rows={4} required inputRef={textRef}></TextField>
+                <TextField fullWidth label="Comment" sx={{ marginTop: '1rem' }} multiline rows={4} inputRef={textRef}></TextField>
             </div>
             <div
                 className="comment-form-actions"
@@ -227,20 +219,12 @@ const Comment = ({ author, body, replyComments, deleteSelf }) => {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <div
                         style={{
-                            display: 'flex',
+                            // display: 'flex',
                             paddingTop: '15px',
                             borderBottom: '1px #ddd',
                             paddingBottom: '20px',
                         }}
                     >
-                        <Avatar
-                            style={{
-                                borderRadius: '50%',
-                                width: '50px',
-                                height: '50px',
-                                border: '2px solid #e5e7e8',
-                            }}
-                        ></Avatar>
                         <div
                             style={{
                                 display: 'flex',
@@ -388,14 +372,6 @@ const Reply = ({ author, body }) => {
 
     return (
         <div style={{ display: 'flex', marginLeft: '4rem' }}>
-            <Avatar
-                sx={{
-                    borderRadius: '50%',
-                    width: '50px',
-                    height: '50px',
-                    border: '2px solid #e5e7e8',
-                }}
-            ></Avatar>
             <div style={{ flex: 1, flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <h4 style={{ marginLeft: '.5rem' }}>{author}</h4>

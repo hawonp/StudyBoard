@@ -9,7 +9,7 @@ import React from 'react';
 import FlagIcon from '@mui/icons-material/Flag';
 
 const CountNumber = ({ style, children }) => {
-    return <div style={{ fontSize: '1.2rem', ...style }}> {children} </div>;
+    return <div style={{ fontSize: '0.8rem', fontWeight: 'bold', ...style }}> {children} </div>;
 };
 
 export default function ButtonComponets() {
@@ -17,9 +17,9 @@ export default function ButtonComponets() {
         <CardActions disableSpacing sx={{ justifyContent: 'end' }}>
             <IconButton aria-label="favorites">
                 <FavoriteIcon sx={{ fontSize: '1.2rem' }} />
+                <CountNumber>4 Likes</CountNumber>
             </IconButton>
             {/* post_like_count */}
-            <CountNumber>0</CountNumber>
 
             {/* <IconButton aria-label="thoumup">
                 <ThumbUpIcon sx={{ fontSize: '1.2rem' }}/>
@@ -29,9 +29,9 @@ export default function ButtonComponets() {
 
             <IconButton aria-label="SmsIcon">
                 <SmsIcon sx={{ fontSize: '1.2rem' }} />
+                <CountNumber>5 Replies</CountNumber>
             </IconButton>
             {/* post_reply_count */}
-            <CountNumber>0</CountNumber>
         </CardActions>
     );
 }
