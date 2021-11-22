@@ -19,13 +19,13 @@ const BoxWrapper = ({ style, children }) => {
     return (
         <div
             style={{
-                marginTop: '1rem',
+                marginTop: '1.3rem',
                 backgroundColor: '#ffffff',
                 borderRadius: '4px',
                 boxShadow: '0 3px 110px lightgray',
                 margin: '1.0rem auto 0',
                 padding: '1.3rem',
-                width: '300px',
+                width: '15rem',
                 display: 'flex',
                 flexDirection: 'column',
                 border: '0.1rem solid lightgray',
@@ -63,7 +63,7 @@ const IconWrapper = ({ style, children }) => {
         <div
             style={{
                 display: 'block',
-                paddingTop: '30px',
+                paddingTop: '10px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 ...style,
@@ -157,8 +157,6 @@ export default function ProfileCard() {
                         </div>
 
                         <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
-                            <h5>HASH TAG</h5>
-
                             <TagWrapper>
                                 {tags.map((tag, i) => (
                                     <HashtagWrapper key={i}>{tag}</HashtagWrapper>

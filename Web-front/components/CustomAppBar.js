@@ -118,9 +118,9 @@ export default function CustomAppBar() {
                 </Link>
                 {isBig && (
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                        <NavButton to={'/board'} title={'❓ AskQuestion'} />
-                        <NavButton to={'/about'} title={'📢 About'} sx={{ ml: 3 }} />
-                        <NavButton to={'/rank'} title={'👍 Rank'} sx={{ ml: 3 }} />
+                        <NavButton to={'/board'} title={'AskQuestion'} />
+                        <NavButton to={'/about'} title={'About'} sx={{ ml: 3 }} />
+                        <NavButton to={'/rank'} title={'Rank'} sx={{ ml: 3 }} />
                     </Box>
                 )}
                 <Box sx={{ display: 'flex', flex: 1.0 }}>
