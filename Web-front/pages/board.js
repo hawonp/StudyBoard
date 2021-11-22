@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import ProfileCard from "../components/ProfileCard";
 import Container from "@mui/material/Container";
 import PostNavigation from "../components/PostNavigation";
@@ -143,7 +141,6 @@ export default function Board() {
           />
         </PageNav>
       </Container>
-      {/*{isBig && <div style={{ width: isBig ? '300px' : '100%', backgroundColor: 'red' }} />}*/}
       {isBig && <ProfileCard />}
     </div>
   );

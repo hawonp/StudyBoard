@@ -19,13 +19,13 @@ const BoxWrapper = ({ style, children }) => {
     return (
         <div
             style={{
-                marginTop: '1rem',
+                marginTop: '1.3rem',
                 backgroundColor: '#ffffff',
-                borderRadius: '24px',
+                borderRadius: '4px',
                 boxShadow: '0 3px 110px lightgray',
                 margin: '1.0rem auto 0',
-                padding: '1.3rem',
-                width: '300px',
+
+                width: '14rem',
                 display: 'flex',
                 flexDirection: 'column',
                 border: '0.1rem solid lightgray',
@@ -46,9 +46,9 @@ const HashtagWrapper = ({ style, children }) => {
                 fontSize: '13px',
                 color: '#ffffff',
                 background: '#20247b',
-                borderRadius: '3px',
+                borderRadius: '4px',
                 marginRight: '4px',
-                marginBottom: '4px',
+                marginBottom: '2px',
                 ...style,
             }}
         >
@@ -63,7 +63,7 @@ const IconWrapper = ({ style, children }) => {
         <div
             style={{
                 display: 'block',
-                paddingTop: '30px',
+                paddingTop: '10px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 ...style,
@@ -141,27 +141,22 @@ export default function ProfileCard() {
             ) : (
                 <Grid item xs={2}>
                     <BoxWrapper>
-                        <div style={{ display: 'flex', justifyContent: 'end' }}>
-                            {/*만약 수퍼유저가 아니면 안보이게 */}
-                            <Link href="/admin/admin">
-                                <AdminPanelSettingsIcon sx={{ color: 'darkred' }} />
-                            </Link>
-                        </div>
-
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             {/*프로필 아바타*/}
-                            <div style={{ marginRight: '0.5rem' }}>
-                                <Avatar></Avatar>
-                            </div>
-                            <div style={{ flex: 1 }}>
+
+                            <div style={{ flex: 1, marginLeft: '1rem' }}>
                                 {/*user name*/}
-                                <h3>{nickname}</h3>
+                                <h4>{nickname}</h4>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'end', marginRight: '0.8rem' }}>
+                                {/*만약 수퍼유저가 아니면 안보이게 */}
+                                <Link href="/admin/admin">
+                                    <AdminPanelSettingsIcon sx={{ color: 'darkred' }} />
+                                </Link>
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
-                            <h5>HASH TAG</h5>
-
+                        <div style={{ display: 'flex', flex: '1', flexDirection: 'column', marginLeft: '1rem' }}>
                             <TagWrapper>
                                 {tags.map((tag, i) => (
                                     <HashtagWrapper key={i}>{tag}</HashtagWrapper>
@@ -173,24 +168,22 @@ export default function ProfileCard() {
                         <IconWrapper>
                             {/* 자기 자신이 쓴글들이 모이는곳*/}
                             <div style={{ display: 'inline-block' }}>
-                                <Tooltip title="Post">
-                                    <IconButton aria-label="favorites">
-                                        <Link href="/myPost">
-                                            <DescriptionIcon />
-                                        </Link>
-                                    </IconButton>
-                                </Tooltip>
+                                <IconButton aria-label="favorites" sx={{ borderRadius: '4px' }}>
+                                    <Link href="/myPost">
+                                        <DescriptionIcon sx={{ fontSize: '1.2rem' }} />
+                                    </Link>
+                                    <p style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>My Post</p>
+                                </IconButton>
                             </div>
 
                             {/* 자기가 좋아하는걸 모이게 하는곳*/}
                             <div style={{ display: 'inline-block' }}>
-                                <Tooltip title="favorite">
-                                    <IconButton aria-label="favorites">
-                                        <Link href="/favorite/favorite">
-                                            <BookmarkIcon />
-                                        </Link>
-                                    </IconButton>
-                                </Tooltip>
+                                <IconButton aria-label="favorites" sx={{ borderRadius: '4px' }}>
+                                    <Link href="/favorite/favorite">
+                                        <BookmarkIcon sx={{ fontSize: '1.2rem' }} />
+                                    </Link>
+                                    <p style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>Favorite</p>
+                                </IconButton>
                             </div>
                         </IconWrapper>
                     </BoxWrapper>
