@@ -2,6 +2,10 @@ import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 //Importing MUI
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -36,9 +40,16 @@ const cookies = new Cookies();
 
 // Comment whole thing Container
 export const CommentBox = ({ postID }) => {
-  const [showComments, setShowComments] = useState(false);
-  const [loadingReplies, setLoadingReplies] = useState(false);
+  const [showComments, setShowComments] = useState(true);
+  const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
+
+  // 필터
+  const [sort, setSort] = React.useState("All");
+  const handleChange = (event) => {
+    setSort(event.target.value);
+  };
+
   const [comments, setComments] = useState([
     // 더미 데이터 , 그리고 replyComment 는 댓글에 댓글 더미데이터
     {
@@ -71,6 +82,11 @@ export const CommentBox = ({ postID }) => {
       replyComments: [],
     },
   ]);
+
+  useEffect(() => {
+    //여기에다 댓글 Sorting
+    // TODO: API Backend NEED
+  }, [sort]);
 
   //Load comments upon render
   useEffect(() => {
@@ -153,29 +169,47 @@ export const CommentBox = ({ postID }) => {
       <h2>Join the Discussion!</h2>
       <CommentForm addComment={_addComment} />
       {/* Switich 버튼 */}
-      <div style={{ display: "flex" }}>
+      {/* <div style={{ display: "flex" }}>
         <Switch
-          // flex: 1,하면 늘어남
           sx={{ display: "flex", justifyContent: "end" }}
-          // style={{
-          //     float: 'right',
-          //     marginTop: '0.5rem',
-          //     borderRadius: '8px',
-          //     // padding: '0.5rem 0.5rem',
-          // }}
-          // variant="contained"
-          // type="submit"
-
           {...label}
           onChange={(event) => toggleComments(event)}
         >
           {buttonText}
         </Switch>
-      </div>
+      </div> */}
 
-      <h3>Replies</h3>
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          // marginTop: "0.5rem",
+        }}
+      >
+        <h3 style={{ display: "inline" }}>Replies</h3>
 
-      {/* 댓글 카운트 수 */}
+        {/* 필터 */}
+        <FormControl variant={"standard"} sx={{ width: "10rem" }}>
+          {/* <InputLabel id="demo-simple-select-standard-label">
+            Sort by
+          </InputLabel> */}
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={sort}
+            // label="Age"
+            onChange={handleChange}
+          >
+            <MenuItem value={"All"}>All</MenuItem>
+            <MenuItem value={"Like"}>Like</MenuItem>
+            <MenuItem value={"Inf"}>인플루언서</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
       {/* post_reply_count */}
       <h5>{_getCommentsTitle(comments.length)}</h5>
       <hr />
