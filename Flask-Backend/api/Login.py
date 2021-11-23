@@ -17,6 +17,7 @@ class Login(Resource):
         # get id_token from URL call
         token = req.args.get('id_token')
         print("BE: Login Flow")
+        print(token)
         print("BE: Received auth req from FE")
         
         # authenticate token_id from signin

@@ -205,7 +205,6 @@ const CommentForm = ({ addComment }) => {
           sx={{ marginTop: "1rem" }}
           multiline
           rows={4}
-          required
           inputRef={textRef}
         ></TextField>
       </div>

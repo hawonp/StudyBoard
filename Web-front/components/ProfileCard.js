@@ -137,8 +137,6 @@ export default function ProfileCard() {
   return (
     <div>
       {user_id == undefined || user_id == "null" ? (
-        <></>
-      ) : (
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -181,8 +179,8 @@ export default function ProfileCard() {
               {/* 테스트 */}
               <TagWrapper>
                 <HashtagWrapper>tag</HashtagWrapper>
-                <HashtagWrapper>shit</HashtagWrapper>
-                <HashtagWrapper>hate</HashtagWrapper>
+                <HashtagWrapper>Hard</HashtagWrapper>
+                <HashtagWrapper>CSE</HashtagWrapper>
               </TagWrapper>
             </div>
 
@@ -190,30 +188,39 @@ export default function ProfileCard() {
             <IconWrapper>
               {/* 자기 자신이 쓴글들이 모이는곳*/}
               <div style={{ display: "inline-block" }}>
-                <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
-                  <Link href="/myPost">
+                <Link href="/myPost">
+                  <IconButton
+                    aria-label="favorites"
+                    sx={{ borderRadius: "4px" }}
+                  >
                     <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
-                  </Link>
-                  <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                    My Post
-                  </p>
-                </IconButton>
+
+                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                      My Post
+                    </p>
+                  </IconButton>
+                </Link>
               </div>
 
               {/* 자기가 좋아하는걸 모이게 하는곳*/}
               <div style={{ display: "inline-block" }}>
-                <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
-                  <Link href="/favorite/favorite">
+                <Link href="/favorite/favorite">
+                  <IconButton
+                    aria-label="favorites"
+                    sx={{ borderRadius: "4px" }}
+                  >
                     <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
-                  </Link>
-                  <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                    Favorite
-                  </p>
-                </IconButton>
+                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                      Favorite
+                    </p>
+                  </IconButton>
+                </Link>
               </div>
             </IconWrapper>
           </BoxWrapper>
         </Grid>
+      ) : (
+        <></>
       )}
     </div>
   );
