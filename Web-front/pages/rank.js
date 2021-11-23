@@ -10,11 +10,6 @@ export default function Rank() {
       <Container>
         <Box
           style={{
-            // border: '0.1rem solid lightgray',
-            // borderRadius: '8px',
-            // marginBottom: '16px',
-            // marginTop: '20px',
-            // padding: '10px 12px',
             backgroundColor: "white",
           }}
         >
