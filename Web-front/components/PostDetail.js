@@ -168,49 +168,51 @@ export default function PostDetail({
 
         <CardActions
           disableSpacing
-          sx={{ justifyContent: "end", padding: "none" }}
+          sx={{ justifyContent: "end", padding: "0" }}
         >
-          <IconButton title={"I want to edit"} onClick={edit}>
-            <EditIcon />
+          <IconButton
+            title={"I want to edit"}
+            onClick={edit}
+            sx={{ borderRadius: "4px" }}
+          >
+            <EditIcon sx={{ fontSize: "1.2rem" }} />
           </IconButton>
           {/*일반유저좋아요*/}
           <IconButton
+            sx={{ borderRadius: "4px" }}
             aria-label="thumbup"
             onClick={() => onLikePressed(postData.id, postData.didUserLike)}
           >
             {postData.didUserLike ? (
-              <IconButton aria-label="favorites">
-                <FavoriteIcon />
-                <CountNumber>{postData.post_like_count}</CountNumber>
-              </IconButton>
+              <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
             ) : (
-              <IconButton aria-label="favorites">
-                <FavoriteBorderIcon />
-                <CountNumber>{postData.post_like_count}</CountNumber>
-              </IconButton>
+              <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
+            <CountNumber>{postData.post_like_count || 0} Likes</CountNumber>
           </IconButton>
           {/*즐겨찾기 저장버튼*/}
           <IconButton
+            sx={{ borderRadius: "4px" }}
             aria-label="favorites"
             onClick={() =>
               onFavouritePressed(postData.id, postData.didUserFavourite)
             }
           >
             {postData.didUserFavourite ? (
-              <BookmarkIcon />
+              <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
             ) : (
-              <BookmarkBorderIcon />
+              <BookmarkBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
           </IconButton>
           {/* copy the link */}
           <IconButton
+            sx={{ borderRadius: "4px" }}
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
             }}
           >
-            <ShareIcon />
+            <ShareIcon sx={{ fontSize: "1.2rem" }} />
           </IconButton>
           {/* report button*/}
           <Modal
@@ -247,8 +249,12 @@ export default function PostDetail({
               </div>
             </Box>
           </Modal>
-          <IconButton aria-label="report" onClick={handleOpen}>
-            <FlagIcon />
+          <IconButton
+            aria-label="report"
+            onClick={handleOpen}
+            sx={{ borderRadius: "4px" }}
+          >
+            <FlagIcon sx={{ fontSize: "1.2rem" }} />
           </IconButton>
         </CardActions>
       </Box>
