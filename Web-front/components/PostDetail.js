@@ -185,10 +185,9 @@ export default function PostDetail({
               </IconButton>
             ) : (
               <IconButton aria-label="favorites">
-                <FavoriteIcon />
+                <FavoriteBorderIcon />
                 <CountNumber>{postData.post_like_count}</CountNumber>
               </IconButton>
-              // <FavoriteBorderIcon />
             )}
           </IconButton>
           {/*즐겨찾기 저장버튼*/}
