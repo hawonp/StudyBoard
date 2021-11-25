@@ -146,7 +146,6 @@ export default function ProfileCard() {
 
               <div style={{ flex: 1, marginLeft: "1rem" }}>
                 {/*user name*/}
-                <h4>PK HONG</h4>
                 <h4>{nickname}</h4>
               </div>
               <div
