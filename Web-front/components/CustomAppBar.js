@@ -8,15 +8,12 @@ import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Image from "next/image";
-import Login from "./Login";
-import Logout from "./Logout";
-import Cookies from "universal-cookie";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import NotificationList from "../components/NotificationList";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useEffect } from "react";
+import axiosInstance from "../utils/routeUtil";
 
 const HrWrapper = ({ style, children }) => {
   return (
@@ -49,9 +46,6 @@ const ContainerWrapper = ({ style, children }) => {
 
 export default function CustomAppBar() {
   const { user } = useUser();
-  const cookies = new Cookies();
-  const user_id = cookies.get("user_token");
-  console.log("App Bar:\nID_TOKEN= ", user_id);
   const isBig = useMediaQuery("(min-width:800px)");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -66,21 +60,6 @@ export default function CustomAppBar() {
 
   const open = Boolean(anchorEl);
   const id = open ? "" : undefined;
-
-  const menuThreeList = [
-    {
-      type: "normal",
-      title: "Profile",
-      onClick: () => {
-        // alert("Profile");
-        window.location.href = "/user/profile";
-      },
-    },
-    // {
-    //   type: 'special',
-    //   component: <Logout />
-    // },
-  ];
 
   const menuList = [
     {
@@ -117,6 +96,35 @@ export default function CustomAppBar() {
     },
   ];
 
+  useEffect(() => {
+    if (user) {
+      console.log("adding new user");
+      axiosInstance
+        .get("/login", {
+          params: {
+            user_id: user.sub,
+            user_nickname: user.nickname,
+            user_email: user.email,
+          },
+        })
+        .then((response) => {
+          console.log("response from backend" + response);
+          if (response["status"] == 200) {
+            console.log("success");
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            // TODO temp redirection
+            // cookies.remove("user_token", { path: "/" });
+            // cookies.remove("user_id", { path: "/" });
+            // window.location.href = "./error/403";
+          }
+        });
+    }
+  }, []);
+
   return (
     <ContainerWrapper>
       <Toolbar>
@@ -141,11 +149,11 @@ export default function CustomAppBar() {
         <div>
           {user ? (
             <Link href="/api/auth/logout">
-              <a>Logout</a>
+              <a>Log Out</a>
             </Link>
           ) : (
             <Link href="/api/auth/login">
-              <a>Login</a>
+              <a>Logged In</a>
             </Link>
           )}
         </div>
