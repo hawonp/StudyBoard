@@ -15,9 +15,9 @@ const POSTDATAENDPOINT = "/posts";
 export function PostWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState();
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState([]);
   const [image, setImage] = useState("None");
-  const [uuid, setUuid] = useState(null);
+  const [uuid, setUuid] = useState("");
 
   // widget.onChange(function (file) {
   //   console.log(file);
