@@ -10,7 +10,7 @@ import React from "react";
 import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { useState, useEffect } from "react";
-
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
@@ -93,21 +93,30 @@ const TagWrapper = ({ style, children }) => {
 
 export default function ProfileCard() {
   const [nickname, setNickname] = useState("");
-  const cookies = new Cookies();
-  const user_id = cookies.get("user_id");
-  const id_token = cookies.get("user_token");
+  const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
-
+  const { user } = useUser();
   //Load posts when component mounts
+
+  if (user) {
+    console.log(user);
+    console.log(user.sub);
+    console.log(user.nickname);
+    console.log(user.email);
+    console.log(user.last_ip);
+  }
+
   useEffect(() => {
-    if (user_id == null || user_id == undefined || user_id == "null") {
-      console.log("User Id is null");
-    } else {
+    if (user) {
+      setUserId(user.sub);
+
       console.log("Crawling User Profile Data");
       axiosInstance
-        .get(users + user_id, {
+        .get(users + userId, {
           params: {
-            id_token: id_token,
+            user_id: user.sub,
+            user_nickname: user.nickname,
+            user_email: user.email,
           },
         })
         .then((response) => {
@@ -126,9 +135,9 @@ export default function ProfileCard() {
           const resp = e.response;
           if (resp["status"] == 403) {
             // TODO temp redirection
-            cookies.remove("user_token", { path: "/" });
-            cookies.remove("user_id", { path: "/" });
-            window.location.href = "./error/403";
+            // cookies.remove("user_token", { path: "/" });
+            // cookies.remove("user_id", { path: "/" });
+            // window.location.href = "./error/403";
           }
         });
     }
@@ -136,9 +145,7 @@ export default function ProfileCard() {
 
   return (
     <div>
-      {user_id == undefined || user_id == "null" ? (
-        <></>
-      ) : (
+      {user ? (
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -146,7 +153,7 @@ export default function ProfileCard() {
 
               <div style={{ flex: 1, marginLeft: "1rem" }}>
                 {/*user name*/}
-                <h4>PK HONG</h4>
+                <h4>{user.name}</h4>
                 <h4>{nickname}</h4>
               </div>
               <div
@@ -178,12 +185,6 @@ export default function ProfileCard() {
                   <HashtagWrapper key={i}>{tag}</HashtagWrapper>
                 ))}
               </TagWrapper>
-              {/* 테스트 */}
-              <TagWrapper>
-                <HashtagWrapper>tag</HashtagWrapper>
-                <HashtagWrapper>shit</HashtagWrapper>
-                <HashtagWrapper>hate</HashtagWrapper>
-              </TagWrapper>
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}
@@ -195,7 +196,7 @@ export default function ProfileCard() {
                     <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
                   </Link>
                   <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                    My Post
+                    My Posts
                   </p>
                 </IconButton>
               </div>
@@ -214,6 +215,8 @@ export default function ProfileCard() {
             </IconWrapper>
           </BoxWrapper>
         </Grid>
+      ) : (
+        <></>
       )}
     </div>
   );
