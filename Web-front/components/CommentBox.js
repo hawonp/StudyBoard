@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 //Importing MUI
 import Button from "@mui/material/Button";
@@ -238,11 +239,16 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const router = useRouter();
 
   const report = () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: flagText },
+        params: {
+          userID: cookies.get("user_id"),
+          postID: router.query.id,
+          text: flagText,
+        },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
@@ -484,6 +490,7 @@ const Reply = ({ replyData }) => {
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const router = useRouter();
 
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
@@ -491,7 +498,11 @@ const Reply = ({ replyData }) => {
     // TODO: API POST (BACKEND NEED)
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: flagText },
+        params: {
+          userID: cookies.get("user_id"),
+          postID: router.query.id,
+          text: flagText,
+        },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);

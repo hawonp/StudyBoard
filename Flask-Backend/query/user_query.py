@@ -128,6 +128,7 @@ def get_user_by_id(id):
         conn.commit()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+        res = -1
     
     return res
 

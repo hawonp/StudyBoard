@@ -35,7 +35,7 @@ def flag_post(id, user_id, flag_text):
     return res
 
 # Adding reply to the flagged list.
-def flag_reply(id, user_id, flag_text):
+def flag_reply(id, user_id, post_id, flag_text):
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
@@ -43,8 +43,8 @@ def flag_reply(id, user_id, flag_text):
         #First add the Post to Post table
         #Set up query statement and values
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO Reply_Report (reply_id, user_id, report_text, report_date) VALUES (?, ?, ?, ?)"
-        values = (int(id), user_id, flag_text, date_time)
+        query = "INSERT INTO Reply_Report (reply_id, user_id, post_id, report_text, report_date) VALUES (?, ?, ?, ?, ?)"
+        values = (int(id), user_id, post_id, flag_text, date_time)
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -72,7 +72,7 @@ def get_flagged_posts():
     cur = conn.cursor()
 
     #Set up query statements and values
-    query = "SELECT * FROM Post_Report"
+    query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Post_Report) AS rpt ON rpt.user_id = u.user_id"
 
     #Fetching posts with filter, sort, limit, and offset
     print("Selecting with query", query)
@@ -82,7 +82,6 @@ def get_flagged_posts():
     row_headers=[x[0] for x in cur.description]
     rv = cur.fetchall()
     json_data=[]
-
     for result in rv:
         json_data.append(dict(zip(row_headers,result)))
 

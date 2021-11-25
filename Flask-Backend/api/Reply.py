@@ -31,6 +31,7 @@ class AddReplySchema(Schema):
 
 class ReplyFlagSchema(Schema):
     userID = fields.Str(required=True)
+    postID = fields.Str(required=True)
     text = fields.Str(required=True)
 
 ############################
@@ -130,8 +131,9 @@ class ReplyFlag(Resource):
         #Fetch the params
         flag_text = formData["text"]
         user_id = formData["userID"]
+        post_id = formData["postID"]
         
-        res = flag_reply(id, user_id, flag_text)
+        res = flag_reply(id, user_id, post_id, flag_text)
         return res
 
 #Add routes to api
