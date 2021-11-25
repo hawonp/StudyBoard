@@ -112,7 +112,7 @@ class PostData(Resource):
         #Now fetch the params
         title = formData["title"]
         text = formData["text"]
-        image_url = formData["image_url"]
+        image_url = formData["imageURL"]
         tags = formData["tags"]
 
         res = update_post(id, title, text, image_url, tags)

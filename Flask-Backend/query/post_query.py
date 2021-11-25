@@ -293,7 +293,7 @@ def update_post(post_id, title, text, image, tags):
         conn.commit()
 
         #Clear all the tags from the post
-        if delete_all_tags_of_post(id) == 0:
+        if delete_all_tags_of_post(post_id) == 0:
             return 0
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.

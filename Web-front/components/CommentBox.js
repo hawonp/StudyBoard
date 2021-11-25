@@ -40,38 +40,7 @@ export const CommentBox = ({ postID }) => {
   const [showComments, setShowComments] = useState(false);
   const [loadingReplies, setLoadingReplies] = useState(false);
   const [feedOrder, setFeedOrder] = useState(0);
-  const [comments, setComments] = useState([
-    // 더미 데이터 , 그리고 replyComment 는 댓글에 댓글 더미데이터
-    {
-      id: 1,
-      author: "landiggity",
-      body: "This is my first comment on this forum so don't be a dick",
-      replyComments: [
-        {
-          id: 11,
-          author: "scarlett-jo",
-          body: "That's a mighty fine comment you've got there my good looking fellow...",
-        },
-        {
-          id: 22,
-          author: "rosco",
-          body: "That's a mighty fine comment you've got there my good looking fellow...",
-        },
-      ],
-    },
-    {
-      id: 2,
-      author: "scarlett-jo",
-      body: "That's a mighty fine comment you've got there my good looking fellow...",
-      replyComments: [],
-    },
-    {
-      id: 3,
-      author: "rosco",
-      body: "What is the meaning of all of this 'React' mumbo-jumbo?",
-      replyComments: [],
-    },
-  ]);
+  const [comments, setComments] = useState([]);
 
   //Load comments upon render
   useEffect(() => {

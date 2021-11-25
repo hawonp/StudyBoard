@@ -65,7 +65,7 @@ export default function Board() {
   const [feedPage, setFeedPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [feedOrder, setFeedOrder] = useState(0);
-  const [feedFilter, setFeedFilter] = useState("None");
+  const [feedFilter, setFeedFilter] = useState(1);
   const [posts, setPosts] = useState([]);
 
   //Load posts when component mounts
@@ -91,6 +91,9 @@ export default function Board() {
   };
   const updateOrder = (order) => {
     setFeedOrder(order);
+  };
+  const updateFilter = (filterOption) => {
+    setFeedFilter(filterOption);
   };
 
   const handleExpandClick = () => {
@@ -122,7 +125,10 @@ export default function Board() {
 
         {/*filter*/}
         <FilterBox>
-          <FilterButton handleSortClick={updateOrder} />
+          <FilterButton
+            handleSortClick={updateOrder}
+            handleFilterChange={updateFilter}
+          />
         </FilterBox>
 
         <div>
