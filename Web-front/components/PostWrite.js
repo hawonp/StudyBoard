@@ -103,7 +103,10 @@ export function PostWrite() {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <PostEditor setContent={setContent} />
+        <PostEditor
+          content="<p>Write your question here!</p>"
+          setContent={setContent}
+        />
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
