@@ -1,5 +1,3 @@
-from config.db_connect import conn
-
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.flag_query import get_flagged_posts, get_flagged_replies

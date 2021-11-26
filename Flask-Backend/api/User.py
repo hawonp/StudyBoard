@@ -1,7 +1,6 @@
 
 from flask.json import jsonify
-from google.oauth2 import id_token
-from config.db_connect import conn
+from google.oauth2 import id_token 
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields
 from query.tag_query import get_user_tags

@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -8,6 +8,7 @@ def add_user_favourite_post(user_id, post_id):
     new_user_post_favourite_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -24,6 +25,7 @@ def add_user_favourite_post(user_id, post_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -37,6 +39,7 @@ def add_user_favourite_post(user_id, post_id):
 def check_if_user_favourited_post(uid, pid):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -51,6 +54,7 @@ def check_if_user_favourited_post(uid, pid):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -64,6 +68,7 @@ def delete_user_favourite_post(uid, pid):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -77,6 +82,7 @@ def delete_user_favourite_post(uid, pid):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
