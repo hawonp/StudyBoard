@@ -176,6 +176,7 @@ export default function PostDetail({
             sx={{ borderRadius: "4px" }}
           >
             <EditIcon sx={{ fontSize: "1.2rem" }} />
+            <CountNumber> &nbsp;Edit</CountNumber>
           </IconButton>
           {/*일반유저좋아요*/}
           <IconButton
@@ -188,7 +189,9 @@ export default function PostDetail({
             ) : (
               <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
-            <CountNumber>{postData.post_like_count || 0} Likes</CountNumber>
+            <CountNumber>
+              &nbsp;{postData.post_like_count || 0} Likes
+            </CountNumber>
           </IconButton>
           {/*즐겨찾기 저장버튼*/}
           <IconButton
@@ -203,6 +206,7 @@ export default function PostDetail({
             ) : (
               <BookmarkBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
+            <CountNumber> &nbsp;Favorite</CountNumber>
           </IconButton>
           {/* copy the link */}
           <IconButton
@@ -213,6 +217,8 @@ export default function PostDetail({
             }}
           >
             <ShareIcon sx={{ fontSize: "1.2rem" }} />
+            &nbsp;
+            <CountNumber> Share</CountNumber>
           </IconButton>
           {/* report button*/}
           <Modal
@@ -255,6 +261,8 @@ export default function PostDetail({
             sx={{ borderRadius: "4px" }}
           >
             <FlagIcon sx={{ fontSize: "1.2rem" }} />
+            &nbsp;
+            <CountNumber> Report</CountNumber>
           </IconButton>
         </CardActions>
       </Box>

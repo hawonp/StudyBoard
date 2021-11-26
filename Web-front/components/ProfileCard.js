@@ -137,11 +137,11 @@ export default function ProfileCard() {
   return (
     <div>
       {user_id == undefined || user_id == "null" ? (
+        <></>
+      ) : (
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
-              {/*프로필 아바타*/}
-
               <div style={{ flex: 1, marginLeft: "1rem" }}>
                 {/*user name*/}
                 <h4>PK HONG</h4>
@@ -219,8 +219,6 @@ export default function ProfileCard() {
             </IconWrapper>
           </BoxWrapper>
         </Grid>
-      ) : (
-        <></>
       )}
     </div>
   );

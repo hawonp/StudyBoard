@@ -3,6 +3,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import ShareIcon from "@mui/icons-material/Share";
 import Card from "@mui/material/Card";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -64,7 +65,7 @@ export default function MyPostList({ mypost }) {
       >
         <img
           width="150"
-          height="150"
+          height="120"
           src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
           style={{ objectFit: "cover" }}
           alt="green iguana"
@@ -84,19 +85,42 @@ export default function MyPostList({ mypost }) {
               paddingTop: "1rem",
             }}
           >
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: "1.6rem",
+              }}
+            >
               {myPostData.title}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                sx={{
+                  fontSize: "1rem",
+                }}
+              >
                 {myPostData.username}
               </Typography>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                sx={{
+                  fontSize: "0.8rem",
+                  marginLeft: "0.8rem",
+                }}
+              >
                 {myPostData.date}
               </Typography>
             </Box>
           </Box>
           <CardActionsWrapper>
+            {/* Like */}
             <IconButton
               aria-label="favorites"
               sx={{ padding: 0, borderRadius: "4px" }}
@@ -107,18 +131,88 @@ export default function MyPostList({ mypost }) {
               </div>
             </IconButton>
 
-            {/* <div style={{ display: "inline-block" }}>
-          <IconButton aria-label="thoumup">
-            <ThumbUpIcon />
-            <div>: {user_is_endorsed_like}</div>
-          </IconButton>
-        </div> */}
+            {/* Moderator */}
 
-            {/* Comment button and Count */}
-            <IconButton aria-label="SmsIcon">
-              <SmsIcon />
-              <div>{reply_count}</div>
+            {/* <IconButton
+              aria-label="SmsIcon"
+              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+            >
+                <ThumbUpIcon />
+                <div>: {user_is_endorsed_like}</div>
+              </IconButton>
+             */}
+
+            {/* Comment */}
+            <IconButton
+              aria-label="SmsIcon"
+              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+            >
+              <SmsIcon sx={{ fontSize: "1.2rem" }} />
+              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                {reply_count} Comment
+              </div>
             </IconButton>
+
+            {/* Share */}
+            <IconButton
+              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+              aria-label="share"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+              }}
+            >
+              <ShareIcon sx={{ fontSize: "1.2rem" }} />
+              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                &nbsp;Share
+              </div>
+            </IconButton>
+
+            {/* report button
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description"
+            >
+              <Box sx={{ ...modalStyle }}>
+                <h4 id="child-modal-title">Report</h4>
+                <div style={{ flex: 1 }}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    label={"Report Information"}
+                    value={flagText}
+                    onChange={(e) => setFlagText(e.target.value)}
+                  />
+                </div>
+                <div
+                  style={{ display: "flex", flex: 1, justifyContent: "end" }}
+                >
+                  <Button
+                    sx={{
+                      borderRadius: "8px",
+                      height: "2rem",
+                      marginTop: "0.5rem",
+                    }}
+                    variant="contained"
+                    color="success"
+                    type="submit"
+                    onClick={report}
+                  >
+                    Report
+                  </Button>
+                </div>
+              </Box>
+            </Modal>
+            <IconButton
+              aria-label="report"
+              onClick={handleOpen}
+              sx={{ borderRadius: "4px" }}
+            >
+              <FlagIcon sx={{ fontSize: "1.2rem" }} />
+              &nbsp;
+              <CountNumber> Report</CountNumber>
+            </IconButton> */}
           </CardActionsWrapper>
         </Box>
       </Paper>

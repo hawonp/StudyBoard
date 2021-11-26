@@ -115,7 +115,7 @@ export const CommentBox = ({ postID }) => {
     setLoadingReplies(event.target.checked);
   };
 
-  const _addComment = (body) => {
+  const _addComment = (body, resetForm) => {
     // Add reply to db
     console.log(postID);
     axiosInstance
@@ -128,6 +128,7 @@ export const CommentBox = ({ postID }) => {
         if (responseData != -1) {
           setLoadingReplies(true);
           console.log("added reply to post");
+          resetForm();
         }
       });
   };
@@ -166,18 +167,8 @@ export const CommentBox = ({ postID }) => {
 
   return (
     <div style={{ disply: "flex" }}>
-      <h2>Join the Discussion!</h2>
+      <h3>Join the Discussion!</h3>
       <CommentForm addComment={_addComment} />
-      {/* Switich 버튼 */}
-      {/* <div style={{ display: "flex" }}>
-        <Switch
-          sx={{ display: "flex", justifyContent: "end" }}
-          {...label}
-          onChange={(event) => toggleComments(event)}
-        >
-          {buttonText}
-        </Switch>
-      </div> */}
 
       <Box
         sx={{
@@ -197,15 +188,13 @@ export const CommentBox = ({ postID }) => {
             Sort by
           </InputLabel> */}
           <Select
-            labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             value={sort}
-            // label="Age"
             onChange={handleChange}
           >
             <MenuItem value={"All"}>All</MenuItem>
             <MenuItem value={"Like"}>Like</MenuItem>
-            <MenuItem value={"Inf"}>인플루언서</MenuItem>
+            <MenuItem value={"Inf"}>Moderator</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -227,7 +216,9 @@ const CommentForm = ({ addComment }) => {
     event.preventDefault(); // prevents page from reloading on submit
     //const author = inputRef.current.value;
     const body = textRef.current.value;
-    addComment(body);
+    addComment(body, () => {
+      textRef.current.value = "";
+    });
   };
 
   return (
@@ -327,14 +318,6 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               paddingBottom: "20px",
             }}
           >
-            <Avatar
-              style={{
-                borderRadius: "50%",
-                width: "50px",
-                height: "50px",
-                border: "2px solid #e5e7e8",
-              }}
-            ></Avatar>
             <div
               style={{
                 display: "flex",
@@ -458,9 +441,9 @@ const InputReply = ({ setLoading, replyID, finish }) => {
           setLoading(true);
           console.log("added reply to reply");
         }
+        inputRef.current.value = "";
+        finish();
       });
-    inputRef.current.value = "";
-    finish();
   };
 
   return (
@@ -565,14 +548,6 @@ const Reply = ({ replyData }) => {
 
   return (
     <div style={{ display: "flex", marginLeft: "4rem" }}>
-      <Avatar
-        sx={{
-          borderRadius: "50%",
-          width: "50px",
-          height: "50px",
-          border: "2px solid #e5e7e8",
-        }}
-      ></Avatar>
       <div style={{ flex: 1, flexDirection: "column" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <h4 style={{ marginLeft: ".5rem" }}>{replyData.user_nickname}</h4>

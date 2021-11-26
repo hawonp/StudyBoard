@@ -1,19 +1,47 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
+
+const HashtagWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        padding: "4px 15px",
+        fontSize: "13px",
+        color: "#ffffff",
+        background: "#20247b",
+        borderRadius: "4px",
+        marginRight: "4px",
+        marginBottom: "2px",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 // 해시태그 정규표현식
-const CardTags = ({ postData }) => (
-    <div>
-        {postData.split(/(#[^\s#]+)/g).map((tags) => {
-            if (tags.match(/(#[^\s]+)/)) {
-                return (
-                    <Link href={`/hashtag/${tags.slice(1)}`}>
-                        <a>{tags}</a>
-                    </Link>
-                );
-            }
-
-            return v;
-        })}
-    </div>
+// HashTag Link Components
+const CardTags = ({ tags }) => (
+  <div
+    style={{
+      display: "flex",
+      flexFlow: "row wrap",
+      justifyContent: "start",
+      marginTop: "0.5rem",
+    }}
+  >
+    {tags.map((tag) => {
+      return (
+        <Link href={`/hashtag/${tag}`} key={tag}>
+          <a style={{ textDecoration: "none" }}>
+            <HashtagWrapper>{tag}</HashtagWrapper>
+          </a>
+        </Link>
+      );
+    })}
+  </div>
 );
+
+export default CardTags;
