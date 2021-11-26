@@ -19,7 +19,7 @@ const BoxWrapper = ({ style, children }) => {
       style={{
         minWidth: "750px",
         display: "flex",
-        flexWrap: "wrap",
+        flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "space-around",
         ...style,

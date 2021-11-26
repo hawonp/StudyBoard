@@ -3,6 +3,10 @@ import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 //Importing MUI
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -37,10 +41,22 @@ const cookies = new Cookies();
 
 // Comment whole thing Container
 export const CommentBox = ({ postID }) => {
-  const [showComments, setShowComments] = useState(false);
-  const [loadingReplies, setLoadingReplies] = useState(false);
+  const [showComments, setShowComments] = useState(true);
+  const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
+
+  // 필터
+  const [sort, setSort] = React.useState("All");
+  const handleChange = (event) => {
+    setSort(event.target.value);
+  };
+
   const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    //여기에다 댓글 Sorting
+    // TODO: API Backend NEED
+  }, [sort]);
 
   //Load comments upon render
   useEffect(() => {
@@ -69,7 +85,7 @@ export const CommentBox = ({ postID }) => {
     setLoadingReplies(event.target.checked);
   };
 
-  const _addComment = (body) => {
+  const _addComment = (body, resetForm) => {
     // Add reply to db
     console.log(postID);
     axiosInstance
@@ -82,6 +98,7 @@ export const CommentBox = ({ postID }) => {
         if (responseData != -1) {
           setLoadingReplies(true);
           console.log("added reply to post");
+          resetForm();
         }
       });
   };
@@ -120,32 +137,38 @@ export const CommentBox = ({ postID }) => {
 
   return (
     <div style={{ disply: "flex" }}>
-      <h2>Join the Discussion!</h2>
+      <h3>Join the Discussion!</h3>
       <CommentForm addComment={_addComment} />
-      {/* Switich 버튼 */}
-      <div style={{ display: "flex" }}>
-        <Switch
-          // flex: 1,하면 늘어남
-          sx={{ display: "flex", justifyContent: "end" }}
-          // style={{
-          //     float: 'right',
-          //     marginTop: '0.5rem',
-          //     borderRadius: '8px',
-          //     // padding: '0.5rem 0.5rem',
-          // }}
-          // variant="contained"
-          // type="submit"
 
-          {...label}
-          onChange={(event) => toggleComments(event)}
-        >
-          {buttonText}
-        </Switch>
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          // marginTop: "0.5rem",
+        }}
+      >
+        <h3 style={{ display: "inline" }}>Replies</h3>
 
-      <h3>Replies</h3>
+        {/* 필터 */}
+        <FormControl variant={"standard"} sx={{ width: "10rem" }}>
+          {/* <InputLabel id="demo-simple-select-standard-label">
+            Sort by
+          </InputLabel> */}
+          <Select
+            id="demo-simple-select-standard"
+            value={sort}
+            onChange={handleChange}
+          >
+            <MenuItem value={"All"}>All</MenuItem>
+            <MenuItem value={"Like"}>Like</MenuItem>
+            <MenuItem value={"Inf"}>Moderator</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
-      {/* 댓글 카운트 수 */}
       {/* post_reply_count */}
       <h5>{_getCommentsTitle(comments.length)}</h5>
       <hr />
@@ -163,7 +186,9 @@ const CommentForm = ({ addComment }) => {
     event.preventDefault(); // prevents page from reloading on submit
     //const author = inputRef.current.value;
     const body = textRef.current.value;
-    addComment(body);
+    addComment(body, () => {
+      textRef.current.value = "";
+    });
   };
 
   return (
@@ -175,7 +200,6 @@ const CommentForm = ({ addComment }) => {
           sx={{ marginTop: "1rem" }}
           multiline
           rows={4}
-          required
           inputRef={textRef}
         ></TextField>
       </div>
@@ -269,14 +293,6 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               paddingBottom: "20px",
             }}
           >
-            <Avatar
-              style={{
-                borderRadius: "50%",
-                width: "50px",
-                height: "50px",
-                border: "2px solid #e5e7e8",
-              }}
-            ></Avatar>
             <div
               style={{
                 display: "flex",
@@ -400,9 +416,9 @@ const InputReply = ({ setLoading, replyID, finish }) => {
           setLoading(true);
           console.log("added reply to reply");
         }
+        inputRef.current.value = "";
+        finish();
       });
-    inputRef.current.value = "";
-    finish();
   };
 
   return (
@@ -512,14 +528,6 @@ const Reply = ({ replyData }) => {
 
   return (
     <div style={{ display: "flex", marginLeft: "4rem" }}>
-      <Avatar
-        sx={{
-          borderRadius: "50%",
-          width: "50px",
-          height: "50px",
-          border: "2px solid #e5e7e8",
-        }}
-      ></Avatar>
       <div style={{ flex: 1, flexDirection: "column" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <h4 style={{ marginLeft: ".5rem" }}>{replyData.user_nickname}</h4>

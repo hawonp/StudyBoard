@@ -10,6 +10,8 @@ import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
 import ButtonComponets from "../components/ButtonComponets";
+import CardTags from "./CardTags";
+
 
 const HashtagWrapper = ({ style, children }) => {
   return (
@@ -41,7 +43,8 @@ export default function CardShow({ post }) {
     title: "PK",
     content: "PKPKPK",
     images: "",
-    tags: "#MATH #CSE #HARD",
+    tags: ["MATH", "CSE", "HARD"],
+
   });
 
   useEffect(() => {
@@ -63,16 +66,32 @@ export default function CardShow({ post }) {
             action={
               <div>
                 <Tooltip title="This is Endorsed User post ">
-                  <StarIcon sx={{ color: "yellow", mt: "0.1rem" }} />
+                  <StarIcon sx={{ color: "#FFBF00", mt: "0.1rem" }} />
+
                 </Tooltip>
               </div>
             }
             title={post.post_title}
-            subheader={post.user_nickname}
+            subheader={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: "0.4rem",
+                }}
+              >
+                <span style={{ fontWeight: "bold" }}>{post.user_nickname}</span>
+                <span style={{ marginLeft: "1rem", fontSize: "0.8rem" }}>
+                  - {post.date || "2021년 11월 23일"}
+                </span>
+              </div>
+            }
           ></CardHeader>
 
           <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
-            <Box sx={{ width: "90%", marginLeft: "5%", marginRight: "5%" }}>
+            <Box sx={{ width: "100%" }}>
+
               {post.post_image == "None" ? (
                 <></>
               ) : (
@@ -88,7 +107,8 @@ export default function CardShow({ post }) {
           </Link>
 
           {/* card content  */}
-          <CardContent style={{ textAlign: "left" }}>
+          <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
+
             {/* <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
           <a style={{ textDecoration: "none" }}>
             <Typography
@@ -100,23 +120,11 @@ export default function CardShow({ post }) {
             </Typography>
           </a>
         </Link> */}
-            <div
-              style={{
-                display: "flex",
-                flexFlow: "row wrap",
-                justifyContent: "start",
-                marginTop: "0.5rem",
-              }}
-            >
-              {post.post_tags.map((post_tags, i) => (
-                <Link key={i} href="/board">
-                  <a>
-                    <HashtagWrapper key={i}>{post_tags}</HashtagWrapper>
-                  </a>
-                </Link>
-              ))}
-            </div>
+
+            {/* tag components */}
+            <CardTags tags={post.post_tags} />
           </CardContent>
+
 
           {/* this is icon */}
           <ButtonComponets />

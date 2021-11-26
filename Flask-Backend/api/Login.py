@@ -16,6 +16,7 @@ class Login(Resource):
     def get(self):
         print("add new user")
         # get id_token from URL call
+
         user_id = req.args.get('user_id')
         user_nickname = req.args.get('user_nickname')
         user_email = req.args.get('user_email')
