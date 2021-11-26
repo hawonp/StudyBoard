@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import Router from "next/router";
 
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
@@ -34,14 +33,23 @@ export default function EditProfile({ profile }) {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
+          // window.location.href = "./profile";
           // TODO proper reloading
           // window.location.reload();
-          // Router.push("/profile");
+          // Router.push("/user/profile");
+          // <Link href="/user/profile">
+          //   <EditIcon />
+          // </Link>;
         }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        // if (resp["status"] == 500) {
+        //   // TODO temp redirection
+        // }
+        alert("You have not changed your profile information!");
+        console.log(resp);
       });
-    <Link href="/user/profile">
-      <EditIcon />
-    </Link>;
   };
 
   if (isLoading) return <div>Loading...</div>;
