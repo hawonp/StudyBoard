@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 
+import PostEditor from "./PostEditor";
 import axiosInstance from "../utils/routeUtil";
 
 const cookies = new Cookies();
@@ -72,20 +73,7 @@ export default function EditPost({ postCard, finish }) {
         value={inputTitle}
         onChange={(event) => setInputTitle(event.target.value)}
       />
-
-      <TextField
-        rows={12}
-        multiline
-        style={{ marginTop: "10px", marginBottom: "10px" }}
-        className="post-text"
-        fullWidth
-        id="title"
-        label="Question?"
-        variant="outlined"
-        //이미지도 들어가야함 그런데 value 두개를 못넣음
-        value={inputContents}
-        onChange={(event) => setInputContents(event.target.value)}
-      />
+      <PostEditor content={inputContents} setContent={setInputContents} />
 
       <TextField
         style={{ marginTop: "10px", marginBottom: "10px" }}
@@ -99,7 +87,7 @@ export default function EditPost({ postCard, finish }) {
 
       <div style={{ display: "flex" }}>
         <label htmlFor="icon-button-file">
-          <input
+          {/* <input
             style={{ display: "none" }}
             accept="image/*"
             id="icon-button-file"
@@ -112,11 +100,11 @@ export default function EditPost({ postCard, finish }) {
             component="span"
           >
             <PhotoCamera />
-          </IconButton>
+          </IconButton> */}
         </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button
-            sx={{ borderRadius: "8px", marginRight: '0.5rem'}}
+            sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
             variant="contained"
             color="error"
             onClick={finish}

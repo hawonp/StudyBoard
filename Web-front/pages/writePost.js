@@ -1,8 +1,9 @@
 import * as React from "react";
 import Head from "next/head";
 import { PostWrite } from "../components/PostWrite";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-export default function WritePost() {
+export default withPageAuthRequired(function WritePost() {
   return (
     <div>
       <Head>
@@ -12,4 +13,4 @@ export default function WritePost() {
       <PostWrite />
     </div>
   );
-}
+});

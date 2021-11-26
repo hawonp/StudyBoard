@@ -1,7 +1,7 @@
 // import * as React from 'react';
 import { useState, useContext } from "react";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
 //Importing MUI
 import { Alert, Box, Modal, TextField } from "@mui/material";
@@ -99,19 +99,24 @@ export default function PostDetail({
   const [flagText, setFlagText] = useState("");
   const [flagList, setFlagList] = useContext(ReportContext);
   const router = useRouter();
-
+  const { user } = useUser();
   //Setting functions
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  // Add a request interceptor
+  axiosInstance.interceptors.request.use((request) => {
+    console.log("Starting Request", JSON.stringify(request, null, 2));
+    return request;
+  });
 
+  axiosInstance.interceptors.response.use((response) => {
+    console.log("Response:", JSON.stringify(response, null, 2));
+    return response;
+  });
   const report = () => {
-    // const flagData = createData(flagList.length+1, postData.user, postData.user, "입력값")
-    // setFlagList([...flagList, flagData])
-    // TODO: API POST (BACKEND NEED)
-    const cookies = new Cookies();
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: flagText },
+        params: { userID: user.sub, text: flagText },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);

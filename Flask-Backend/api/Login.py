@@ -14,25 +14,12 @@ class Default(Resource):
         }
 class Login(Resource):
     def get(self):
+        print("add new user")
         # get id_token from URL call
-        token = req.args.get('id_token')
-        print("BE: Login Flow")
-        print(token)
-        print("BE: Received auth req from FE")
-        
-        # authenticate token_id from signin
-        try:
-            print("BE: Verify token with google-auth")
-            session = requests.session()
-            cached_session = cachecontrol.CacheControl(session)
-            request = google_requests.Request(session=cached_session)
-            decoded_token = id_token.verify_oauth2_token(token, request, ApplicationConfig.GOOGLE_CLIENT_ID)
-        except ValueError as e:
-            print("BE: Could not verify token: ", e)
-            abort(401)
 
-        # get logged in users info (used for first time log in)
-        user_id, user_email, user_nickname = get_user_from_id_token(decoded_token)
+        user_id = req.args.get('user_id')
+        user_nickname = req.args.get('user_nickname')
+        user_email = req.args.get('user_email')
 
         # check if user already exists in the database
         res = check_user_id_exists(user_id)

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
@@ -22,7 +22,6 @@ import PostEdit from "../../components/PostEdit";
 import PostDetail from "../../components/PostDetail";
 import { CommentBox } from "../../components/CommentBox";
 
-const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
 //Need this to keep post id
@@ -53,23 +52,14 @@ const DetailWrapper = ({ style, children }) => {
 
 export default function PostDetailPage() {
   const router = useRouter();
-  let userID = cookies.get("user_id");
-  if (userID == undefined) {
+  const { user } = useUser();
+  let userID = user.sub;
+  if (!user) {
     userID = -1;
   }
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [postData, setPostData] = useState({
-    id: "-1",
-    user: "USER",
-    title: "TITLE",
-    text: "TEXT",
-    images: "IMAGES",
-    tags: ["TAG1", "TAG2"],
-    date: "DATE",
-    didUserLike: false,
-    didUserFavourite: false,
-  });
+  const [postData, setPostData] = useState({});
 
   //Load in  the post data upon render
   useEffect(() => {
@@ -98,13 +88,12 @@ export default function PostDetailPage() {
 
   //Handle like press
   const handleLikePressed = () => {
-    const id = cookies.get("user_id");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/likes";
     if (postData.didUserLike) {
       axiosInstance
         .delete(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {
@@ -130,13 +119,12 @@ export default function PostDetailPage() {
   //Handle favourite press
   const handleFavouritePressed = () => {
     console.log(postData.didUserFavourite);
-    const id = cookies.get("user_id");
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/favourite";
     if (postData.didUserFavourite) {
       axiosInstance
         .delete(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {

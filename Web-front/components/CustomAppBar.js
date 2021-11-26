@@ -16,6 +16,12 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import NotificationList from "../components/NotificationList";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import NotificationList from "../components/NotificationList";
+import { useUser } from "@auth0/nextjs-auth0";
+import { useEffect } from "react";
+import axiosInstance from "../utils/routeUtil";
 
 const HrWrapper = ({ style, children }) => {
   return (
@@ -47,9 +53,8 @@ const ContainerWrapper = ({ style, children }) => {
 };
 
 export default function CustomAppBar() {
-  const cookies = new Cookies();
-  const user_id = cookies.get("user_token");
-  console.log("App Bar:\nID_TOKEN= ", user_id);
+
+  const { user } = useUser();
   const isBig = useMediaQuery("(min-width:800px)");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -68,6 +73,7 @@ export default function CustomAppBar() {
   const menuThreeList = [
     {
       type: "normal",
+
       title: "Profile",
       onClick: () => {
         // alert("Profile");
@@ -114,6 +120,36 @@ export default function CustomAppBar() {
       },
     },
   ];
+  ];
+
+  useEffect(() => {
+    if (user) {
+      console.log("adding new user");
+      axiosInstance
+        .get("/login", {
+          params: {
+            user_id: user.sub,
+            user_nickname: user.nickname,
+            user_email: user.email,
+          },
+        })
+        .then((response) => {
+          console.log("response from backend" + response);
+          if (response["status"] == 200) {
+            console.log("success");
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            // TODO temp redirection
+            // cookies.remove("user_token", { path: "/" });
+            // cookies.remove("user_id", { path: "/" });
+            // window.location.href = "./error/403";
+          }
+        });
+    }
+  }, []);
 
   return (
     <ContainerWrapper>
@@ -136,13 +172,21 @@ export default function CustomAppBar() {
           <SearchBar />
         </Box>
 
+
         <div>
-          {user_id == undefined || user_id == "null" ? <Login /> : <Logout />}
-        </div>
-        <div>
-          {user_id == undefined || user_id == "null" ? (
-            <></>
+          {user ? (
+            <Link href="/api/auth/logout">
+              <a>Log Out</a>
+            </Link>
           ) : (
+            <Link href="/api/auth/login">
+              <a>Logged In</a>
+            </Link>
+          )}
+        </div>
+
+        <div>
+          {user ? (
             <div>
               <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
                 <IconButton
@@ -170,12 +214,14 @@ export default function CustomAppBar() {
                   }}
                 >
                   <NotificationList />
+
                   <HrWrapper />
                   <Link href="/notification/notification">
                     <a style={{ textDecoration: "none", color: "#191970" }}>
                       <div
                         style={{ textAlign: "center", marginBottom: "0.5rem" }}
                         onClick={handleClose}
+
                       >
                         View all
                       </div>
@@ -184,13 +230,14 @@ export default function CustomAppBar() {
                 </Popover>
               </Box>
             </div>
+          ) : (
+            <></>
           )}
         </div>
         <div>
           {isBig ? (
-            user_id == undefined || user_id == "null" ? (
-              <> </>
-            ) : (
+
+            user ? (
               <div>
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
                 <Link href="/user/profile">
@@ -199,6 +246,9 @@ export default function CustomAppBar() {
                   </IconButton>
                 </Link>
               </div>
+
+            ) : (
+              <> </>
             )
           ) : (
             <CustomMenu icon={<MenuIcon />} itemList={menuList} />
