@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
 from datetime import datetime
 #Import tag to check/add tag for the post
@@ -12,6 +12,7 @@ def add_post(user_id, title, text, img_url, tags):
     new_post_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -30,6 +31,7 @@ def add_post(user_id, title, text, img_url, tags):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
@@ -55,6 +57,7 @@ def add_user_like_post(user_id, post_id):
     new_user_post_like_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -71,6 +74,7 @@ def add_user_like_post(user_id, post_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -82,6 +86,7 @@ def add_user_like_post(user_id, post_id):
 ##########################################################
 def get_post_feed(page, order):
     # Obtainting DB cursor
+    conn = get_connection()
     cur = conn.cursor()
 
     #Set up query statements and values
@@ -127,6 +132,7 @@ def get_post_feed(page, order):
     #Close cursor
     cur.close()
     conn.commit()
+    conn.close()
 
     # return the results!
     res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
@@ -136,6 +142,7 @@ def get_post_feed(page, order):
 def get_posts():
     try:
         # Obtainting DB cursor
+        conn = get_connection()
         cur = conn.cursor()
 
         #Set up query statements and values
@@ -154,6 +161,8 @@ def get_posts():
 
         #Close cursor
         cur.close()
+        conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         return None
@@ -164,6 +173,7 @@ def get_posts():
 def get_posts_by_user(user_id):
     try:
         # Obtainting DB cursor
+        conn = get_connection()
         cur = conn.cursor()
 
         #Set up query statements and values
@@ -182,6 +192,8 @@ def get_posts_by_user(user_id):
 
         #Close cursor
         cur.close()
+        conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         return -1
@@ -192,6 +204,7 @@ def get_posts_by_user(user_id):
 def search_posts(input):
     try:
         # Obtainting DB cursor
+        conn = get_connection()
         cur = conn.cursor()
 
         #Set up query statements and values
@@ -211,6 +224,7 @@ def search_posts(input):
 
         #Close cursor
         cur.close()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error search database for tags: {e}")
         return None
@@ -222,6 +236,7 @@ def search_posts(input):
 def get_post_by_id(post_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -240,6 +255,7 @@ def get_post_by_id(post_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         return None
@@ -250,6 +266,7 @@ def get_post_by_id(post_id):
 def check_if_user_liked_post(user_id, post_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -264,6 +281,7 @@ def check_if_user_liked_post(user_id, post_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -277,6 +295,7 @@ def update_post(post_id, title, text, image, tags):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -291,6 +310,7 @@ def update_post(post_id, title, text, image, tags):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
         #Clear all the tags from the post
         if delete_all_tags_of_post(post_id) == 0:
@@ -324,6 +344,7 @@ def delete_user_like_post(user_id, post_id):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -337,6 +358,7 @@ def delete_user_like_post(user_id, post_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0

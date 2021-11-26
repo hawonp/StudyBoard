@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
 from datetime import datetime
 ##########################################################
@@ -9,6 +9,7 @@ from datetime import datetime
 def flag_post(id, user_id, flag_text):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -27,6 +28,7 @@ def flag_post(id, user_id, flag_text):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -38,6 +40,7 @@ def flag_post(id, user_id, flag_text):
 def flag_reply(id, user_id, post_id, flag_text):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -56,6 +59,7 @@ def flag_reply(id, user_id, post_id, flag_text):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -69,6 +73,7 @@ def flag_reply(id, user_id, post_id, flag_text):
 #Get list of flagged posts with offest page. return 10 entries each and max page count
 def get_flagged_posts():
     # Obtainting DB cursor
+    conn = get_connection()
     cur = conn.cursor()
 
     #Set up query statements and values
@@ -88,6 +93,7 @@ def get_flagged_posts():
     #Close cursor
     cur.close()
     conn.commit()
+    conn.close()
 
     # return the results!
     return json_data
@@ -95,6 +101,7 @@ def get_flagged_posts():
 #Get list of flagged replies with offest page. return 10 entries each and max page count
 def get_flagged_replies(page):
     # Obtainting DB cursor
+    conn = get_connection()
     cur = conn.cursor()
 
     #Set up query statements and values
@@ -135,6 +142,7 @@ def get_flagged_replies(page):
     #Close cursor
     cur.close()
     conn.commit()
+    conn.close()
 
     # return the results!
     res_data = {'replies': json_data, 'maxPageCount': (rv[0]//10 + 1)}

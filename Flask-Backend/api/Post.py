@@ -1,5 +1,3 @@
-from config.db_connect import conn
-
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
 from query.post_query import add_post, get_post_feed, get_posts, get_post_by_id, update_post

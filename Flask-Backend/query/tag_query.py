@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -8,6 +8,7 @@ def add_tag(tag):
     tag_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -25,6 +26,7 @@ def add_tag(tag):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -33,6 +35,7 @@ def add_tag(tag):
 def add_post_tag(tag_id, post_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -50,6 +53,7 @@ def add_post_tag(tag_id, post_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         tag_id = -1
@@ -59,6 +63,7 @@ def add_post_tag(tag_id, post_id):
 def add_user_tag(tag_id, user_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -76,6 +81,7 @@ def add_user_tag(tag_id, user_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         tag_id = -1
@@ -90,6 +96,7 @@ def add_user_tag(tag_id, user_id):
 def get_tag_by_name(tag_name):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -104,6 +111,7 @@ def get_tag_by_name(tag_name):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -112,6 +120,7 @@ def get_tag_by_name(tag_name):
 def get_post_tags(post_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -126,6 +135,7 @@ def get_post_tags(post_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = None
@@ -135,6 +145,7 @@ def get_post_tags(post_id):
 def get_user_tags(user_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -149,6 +160,7 @@ def get_user_tags(user_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = None
@@ -163,6 +175,7 @@ def delete_all_tags_of_post(post_id):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -176,6 +189,7 @@ def delete_all_tags_of_post(post_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
@@ -187,6 +201,7 @@ def delete_all_tags_of_user(user_id):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -200,6 +215,7 @@ def delete_all_tags_of_user(user_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
