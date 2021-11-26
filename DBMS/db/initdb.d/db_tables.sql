@@ -106,12 +106,14 @@ CREATE TABLE User_Reply_Like(
 
 CREATE TABLE Reply_Report(
     report_id INTEGER NOT NULL AUTO_INCREMENT,
+    post_id INTEGER NOT NULL,
     reply_id INTEGER NOT NULL,
     user_id VARCHAR(64) NOT NULL,
     report_text VARCHAR(256) NOT NULL,
     report_date DATETIME NOT NULL,
     PRIMARY KEY(report_id),
     FOREIGN KEY (reply_id) REFERENCES Reply(reply_id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE NO ACTION
 );
 

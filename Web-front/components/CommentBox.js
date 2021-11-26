@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 //Importing MUI
 import InputLabel from "@mui/material/InputLabel";
@@ -50,38 +51,7 @@ export const CommentBox = ({ postID }) => {
     setSort(event.target.value);
   };
 
-  const [comments, setComments] = useState([
-    // 더미 데이터 , 그리고 replyComment 는 댓글에 댓글 더미데이터
-    {
-      id: 1,
-      author: "landiggity",
-      body: "This is my first comment on this forum so don't be a dick",
-      replyComments: [
-        {
-          id: 11,
-          author: "scarlett-jo",
-          body: "That's a mighty fine comment you've got there my good looking fellow...",
-        },
-        {
-          id: 22,
-          author: "rosco",
-          body: "That's a mighty fine comment you've got there my good looking fellow...",
-        },
-      ],
-    },
-    {
-      id: 2,
-      author: "scarlett-jo",
-      body: "That's a mighty fine comment you've got there my good looking fellow...",
-      replyComments: [],
-    },
-    {
-      id: 3,
-      author: "rosco",
-      body: "What is the meaning of all of this 'React' mumbo-jumbo?",
-      replyComments: [],
-    },
-  ]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     //여기에다 댓글 Sorting
@@ -262,11 +232,16 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const router = useRouter();
 
   const report = () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: flagText },
+        params: {
+          userID: cookies.get("user_id"),
+          postID: router.query.id,
+          text: flagText,
+        },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
@@ -500,6 +475,7 @@ const Reply = ({ replyData }) => {
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const router = useRouter();
 
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
@@ -507,7 +483,11 @@ const Reply = ({ replyData }) => {
     // TODO: API POST (BACKEND NEED)
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: flagText },
+        params: {
+          userID: cookies.get("user_id"),
+          postID: router.query.id,
+          text: flagText,
+        },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);

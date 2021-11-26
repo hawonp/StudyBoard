@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import * as React from "react";
+import Link from "next/link";
 //Importing MUI
 import Container from "@mui/material/Container";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import LinkIcon from "@mui/icons-material/Link";
 import { ListItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,6 +21,7 @@ import { ReportContext } from "../contexts/ReportContext";
 
 const FLAGGEDENDPOINT = "/flagged";
 const POSTDATAENDPOINT = "/posts";
+const ROUTE_ID = "/posts/[id]";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -45,14 +48,6 @@ const BoxWrapper = ({ style, children }) => {
 //     return { number, nickname, contents, link, conform };
 //   }
 
-//   const rows = [
-//     createData(1, "pk-dev", "whawahwawh"),
-//     createData(2, "hawonjjang", "KIN"),
-//     createData(3, "HOHO", "I am smart"),
-//     createData(4, "Temp", "this is dumb"),
-//     createData(5, "Prof", "this is stupid"),
-//   ];
-
 export default function AdminPostList() {
   const [rows, setRows] = useContext(ReportContext);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,8 +56,9 @@ export default function AdminPostList() {
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + POSTDATAENDPOINT).then((response) => {
       console.log("dsad");
-      console.log(response.data);
       setRows(JSON.parse(response.data));
+      console.log(JSON.parse(response.data));
+      console.log(rows);
       setIsLoading(false);
     });
   }, []);
@@ -76,30 +72,28 @@ export default function AdminPostList() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="left">Number</TableCell>
-
-                <TableCell align="left">Nick Name</TableCell>
-                <TableCell align="center">Contents</TableCell>
-                <TableCell align="right">Link</TableCell>
-                <TableCell align="right">Conform</TableCell>
+                <TableCell align="left">Report ID</TableCell>
+                <TableCell align="left">Reported by</TableCell>
+                <TableCell align="center">Report Content</TableCell>
+                <TableCell align="right">Link to Post</TableCell>
+                <TableCell align="right">Accept / Deny</TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {rows.map((row) => (
-                <TableRow key={row.number}>
+                <TableRow key={row.report_id}>
                   <TableCell component="th" scope="row">
-                    {row.number}
+                    {row.report_id}
                   </TableCell>
-
-                  <TableCell align="left">{row.nickname}</TableCell>
-                  <TableCell align="center">{row.contents}</TableCell>
+                  <TableCell align="left">{row.user_nickname}</TableCell>
+                  <TableCell align="center">{row.report_text}</TableCell>
                   <TableCell align="right">
-                    <Link>
-                      <a>
-                        {/* link to the post */}
-                        <LinkIcon />
-                      </a>
+                    <Link
+                      href={{ pathname: ROUTE_ID, query: { id: row.post_id } }}
+                    >
+                      {/* link to the post */}
+                      <LinkIcon />
                     </Link>
                   </TableCell>
 

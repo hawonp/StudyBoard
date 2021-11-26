@@ -25,6 +25,7 @@ FLAG = '/flag'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
+    # userID: fields.Str(required=False)
     page = fields.Int(required=True)
     order = fields.Int(required=True)
     filter = fields.Str(required=True)
@@ -34,8 +35,8 @@ class PostDataSchema(Schema):
     title = fields.Str(required=True)
     text = fields.Str(required=True)
     imageURL = fields.Str(required=True)
-    tags = fields.List(fields.Str(), required=True)
-    uuid = fields.Str(required=True)
+    tags = fields.List(fields.Str())
+    uuid = fields.Str(required=False)
 
 class PostInteractorIDSchema(Schema):
     userID = fields.Str(required=True)
@@ -112,7 +113,7 @@ class PostData(Resource):
         #Now fetch the params
         title = formData["title"]
         text = formData["text"]
-        image_url = formData["image_url"]
+        image_url = formData["imageURL"]
         tags = formData["tags"]
 
         res = update_post(id, title, text, image_url, tags)
@@ -135,15 +136,16 @@ class PostWrite(Resource):
         text = formData["text"]
         image_url = formData["imageURL"]
         tags = formData["tags"]
-        uuid = formData["uuid"]
+        if image_url != "None":
+            uuid = formData["uuid"]
 
-        print("store image permanently")
-        auth = "Uploadcare.Simple" + ApplicationConfig.PUBLIC_KEY + ":" + ApplicationConfig.IMG_SECRET_KEY
-        headers = {'Accept': 'application/vnd.uploadcare-v0.5+json', 'Authorization': auth}
-        api_call = "https://api.uploadcare.com/files/" + uuid + "/storage/"
-        payload = {'UPLOADCARE_STORE ': '1'}
-        response = requests.put(api_call, params=payload, headers=headers)
-        print("permanently storing image: ", response)
+            print("store image permanently")
+            auth = "Uploadcare.Simple" + ApplicationConfig.PUBLIC_KEY + ":" + ApplicationConfig.IMG_SECRET_KEY
+            headers = {'Accept': 'application/vnd.uploadcare-v0.5+json', 'Authorization': auth}
+            api_call = "https://api.uploadcare.com/files/" + uuid + "/storage/"
+            payload = {'UPLOADCARE_STORE ': '1'}
+            response = requests.put(api_call, params=payload, headers=headers)
+            print("permanently storing image: ", response)
 
         res = add_post(user_id, title, text, image_url, tags)
         return res

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-export default function PostEditor({ setContent }) {
+export default function PostEditor({ setContent, content }) {
   const editorRef = useRef();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, CustomEditor } = editorRef.current || {};
@@ -19,7 +19,7 @@ export default function PostEditor({ setContent }) {
       <CKEditor
         style={{ minHeight: 300 }}
         editor={CustomEditor}
-        data="<p>Write your question here!</p>"
+        data={content}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           editor.editing.view.change((writer) => {

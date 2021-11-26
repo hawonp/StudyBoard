@@ -6,7 +6,7 @@ import * as React from "react";
 import FavoriteCard from "../../components/FavoriteCard";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../utils/routeUtil";
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -49,20 +49,20 @@ const LineWrapper = ({ style, children }) => {
 export default function Favorite() {
   const [favorites, setFavorites] = useState([]);
 
-  useEffect(async () =>  {
-    // TODO: API CALL (BACKEND)
-      const uid = (new Cookies()).get("user_id")
-      console.log('call api for uid', uid)
-      axiosInstance
-          .get('/posts/favourite', {
-              params: {
-                  userID: uid
-              }
-          }).then((response) => {
-              const posts = JSON.parse(response.data)['posts']
-          setFavorites(posts)
-      })
-  }, []);
+  // useEffect(async () =>  {
+  //   // TODO: API CALL (BACKEND)
+  //     const uid = (new Cookies()).get("user_id")
+  //     console.log('call api for uid', uid)
+  //     axiosInstance
+  //         .get('/posts/favourite', {
+  //             params: {
+  //                 userID: uid
+  //             }
+  //         }).then((response) => {
+  //             const posts = JSON.parse(response.data)['posts']
+  //         setFavorites(posts)
+  //     })
+  // }, []);
 
   return (
     <div style={{ display: "flex" }}>

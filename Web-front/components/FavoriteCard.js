@@ -33,7 +33,6 @@ export default function FavoriteCard({ favorite }) {
   const [postData, setPostData] = useState({});
   console.log(favorite);
   useEffect(() => {
-    
     // TODO: API CALL BACKEND NEED
 
     // favorite는 post id
@@ -101,7 +100,7 @@ export default function FavoriteCard({ favorite }) {
                   fontSize: "1rem",
                 }}
               >
-              {postData.post_text}
+                {postData.post_text}
               </Typography>
               <Typography
                 gutterBottom
@@ -114,24 +113,24 @@ export default function FavoriteCard({ favorite }) {
               >
                 {postData.date}
               </Typography>
-          </Box>
+            </Box>
 
-          {/*Icon*/}
-          <CardActionsWrapper>
-            {/* Like */}
-            <IconButton
-              aria-label="favorites"
-              sx={{ padding: 0, borderRadius: "4px" }}
-            >
-              <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {user_post_like} Likes
-              </div>
-            </IconButton>
+            {/*Icon*/}
+            <CardActionsWrapper>
+              {/* Like */}
+              <IconButton
+                aria-label="favorites"
+                sx={{ padding: 0, borderRadius: "4px" }}
+              >
+                <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+                <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  {user_post_like} Likes
+                </div>
+              </IconButton>
 
-            {/* Moderator */}
+              {/* Moderator */}
 
-            {/* <IconButton
+              {/* <IconButton
               aria-label="SmsIcon"
               sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
             >
@@ -140,32 +139,32 @@ export default function FavoriteCard({ favorite }) {
               </IconButton>
              */}
 
-            {/* Comment */}
-            <IconButton
-              aria-label="SmsIcon"
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
-            >
-              <SmsIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {reply_count} Comment
-              </div>
-            </IconButton>
+              {/* Comment */}
+              <IconButton
+                aria-label="SmsIcon"
+                sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+              >
+                <SmsIcon sx={{ fontSize: "1.2rem" }} />
+                <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  {reply_count} Comment
+                </div>
+              </IconButton>
 
-            {/* Share */}
-            <IconButton
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
-              aria-label="share"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-              }}
-            >
-              <ShareIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                &nbsp;Share
-              </div>
-            </IconButton>
+              {/* Share */}
+              <IconButton
+                sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+                aria-label="share"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                }}
+              >
+                <ShareIcon sx={{ fontSize: "1.2rem" }} />
+                <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  &nbsp;Share
+                </div>
+              </IconButton>
 
-            {/* report button
+              {/* report button
             <Modal
               open={open}
               onClose={handleClose}
@@ -211,7 +210,8 @@ export default function FavoriteCard({ favorite }) {
               &nbsp;
               <CountNumber> Report</CountNumber>
             </IconButton> */}
-          </CardActionsWrapper>
+            </CardActionsWrapper>
+          </Box>
         </Box>
       </Paper>
     </>

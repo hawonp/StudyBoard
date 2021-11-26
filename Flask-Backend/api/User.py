@@ -27,10 +27,6 @@ class UserInfoSchema(Schema):
 ############################
 class UserInfo(Resource):
     def get(self, id):
-        
-        token = request.args.get('id_token')
-        verify_id_token(token)
-        print("USER: verifying user token: ", token)
         user = get_user_by_id(id)
         tags = get_user_tags(id)
         data = {
