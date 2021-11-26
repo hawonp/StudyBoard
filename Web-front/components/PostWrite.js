@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
 import { Widget } from "@uploadcare/react-widget";
 import PostEditor from "./PostEditor";
-const cookies = new Cookies();
+
 const POSTDATAENDPOINT = "/posts";
 
 export function PostWrite() {
@@ -37,6 +37,7 @@ export function PostWrite() {
   // });
 
   const post = () => {
+    const { user } = useUser();
     console.log("title", title);
     console.log(typeof content);
     console.log("content", content);
@@ -55,7 +56,7 @@ export function PostWrite() {
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           title: title,
           text: content,
           imageURL: image,
