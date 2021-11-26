@@ -1,10 +1,13 @@
-import Box from "@mui/material/Box";
-import { TextField } from "@mui/material";
-import Button from "@mui/material/Button";
 import * as React from "react";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import Router from "next/router";
+import Link from "next/link";
+//Importing MUI
+import Box from "@mui/material/Box";
+import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
 
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";

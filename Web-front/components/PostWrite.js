@@ -18,7 +18,7 @@ export function PostWrite() {
   const [tag, setTag] = useState([]);
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState("");
-
+  const { user } = useUser();
   // widget.onChange(function (file) {
   //   console.log(file);
   // });
@@ -36,8 +36,7 @@ export function PostWrite() {
   //   }
   // });
 
-  const post = () => {
-    const { user } = useUser();
+  const post = (user) => {
     console.log("title", title);
     console.log(typeof content);
     console.log("content", content);
@@ -136,7 +135,7 @@ export function PostWrite() {
               sx={{ borderRadius: "8px" }}
               variant="contained"
               color="success"
-              onClick={post}
+              onClick={() => post(user)}
             >
               Post
             </Button>

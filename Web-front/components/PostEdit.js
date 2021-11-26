@@ -22,14 +22,13 @@ export default function EditPost({ postCard, finish }) {
     tags: null,
   };
   const router = useRouter();
-
+  const { user } = useUser();
   const [inputTitle, setInputTitle] = useState(title);
   const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
   const [inputTag, setInputTag] = useState(tags);
 
-  const savePost = async () => {
-    const { user } = useUser();
+  const savePost = async (user) => {
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
@@ -115,7 +114,7 @@ export default function EditPost({ postCard, finish }) {
             sx={{ borderRadius: "8px" }}
             variant="contained"
             color="success"
-            onClick={savePost}
+            onClick={() => savePost(user)}
           >
             SAVE
           </Button>

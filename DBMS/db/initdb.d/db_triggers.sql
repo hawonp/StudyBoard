@@ -88,5 +88,16 @@ BEGIN
 END; //
 delimiter ;
 
+-- Adding Replies --
+-- UPDATE REPLY Count for post when replyu has been added
+delimiter //
+CREATE TRIGGER Add_Reply AFTER INSERT ON Reply_To_Post
+FOR EACH ROW
+BEGIN
+
+    -- Increment the like count on the post
+    UPDATE Post SET Post.post_reply_count = Post.post_reply_count+1 WHERE post_id = NEW.post_id;
+END; //
+delimiter ;
 
 -- -- NOTIFICATIONS --

@@ -258,6 +258,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   //Handle like press
   const handleLikePressed = () => {
     const id = user.sub;
+
     const requestEndpoint =
       REPLYDATAENDPOINT + "/" + replyData.reply_id + LIKEENDPOINT;
     if (didUserLike) {

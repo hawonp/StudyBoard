@@ -55,7 +55,7 @@ export default function PostDetailPage() {
   const { user } = useUser();
   let userID = -1;
   if (user) {
-    user.sub;
+    userID = user.sub;
   }
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +70,7 @@ export default function PostDetailPage() {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         //Assign data according to whether the user liked the post
+        console.log(responseData);
         setPostData({
           id: responseData["post_id"],
           user: responseData["user_nickname"],
@@ -78,6 +79,7 @@ export default function PostDetailPage() {
           images: responseData["post_image"],
           tags: responseData["post_tags"],
           date: responseData["post_date"],
+          postLikeCount: responseData["post_like_count"],
           didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
           didUserFavourite:
             responseData["did_user_favourite_post"] != 0 ? true : false,
@@ -98,19 +100,27 @@ export default function PostDetailPage() {
         })
         .then((response) => {
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserLike };
+            return {
+              ...prevData,
+              didUserLike: !prevData.didUserLike,
+              postLikeCount: prevData.postLikeCount - 1,
+            };
           });
         });
     } else {
       axiosInstance
         .post(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserLike };
+            return {
+              ...prevData,
+              didUserLike: !prevData.didUserLike,
+              postLikeCount: prevData.postLikeCount + 1,
+            };
           });
         });
     }

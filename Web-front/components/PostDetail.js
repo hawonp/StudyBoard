@@ -194,9 +194,7 @@ export default function PostDetail({
             ) : (
               <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
-            <CountNumber>
-              &nbsp;{postData.post_like_count || 0} Likes
-            </CountNumber>
+            <CountNumber>&nbsp;{postData.postLikeCount || 0} Likes</CountNumber>
           </IconButton>
           {/*즐겨찾기 저장버튼*/}
           <IconButton
