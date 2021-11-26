@@ -97,140 +97,137 @@ export default function ProfileCard() {
   const [tags, setTags] = useState([]);
   const { user, error, isLoading } = useUser();
 
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-      console.log(user.sub);
-      console.log(user.nickname);
-      console.log(user.email);
-      console.log(user.last_ip);
-
-      setUserId(user.sub);
-
-      console.log("Crawling User Profile Data");
-      axiosInstance
-        .get(users + userId, {
-          params: {
-            user_id: user.sub,
-            user_nickname: user.nickname,
-            user_email: user.email,
-          },
-        })
-        .then((response) => {
-          console.log("response from backend" + response);
-          if (response["status"] == 200) {
-            const temp = response["data"];
-            const temp_json = JSON.parse(temp);
-            const user_nickname = temp_json.user.user_nickname;
-            const tag = temp_json.tags;
-            setNickname(user_nickname);
-            setTags(tag);
-            console.log(tag);
-            setIsLoading(false);
-          }
-        })
-        .catch((e) => {
-          const resp = e.response;
-          if (resp["status"] == 403) {
-            // TODO temp redirection
-            // cookies.remove("user_token", { path: "/" });
-            // cookies.remove("user_id", { path: "/" });
-            // window.location.href = "./error/403";
-          }
-        });
-    }
-  }, []);
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+  if (user) {
+    // useEffect(() => {
 
-  return (
-    <div>
-      {user ? (
-        <Grid item xs={2}>
-          <BoxWrapper>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ flex: 1, marginLeft: "1rem" }}>
-                {/*user name*/}
-                <h4>{nickname}</h4>
+    // }, []);
+    console.log(user);
+    console.log(user.sub);
+    console.log(user.nickname);
+    console.log(user.email);
+    console.log(user.last_ip);
+
+    setUserId(user.sub);
+
+    console.log("Crawling User Profile Data");
+    // axiosInstance
+    //   .get(users + userId, {
+    //     params: {
+    //       user_id: user.sub,
+    //       user_nickname: user.nickname,
+    //       user_email: user.email,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log("response from backend" + response);
+    //     if (response["status"] == 200) {
+    //       const temp = response["data"];
+    //       const temp_json = JSON.parse(temp);
+    //       const user_nickname = temp_json.user.user_nickname;
+    //       const tag = temp_json.tags;
+    //       setNickname(user_nickname);
+    //       setTags(tag);
+    //       console.log(tag);
+    //     }
+    //   });
+    // .catch((e) => {
+    //   const resp = e.response;
+    //   if (resp["status"] == 403) {
+    //     // TODO temp redirection
+    //     // cookies.remove("user_token", { path: "/" });
+    //     // cookies.remove("user_id", { path: "/" });
+    //     // window.location.href = "./error/403";
+    //   }
+    // });
+
+    return (
+      <div>
+        {user ? (
+          <Grid item xs={2}>
+            <BoxWrapper>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ flex: 1, marginLeft: "1rem" }}>
+                  {/*user name*/}
+                  <h4>{nickname}</h4>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    marginRight: "0.8rem",
+                  }}
+                >
+                  {/*만약 수퍼유저가 아니면 안보이게 */}
+                  <Link href="/admin/admin">
+                    <AdminPanelSettingsIcon
+                      sx={{ marginLeft: "1rem", color: "darkred" }}
+                    />
+                  </Link>
+                </div>
               </div>
+
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "end",
-                  marginRight: "0.8rem",
+                  flex: "1",
+                  flexDirection: "column",
+                  marginLeft: "1rem",
                 }}
               >
-                {/*만약 수퍼유저가 아니면 안보이게 */}
-                <Link href="/admin/admin">
-                  <AdminPanelSettingsIcon
-                    sx={{ marginLeft: "1rem", color: "darkred" }}
-                  />
-                </Link>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flex: "1",
-                flexDirection: "column",
-                marginLeft: "1rem",
-              }}
-            >
-              <TagWrapper>
-                {tags.map((tag, i) => (
-                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-                ))}
-              </TagWrapper>
-              {/* 테스트 */}
-              <TagWrapper>
-                <HashtagWrapper>tag</HashtagWrapper>
-                <HashtagWrapper>Hard</HashtagWrapper>
-                <HashtagWrapper>CSE</HashtagWrapper>
-              </TagWrapper>
-
-            </div>
-
-            {/*Link to My Post, Favorite, Notification*/}
-            <IconWrapper>
-              {/* 자기 자신이 쓴글들이 모이는곳*/}
-              <div style={{ display: "inline-block" }}>
-                <Link href="/myPost">
-                  <IconButton
-                    aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
-                  >
-                    <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
-
-                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      My Post
-                    </p>
-                  </IconButton>
-                </Link>
-
+                <TagWrapper>
+                  {tags.map((tag, i) => (
+                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                  ))}
+                </TagWrapper>
+                {/* 테스트 */}
+                <TagWrapper>
+                  <HashtagWrapper>tag</HashtagWrapper>
+                  <HashtagWrapper>Hard</HashtagWrapper>
+                  <HashtagWrapper>CSE</HashtagWrapper>
+                </TagWrapper>
               </div>
 
-              {/* 자기가 좋아하는걸 모이게 하는곳*/}
-              <div style={{ display: "inline-block" }}>
-                <Link href="/favorite/favorite">
-                  <IconButton
-                    aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
-                  >
-                    <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
-                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      Favorite
-                    </p>
-                  </IconButton>
-                </Link>
-              </div>
-            </IconWrapper>
-          </BoxWrapper>
-        </Grid>
-      ) : (
-        <></>
-      )}
-    </div>
-  );
+              {/*Link to My Post, Favorite, Notification*/}
+              <IconWrapper>
+                {/* 자기 자신이 쓴글들이 모이는곳*/}
+                <div style={{ display: "inline-block" }}>
+                  <Link href="/myPost">
+                    <IconButton
+                      aria-label="favorites"
+                      sx={{ borderRadius: "4px" }}
+                    >
+                      <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
+
+                      <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                        My Post
+                      </p>
+                    </IconButton>
+                  </Link>
+                </div>
+
+                {/* 자기가 좋아하는걸 모이게 하는곳*/}
+                <div style={{ display: "inline-block" }}>
+                  <Link href="/favorite/favorite">
+                    <IconButton
+                      aria-label="favorites"
+                      sx={{ borderRadius: "4px" }}
+                    >
+                      <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
+                      <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                        Favorite
+                      </p>
+                    </IconButton>
+                  </Link>
+                </div>
+              </IconWrapper>
+            </BoxWrapper>
+          </Grid>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
+  }
 }
