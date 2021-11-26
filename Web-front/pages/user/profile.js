@@ -3,33 +3,23 @@ import ProfileCard from "../../components/ProfileCard";
 import * as React from "react";
 import ProfileInfo from "../../components/ProfileInfo";
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
+
 //Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 const users = "/users/";
-export default function Profile() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [profile, setProfile] = useState({
-    // email: "PK@naver.com",
-    // nick: "PKPKPK",
-    // tag: "#MATH #CSE #HARD",
-  });
 
-  const cookies = new Cookies();
-  const user_id = cookies.get("user_id");
-  const id_token = cookies.get("user_token");
+export default function Profile() {
+  const { user } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
+  const [profile, setProfile] = useState({});
 
   useEffect(() => {
-    if (user_id == null || user_id == undefined || user_id == "null") {
-      console.log("User Id is null");
-    } else {
+    if (user) {
       console.log("Get profile info to display in user/profile");
+      console.log(user);
       axiosInstance
-        .get(users + user_id, {
-          params: {
-            id_token: id_token,
-          },
-        })
+        .get(users + user.sub, {})
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];
@@ -42,22 +32,20 @@ export default function Profile() {
               nick: user_info.user_nickname,
               tag: temp_json.tags,
             });
-            setIsLoading(false);
+            setIsLoading(true);
           }
         })
         .catch((e) => {
           const resp = e.response;
           if (resp["status"] == 403) {
             // TODO temp redirection
-            cookies.remove("user_token", { path: "/" });
-            cookies.remove("user_id", { path: "/" });
             window.location.href = "../error/403";
           }
         });
     }
-  }, []);
+  }, [isLoading]);
 
-  if (isLoading) {
+  if (!isLoading) {
     return <div> Loading ... </div>;
   } else {
     return (

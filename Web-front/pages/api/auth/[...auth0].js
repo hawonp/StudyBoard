@@ -1,5 +1,5 @@
 // pages/api/auth/[...auth0].js
-import { handleAuth, handleCallback } from "@auth0/nextjs-auth0";
+import { handleAuth, handleCallback, handleLogout } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../../utils/routeUtil";
 
 const afterCallback = (req, res, session, state) => {
@@ -31,6 +31,7 @@ const afterCallback = (req, res, session, state) => {
         // window.location.href = "./error/403";
       }
     });
+  console.log("After callback -> make AXIOS call");
 
   return session;
 };
