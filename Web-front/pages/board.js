@@ -101,6 +101,13 @@ export default function Board() {
         setPosts(JSON.parse(response.data)["posts"]);
         setMaxPage(JSON.parse(response.data)["maxPageCount"]);
         console.log(response);
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          // TODO temp redirection
+          alert("could not load data");
+        }
       });
     setIsLoading(false);
   }, [feedPage, feedOrder, feedFilter]);
@@ -140,7 +147,7 @@ export default function Board() {
           </Head>
 
           {/*{!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}*/}
-          {!isBig && <ProfileCard />}
+          {/* {!isBig && <ProfileCard />} */}
 
           {/* Write Qeustion */}
           <PostNavigation />

@@ -11,7 +11,7 @@ const users = "/users/";
 
 export default function Profile() {
   const { user } = useUser();
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Profile() {
               nick: user_info.user_nickname,
               tag: temp_json.tags,
             });
-            // setIsLoading(true);
+            setIsLoading(true);
           }
         })
         .catch((e) => {
@@ -43,21 +43,21 @@ export default function Profile() {
           }
         });
     }
-  }, []);
+  }, [isLoading]);
 
-  // if (!isLoading) {
-  //   return <div> Loading ... </div>;
-  // } else {
-  return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <Container>
-          {/* Profile information */}
-          <ProfileInfo profile={profile} />
-        </Container>
+  if (!isLoading) {
+    return <div> Loading ... </div>;
+  } else {
+    return (
+      <div style={{ display: "flex" }}>
+        <div>
+          <Container>
+            {/* Profile information */}
+            <ProfileInfo profile={profile} />
+          </Container>
+        </div>
+        <ProfileCard />
       </div>
-      <ProfileCard />
-    </div>
-  );
+    );
+  }
 }
-// }
