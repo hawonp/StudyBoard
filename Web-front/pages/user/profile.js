@@ -14,10 +14,7 @@ export default function Profile() {
   const [dataLoaded, setDataLoading] = useState(false);
   const [profile, setProfile] = useState({});
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
   // if (user){
-
   // }
   useEffect(() => {
     if (user) {
@@ -50,6 +47,8 @@ export default function Profile() {
     }
   }, [dataLoaded]);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
   // if (!profile) return <Spinner />;
 
   if (!dataLoaded) {
