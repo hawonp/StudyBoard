@@ -12,13 +12,10 @@ import Image from "next/image";
 import Login from "./Login";
 import Logout from "./Logout";
 import Cookies from "universal-cookie";
-import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import NotificationList from "../components/NotificationList";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
-import NotificationList from "../components/NotificationList";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect } from "react";
 import axiosInstance from "../utils/routeUtil";
@@ -53,7 +50,6 @@ const ContainerWrapper = ({ style, children }) => {
 };
 
 export default function CustomAppBar() {
-
   const { user } = useUser();
   const isBig = useMediaQuery("(min-width:800px)");
 
@@ -120,7 +116,6 @@ export default function CustomAppBar() {
       },
     },
   ];
-  ];
 
   useEffect(() => {
     if (user) {
@@ -172,7 +167,6 @@ export default function CustomAppBar() {
           <SearchBar />
         </Box>
 
-
         <div>
           {user ? (
             <Link href="/api/auth/logout">
@@ -221,7 +215,6 @@ export default function CustomAppBar() {
                       <div
                         style={{ textAlign: "center", marginBottom: "0.5rem" }}
                         onClick={handleClose}
-
                       >
                         View all
                       </div>
@@ -236,7 +229,6 @@ export default function CustomAppBar() {
         </div>
         <div>
           {isBig ? (
-
             user ? (
               <div>
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
@@ -246,7 +238,6 @@ export default function CustomAppBar() {
                   </IconButton>
                 </Link>
               </div>
-
             ) : (
               <> </>
             )
