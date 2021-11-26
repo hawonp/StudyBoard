@@ -35,7 +35,7 @@ const DetailWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        alignItems: "center",
+        // alignItems: "center",
         border: "0.1rem solid lightgray",
         backgroundColor: "white",
         borderRadius: "8px",

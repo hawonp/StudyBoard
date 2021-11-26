@@ -8,6 +8,14 @@ import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
 import IconButton from "@mui/material/IconButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Image from "next/image";
+import Login from "./Login";
+import Logout from "./Logout";
+import Cookies from "universal-cookie";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import NotificationList from "../components/NotificationList";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import NotificationList from "../components/NotificationList";
@@ -45,6 +53,7 @@ const ContainerWrapper = ({ style, children }) => {
 };
 
 export default function CustomAppBar() {
+
   const { user } = useUser();
   const isBig = useMediaQuery("(min-width:800px)");
 
@@ -60,6 +69,22 @@ export default function CustomAppBar() {
 
   const open = Boolean(anchorEl);
   const id = open ? "" : undefined;
+
+  const menuThreeList = [
+    {
+      type: "normal",
+
+      title: "Profile",
+      onClick: () => {
+        // alert("Profile");
+        window.location.href = "/user/profile";
+      },
+    },
+    // {
+    //   type: 'special',
+    //   component: <Logout />
+    // },
+  ];
 
   const menuList = [
     {
@@ -94,6 +119,7 @@ export default function CustomAppBar() {
         window.location.href = "/user/profile";
       },
     },
+  ];
   ];
 
   useEffect(() => {
@@ -146,6 +172,7 @@ export default function CustomAppBar() {
           <SearchBar />
         </Box>
 
+
         <div>
           {user ? (
             <Link href="/api/auth/logout">
@@ -181,15 +208,20 @@ export default function CustomAppBar() {
                     vertical: "bottom",
                     horizontal: "right",
                   }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
                 >
-                  <Typography sx={{ p: "1.2rem" }}>
-                    <NotificationList />
-                  </Typography>
+                  <NotificationList />
+
                   <HrWrapper />
                   <Link href="/notification/notification">
                     <a style={{ textDecoration: "none", color: "#191970" }}>
                       <div
                         style={{ textAlign: "center", marginBottom: "0.5rem" }}
+                        onClick={handleClose}
+
                       >
                         View all
                       </div>
@@ -204,6 +236,7 @@ export default function CustomAppBar() {
         </div>
         <div>
           {isBig ? (
+
             user ? (
               <div>
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
@@ -213,6 +246,7 @@ export default function CustomAppBar() {
                   </IconButton>
                 </Link>
               </div>
+
             ) : (
               <> </>
             )

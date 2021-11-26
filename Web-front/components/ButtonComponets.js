@@ -22,6 +22,7 @@ export default function ButtonComponets() {
     <CardActions disableSpacing sx={{ justifyContent: "end" }}>
       <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
         <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+
         <CountNumber>4 Likes</CountNumber>
       </IconButton>
       {/* post_like_count */}
@@ -34,6 +35,7 @@ export default function ButtonComponets() {
 
       <IconButton aria-label="SmsIcon" sx={{ borderRadius: "4px" }}>
         <SmsIcon sx={{ fontSize: "1.2rem" }} />
+        &nbsp;
         <CountNumber>5 Replies</CountNumber>
       </IconButton>
       {/* post_reply_count */}
