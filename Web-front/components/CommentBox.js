@@ -46,17 +46,11 @@ export const CommentBox = ({ postID }) => {
   const { user } = useUser();
 
   // 필터
-  const [sort, setSort] = React.useState("All");
   const handleChange = (event) => {
-    setSort(event.target.value);
+    setFeedOrder(event.target.value);
   };
 
   const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    //여기에다 댓글 Sorting
-    // TODO: API Backend NEED
-  }, [sort]);
 
   //Load comments upon render
   useEffect(() => {
@@ -79,7 +73,7 @@ export const CommentBox = ({ postID }) => {
         setComments(responseData);
       });
     setLoadingReplies(false);
-  }, [loadingReplies]);
+  }, [loadingReplies, feedOrder]);
 
   // Switch to show and hide replies
   let buttonText = showComments ? "Hide Comments" : "Show Comments";
@@ -163,12 +157,12 @@ export const CommentBox = ({ postID }) => {
           </InputLabel> */}
           <Select
             id="demo-simple-select-standard"
-            value={sort}
+            value={feedOrder}
             onChange={handleChange}
           >
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Like"}>Like</MenuItem>
-            <MenuItem value={"Inf"}>Moderator</MenuItem>
+            <MenuItem value={0}>Newest</MenuItem>
+            <MenuItem value={1}>Liked Most</MenuItem>
+            <MenuItem value={2}>Highest Ranking</MenuItem>
           </Select>
         </FormControl>
       </Box>

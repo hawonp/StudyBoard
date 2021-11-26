@@ -11,6 +11,7 @@ export default function FilterButton({
   user,
   handleSortClick,
   handleFilterChange,
+  filter,
 }) {
   const handleChange = (event) => {
     setPreferred(event.target.value);
@@ -41,7 +42,7 @@ export default function FilterButton({
           labelId="preferred tags"
           id="preferred tags"
           variant="outlined"
-          value={1}
+          value={filter}
           onChange={(event) => handleFilterChange(event.target.value)}
         >
           <MenuItem value={0}>All</MenuItem>

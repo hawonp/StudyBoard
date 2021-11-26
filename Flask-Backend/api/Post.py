@@ -26,9 +26,9 @@ FLAG = '/flag'
 ############################
 class FeedPostSchema(Schema):
     userID = fields.Str(required=True)
-    page = fields.Str(required=True)
-    order = fields.Str(required=True)
-    filter = fields.Str(required=True)
+    page = fields.Int(required=True)
+    order = fields.Int(required=True)
+    filter = fields.Int(required=True)
 
 class PostDataSchema(Schema):
     userID = fields.Str(required=True)
@@ -57,12 +57,17 @@ class FeedPostData(Resource):
             abort(400, str(errors))
         
         #Assuming all params have been validated.
+        user_id = request.args.get('userID')
         page = int(request.args.get('page'))
         order = int(request.args.get('order'))
-        filter = request.args.get('filter')
-        print(request.args.get('userID'))
+        filter = int(request.args.get('filter'))
+        print("received user id", request.args.get('userID'))
         #Get posts with given offset, sort order and tag filter
-        feed = get_post_feed(page, order, None)
+        if filter:
+            # feed = get_post_feed_with_filter(page, order, user_id)
+            feed = get_post_feed(page, order)
+        else:
+            feed = get_post_feed(page, order)
 
         #For every post, get the tags and append it to the respective post object
         for post in feed['posts']:            
@@ -83,6 +88,7 @@ class PostData(Resource):
 
         #Now get the tags
         print("Getting post tags with retrieved post data:", post)
+        print("post id:", post["post_id"])
         post_tags = get_post_tags(post["post_id"])
         tags = []
         for tag in post_tags:
@@ -103,7 +109,7 @@ class PostData(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
+        print("formdata", formData)
         errors = post_data_schema.validate(formData)
 
         if errors:

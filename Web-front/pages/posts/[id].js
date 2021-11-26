@@ -149,7 +149,7 @@ export default function PostDetailPage() {
       axiosInstance
         .post(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {
