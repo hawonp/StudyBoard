@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import ProfileCard from "../components/ProfileCard";
+import { useUser } from "@auth0/nextjs-auth0";
+//Importing MUI
 import Container from "@mui/material/Container";
+
+import ProfileCard from "../components/ProfileCard";
 import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
@@ -61,18 +64,22 @@ export default function Board() {
   const [expanded, setExpanded] = useState(false);
 
   const isBig = useMediaQuery("(min-width:850px)");
-
+  const { user } = useUser();
   const [feedPage, setFeedPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [feedOrder, setFeedOrder] = useState(0);
-  const [feedFilter, setFeedFilter] = useState(1);
+  const [feedFilter, setFeedFilter] = useState(0);
   const [posts, setPosts] = useState([]);
 
   //Load posts when component mounts
   useEffect(() => {
+    if (user) {
+      setFeedFilter(1);
+    }
     axiosInstance
       .get(POST_FEED, {
         params: {
+          // userID: user.sub,
           page: feedPage,
           order: feedOrder,
           filter: feedFilter,
@@ -126,6 +133,7 @@ export default function Board() {
         {/*filter*/}
         <FilterBox>
           <FilterButton
+            user={user}
             handleSortClick={updateOrder}
             handleFilterChange={updateFilter}
           />

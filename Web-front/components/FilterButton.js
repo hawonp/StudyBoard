@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+
 //Importing MUI
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -7,8 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { InputLabel, Select } from "@mui/material";
 
-export default function FilterButton({ handleSortClick, handleFilterChange }) {
-  const { user } = useUser();
+export default function FilterButton({
+  user,
+  handleSortClick,
+  handleFilterChange,
+}) {
   const handleChange = (event) => {
     setPreferred(event.target.value);
   };

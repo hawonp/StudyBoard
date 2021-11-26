@@ -25,6 +25,7 @@ FLAG = '/flag'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
+    # userID: fields.Str(required=False)
     page = fields.Int(required=True)
     order = fields.Int(required=True)
     filter = fields.Str(required=True)
