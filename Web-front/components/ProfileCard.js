@@ -95,20 +95,16 @@ export default function ProfileCard() {
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
-  const { user } = useUser();
-  const [isLoading, setIsLoading] = useState(true);
-  //Load posts when component mounts
-
-  if (user) {
-    console.log(user);
-    console.log(user.sub);
-    console.log(user.nickname);
-    console.log(user.email);
-    console.log(user.last_ip);
-  }
+  const { user, error, isLoading } = useUser();
 
   useEffect(() => {
     if (user) {
+      console.log(user);
+      console.log(user.sub);
+      console.log(user.nickname);
+      console.log(user.email);
+      console.log(user.last_ip);
+
       setUserId(user.sub);
 
       console.log("Crawling User Profile Data");
@@ -143,92 +139,85 @@ export default function ProfileCard() {
           }
         });
     }
-  }, [isLoading]);
+  }, []);
 
-  if (isLoading) {
-    return <div> Loading... </div>;
-  } else {
-    return (
-      <div>
-        {user ? (
-          <Grid item xs={2}>
-            <BoxWrapper>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {/*프로필 아바타*/}
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
-                <div style={{ flex: 1, marginLeft: "1rem" }}>
-                  {/*user name*/}
-                  <h4>{nickname}</h4>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    marginRight: "0.8rem",
-                  }}
-                >
-                  {/*만약 수퍼유저가 아니면 안보이게 */}
-                  <Link href="/admin/admin">
-                    <AdminPanelSettingsIcon
-                      sx={{ marginLeft: "1rem", color: "darkred" }}
-                    />
-                  </Link>
-                </div>
+  return (
+    <div>
+      {user ? (
+        <Grid item xs={2}>
+          <BoxWrapper>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {/*프로필 아바타*/}
+
+              <div style={{ flex: 1, marginLeft: "1rem" }}>
+                {/*user name*/}
+                <h4>{nickname}</h4>
               </div>
-
               <div
                 style={{
                   display: "flex",
-                  flex: "1",
-                  flexDirection: "column",
-                  marginLeft: "1rem",
+                  justifyContent: "end",
+                  marginRight: "0.8rem",
                 }}
               >
-                <TagWrapper>
-                  {tags.map((tag, i) => (
-                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-                  ))}
-                </TagWrapper>
+                {/*만약 수퍼유저가 아니면 안보이게 */}
+                <Link href="/admin/admin">
+                  <AdminPanelSettingsIcon
+                    sx={{ marginLeft: "1rem", color: "darkred" }}
+                  />
+                </Link>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flex: "1",
+                flexDirection: "column",
+                marginLeft: "1rem",
+              }}
+            >
+              <TagWrapper>
+                {tags.map((tag, i) => (
+                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                ))}
+              </TagWrapper>
+            </div>
+
+            {/*Link to My Post, Favorite, Notification*/}
+            <IconWrapper>
+              {/* 자기 자신이 쓴글들이 모이는곳*/}
+              <div style={{ display: "inline-block" }}>
+                <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
+                  <Link href="/myPost">
+                    <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
+                  </Link>
+                  <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                    My Posts
+                  </p>
+                </IconButton>
               </div>
 
-              {/*Link to My Post, Favorite, Notification*/}
-              <IconWrapper>
-                {/* 자기 자신이 쓴글들이 모이는곳*/}
-                <div style={{ display: "inline-block" }}>
-                  <IconButton
-                    aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
-                  >
-                    <Link href="/myPost">
-                      <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
-                    </Link>
-                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      My Posts
-                    </p>
-                  </IconButton>
-                </div>
-
-                {/* 자기가 좋아하는걸 모이게 하는곳*/}
-                <div style={{ display: "inline-block" }}>
-                  <IconButton
-                    aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
-                  >
-                    <Link href="/favorite/favorite">
-                      <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
-                    </Link>
-                    <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      Favorite
-                    </p>
-                  </IconButton>
-                </div>
-              </IconWrapper>
-            </BoxWrapper>
-          </Grid>
-        ) : (
-          <></>
-        )}
-      </div>
-    );
-  }
+              {/* 자기가 좋아하는걸 모이게 하는곳*/}
+              <div style={{ display: "inline-block" }}>
+                <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
+                  <Link href="/favorite/favorite">
+                    <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
+                  </Link>
+                  <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                    Favorite
+                  </p>
+                </IconButton>
+              </div>
+            </IconWrapper>
+          </BoxWrapper>
+        </Grid>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
 }
