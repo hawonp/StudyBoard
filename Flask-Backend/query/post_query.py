@@ -80,7 +80,7 @@ def add_user_like_post(user_id, post_id):
 ##########################################################
 #                         SELECT                         #
 ##########################################################
-def get_post_feed(page, order, filter):
+def get_post_feed(page, order):
     # Obtainting DB cursor
     cur = conn.cursor()
 

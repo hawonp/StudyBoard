@@ -85,7 +85,6 @@ export default function Board() {
     });
     let userID = "";
     if (user) {
-      setFeedFilter(1);
       userID = user.sub;
     }
     axiosInstance
@@ -158,6 +157,7 @@ export default function Board() {
               user={user}
               handleSortClick={updateOrder}
               handleFilterChange={updateFilter}
+              filter={feedFilter}
             />
           </FilterBox>
 
