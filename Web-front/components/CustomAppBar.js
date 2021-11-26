@@ -141,8 +141,6 @@ export default function CustomAppBar() {
         </div>
         <div>
           {user_id == undefined || user_id == "null" ? (
-            <></>
-          ) : (
             <div>
               <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
                 <IconButton
@@ -184,6 +182,8 @@ export default function CustomAppBar() {
                 </Popover>
               </Box>
             </div>
+          ) : (
+            <></>
           )}
         </div>
         <div>

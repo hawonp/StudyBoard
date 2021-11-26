@@ -137,8 +137,6 @@ export default function ProfileCard() {
   return (
     <div>
       {user_id == undefined || user_id == "null" ? (
-        <></>
-      ) : (
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -219,6 +217,8 @@ export default function ProfileCard() {
             </IconWrapper>
           </BoxWrapper>
         </Grid>
+      ) : (
+        <></>
       )}
     </div>
   );

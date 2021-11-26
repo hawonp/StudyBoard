@@ -119,6 +119,7 @@ export default function MyPostList({ mypost }) {
               </Typography>
             </Box>
           </Box>
+
           <CardActionsWrapper>
             {/* Like */}
             <IconButton
