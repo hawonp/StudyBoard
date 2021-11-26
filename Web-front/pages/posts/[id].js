@@ -53,9 +53,9 @@ const DetailWrapper = ({ style, children }) => {
 export default function PostDetailPage() {
   const router = useRouter();
   const { user } = useUser();
-  let userID = user.sub;
-  if (!user) {
-    userID = -1;
+  let userID = -1;
+  if (user) {
+    user.sub;
   }
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

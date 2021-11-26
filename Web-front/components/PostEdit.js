@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import PostEditor from "./PostEditor";
 import axiosInstance from "../utils/routeUtil";
 
-const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
 export default function EditPost({ postCard, finish }) {
@@ -30,10 +29,11 @@ export default function EditPost({ postCard, finish }) {
   const [inputTag, setInputTag] = useState(tags);
 
   const savePost = async () => {
+    const { user } = useUser();
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           title: inputTitle,
           text: inputContents,
           imageURL: inputImages,
