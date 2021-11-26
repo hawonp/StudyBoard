@@ -1,6 +1,6 @@
 from config.imports import mariadb
 from config.db_connect import conn
-from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name
+from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name, get_user_tags
 
 ##########################################################
 #                         INSERT                         #
@@ -128,30 +128,42 @@ def get_user_by_id(id):
         conn.commit()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+        res = -1
     
     return res
 
 #Get user by rank (rank page)
-def get_users_order_by_rank(id):
+def get_users_order_by_rank():
     try:
         #Obtain DB cursor
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT user_id, user_nickname FROM User ORDER BY user_likes_received DESC, user_flags_received ASC LIMIT 10"
+        query = "SELECT user_id, user_nickname, user_likes_received FROM User ORDER BY user_likes_received DESC, user_flags_received ASC LIMIT 10"
 
         #Getting data from table
-        print("Searching with query", query, " and values ", values)
+        print("Searching with query", query)
         cursor.execute(query)
-        res = cursor.fetchone()
         
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        for user in json_data:
+            user["tags"] = get_user_tags(user["user_id"])
+            print(user)
+
         #Closing cursor
         cursor.close()
         conn.commit()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
-    return res
+    return json_data
 
 ##########################################################
 #                         UPDATE                         #
