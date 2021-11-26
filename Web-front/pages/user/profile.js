@@ -10,10 +10,15 @@ import axiosInstance from "../../utils/routeUtil";
 const users = "/users/";
 
 export default function Profile() {
-  const { user } = useUser();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, error, isLoading } = useUser();
+  const [dataLoaded, setDataLoading] = useState(false);
   const [profile, setProfile] = useState({});
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+  // if (user){
+
+  // }
   useEffect(() => {
     if (user) {
       console.log("Get profile info to display in user/profile");
@@ -32,7 +37,7 @@ export default function Profile() {
               nick: user_info.user_nickname,
               tag: temp_json.tags,
             });
-            setIsLoading(true);
+            setDataLoading(true);
           }
         })
         .catch((e) => {
@@ -43,9 +48,11 @@ export default function Profile() {
           }
         });
     }
-  }, [isLoading]);
+  }, [dataLoaded]);
 
-  if (!isLoading) {
+  // if (!profile) return <Spinner />;
+
+  if (!dataLoaded) {
     return <div> Loading ... </div>;
   } else {
     return (
