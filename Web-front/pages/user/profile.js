@@ -12,12 +12,13 @@ const users = "/users/";
 export default function Profile() {
   const { user, error, isLoading } = useUser();
   const [dataLoaded, setDataLoading] = useState(false);
+  const [userS, setUserS] = useState(null);
   const [profile, setProfile] = useState({});
 
   // if (user){
   // }
   useEffect(() => {
-    if (user) {
+    if (!isLoading && !error) {
       console.log("Get profile info to display in user/profile");
       console.log(user);
       axiosInstance
@@ -45,7 +46,7 @@ export default function Profile() {
           }
         });
     }
-  }, [dataLoaded]);
+  }, [isLoading]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;

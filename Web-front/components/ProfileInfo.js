@@ -44,6 +44,7 @@ const HrWrapper = ({ style, children }) => {
 };
 
 export default function ProfileInfo({ profile }) {
+  console.log(profile);
   const { email, nick, tag } = profile;
 
   return (
