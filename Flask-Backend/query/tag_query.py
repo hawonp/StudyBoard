@@ -13,6 +13,7 @@ def add_tag(tag):
 
         #First add the Post to Post table
         #Set up query statement and values
+        print("value of tag right now:", tag)
         query = "INSERT INTO Tag (tag_name) VALUES (?)"
         values = (tag, )
 
@@ -21,6 +22,8 @@ def add_tag(tag):
         cursor.execute(query, values)
 
         #Getting id of newly added post
+        print("\n\nadd_tag method\n\n")
+
         tag_id = cursor.lastrowid
 
         #Closing cursor and commiting  connection
@@ -113,8 +116,9 @@ def get_tag_by_name(tag_name):
         conn.commit()
         conn.close()
     except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-    
+        print(f"Error getting tags by name: {e}")
+        res = None
+
     return res
 
 def get_post_tags(post_id):

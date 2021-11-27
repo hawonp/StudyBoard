@@ -111,6 +111,7 @@ def check_user_id_exists(id):
 
 #Get user by id
 def get_user_by_id(id):
+    res = 1
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -138,7 +139,6 @@ def get_user_by_id(id):
         conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1
     
     return res
 
@@ -208,6 +208,7 @@ def update_user(id, nickname, tags):
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
+            tag = tag.strip()
             #Check if tag already exists.
             tag_row = get_tag_by_name(tag)
             

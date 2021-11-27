@@ -192,7 +192,7 @@ export default function PostDetailPage() {
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);
-                  setIsLoading(true);
+                  setHasLoaded(true);
                 }}
               />
             ) : (

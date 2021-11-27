@@ -17,16 +17,9 @@ export default function EditProfile({ profile }) {
   const { email, nick, tag } = profile;
 
   const [inputNick, setInputNick] = useState(nick);
-  const [inputTag, setInputTag] = useState(tag);
+  const [inputTag, setInputTag] = useState(tag.flat());
   const { user, error, isLoading } = useUser();
-
   const saveProfile = async () => {
-    // TODO: API CALL BACKEND NEED
-    // 보낼 데이터는 name, email, inputNick, inputTag
-    // const result = await fetch('URL', {method: "POST", body: {name: name, email: email, nick: inputNick, tag: inputTag}})
-    // // { data: "failed" }
-    // if ((await result.json()).data === "failed") { alert("업로드 실패") }
-    // else { router.replace("/user/profile") }
     axiosInstance
       .put(users + user.sub, {
         params: {
@@ -37,21 +30,11 @@ export default function EditProfile({ profile }) {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
-          // window.location.href = "./profile";
-          // TODO proper reloading
-          // window.location.reload();
-          // Router.push("/user/profile");
-          // <Link href="/user/profile">
-          //   <EditIcon />
-          // </Link>;
+          Router.push("/user/profile");
         }
       })
       .catch((e) => {
         const resp = e.response;
-        // if (resp["status"] == 500) {
-        //   // TODO temp redirection
-        // }
-        alert("You have not changed your profile information!");
         console.log(resp);
       });
   };

@@ -159,11 +159,18 @@ export default function ProfileCard() {
                 marginLeft: "1rem",
               }}
             >
-              <TagWrapper>
-                {tags.map((tag, i) => (
-                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-                ))}
-              </TagWrapper>
+              {tags.length > 0 ? (
+                <TagWrapper>
+                  {tags.map((tag, i) => (
+                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                  ))}
+                </TagWrapper>
+              ) : (
+                <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  User has no tags
+                </p>
+              )}
+
               {/* 테스트 */}
               {/* <TagWrapper>
                 <HashtagWrapper>tag</HashtagWrapper>
