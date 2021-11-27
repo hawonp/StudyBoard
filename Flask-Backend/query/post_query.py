@@ -329,7 +329,7 @@ def update_post(post_id, title, text, image, tags):
                 tag_id = tag_row[0]
 
             #Add the entry to post_tag
-            add_post_tag(tag_id, id)
+            add_post_tag(tag_id, post_id)
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")

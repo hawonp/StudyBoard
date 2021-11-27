@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Router from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box, Typography } from "@mui/material";
@@ -26,7 +27,7 @@ export default function EditPost({ postCard, finish }) {
   const [inputTitle, setInputTitle] = useState(title);
   const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
-  const [inputTag, setInputTag] = useState(tags);
+  const [inputTag, setInputTag] = useState(tags.flat());
 
   const savePost = async (user) => {
     axiosInstance
@@ -43,6 +44,7 @@ export default function EditPost({ postCard, finish }) {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
           finish();
+          Router.push(POSTDATAENDPOINT + "/" + router.query.id);
         }
       });
   };
@@ -85,22 +87,6 @@ export default function EditPost({ postCard, finish }) {
       />
 
       <div style={{ display: "flex" }}>
-        <label htmlFor="icon-button-file">
-          {/* <input
-            style={{ display: "none" }}
-            accept="image/*"
-            id="icon-button-file"
-            type="file"
-            onChange={(event) => setInputImages(event.target.files[0])}
-          />
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <PhotoCamera />
-          </IconButton> */}
-        </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button
             sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
