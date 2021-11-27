@@ -4,6 +4,7 @@ from config.db_connect import get_connection
 from datetime import datetime
 #Import tag to check/add tag for the post
 from query.tag_query import get_tag_by_name, add_tag, add_post_tag, delete_all_tags_of_post
+import itertools
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -219,7 +220,34 @@ def search_posts(input):
 
         # serialize results into JSON
         # row_headers=[x[0] for x in cur.description]
-        res = cur.fetchall()
+        tag_result = cur.fetchall()
+
+        # flatten the result matrix
+        tag_result = list(itertools.chain(*tag_result))
+
+        for x in tag_result:
+            print(x, type(x))
+            x = "TAG RESULT : " + x
+        
+        query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ? or Post.post_text LIKE ?"
+        values = ("%" + input + "%", )
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        # row_headers=[x[0] for x in cur.description]
+        post_result = cur.fetchall()
+
+        # flatten the result matrix
+        # post_result = list(itertools.chain(*post_result))
+
+        for x in post_result:
+            print(x, type(x))
+            # x = "TAG RESULT : " + x
+        
+        # <TAG> a
+        # <POST> some random title
+        
         # json_data=[]
 
         # for result in rv:
