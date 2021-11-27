@@ -166,7 +166,7 @@ class PostSearch(Resource):
 
         print("\nSearch Result:", tag_result, "\n")
 
-        return tag_result + post_result
+        return post_result + tag_result 
 
         
 

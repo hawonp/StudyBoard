@@ -242,7 +242,7 @@ def search_tags(input):
             abort(400)
 
         #Set up query statements and values
-        query = "SELECT DISTINCT  Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && Tag.tag_name LIKE ?"
+        query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && Tag.tag_name LIKE ?"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)
@@ -250,10 +250,17 @@ def search_tags(input):
         tag_result = cur.fetchall()
 
         # flatten the result matrix
-        tag_result = list(itertools.chain(*tag_result))
+        # tag_result = list(itertools.chain(*tag_result))
+
+        return_result = []
 
         for i in range(len(tag_result)):
-            tag_result[i] = "[TAG] " + tag_result[i]
+            # tag_result[i] = "[TAG] " + tag_result[i]
+            print(tag_result[i])
+            print(tag_result[i][0])
+            print(tag_result[i][1])
+            temp = { "type" : "tag", "id" : tag_result[i][0], "text" : tag_result[i][1]}
+            return_result.append(temp)
 
         #Close cursor
         cur.close()
@@ -262,7 +269,7 @@ def search_tags(input):
         print(f"Error search database for tags: {e}")
         return None
 
-    return tag_result
+    return return_result
 
 
 def search_posts(input):
@@ -284,11 +291,15 @@ def search_posts(input):
         # serialize results into JSON
         post_result = cur.fetchall()
 
+        return_result = []
+
         # flatten the result matrix
-        post_result = list(itertools.chain(*post_result))
+        # post_result = list(itertools.chain(*post_result))
         
         for i in range(len(post_result)):
-            post_result[i] = "[POST] " + post_result[i]
+            temp = {"type" : "post", "id" : post_result[i][0], "text" : post_result[i][1]}
+            return_result.append(temp)
+        #     post_result[i] = "[POST] " + post_result[i]
         
         #Close cursor
         cur.close()
@@ -297,7 +308,7 @@ def search_posts(input):
         print(f"Error search database for tags: {e}")
         return None
 
-    return post_result
+    return return_result
 
 #Get post by id
 def get_post_by_id(post_id):

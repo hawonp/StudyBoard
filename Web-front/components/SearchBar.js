@@ -52,10 +52,10 @@ export default function SearchBar() {
         },
       })
       .then((response) => {
-        console.log(response["data"]);
+        // console.log(response["data"]);
         // setSearchResults(response);
-        console.log(response["data"].flat());
-        setSearchResults(response["data"].flat());
+        // console.log(response["data"].flat());
+        setSearchResults(response["data"]);
       })
       .catch((e) => {
         console.log(e);
@@ -70,8 +70,8 @@ export default function SearchBar() {
   function handleSelection(event, value) {
     console.log("user has selected", value);
     if (value != null) {
-      const type = value.split("]");
-      if (type[0] == "[TAG") {
+      const type = value["type"];
+      if (type == "tag") {
         console.log("User selected a tag");
       } else {
         console.log("User selected a post");
@@ -89,13 +89,15 @@ export default function SearchBar() {
     <Search>
       <Autocomplete
         disablePortal
-        freesolo
+        // freesolo
         id="combo-box-demo"
         options={searchResults}
         sx={{ width: "auto" }}
         onInputChange={handleInputChange}
         onChange={handleSelection}
         onClose={handleClear}
+        groupBy={(option) => option.type.toString()}
+        getOptionLabel={(option) => option.text.toString()}
         renderInput={(params) => (
           <TextField
             {...params}
