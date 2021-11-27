@@ -43,14 +43,9 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
-// Col table id,name,nick,contents,status
-// function createData(number, nickname, contents, link, conform) {
-//     return { number, nickname, contents, link, conform };
-//   }
-
 export default function AdminPostList() {
   const [rows, setRows] = useContext(ReportContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
   //Load posts
   useEffect(() => {
@@ -59,11 +54,11 @@ export default function AdminPostList() {
       setRows(JSON.parse(response.data));
       console.log(JSON.parse(response.data));
       console.log(rows);
-      setIsLoading(false);
+      setIsDataLoading(false);
     });
   }, []);
 
-  if (isLoading) {
+  if (isDataLoading) {
     return <div> Loading... </div>;
   } else {
     return (
@@ -80,44 +75,51 @@ export default function AdminPostList() {
               </TableRow>
             </TableHead>
 
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.report_id}>
-                  <TableCell component="th" scope="row">
-                    {row.report_id}
-                  </TableCell>
-                  <TableCell align="left">{row.user_nickname}</TableCell>
-                  <TableCell align="center">{row.report_text}</TableCell>
-                  <TableCell align="right">
-                    <Link
-                      href={{ pathname: ROUTE_ID, query: { id: row.post_id } }}
-                    >
-                      {/* link to the post */}
-                      <LinkIcon />
-                    </Link>
-                  </TableCell>
+            {rows.length > 0 ? (
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.report_id}>
+                    <TableCell component="th" scope="row">
+                      {row.report_id}
+                    </TableCell>
+                    <TableCell align="left">{row.user_nickname}</TableCell>
+                    <TableCell align="center">{row.report_text}</TableCell>
+                    <TableCell align="right">
+                      <Link
+                        href={{
+                          pathname: ROUTE_ID,
+                          query: { id: row.post_id },
+                        }}
+                      >
+                        {/* link to the post */}
+                        <LinkIcon />
+                      </Link>
+                    </TableCell>
 
-                  <TableCell align="right">
-                    <ListItem
-                      secondaryAction={
-                        <>
-                          <IconButton edge="end" aria-label="check">
-                            <CheckIcon />
-                          </IconButton>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => deleteReport(row.number)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </>
-                      }
-                    ></ListItem>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                    <TableCell align="right">
+                      <ListItem
+                        secondaryAction={
+                          <>
+                            <IconButton edge="end" aria-label="check">
+                              <CheckIcon />
+                            </IconButton>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => deleteReport(row.report_id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </>
+                        }
+                      ></ListItem>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <div>No report yet!</div>
+            )}
           </Table>
         </TableContainer>
       </BoxWrapper>

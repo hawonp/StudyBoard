@@ -66,7 +66,6 @@ export default function Favorite() {
         .get(USERS + "/" + userID + FAVOURITEENDPOINT)
         .then((response) => {
           setFavorites(JSON.parse(response.data));
-          console.log(response);
           setIsDataLoading(false);
         });
     }

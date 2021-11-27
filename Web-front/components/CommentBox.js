@@ -477,6 +477,7 @@ const Reply = ({ replyData }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+  const { user } = useUser();
 
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
