@@ -226,31 +226,6 @@ class PostFavourite(Resource):
         return res
 
 
-#Get favourite posts
-class PostFavourites(Resource):
-    def get(self):
-        errors = post_interactor_id_schema.validate(request.args)
-        if errors:
-            print("Request parameters error")
-            abort(400, str(errors))
-        user_id = request.args.get('userID')
-
-        filtered = []
-        posts = get_posts()
-        for post in posts['posts']:
-            #Now check if the user favourited the post
-            did_user_favourite_post = check_if_user_favourited_post(user_id, post["post_id"])
-            if did_user_favourite_post == 0:
-                continue
-            post["did_user_favourite_post"] = did_user_favourite_post
-
-            #Now check if the user liked the post
-            did_user_like_post = check_if_user_liked_post(user_id, post["post_id"])
-            post["did_user_like_post"] = did_user_like_post
-            filtered.append(post)
-
-        posts['posts'] = filtered
-        return json.dumps(posts, default=str)
 
 #Add flag a post
 class PostFlag(Resource):
@@ -277,8 +252,6 @@ def init_routes(api):
     api.add_resource(PostWrite, POSTS+WRITE)
     api.add_resource(PostLike, POSTS+POST_ID+LIKES)
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
-    # 유저의 모든 북마크들 가져오는 endpoint
-    api.add_resource(PostFavourites, POSTS+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
     
     api.add_resource(PostSearch, FEED +  POSTS + "/search")

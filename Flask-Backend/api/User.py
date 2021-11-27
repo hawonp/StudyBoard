@@ -3,15 +3,19 @@ from flask.json import jsonify
 from google.oauth2 import id_token 
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields
-from query.tag_query import get_user_tags
+from query.post_query import get_posts_by_user, check_if_user_liked_post
+from query.favourite_query import get_favourited_post
+from query.tag_query import get_user_tags, get_post_tags
 from query.user_query import get_user_by_id, update_user, get_users_order_by_rank
 from query.login_query import verify_id_token
 ############################
 #    CONSTANT URL PATH     #
 ############################
+POSTS = '/posts'
 USERS = '/users'
 USER_ID = '/<string:id>'
 RANK = '/rank'
+FAVOURITE = '/favourite'
 
 ############################
 #    Marshmallow Schema    #
@@ -52,6 +56,41 @@ class UserInfo(Resource):
         res = update_user(id, user_nickname, user_tags)
         return res
 
+#Get favourite posts
+class PostFavourites(Resource):
+    def get(self, id):
+        user_id = id
+
+        posts = get_favourited_post(user_id)
+
+        #For every post, get the tags and append it to the respective post object
+        for post in posts:            
+            #Finding and adding related tags to each post
+            post_tags = get_post_tags(post["post_id"])
+            tags = []
+            for tag in post_tags:
+                tags.append(tag[0])
+            post["post_tags"] = tags
+        return json.dumps(posts, default=str)
+
+#Post feed
+class UserPosts(Resource):
+    def get(self, id):
+        #Get the list of user's posts
+        posts = get_posts_by_user(id)
+
+        #For every post, get the tags and append it to the respective post object
+        for post in posts:            
+            #Finding and adding related tags to each post
+            post_tags = get_post_tags(post["post_id"])
+            tags = []
+            for tag in post_tags:
+                tags.append(tag[0])
+            post["post_tags"] = tags
+            
+        return json.dumps(posts, default=str)
+
+
 class UsersByRank(Resource):
     def get(self):
         #Call function and return 10 
@@ -63,5 +102,7 @@ class UsersByRank(Resource):
 def init_routes(api):
     api.add_resource(UserInfo, USERS+USER_ID)
     api.add_resource(UsersByRank, USERS+RANK)
+    api.add_resource(UserPosts, USERS+USER_ID+POSTS)
+    api.add_resource(PostFavourites, USERS+USER_ID+FAVOURITE)
 
 user_info_schema = UserInfoSchema()
