@@ -52,40 +52,52 @@ const DetailWrapper = ({ style, children }) => {
 
 export default function PostDetailPage() {
   const router = useRouter();
-  const { user } = useUser();
-  let userID = -1;
-  if (user) {
-    userID = user.sub;
-  }
+  const { user, isLoading, error } = useUser();
   const [isEdit, setIsEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [postData, setPostData] = useState({});
 
   //Load in  the post data upon render
   useEffect(() => {
-    axiosInstance
-      .get(POSTDATAENDPOINT + "/" + router.query.id, {
-        params: { userID: userID },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data according to whether the user liked the post
-        console.log(responseData);
-        setPostData({
-          id: responseData["post_id"],
-          user: responseData["user_nickname"],
-          title: responseData["post_title"],
-          text: responseData["post_text"],
-          images: responseData["post_image"],
-          tags: responseData["post_tags"],
-          date: responseData["post_date"],
-          postLikeCount: responseData["post_like_count"],
-          didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
-          didUserFavourite:
-            responseData["did_user_favourite_post"] != 0 ? true : false,
-        });
-        setIsLoading(false);
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      // Add a request interceptor
+      axiosInstance.interceptors.request.use((request) => {
+        console.log("Starting Request", JSON.stringify(request, null, 2));
+        return request;
       });
+
+      axiosInstance.interceptors.response.use((response) => {
+        console.log("Response:", JSON.stringify(response, null, 2));
+        return response;
+      });
+      axiosInstance
+        .get(POSTDATAENDPOINT + "/" + router.query.id, {
+          params: { userID: userID },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data according to whether the user liked the post
+          console.log(responseData);
+          setPostData({
+            id: responseData["post_id"],
+            user: responseData["user_nickname"],
+            title: responseData["post_title"],
+            text: responseData["post_text"],
+            images: responseData["post_image"],
+            tags: responseData["post_tags"],
+            date: responseData["post_date"],
+            postLikeCount: responseData["post_like_count"],
+            didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
+            didUserFavourite:
+              responseData["did_user_favourite_post"] != 0 ? true : false,
+          });
+          setHasLoaded(true);
+        });
+    }
   }, [isLoading]);
 
   //Handle like press
@@ -163,8 +175,12 @@ export default function PostDetailPage() {
     }
   };
 
+  //Must not load when the following are true
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+
   //Render if the post has loaded
-  if (isLoading) {
+  if (!hasLoaded) {
     return <div> Loading... </div>;
   } else {
     return (
@@ -199,7 +215,7 @@ export default function PostDetailPage() {
           )}
         </div>
 
-        <ProfileCard />
+        {user && <ProfileCard />}
       </div>
     );
   }
