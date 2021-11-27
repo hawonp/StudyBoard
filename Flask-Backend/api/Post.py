@@ -1,9 +1,6 @@
-from config.db_connect import conn
-
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
-from query.post_query import add_post, get_post_feed, get_posts, get_post_by_id, update_post
-from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post
+from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_feed, get_posts, get_post_by_id, update_post
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
 from config.config import ApplicationConfig
@@ -26,9 +23,9 @@ FLAG = '/flag'
 ############################
 class FeedPostSchema(Schema):
     userID = fields.Str(required=True)
-    page = fields.Str(required=True)
-    order = fields.Str(required=True)
-    filter = fields.Str(required=True)
+    page = fields.Int(required=True)
+    order = fields.Int(required=True)
+    filter = fields.Int(required=True)
 
 class PostDataSchema(Schema):
     userID = fields.Str(required=True)
@@ -57,12 +54,17 @@ class FeedPostData(Resource):
             abort(400, str(errors))
         
         #Assuming all params have been validated.
+        user_id = request.args.get('userID')
         page = int(request.args.get('page'))
         order = int(request.args.get('order'))
-        filter = request.args.get('filter')
-        print(request.args.get('userID'))
+        filter = int(request.args.get('filter'))
+        print("received user id", request.args.get('userID'))
         #Get posts with given offset, sort order and tag filter
-        feed = get_post_feed(page, order, None)
+        if filter:
+            # feed = get_post_feed_with_filter(page, order, user_id)
+            feed = get_post_feed(page, order)
+        else:
+            feed = get_post_feed(page, order)
 
         #For every post, get the tags and append it to the respective post object
         for post in feed['posts']:            
@@ -83,6 +85,7 @@ class PostData(Resource):
 
         #Now get the tags
         print("Getting post tags with retrieved post data:", post)
+        print("post id:", post["post_id"])
         post_tags = get_post_tags(post["post_id"])
         tags = []
         for tag in post_tags:
@@ -103,7 +106,7 @@ class PostData(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
+        print("formdata", formData)
         errors = post_data_schema.validate(formData)
 
         if errors:
@@ -152,8 +155,16 @@ class PostWrite(Resource):
 
 #Post Search
 class PostSearch(Resource):
-    def post(self):
+    def get(self):
+        print("Querying search result")
         input = request.args.get('input')
+
+        res = search_posts(input)
+
+        print("\nSearch Result:", res, "\n")
+
+        return res
+
         
 
 #Post like
@@ -216,31 +227,6 @@ class PostFavourite(Resource):
         return res
 
 
-#Get favourite posts
-class PostFavourites(Resource):
-    def get(self):
-        errors = post_interactor_id_schema.validate(request.args)
-        if errors:
-            print("Request parameters error")
-            abort(400, str(errors))
-        user_id = request.args.get('userID')
-
-        filtered = []
-        posts = get_posts()
-        for post in posts['posts']:
-            #Now check if the user favourited the post
-            did_user_favourite_post = check_if_user_favourited_post(user_id, post["post_id"])
-            if did_user_favourite_post == 0:
-                continue
-            post["did_user_favourite_post"] = did_user_favourite_post
-
-            #Now check if the user liked the post
-            did_user_like_post = check_if_user_liked_post(user_id, post["post_id"])
-            post["did_user_like_post"] = did_user_like_post
-            filtered.append(post)
-
-        posts['posts'] = filtered
-        return json.dumps(posts, default=str)
 
 #Add flag a post
 class PostFlag(Resource):
@@ -267,11 +253,9 @@ def init_routes(api):
     api.add_resource(PostWrite, POSTS+WRITE)
     api.add_resource(PostLike, POSTS+POST_ID+LIKES)
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
-    # 유저의 모든 북마크들 가져오는 endpoint
-    api.add_resource(PostFavourites, POSTS+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
     
-    api.add_resource(PostSearch, POSTS + "/search")
+    api.add_resource(PostSearch, FEED +  POSTS + "/search")
 
 
 feed_post_schema = FeedPostSchema()

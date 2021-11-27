@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
 from datetime import datetime
 ##########################################################
@@ -9,6 +9,7 @@ from datetime import datetime
 def add_post_reply(user_id, post_id, text):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -24,11 +25,12 @@ def add_post_reply(user_id, post_id, text):
         #Getting id of newly added post
         res = cursor.lastrowid
 
-        add_reply_to_post_link(post_id, res)
-
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
+
+        add_reply_to_post_link(post_id, res)       
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -40,6 +42,7 @@ def add_post_reply(user_id, post_id, text):
 def add_reply_to_post_link(post_id, reply_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -56,6 +59,7 @@ def add_reply_to_post_link(post_id, reply_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -67,6 +71,7 @@ def add_reply_to_post_link(post_id, reply_id):
 def add_reply_reply(user_id, reply_id, text):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #First add the Post to Post table
@@ -82,11 +87,12 @@ def add_reply_reply(user_id, reply_id, text):
         #Getting id of newly added post
         res = cursor.lastrowid
 
-        add_reply_to_reply_link(reply_id, res)
-
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
+
+        add_reply_to_reply_link(reply_id, res)
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -98,6 +104,7 @@ def add_reply_reply(user_id, reply_id, text):
 def add_reply_to_reply_link(source_id, reply_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -114,6 +121,7 @@ def add_reply_to_reply_link(source_id, reply_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -125,6 +133,7 @@ def add_reply_to_reply_link(source_id, reply_id):
 def add_user_like_reply(reply_id, user_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -141,6 +150,7 @@ def add_user_like_reply(reply_id, user_id):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -153,6 +163,7 @@ def add_user_like_reply(reply_id, user_id):
 ##########################################################
 def get_replies_to_post(post_id, order, user_id):
     # Obtainting DB cursor
+    conn = get_connection()
     cur = conn.cursor()
 
     #Set up query statements and values
@@ -187,12 +198,14 @@ def get_replies_to_post(post_id, order, user_id):
     #Close cursor
     cur.close()
     conn.commit()
+    conn.close()
 
     # return the results!
     return json_data
 
 def get_replies_to_reply(reply_id, user_id):
     # Obtainting DB cursor
+    conn = get_connection()
     cur = conn.cursor()
 
     #Set up query statements and values
@@ -217,6 +230,7 @@ def get_replies_to_reply(reply_id, user_id):
     #Close cursor
     cur.close()
     conn.commit()
+    conn.close()
 
     # return the results!
     return json_data
@@ -225,6 +239,7 @@ def get_replies_to_reply(reply_id, user_id):
 def check_if_user_liked_reply(reply_id, user_id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -239,6 +254,7 @@ def check_if_user_liked_reply(reply_id, user_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -251,6 +267,7 @@ def delete_user_like_reply(reply_id, user_id):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -264,6 +281,7 @@ def delete_user_like_reply(reply_id, user_id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0

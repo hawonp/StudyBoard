@@ -1,13 +1,14 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Grid from "@mui/material/Grid";
-import React from "react";
-import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+
 import axiosInstance from "../utils/routeUtil";
 
 const BoxWrapper = ({ style, children }) => {
@@ -91,10 +92,7 @@ export default function ProfileCard() {
   const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
   const { user, error, isLoading } = useUser();
-  const users = "/users";
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  const users = "/users/";
 
   // console.log(user);
   // console.log(user.sub);
@@ -104,20 +102,28 @@ export default function ProfileCard() {
 
   // setUserId(user.sub);
 
-  // console.log("Crawling User Profile Data");
-  // axiosInstance.get(users + userId).then((response) => {
-  //   console.log("response from backend" + response);
-  //   if (response["status"] == 200) {
-  //     const temp = response["data"];
-  //     const temp_json = JSON.parse(temp);
-  //     const user_nickname = temp_json.user.user_nickname;
-  //     const tag = temp_json.tags;
-  //     setNickname(user_nickname);
-  //     setTags(tag);
-  //     console.log(tag);
-  //     console.log(user_nickname);
-  //   }
-  // });
+  useEffect(() => {
+    if (!isLoading && !error) {
+      console.log("Crawling User Profile Data");
+      axiosInstance.get(users + user.sub).then((response) => {
+        console.log("response from backend" + response);
+        if (response["status"] == 200) {
+          const temp = response["data"];
+          const temp_json = JSON.parse(temp);
+          const user_nickname = temp_json.user.user_nickname;
+          const tag = temp_json.tags;
+          setNickname(user_nickname);
+          setUserId(temp_json.user.user_id);
+          setTags(tag);
+          console.log(tag);
+          console.log(user_nickname);
+        }
+      });
+    }
+  }, [isLoading]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <div>
@@ -153,11 +159,18 @@ export default function ProfileCard() {
                 marginLeft: "1rem",
               }}
             >
-              <TagWrapper>
-                {tags.map((tag, i) => (
-                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-                ))}
-              </TagWrapper>
+              {tags.length > 0 ? (
+                <TagWrapper>
+                  {tags.map((tag, i) => (
+                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                  ))}
+                </TagWrapper>
+              ) : (
+                <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  User has no tags
+                </p>
+              )}
+
               {/* 테스트 */}
               {/* <TagWrapper>
                 <HashtagWrapper>tag</HashtagWrapper>

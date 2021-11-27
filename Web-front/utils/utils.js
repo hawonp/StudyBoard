@@ -13,3 +13,16 @@ export const refreshTokenSetup = (res) => {
   };
   setTimeout(refreshToken, refreshTiming);
 };
+
+// Debugging tool
+// Following is used to intercept axios calls to see our requests
+// // Add a request interceptor
+// axiosInstance.interceptors.request.use((request) => {
+//   console.log("Starting Request", JSON.stringify(request, null, 2));
+//   return request;
+// });
+
+// axiosInstance.interceptors.response.use((response) => {
+//   console.log("Response:", JSON.stringify(response, null, 2));
+//   return response;
+// });
