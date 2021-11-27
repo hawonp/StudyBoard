@@ -155,7 +155,8 @@ class PostWrite(Resource):
 
 #Post Search
 class PostSearch(Resource):
-    def post(self):
+    def get(self):
+        print("Querying search result")
         input = request.args.get('input')
 
         res = search_posts(input)
