@@ -34,16 +34,9 @@ class FlaggedPosts(Resource):
 
 class FlaggedReplies(Resource):
     def get(self):
-        #Validate params first
-        errors = flagged_items_offset_schema.validate(request.args)
-        if errors:
-            abort(400, str(errors))
-        
-        #Assuming all params have been validated.
-        page = int(request.args.get('page'))
 
         #Get posts with given offset, sort order and tag filter
-        reports = get_flagged_replies(page)
+        reports = get_flagged_replies()
             
         return json.dumps(reports, default=str)
 
