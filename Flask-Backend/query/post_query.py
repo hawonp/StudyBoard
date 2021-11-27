@@ -318,12 +318,13 @@ def update_post(post_id, title, text, image, tags):
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
+            tag = tag.strip()
             #Check if tag already exists.
-            tag_row = get_tag_by_name(tag.strip())
+            tag_row = get_tag_by_name(tag)
             
             #If it doesnt, add a new tag,  If so, get the tag id
             if tag_row == None:
-                tag_id = add_tag(tag.strip())
+                tag_id = add_tag(tag)
             else:
                 tag_id = tag_row[0]
 

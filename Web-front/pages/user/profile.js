@@ -12,7 +12,6 @@ const users = "/users/";
 export default function Profile() {
   const { user, error, isLoading } = useUser();
   const [dataLoaded, setDataLoading] = useState(false);
-  const [userS, setUserS] = useState(null);
   const [profile, setProfile] = useState({});
 
   // if (user){
