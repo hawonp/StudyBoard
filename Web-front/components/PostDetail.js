@@ -124,7 +124,7 @@ export default function PostDetail({
     setFlagText("");
     setOpen(false);
   };
-
+  console.log("postdata", postData);
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>

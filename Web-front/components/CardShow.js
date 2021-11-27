@@ -36,15 +36,6 @@ const HashtagWrapper = ({ style, children }) => {
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
-  //EditPost
-  const [postCard, setpostCard] = useState({
-    id: 1,
-    title: "PK",
-    content: "PKPKPK",
-    images: "",
-    tags: ["MATH", "CSE", "HARD"],
-  });
-
   return (
     <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
       <a style={{ textDecoration: "none" }}>
