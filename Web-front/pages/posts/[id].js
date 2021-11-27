@@ -56,14 +56,13 @@ export default function PostDetailPage() {
   const [isEdit, setIsEdit] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [postData, setPostData] = useState({});
-
+  let userID = "";
+  if (user) {
+    userID = user.sub;
+  }
   //Load in  the post data upon render
   useEffect(() => {
     if (!isLoading && !error) {
-      let userID = "";
-      if (user) {
-        userID = user.sub;
-      }
       // Add a request interceptor
       axiosInstance.interceptors.request.use((request) => {
         console.log("Starting Request", JSON.stringify(request, null, 2));
