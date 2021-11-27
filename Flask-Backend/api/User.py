@@ -27,6 +27,7 @@ class UserInfoSchema(Schema):
 ############################
 class UserInfo(Resource):
     def get(self, id):
+        print("getting user information for profile card")
         user = get_user_by_id(id)
         tags = get_user_tags(id)
         data = {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import PostEditor from "./PostEditor";
 import axiosInstance from "../utils/routeUtil";
 
-const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
 export default function EditPost({ postCard, finish }) {
@@ -23,17 +22,17 @@ export default function EditPost({ postCard, finish }) {
     tags: null,
   };
   const router = useRouter();
-
+  const { user } = useUser();
   const [inputTitle, setInputTitle] = useState(title);
   const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
   const [inputTag, setInputTag] = useState(tags);
 
-  const savePost = async () => {
+  const savePost = async (user) => {
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           title: inputTitle,
           text: inputContents,
           imageURL: inputImages,
@@ -115,7 +114,7 @@ export default function EditPost({ postCard, finish }) {
             sx={{ borderRadius: "8px" }}
             variant="contained"
             color="success"
-            onClick={savePost}
+            onClick={() => savePost(user)}
           >
             SAVE
           </Button>

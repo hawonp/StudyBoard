@@ -1,19 +1,14 @@
 import Link from "next/link";
-import Avatar from "@mui/material/Avatar";
-import { Badge, CardMedia, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 import React from "react";
 import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
-const users = "/users/";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -96,53 +91,33 @@ export default function ProfileCard() {
   const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
   const { user, error, isLoading } = useUser();
-
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-      console.log(user.sub);
-      console.log(user.nickname);
-      console.log(user.email);
-      console.log(user.last_ip);
-
-      setUserId(user.sub);
-
-      console.log("Crawling User Profile Data");
-      axiosInstance
-        .get(users + userId, {
-          params: {
-            user_id: user.sub,
-            user_nickname: user.nickname,
-            user_email: user.email,
-          },
-        })
-        .then((response) => {
-          console.log("response from backend" + response);
-          if (response["status"] == 200) {
-            const temp = response["data"];
-            const temp_json = JSON.parse(temp);
-            const user_nickname = temp_json.user.user_nickname;
-            const tag = temp_json.tags;
-            setNickname(user_nickname);
-            setTags(tag);
-            console.log(tag);
-            setIsLoading(false);
-          }
-        })
-        .catch((e) => {
-          const resp = e.response;
-          if (resp["status"] == 403) {
-            // TODO temp redirection
-            // cookies.remove("user_token", { path: "/" });
-            // cookies.remove("user_id", { path: "/" });
-            // window.location.href = "./error/403";
-          }
-        });
-    }
-  }, []);
+  const users = "/users";
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+
+  // console.log(user);
+  // console.log(user.sub);
+  // console.log(user.nickname);
+  // console.log(user.email);
+  // console.log(user.last_ip);
+
+  // setUserId(user.sub);
+
+  // console.log("Crawling User Profile Data");
+  // axiosInstance.get(users + userId).then((response) => {
+  //   console.log("response from backend" + response);
+  //   if (response["status"] == 200) {
+  //     const temp = response["data"];
+  //     const temp_json = JSON.parse(temp);
+  //     const user_nickname = temp_json.user.user_nickname;
+  //     const tag = temp_json.tags;
+  //     setNickname(user_nickname);
+  //     setTags(tag);
+  //     console.log(tag);
+  //     console.log(user_nickname);
+  //   }
+  // });
 
   return (
     <div>
@@ -184,11 +159,11 @@ export default function ProfileCard() {
                 ))}
               </TagWrapper>
               {/* 테스트 */}
-              <TagWrapper>
+              {/* <TagWrapper>
                 <HashtagWrapper>tag</HashtagWrapper>
                 <HashtagWrapper>Hard</HashtagWrapper>
                 <HashtagWrapper>CSE</HashtagWrapper>
-              </TagWrapper>
+              </TagWrapper> */}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

@@ -3,8 +3,6 @@ import Link from "next/link";
 import EditIcon from "@mui/icons-material/Edit";
 import { TextField } from "@mui/material";
 import * as React from "react";
-import Box from "@mui/material/Box";
-import { useState } from "react";
 
 const BoxWrapper = ({ style, children }) => {
   return (
