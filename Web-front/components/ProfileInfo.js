@@ -87,7 +87,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="A list of hashtags!"
+          label="Please enter your preferred tags (separated by commas)"
           defaultValue={tag}
         />
       </div>
