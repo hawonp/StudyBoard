@@ -201,8 +201,38 @@ def get_posts_by_user(user_id):
 
     return json_data
 
-# Search for posts
-def search_posts(input):
+def get_post_id_by_title(title):
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+
+        #Set up query statements and values
+        query = "SELECT * FROM Post WHERE Post.post_title=?"
+        values = (title, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return -1
+
+    return json_data
+
+# Search for tags
+def search_tags(input):
     try:
         # Obtainting DB cursor
         conn = get_connection()
@@ -212,46 +242,18 @@ def search_posts(input):
             abort(400)
 
         #Set up query statements and values
-        # query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id"
         query = "SELECT DISTINCT  Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && Tag.tag_name LIKE ?"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)
 
-        # serialize results into JSON
-        # row_headers=[x[0] for x in cur.description]
         tag_result = cur.fetchall()
 
         # flatten the result matrix
         tag_result = list(itertools.chain(*tag_result))
 
-        for x in tag_result:
-            print(x, type(x))
-            x = "TAG RESULT : " + x
-        
-        query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ? or Post.post_text LIKE ?"
-        values = ("%" + input + "%", )
-        print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
-
-        # serialize results into JSON
-        # row_headers=[x[0] for x in cur.description]
-        post_result = cur.fetchall()
-
-        # flatten the result matrix
-        # post_result = list(itertools.chain(*post_result))
-
-        for x in post_result:
-            print(x, type(x))
-            # x = "TAG RESULT : " + x
-        
-        # <TAG> a
-        # <POST> some random title
-        
-        # json_data=[]
-
-        # for result in rv:
-        #     json_data.append(dict(zip(row_headers,result)))
+        for i in range(len(tag_result)):
+            tag_result[i] = "[TAG] " + tag_result[i]
 
         #Close cursor
         cur.close()
@@ -261,7 +263,41 @@ def search_posts(input):
         return None
 
     return tag_result
-    
+
+
+def search_posts(input):
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+
+        if(len(input) < 1):
+            abort(400)
+                # query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ? || Post.post_text LIKE ?"
+        # query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ?"
+
+        query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ?"
+        values = ("%" + input + "%", )
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        post_result = cur.fetchall()
+
+        # flatten the result matrix
+        post_result = list(itertools.chain(*post_result))
+        
+        for i in range(len(post_result)):
+            post_result[i] = "[POST] " + post_result[i]
+        
+        #Close cursor
+        cur.close()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error search database for tags: {e}")
+        return None
+
+    return post_result
 
 #Get post by id
 def get_post_by_id(post_id):

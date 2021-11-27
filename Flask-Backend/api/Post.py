@@ -1,6 +1,6 @@
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
-from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_feed, get_posts, get_post_by_id, update_post
+from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, search_tags, add_post, get_post_feed, get_posts, get_post_by_id, update_post
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags
 from config.config import ApplicationConfig
@@ -159,11 +159,14 @@ class PostSearch(Resource):
         print("Querying search result")
         input = request.args.get('input')
 
-        res = search_posts(input)
+        tag_result = search_tags(input)
+        print("tag result", tag_result)
+        post_result = search_posts(input)
+        print("tag result", post_result)
 
-        print("\nSearch Result:", res, "\n")
+        print("\nSearch Result:", tag_result, "\n")
 
-        return res
+        return tag_result + post_result
 
         
 

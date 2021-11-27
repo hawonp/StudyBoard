@@ -69,6 +69,16 @@ export default function SearchBar() {
 
   function handleSelection(event, value) {
     console.log("user has selected", value);
+    if (value != null) {
+      const type = value.split("]");
+      if (type[0] == "[TAG") {
+        console.log("User selected a tag");
+      } else {
+        console.log("User selected a post");
+      }
+    }
+
+    // console.log(value.split("]"));
   }
 
   function handleClear(event, value) {
