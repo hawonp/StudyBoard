@@ -1,12 +1,17 @@
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+//Importing MUI
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import ProfileCard from "../../components/ProfileCard";
-import * as React from "react";
 
+import ProfileCard from "../../components/ProfileCard";
 import FavoriteCard from "../../components/FavoriteCard";
-import { useEffect, useState } from "react";
+
 import axiosInstance from "../../utils/routeUtil";
-import Cookies from "universal-cookie";
+
+const FAVOURITEENDPOINT = "/favourite";
+const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -48,49 +53,59 @@ const LineWrapper = ({ style, children }) => {
 
 export default function Favorite() {
   const [favorites, setFavorites] = useState([]);
+  const { user, isLoading, error } = useUser();
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
-  // useEffect(async () =>  {
-  //   // TODO: API CALL (BACKEND)
-  //     const uid = (new Cookies()).get("user_id")
-  //     console.log('call api for uid', uid)
-  //     axiosInstance
-  //         .get('/posts/favourite', {
-  //             params: {
-  //                 userID: uid
-  //             }
-  //         }).then((response) => {
-  //             const posts = JSON.parse(response.data)['posts']
-  //         setFavorites(posts)
-  //     })
-  // }, []);
+  useEffect(() => {
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .get(USERS + "/" + userID + FAVOURITEENDPOINT)
+        .then((response) => {
+          setFavorites(JSON.parse(response.data));
+          console.log(response);
+          setIsDataLoading(false);
+        });
+    }
+  }, [isLoading]);
 
-  return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>
-        <Container>
-          <Box
-            style={{
-              border: "0.1rem solid lightgray",
-              borderRadius: "8px",
-              marginBottom: "16px",
-              marginTop: "20px",
-              padding: "10px 12px",
-              backgroundColor: "white",
-            }}
-          >
-            <h5 style={{ marginBottom: "2rem" }}>Pyungkang&apos;s favorite</h5>
-            <LineWrapper />
-            {/*고정되는거가 minwidth , */}
-            <BoxWrapper>
-              {favorites.map((post) => (
-                <FavoriteCard key={post.post_id} favorite={post} />
-              ))}
-            </BoxWrapper>
-          </Box>
-        </Container>
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+
+  if (isDataLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Container>
+            <Box
+              style={{
+                border: "0.1rem solid lightgray",
+                borderRadius: "8px",
+                marginBottom: "16px",
+                marginTop: "20px",
+                padding: "10px 12px",
+                backgroundColor: "white",
+              }}
+            >
+              <h5 style={{ marginBottom: "2rem" }}>My Favorite Posts</h5>
+              <LineWrapper />
+              {/*고정되는거가 minwidth , */}
+              <BoxWrapper>
+                {favorites.map((post) => (
+                  <FavoriteCard key={post.post_id} favorite={post} />
+                ))}
+              </BoxWrapper>
+            </Box>
+          </Container>
+        </div>
+
+        <ProfileCard />
       </div>
-
-      <ProfileCard />
-    </div>
-  );
+    );
+  }
 }
