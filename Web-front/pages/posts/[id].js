@@ -97,7 +97,7 @@ export default function PostDetailPage() {
           setHasLoaded(true);
         });
     }
-  }, [isLoading]);
+  }, [isEdit]);
 
   //Handle like press
   const handleLikePressed = () => {
