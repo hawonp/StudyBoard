@@ -260,7 +260,7 @@ def search_posts(input):
         print(f"Error search database for tags: {e}")
         return None
 
-    return res
+    return post_result
     
 
 #Get post by id
