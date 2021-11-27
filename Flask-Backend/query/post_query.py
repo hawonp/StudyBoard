@@ -1,4 +1,4 @@
-from config.imports import mariadb
+from config.imports import mariadb, abort
 from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
 from datetime import datetime
@@ -207,20 +207,23 @@ def search_posts(input):
         conn = get_connection()
         cur = conn.cursor()
 
+        if(len(input) < 1):
+            abort(400)
+
         #Set up query statements and values
         # query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE user.user_id = Post.user_id"
-        query = "SELECT * From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id and Tag.tag_name LIKE \"?%\""
-        values = (input)
+        query = "SELECT DISTINCT  Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && Tag.tag_name LIKE ?"
+        values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
-        json_data=[]
+        # row_headers=[x[0] for x in cur.description]
+        res = cur.fetchall()
+        # json_data=[]
 
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
+        # for result in rv:
+        #     json_data.append(dict(zip(row_headers,result)))
 
         #Close cursor
         cur.close()
@@ -229,7 +232,7 @@ def search_posts(input):
         print(f"Error search database for tags: {e}")
         return None
 
-    return { 'tags': json_data }
+    return res
     
 
 #Get post by id

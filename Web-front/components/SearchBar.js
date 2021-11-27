@@ -1,51 +1,18 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   marginLeft: 20,
-//   marginRight: 20,
-//   flex: 1,
-// }));
 
-// const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: "100%",
-//   position: "absolute",
-//   pointerEvents: "none",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "end",
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: "inherit",
-//   "& .MuiInputBase-input": {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create("width"),
-//     width: "100%",
-//   },
-// }));
+import axiosInstance from "../utils/routeUtil";
+const POST_FEED = "/feed/posts";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
+  marginLeft: 20,
+  marginRight: 20,
+  flex: 1,
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -55,7 +22,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "end",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -66,37 +33,71 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
   },
 }));
 
 export default function SearchBar() {
+  const [searchResults, setSearchResults] = useState([]);
+
+  function handleInputChange(event, value) {
+    if (value == null) {
+      console.log("hello");
+      setSearchResults([]);
+    }
+    console.log(value);
+    axiosInstance
+      .get(POST_FEED + "/search", {
+        params: {
+          input: value,
+        },
+      })
+      .then((response) => {
+        console.log(response["data"]);
+        // setSearchResults(response);
+        console.log(response["data"].flat());
+        setSearchResults(response["data"].flat());
+      })
+      .catch((e) => {
+        console.log(e);
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          console.log("oh no");
+        }
+      });
+    // console.log(event);
+  }
+
+  function handleSelection(event, value) {
+    console.log("user has selected", value);
+  }
+
+  function handleClear(event, value) {
+    setSearchResults([]);
+  }
+
   return (
     <Search>
       <Autocomplete
         disablePortal
+        freesolo
         id="combo-box-demo"
-        options={popularTag}
+        options={searchResults}
         sx={{ width: "auto" }}
+        onInputChange={handleInputChange}
+        onChange={handleSelection}
+        onClose={handleClear}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Search"
             placeholder="Search for what you want"
+            InputProps={{
+              ...params.InputProps,
+              type: "search",
+            }}
           />
         )}
       />
     </Search>
   );
 }
-const popularTag = [
-  { label: "I love nico" },
-  { label: "I love nico2" },
-  { label: "I love nico3" },
-  { label: "I love nico4" },
-  { label: "I love nico5" },
-  { label: "I love nico6" },
-  { label: "I love nico7" },
-];
