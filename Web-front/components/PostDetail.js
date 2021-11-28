@@ -129,9 +129,7 @@ export default function PostDetail({
     <DetailWrapper>
       {isCopied && (
         <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert severity="success">
-            This is a success alert — check it out!
-          </Alert>
+          <Alert severity="success">Success Copy URL !</Alert>
         </Stack>
       )}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
