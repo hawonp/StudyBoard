@@ -115,7 +115,15 @@ export function PostWrite() {
           label="#tag"
           variant="outlined"
           value={tag}
-          onChange={(event) => setTag(event.target.value.split(","))}
+          onChange={(event) =>
+            setTag(
+              event.target.value
+                .split(",")
+                .map((unadjustedTag) =>
+                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+                )
+            )
+          }
         />
         <div style={{ display: "flex" }}>
           <p>

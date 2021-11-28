@@ -112,6 +112,7 @@ export default function ProfileCard() {
           const temp_json = JSON.parse(temp);
           const user_nickname = temp_json.user.user_nickname;
           const tag = temp_json.tags;
+          console.log("tag", tag);
           setNickname(user_nickname);
           setUserId(temp_json.user.user_id);
           setTags(tag);
@@ -170,13 +171,6 @@ export default function ProfileCard() {
                   User has no tags
                 </p>
               )}
-
-              {/* 테스트 */}
-              {/* <TagWrapper>
-                <HashtagWrapper>tag</HashtagWrapper>
-                <HashtagWrapper>Hard</HashtagWrapper>
-                <HashtagWrapper>CSE</HashtagWrapper>
-              </TagWrapper> */}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

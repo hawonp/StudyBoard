@@ -83,7 +83,15 @@ export default function EditPost({ postCard, finish }) {
         label="#tag"
         variant="outlined"
         value={inputTag}
-        onChange={(event) => setInputTag(event.target.value.split(","))}
+        onChange={(event) =>
+          setTag(
+            event.target.value
+              .split(",")
+              .map((unadjustedTag) =>
+                unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+              )
+          )
+        }
       />
 
       <div style={{ display: "flex" }}>

@@ -92,7 +92,15 @@ export default function EditProfile({ profile }) {
           id="outlined-disabled"
           label="Please edit your personal tags"
           value={inputTag}
-          onChange={(e) => setInputTag(e.target.value.split(","))}
+          onChange={(event) =>
+            setTag(
+              event.target.value
+                .split(",")
+                .map((unadjustedTag) =>
+                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+                )
+            )
+          }
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>

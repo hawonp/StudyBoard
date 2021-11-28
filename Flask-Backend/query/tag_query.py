@@ -171,6 +171,36 @@ def get_user_tags(user_id):
     
     return res
 
+def get_user_tag_ids(user_id):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT t.tag_id FROM Tag t INNER JOIN (SELECT ut.tag_id FROM User_Tag ut WHERE ut.user_id = ?) AS ut ON ut.tag_id = t.tag_id"
+        values = (user_id, )
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Get data and store it in a list
+        res = cursor.fetchall()
+        res_data = []
+        for id in res:
+            res_data.append(id[0])
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = None
+    
+    return res_data
+
 ##########################################################
 #                         DELETE                         #
 ##########################################################

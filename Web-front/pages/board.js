@@ -73,6 +73,16 @@ export default function Board() {
 
   //Load posts when component mounts
   useEffect(() => {
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      console.log("Starting Request", JSON.stringify(request, null, 2));
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      console.log("Response:", JSON.stringify(response, null, 2));
+      return response;
+    });
     if (!isLoading && !error) {
       let userID = "";
       if (user) {
