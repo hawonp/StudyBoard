@@ -260,6 +260,35 @@ def get_posts_by_user(user_id):
 
     return json_data
 
+# get post by id
+def get_post_by_id(post_id):
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+
+        #Set up query statements and values
+        query = "SELECT * FROM Post WHERE user_id=?"
+        values = (post_id, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return -1
+
 def get_post_id_by_title(title):
     try:
         # Obtainting DB cursor

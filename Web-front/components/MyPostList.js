@@ -105,6 +105,7 @@ export default function MyPostList({ mypost }) {
           <CardActionsWrapper>
             {/* Like */}
             <IconButton
+              disableRipple
               aria-label="favorites"
               sx={{ padding: 0, borderRadius: "4px" }}
             >
@@ -127,6 +128,7 @@ export default function MyPostList({ mypost }) {
 
             {/* Comment */}
             <IconButton
+              disableRipple
               aria-label="SmsIcon"
               sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
             >
@@ -138,6 +140,7 @@ export default function MyPostList({ mypost }) {
 
             {/* Share */}
             <IconButton
+              disableRipple
               sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
               aria-label="share"
               onClick={() => {
