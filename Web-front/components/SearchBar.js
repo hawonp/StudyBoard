@@ -3,6 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Router from "next/router";
 
 import axiosInstance from "../utils/routeUtil";
 const POST_FEED = "/feed/posts";
@@ -75,6 +76,8 @@ export default function SearchBar() {
         console.log("User selected a tag");
       } else {
         console.log("User selected a post");
+        const postID = value["id"];
+        Router.push("../posts/" + postID);
       }
     }
 

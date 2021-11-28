@@ -126,7 +126,11 @@ export default function MyPostList({ mypost }) {
 
           <CardActionsWrapper>
             {/* Like */}
-            <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
+            <IconButton
+              disableRipple
+              aria-label="favorites"
+              sx={{ borderRadius: "4px" }}
+            >
               <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
                 &nbsp; {myPostData.post_like_count} Likes
@@ -145,7 +149,11 @@ export default function MyPostList({ mypost }) {
              */}
 
             {/* Comment */}
-            <IconButton aria-label="SmsIcon" sx={{ borderRadius: "4px" }}>
+            <IconButton
+              disableRipple
+              aria-label="SmsIcon"
+              sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
+            >
               <SmsIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
                 &nbsp;{myPostData.post_reply_count} Comments
@@ -154,7 +162,8 @@ export default function MyPostList({ mypost }) {
 
             {/* Share */}
             <IconButton
-              sx={{ borderRadius: "4px" }}
+              disableRipple
+              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
               aria-label="share"
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
