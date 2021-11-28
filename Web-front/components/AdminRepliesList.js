@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Container, ListItem } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
@@ -44,6 +45,7 @@ const BoxWrapper = ({ style, children }) => {
 export default function AdminUserList() {
   const [rows, setRows] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const { user, isLoading, error } = useUser();
 
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + REPLYDATAENDPOINT).then((response) => {
@@ -53,7 +55,42 @@ export default function AdminUserList() {
       console.log(rows);
       setIsDataLoading(false);
     });
-  }, []);
+  }, [isDataLoading, isLoading]);
+
+  const respondToReport = (row, decision) => {
+    if (user) {
+      const userID = user.sub;
+      if (decision == 1) {
+        axiosInstance
+          .delete(FLAGGEDENDPOINT + REPLYDATAENDPOINT + "/" + row.report_id, {
+            params: {
+              contentID: row.reply_id,
+              userID: userID,
+            },
+          })
+          .then((response) => {
+            console.log("dsad");
+            console.log(JSON.parse(response.data));
+            setIsDataLoading(true);
+          });
+      } else {
+        axiosInstance
+          .put(FLAGGEDENDPOINT + REPLYDATAENDPOINT + "/" + row.report_id, {
+            params: {
+              contentID: row.reply_id,
+              userID: userID,
+            },
+          })
+          .then((response) => {
+            console.log("dsad");
+            console.log(JSON.parse(response.data));
+            setIsDataLoading(true);
+          });
+      }
+    }
+  };
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
     return <div> Loading... </div>;
@@ -101,13 +138,17 @@ export default function AdminUserList() {
                       <ListItem
                         secondaryAction={
                           <>
-                            <IconButton edge="end" aria-label="check">
+                            <IconButton
+                              edge="end"
+                              aria-label="check"
+                              onClick={() => respondToReport(row, 1)}
+                            >
                               <CheckIcon />
                             </IconButton>
                             <IconButton
                               edge="end"
                               aria-label="delete"
-                              onClick={() => deleteReport(row.report_id)}
+                              onClick={() => respondToReport(row, 0)}
                             >
                               <DeleteIcon />
                             </IconButton>

@@ -134,7 +134,10 @@ export default function ProfileCard() {
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ flex: 1, marginLeft: "1rem" }}>
                 {/*user name*/}
-                <h4>{nickname}</h4>
+                {/* <h1> Welcome </h1> */}
+                <h4>
+                  <italic>Hi</italic> {nickname}
+                </h4>
               </div>
               <div
                 style={{
@@ -160,6 +163,7 @@ export default function ProfileCard() {
                 marginLeft: "1rem",
               }}
             >
+              {/* <p> Your personal tags </p> */}
               {tags.length > 0 ? (
                 <TagWrapper>
                   {tags.map((tag, i) => (
@@ -177,8 +181,7 @@ export default function ProfileCard() {
                 <HashtagWrapper>tag</HashtagWrapper>
                 <HashtagWrapper>Hard</HashtagWrapper>
                 <HashtagWrapper>CSE</HashtagWrapper>
-              </TagWrapper>
-
+              </TagWrapper>*/}
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

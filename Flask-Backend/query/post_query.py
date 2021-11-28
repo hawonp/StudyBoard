@@ -154,9 +154,9 @@ def get_post_feed_with_filter(page, order, filter):
     format_string = ','.join(['?'] * len(filter))
     if order:
         #If the order is in like
-        query = "SELECT p.post_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
+        query = "SELECT p.*, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
     else:
-        query = "SELECT p.post_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_date DESC LIMIT ?, ?"
+        query = "SELECT p.*, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_date DESC LIMIT ?, ?"
     values = tuple(filter) + (offset, limit)
 
     #Fetching posts with filter, sort, limit, and offset
@@ -260,15 +260,16 @@ def get_posts_by_user(user_id):
 
     return json_data
 
-def get_post_id_by_title(title):
+# get post by id
+def get_post_by_id(post_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
         cur = conn.cursor()
 
         #Set up query statements and values
-        query = "SELECT * FROM Post WHERE Post.post_title=?"
-        values = (title, )
+        query = "SELECT * FROM Post WHERE user_id=?"
+        values = (post_id, )
         print("Selecting with query", query)
         cur.execute(query, values)
 
@@ -280,6 +281,57 @@ def get_post_id_by_title(title):
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
 
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return -1
+
+def get_tag_name_by_id(tag_id):
+    tag_name = ""
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+        
+        #Set up query statements and values
+        query = "SELECT Tag.tag_name FROM Tag WHERE Tag.tag_id = ?"
+        values = (tag_id, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        rv = cur.fetchall()
+        flat = list(sum(rv, ()))
+        print("\t\t\t\t\t\t\tthis is the tag name", list(sum(rv, ())))
+        tag_name = flat[0]
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return tag_name
+
+    return tag_name
+
+def get_posts_by_tag(tag_id):
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+        
+        #Set up query statements and values
+        query = "SELECT Post.* FROM Post, Post_Tag WHERE Post_Tag.tag_id = ? && Post_Tag.post_id = Post.post_id"
+        values = (tag_id, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        print(json_data)
         #Close cursor
         cur.close()
         conn.commit()
@@ -488,6 +540,32 @@ def delete_user_like_post(user_id, post_id):
         #Set up query statement and values
         query = "DELETE FROM User_Post_Like WHERE user_id=? AND post_id=?"
         values = (user_id, int(post_id))
+
+        #Getting data from table
+        print("Deleting with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    return res
+
+#Delete post
+def delete_post(post_id):
+    res = 1
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "DELETE FROM Post WHERE post_id=?"
+        values = (post_id,)
 
         #Getting data from table
         print("Deleting with query", query, " and values ", values)

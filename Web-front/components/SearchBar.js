@@ -3,6 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Router from "next/router";
 
 import axiosInstance from "../utils/routeUtil";
 const POST_FEED = "/feed/posts";
@@ -71,10 +72,22 @@ export default function SearchBar() {
     console.log("user has selected", value);
     if (value != null) {
       const type = value["type"];
+      const id = value["id"];
+
       if (type == "tag") {
         console.log("User selected a tag");
+        console.log("go to this tag page");
+        Router.push("../tags/" + id);
+        // pathname: '/about',
+        // query: { name: 'Someone' }
+        // Router.push({
+        //   pathname: '../tags/" + id',
+        //   query: { text: value["text"] },
+        // });
       } else {
-        console.log("User selected a post");
+        console.log("User selected a post ", value["text"]);
+        const postID = value["id"];
+        Router.push("../posts/" + id);
       }
     }
 
