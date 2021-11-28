@@ -178,6 +178,31 @@ def get_users_order_by_rank():
     
     return json_data
 
+def check_if_user_is_mod(user_id):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT EXISTS(SELECT * FROM User_id WHERE user_id=? AND user_is_mod=1)"
+        values = (user_id, )
+
+        #Getting data from table
+        print("Checking if is mod with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Closing cursor, commit and close connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = [0]
+    
+    return res[0]
+
 ##########################################################
 #                         UPDATE                         #
 ##########################################################

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Container from "@mui/material/Container";
 import TableContainer from "@mui/material/TableContainer";
@@ -46,6 +47,7 @@ const BoxWrapper = ({ style, children }) => {
 export default function AdminPostList() {
   const [rows, setRows] = useContext(ReportContext);
   const [isDataLoading, setIsDataLoading] = useState(true);
+  const { user, isLoading, error } = useUser();
 
   //Load posts
   useEffect(() => {
@@ -56,7 +58,54 @@ export default function AdminPostList() {
       console.log(rows);
       setIsDataLoading(false);
     });
-  }, []);
+  }, [isDataLoading, isLoading]);
+
+  const respondToReport = (row, decision) => {
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      console.log("Starting Request", JSON.stringify(request, null, 2));
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      console.log("Response:", JSON.stringify(response, null, 2));
+      return response;
+    });
+    if (user) {
+      console.log("row", row.report_id);
+      const userID = user.sub;
+      if (decision == 1) {
+        axiosInstance
+          .delete(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + row.report_id, {
+            params: {
+              contentID: row.post_id,
+              userID: userID,
+            },
+          })
+          .then((response) => {
+            console.log("dsad");
+            console.log(JSON.parse(response.data));
+            setIsDataLoading(true);
+          });
+      } else {
+        axiosInstance
+          .put(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + row.report_id, {
+            params: {
+              contentID: row.post_id,
+              userID: userID,
+            },
+          })
+          .then((response) => {
+            console.log("dsad");
+            console.log(JSON.parse(response.data));
+            setIsDataLoading(true);
+          });
+      }
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
     return <div> Loading... </div>;
@@ -100,13 +149,17 @@ export default function AdminPostList() {
                       <ListItem
                         secondaryAction={
                           <>
-                            <IconButton edge="end" aria-label="check">
+                            <IconButton
+                              edge="end"
+                              aria-label="check"
+                              onClick={() => respondToReport(row, 1)}
+                            >
                               <CheckIcon />
                             </IconButton>
                             <IconButton
                               edge="end"
                               aria-label="delete"
-                              onClick={() => deleteReport(row.report_id)}
+                              onClick={() => respondToReport(row, 0)}
                             >
                               <DeleteIcon />
                             </IconButton>

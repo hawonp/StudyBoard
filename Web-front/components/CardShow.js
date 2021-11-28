@@ -67,11 +67,12 @@ export default function CardShow({ post }) {
               )}
             </Box>
           </Link>
-
+          <p> Click to see the full question... </p>
           {/* card content  */}
           <div style={{ padding: "16px" }}>
             Click here to see the question..
           </div>
+
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
             {/* <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
           <a style={{ textDecoration: "none" }}>

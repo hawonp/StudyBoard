@@ -66,6 +66,7 @@ export default function MyPost() {
       axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
         setMyPosts(JSON.parse(response.data));
         console.log(response);
+        console.log("henlo", JSON.parse(response.data));
         setIsDataLoading(false);
       });
     }

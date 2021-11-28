@@ -38,7 +38,12 @@ export default function FilterButton({
       {/*<InputLabel id="preferred tags">Age</InputLabel>*/}
       {user ? (
         <Select
-          sx={{ borderRadius: "16px", maxWidth: "auto", maxHeight: "32px" }}
+          sx={{
+            fontSize: "0.8rem",
+            borderRadius: "16px",
+            maxWidth: "auto",
+            maxHeight: "32px",
+          }}
           labelId="preferred tags"
           id="preferred tags"
           variant="outlined"

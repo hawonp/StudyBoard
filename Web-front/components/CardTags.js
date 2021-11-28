@@ -34,7 +34,7 @@ const CardTags = ({ tags }) => (
   >
     {tags.map((tag) => {
       return (
-        <Link href={`/hashtag/${tag}`} key={tag}>
+        <Link href={`/tags/${tag}`} key={tag}>
           <a style={{ textDecoration: "none" }}>
             <HashtagWrapper>{tag}</HashtagWrapper>
           </a>
