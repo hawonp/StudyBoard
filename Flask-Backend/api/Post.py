@@ -1,7 +1,7 @@
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_by_id, update_post
-from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag,search_tags
+from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag,search_tags,get_tag_name_by_id
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags, get_user_tag_ids
 from config.config import ApplicationConfig
@@ -180,7 +180,7 @@ class PostTag(Resource):
         # formData = request.get_json()["params"]
         # tag_id = formData["tagID"]
         tag_id = request.args.get('tagID')
-
+        
         posts = get_posts_by_tag(tag_id)
         #For every post, get the tags and append it to the respective post object
         for post in posts:            

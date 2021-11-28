@@ -1,3 +1,5 @@
+// @refresh reset
+
 // react imports
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -76,39 +78,59 @@ export async function getServerSideProps(context) {
     props: {},
   };
 }
+// export async function getServerSideProps({ params }) {
+//   const props = await getData(params);
+
+//   // key is needed here
+//   props.key = data.id;
+
+//   return {
+//     props: props,
+//   };
+// }
 
 export default function MyPost() {
   const router = useRouter();
   const [myPosts, setMyPosts] = useState([]);
-  //   const { user, isLoading, error } = useUser();
+  const [tagId, setTagId] = useState(router.query.id);
   const [isDataLoading, setIsDataLoading] = useState(true);
-
+  const [tagName, setTagName] = useState();
+  //   const dynamicRoute = router.asPath;
   useEffect(() => {
     // if (!isLoading && !error) {
     //   let userID = "";
     //   if (user) {
     //     userID = user.sub;
     //   }
+    setTagId(router.query.id);
+
+    // console.log("bitch ass", dynamicRoute, tagId);
+
     axiosInstance
       .get(POSTTAGENDPOINT, {
         params: {
-          tagID: router.query.id,
+          tagID: tagId,
         },
       })
       .then((response) => {
+        console.log(response.data);
+        setTagName(response.data.shift);
+        console.log("tagname", tagName);
         setMyPosts(JSON.parse(response.data));
-        console.log(response);
-        setIsDataLoading(false);
       });
-    // }
-  }, [isDataLoading]);
+    const handleRouteChange = (url, { shallow }) => {
+      router.reload();
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+  }, []);
 
   //   if (isLoading) return <div>Loading...</div>;
   //   if (error) return <div>{error.message}</div>;
 
-  if (isDataLoading) {
-    return <div> Loading... </div>;
-  } else if (myPosts.length == 0) {
+  //   if (isDataLoading) {
+  //     return <div> Loading... </div>;
+  //   } else
+  if (myPosts.length == 0) {
     return <div> No Search Results </div>;
   } else {
     console.log("posts", myPosts);
@@ -126,8 +148,16 @@ export default function MyPost() {
                 backgroundColor: "white",
               }}
             >
-              <h5 style={{ marginBottom: "2rem" }}>
-                Search Results for Tag ID : {router.query.id}
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                Search Results
               </h5>
               <LineWrapper />
               <BoxWrapper>
