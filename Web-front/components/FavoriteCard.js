@@ -107,7 +107,7 @@ export default function FavoriteCard({ favorite }) {
               >
                 <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {/* {user_post_like} Likes */}
+                  {favorite.user_post_like} Likes
                 </div>
               </IconButton>
 
