@@ -1,4 +1,5 @@
 import { CardActionArea, CardActions } from "@mui/material";
+import Link from "next/link";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -6,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
 import Card from "@mui/material/Card";
 import * as React from "react";
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -18,7 +20,7 @@ const CardActionsWrapper = ({ style, children }) => {
     <div
       style={{
         display: "flex",
-        marginLeft: "1rem",
+        marginLeft: "calc(1rem - 8px)",
         ...style,
       }}
     >
@@ -32,7 +34,7 @@ export default function MyPostList({ mypost }) {
   const [myPostData, setMyPostData] = useState(mypost);
 
   return (
-    <>
+    <Link href={"posts/" + mypost.post_id}>
       <Paper
         sx={{
           display: "flex",
@@ -51,7 +53,19 @@ export default function MyPostList({ mypost }) {
             alt="green iguana"
           />
         ) : (
-          <></>
+          <Paper
+            style={{
+              width: "150px",
+              height: "120px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ImageNotSupportedOutlinedIcon sx={{ fontSize: "3rem" }} />
+            <p style={{ fontSize: "0.6rem" }}>No Image</p>
+          </Paper>
         )}
         <Box
           sx={{
@@ -68,26 +82,23 @@ export default function MyPostList({ mypost }) {
               paddingTop: "1rem",
             }}
           >
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
+            <Box
               sx={{
-                fontSize: "1.6rem",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "end",
               }}
             >
-              {myPostData.post_title}
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
                 gutterBottom
                 variant="h5"
                 component="div"
                 sx={{
-                  fontSize: "1rem",
+                  fontSize: "1.6rem",
+                  marginBottom: "0",
                 }}
               >
-                {myPostData.username}
+                {myPostData.post_title}
               </Typography>
               <Typography
                 gutterBottom
@@ -101,6 +112,16 @@ export default function MyPostList({ mypost }) {
                 {myPostData.post_date}
               </Typography>
             </Box>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: "1rem",
+              }}
+            >
+              {myPostData.username || "nickname"}
+            </Typography>
           </Box>
 
           <CardActionsWrapper>
@@ -108,11 +129,11 @@ export default function MyPostList({ mypost }) {
             <IconButton
               disableRipple
               aria-label="favorites"
-              sx={{ padding: 0, borderRadius: "4px" }}
+              sx={{ borderRadius: "4px" }}
             >
               <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {myPostData.post_like_count} Likes
+                &nbsp; {myPostData.post_like_count} Likes
               </div>
             </IconButton>
 
@@ -131,11 +152,11 @@ export default function MyPostList({ mypost }) {
             <IconButton
               disableRipple
               aria-label="SmsIcon"
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+              sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
             >
               <SmsIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {myPostData.post_reply_count} Comments
+                &nbsp;{myPostData.post_reply_count} Comments
               </div>
             </IconButton>
 
@@ -203,6 +224,6 @@ export default function MyPostList({ mypost }) {
           </CardActionsWrapper>
         </Box>
       </Paper>
-    </>
+    </Link>
   );
 }

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
 //Importing MUI
-import { Alert, Box, Modal, TextField } from "@mui/material";
+import { Alert, Box, Modal, TextField, Stack } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -30,7 +30,7 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -45,8 +45,8 @@ const HashtagWrapper = ({ style, children }) => {
       style={{
         padding: "4px 15px",
         fontSize: "13px",
-        color: "#ffffff",
-        background: "#20247b",
+        color: "#3F8CB8",
+        background: "#E1ECF4",
         borderRadius: "3px",
         marginRight: "4px",
         marginTop: "4px",
@@ -69,7 +69,7 @@ const DetailWrapper = ({ style, children }) => {
         backgroundColor: "white",
         borderRadius: "8px",
         boxSizing: "border-box",
-
+        position: "inherit",
         ...style,
       }}
     >
@@ -98,6 +98,7 @@ export default function PostDetail({
   const [open, setOpen] = useState(false);
   const [flagText, setFlagText] = useState("");
   const [flagList, setFlagList] = useContext(ReportContext);
+  const [isCopied, setisCopied] = useState(false);
   const router = useRouter();
   const { user } = useUser();
   //Setting functions
@@ -115,21 +116,51 @@ export default function PostDetail({
     setFlagText("");
     setOpen(false);
   };
+
+  const alertCopy = () => {
+    setisCopied(true);
+    setTimeout(() => {
+      setisCopied(false);
+    }, 2000);
+  };
+
   console.log("postdata", postData);
   return (
     <DetailWrapper>
+      {isCopied && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success">Success Copy URL !</Alert>
+        </Stack>
+      )}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         {/*title*/}
         <header style={{ marginBottom: "1.5rem" }}>
           <h1>{postData.title}</h1>
           {/*username*/}
           <div style={{ display: "flex", marginBottom: "1.5rem" }}>
-            <div>Posted by {postData.user}&nbsp;</div>
+            <div
+              style={{
+                fontSize: "17px",
+                color: "#C4C4C4",
+              }}
+            >
+              Posted by {postData.user}&nbsp;
+            </div>
             {/*date*/}
-            <div style={{ display: "flex", flex: 1 }}>-{postData.date}</div>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                marginLeft: "0.5rem",
+                fontSize: "17px",
+                color: "#C4C4C4",
+              }}
+            >
+              {postData.date}
+            </div>
           </div>
         </header>
-        <div>
+        <div style={{ textAlign: "center" }}>
           {postData.images == "None" ? (
             <></>
           ) : (
@@ -208,6 +239,7 @@ export default function PostDetail({
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
+              alertCopy();
             }}
           >
             <ShareIcon sx={{ fontSize: "1.2rem" }} />
