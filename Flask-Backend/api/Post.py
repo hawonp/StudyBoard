@@ -1,7 +1,7 @@
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_by_id, update_post
-from query.post_query import get_post_feed, get_post_feed_with_filter
+from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag,search_tags
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags, get_user_tag_ids
 from config.config import ApplicationConfig
@@ -18,6 +18,8 @@ LIKES = '/likes'
 FAVOURITE = '/favourite'
 WRITE = '/write'
 FLAG = '/flag'
+TAGS = '/tags'
+SEARCH = '/search'
 
 ############################
 #    Marshmallow Schema    #
@@ -166,13 +168,30 @@ class PostSearch(Resource):
         print("Querying search result")
         input = request.args.get('input')
 
-        res = search_posts(input)
+        post_list = search_posts(input)
+        tag_list = search_tags(input)
 
-        print("\nSearch Result:", res, "\n")
+        print(post_list + tag_list)
+        return post_list + tag_list
 
-        return res
+ # get posts by tag_id
+class PostTag(Resource):
+    def get(self):
+        # formData = request.get_json()["params"]
+        # tag_id = formData["tagID"]
+        tag_id = request.args.get('tagID')
 
-        
+        posts = get_posts_by_tag(tag_id)
+        #For every post, get the tags and append it to the respective post object
+        for post in posts:            
+            #Finding and adding related tags to each post
+            post_tags = get_post_tags(post["post_id"])
+            tags = []
+            for tag in post_tags:
+                tags.append(tag[0])
+            post["post_tags"] = tags
+            
+        return json.dumps(posts, default=str)       
 
 #Post like
 class PostLike(Resource):
@@ -233,8 +252,6 @@ class PostFavourite(Resource):
         res = delete_user_favourite_post(user_id, id)
         return res
 
-
-
 #Add flag a post
 class PostFlag(Resource):
     def post(self, id):
@@ -252,7 +269,6 @@ class PostFlag(Resource):
         res = flag_post(id, user_id, flag_text)
         return res
 
-
 #Add routes to api
 def init_routes(api):
     api.add_resource(FeedPostData, FEED+POSTS)
@@ -261,8 +277,8 @@ def init_routes(api):
     api.add_resource(PostLike, POSTS+POST_ID+LIKES)
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
-    
-    api.add_resource(PostSearch, FEED +  POSTS + "/search")
+    api.add_resource(PostTag, FEED + POSTS + TAGS)
+    api.add_resource(PostSearch, FEED +  POSTS + SEARCH)
 
 
 feed_post_schema = FeedPostSchema()

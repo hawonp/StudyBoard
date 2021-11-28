@@ -1,17 +1,36 @@
+// react imports
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-//Importing components
-import ProfileCard from "../components/ProfileCard";
-import MyPostList from "../components/MyPostList";
-//Importing and settings vars for axios parse
-import axiosInstance from "../utils/routeUtil";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-const POSTS = "/posts";
-const USERS = "/users";
+import Link from "next/link";
+
+// import MUI
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import FlagIcon from "@mui/icons-material/Flag";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import ShareIcon from "@mui/icons-material/Share";
+import CardActions from "@mui/material/CardActions";
+import { Box } from "@mui/material";
+import Button from "@mui/material/Button";
+
+// package imports
+import { useUser } from "@auth0/nextjs-auth0";
+
+// project imports
+import ProfileCard from "../../components/ProfileCard";
+import PostEdit from "../../components/PostEdit";
+import PostDetail from "../../components/PostDetail";
+import { CommentBox } from "../../components/CommentBox";
+import MyPostList from "../../components/MyPostList";
+
+// axios instance
+import axiosInstance from "../../utils/routeUtil";
+const POSTTAGENDPOINT = "/feed/posts/tags";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -51,28 +70,41 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
+//Need this to keep post id
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+  };
+}
+
 export default function MyPost() {
+  const router = useRouter();
   const [myPosts, setMyPosts] = useState([]);
-  const { user, isLoading, error } = useUser();
+  //   const { user, isLoading, error } = useUser();
   const [isDataLoading, setIsDataLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading && !error) {
-      let userID = "";
-      if (user) {
-        userID = user.sub;
-      }
-      axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
+    // if (!isLoading && !error) {
+    //   let userID = "";
+    //   if (user) {
+    //     userID = user.sub;
+    //   }
+    axiosInstance
+      .get(POSTTAGENDPOINT, {
+        params: {
+          tagID: router.query.id,
+        },
+      })
+      .then((response) => {
         setMyPosts(JSON.parse(response.data));
         console.log(response);
-        console.log("henlo", JSON.parse(response.data));
         setIsDataLoading(false);
       });
-    }
-  }, [isLoading]);
+    // }
+  }, [isDataLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  //   if (isLoading) return <div>Loading...</div>;
+  //   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
     return <div> Loading... </div>;
@@ -92,7 +124,9 @@ export default function MyPost() {
                 backgroundColor: "white",
               }}
             >
-              <h5 style={{ marginBottom: "2rem" }}>My Posts</h5>
+              <h5 style={{ marginBottom: "2rem" }}>
+                Search Results for Tag ID : {router.query.id}
+              </h5>
               <LineWrapper />
               <BoxWrapper>
                 {myPosts.map((post) => (

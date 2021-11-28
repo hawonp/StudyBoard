@@ -72,12 +72,15 @@ export default function SearchBar() {
     console.log("user has selected", value);
     if (value != null) {
       const type = value["type"];
+      const id = value["id"];
+
       if (type == "tag") {
         console.log("User selected a tag");
+        Router.push("../tags/" + id);
       } else {
         console.log("User selected a post");
         const postID = value["id"];
-        Router.push("../posts/" + postID);
+        Router.push("../posts/" + id);
       }
     }
 

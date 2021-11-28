@@ -289,15 +289,15 @@ def get_post_by_id(post_id):
         print(f"Error adding entry to database: {e}")
         return -1
 
-def get_post_id_by_title(title):
+def get_posts_by_tag(tag_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
         cur = conn.cursor()
 
         #Set up query statements and values
-        query = "SELECT * FROM Post WHERE Post.post_title=?"
-        values = (title, )
+        query = "SELECT Post.* FROM Post, Post_Tag WHERE Post_Tag.tag_id = ? && Post_Tag.post_id = Post.post_id"
+        values = (tag_id, )
         print("Selecting with query", query)
         cur.execute(query, values)
 
