@@ -40,8 +40,8 @@ const HashtagWrapper = ({ style, children }) => {
       style={{
         padding: "4px 15px",
         fontSize: "13px",
-        color: "#ffffff",
-        background: "#20247b",
+        color: "#3F8CB8",
+        background: "#E1ECF4",
         borderRadius: "4px",
         marginRight: "4px",
         marginBottom: "2px",
@@ -132,21 +132,21 @@ export default function ProfileCard() {
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ flex: 1, marginLeft: "1rem" }}>
+              <div style={{ marginLeft: "1rem" }}>
                 {/*user name*/}
                 <h4>{nickname}</h4>
               </div>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "end",
+                  // justifyContent: "end",
                   marginRight: "0.8rem",
                 }}
               >
                 {/*만약 수퍼유저가 아니면 안보이게 */}
                 <Link href="/admin/admin">
                   <AdminPanelSettingsIcon
-                    sx={{ marginLeft: "1rem", color: "darkred" }}
+                    sx={{ marginLeft: "0.8rem", color: "darkred" }}
                   />
                 </Link>
               </div>

@@ -45,8 +45,8 @@ const HashtagWrapper = ({ style, children }) => {
       style={{
         padding: "4px 15px",
         fontSize: "13px",
-        color: "#ffffff",
-        background: "#20247b",
+        color: "#3F8CB8",
+        background: "#E1ECF4",
         borderRadius: "3px",
         marginRight: "4px",
         marginTop: "4px",
@@ -138,12 +138,29 @@ export default function PostDetail({
           <h1>{postData.title}</h1>
           {/*username*/}
           <div style={{ display: "flex", marginBottom: "1.5rem" }}>
-            <div>Posted by {postData.user}&nbsp;</div>
+            <div
+              style={{
+                fontSize: "17px",
+                color: "#C4C4C4",
+              }}
+            >
+              Posted by {postData.user}&nbsp;
+            </div>
             {/*date*/}
-            <div style={{ display: "flex", flex: 1 }}>-{postData.date}</div>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                marginLeft: "0.5rem",
+                fontSize: "17px",
+                color: "#C4C4C4",
+              }}
+            >
+              {postData.date}
+            </div>
           </div>
         </header>
-        <div>
+        <div style={{ textAlign: "center" }}>
           {postData.images == "None" ? (
             <></>
           ) : (
