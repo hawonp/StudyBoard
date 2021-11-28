@@ -107,7 +107,7 @@ export default function FavoriteCard({ favorite }) {
               >
                 <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {favorite.user_post_like} Likes
+                  {favorite.post_like_count} Likes
                 </div>
               </IconButton>
 
@@ -129,7 +129,7 @@ export default function FavoriteCard({ favorite }) {
               >
                 <SmsIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {favorite.reply_count} Comment
+                  {favorite.post_reply_count} Comment
                 </div>
               </IconButton>
 
