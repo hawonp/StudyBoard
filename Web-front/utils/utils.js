@@ -1,19 +1,64 @@
-import Cookies from "universal-cookie";
+function calculateTimeDiff(currentTimeStamp, postTimeStamp) {
+  // convert timestamps into dates
+  const dateFuture = new Date(currentTimeStamp);
+  const dateNow = new Date(postTimeStamp);
+  let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
 
-export const refreshTokenSetup = (res) => {
-  let refreshTiming = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000;
+  // calculate days
+  const days = Math.floor(diffInMilliSeconds / 86400);
+  diffInMilliSeconds -= days * 86400;
 
-  const refreshToken = async () => {
-    const newAuthRes = await res.reloadAuthResponse();
-    refreshTiming = (newAuthRes.tokenObj.expires_in || 3600 - 5 * 60) * 1000;
-    console.log("newAuthRes: ", newAuthRes);
-    console.log("new auth token", newAuthRes.id_token);
+  // calculate hours
+  const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+  diffInMilliSeconds -= hours * 3600;
 
-    setTimeout(refreshToken, refreshTiming);
-  };
-  setTimeout(refreshToken, refreshTiming);
-};
+  // calculate minutes
+  const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+  diffInMilliSeconds -= minutes * 60;
 
+  var diffList = [];
+  if (days > 0) {
+    diffList.push(days);
+  } else {
+    diffList.push(0);
+  }
+
+  diffList.push(hours);
+  diffList.push(minutes);
+  return diffList;
+}
+
+export function getTimeDisplay(currentTimeStamp, postTimeStamp) {
+  const diffList = calculateTimeDiff(currentTimeStamp, postTimeStamp);
+
+  const days = diffList[0];
+  const hours = diffList[1];
+  const minutes = diffList[2];
+  var result = "";
+  if (days >= 720) {
+    result = Math.floor(days / 365) + " years ago";
+  } else if (days > 365) {
+    result = Math.floor(days / 365) + " year ago";
+  } else if (days >= 61) {
+    result = Math.floor(days / 30.5) + " months ago";
+  } else if (days >= 30) {
+    result = Math.floor(days / 30.5) + " month ago";
+  } else if (days > 1) {
+    result = days + " days ago";
+  } else if (days == 1) {
+    result = days + " day ago";
+  } else if (hours > 1) {
+    result = hours + " hours ago";
+  } else if (hours == 1) {
+    result = hours + " hour ago";
+  } else if (minutes > 1) {
+    result = minutes + " minutes ago";
+  } else {
+    result = "1 minute ago";
+  }
+
+  return result;
+}
 // Debugging tool
 // Following is used to intercept axios calls to see our requests
 // // Add a request interceptor

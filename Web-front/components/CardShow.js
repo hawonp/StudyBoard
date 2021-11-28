@@ -12,21 +12,14 @@ import Box from "@mui/material/Box";
 
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
+import { getTimeDisplay } from "../utils/utils";
 
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
-  const today = new Date(),
-    date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate(),
-    time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
+  const today = new Date();
+  const dateDiff = getTimeDisplay(today, post.post_date);
   return (
     <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
       <a style={{ textDecoration: "none" }}>
@@ -57,10 +50,7 @@ export default function CardShow({ post }) {
                     <LightbulbIcon sx={{ color: "#FFBF00" }} />
                   </Tooltip>
                 </div>
-                <span style={{ fontSize: "0.8rem" }}>
-                  - {post.post_date} hours ago
-                </span>
-                {console.log("current time", date, time)}
+                <span style={{ fontSize: "0.8rem" }}> {dateDiff}</span>
               </div>
             }
           ></CardHeader>

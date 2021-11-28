@@ -14,7 +14,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-
+import { getTimeDisplay } from "../utils/utils";
 const CardActionsWrapper = ({ style, children }) => {
   return (
     <div
@@ -32,7 +32,8 @@ const CardActionsWrapper = ({ style, children }) => {
 
 export default function MyPostList({ mypost }) {
   const [myPostData, setMyPostData] = useState(mypost);
-
+  const today = new Date();
+  const diffTime = getTimeDisplay(today, myPostData.post_date);
   return (
     <Link href={"posts/" + mypost.post_id}>
       <Paper
@@ -109,7 +110,7 @@ export default function MyPostList({ mypost }) {
                   marginLeft: "0.8rem",
                 }}
               >
-                {myPostData.post_date}
+                {diffTime}
               </Typography>
             </Box>
             <Typography

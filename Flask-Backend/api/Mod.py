@@ -182,8 +182,8 @@ def init_routes(api):
     api.add_resource(RespondToPostFlag, FLAGGED+POSTS+FLAG_ID)
     api.add_resource(RespondToReplyFlag, FLAGGED+REPLIES+FLAG_ID)
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
-    api.add_resource(FlaggedUsers, FLAGGED+USERS)
-    api.add_resource(FlaggedUsers, FLAGGED+USERS+USER_ID)
+    # api.add_resource(FlaggedUsers, FLAGGED+USERS)
+    # api.add_resource(FlaggedUsers, FLAGGED+USERS+USER_ID)
 
 mod_authorise_schema = ModeratorAuthorisationSchema()
 handle_report_authorise_schema = HandleReportAuthorisationSchema()
