@@ -36,6 +36,10 @@ def add_post(user_id, title, text, img_url, tags):
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
+            #Filter out empty tag 
+            if tag =="":
+                continue
+
             #Check if tag already exists.
             tag_row = get_tag_by_name(tag)
             
@@ -126,6 +130,61 @@ def get_post_feed(page, order):
     #Fetching count with given filter
     print("Selecting with query", query, " and values ", values)
     cur.execute(query)
+
+    # serialize results into JSON
+    rv = cur.fetchone()
+
+    #Close cursor
+    cur.close()
+    conn.commit()
+    conn.close()
+
+    # return the results!
+    res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
+    return res_data
+
+def get_post_feed_with_filter(page, order, filter):
+    # Obtainting DB cursor
+    conn = get_connection()
+    cur = conn.cursor()
+
+    #Set up query statements and values
+    limit = 10
+    offset = (page - 1) * 10 #if page 1, then it should start from 1.
+    format_string = ','.join(['?'] * len(filter))
+    if order:
+        #If the order is in like
+        query = "SELECT p.post_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
+    else:
+        query = "SELECT p.post_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_date DESC LIMIT ?, ?"
+    values = tuple(filter) + (offset, limit)
+
+    #Fetching posts with filter, sort, limit, and offset
+    print("Selecting with query", query, " and values ", values)
+    cur.execute(query, values)
+
+    # serialize results into JSON
+    row_headers=[x[0] for x in cur.description]
+    rv = cur.fetchall()
+    json_data=[]
+    print("Getting data")
+    for result in rv:
+        json_data.append(dict(zip(row_headers,result)))
+
+    print(json_data)
+    #Close cursor
+    cur.close()
+
+    #Obtain max page count
+    # Obtainting DB cursor
+    cur = conn.cursor()
+
+    #Set up query statement and values
+    query = "SELECT COUNT(*) FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id"
+    values = tuple(filter)
+    #Fetching count with given filter
+    print("Selecting with query", query, " and values ", values)
+    cur.execute(query, values)
 
     # serialize results into JSON
     rv = cur.fetchone()

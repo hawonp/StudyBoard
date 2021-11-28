@@ -112,6 +112,7 @@ export default function ProfileCard() {
           const temp_json = JSON.parse(temp);
           const user_nickname = temp_json.user.user_nickname;
           const tag = temp_json.tags;
+          console.log("tag", tag);
           setNickname(user_nickname);
           setUserId(temp_json.user.user_id);
           setTags(tag);

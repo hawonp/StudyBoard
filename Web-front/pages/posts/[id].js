@@ -63,16 +63,6 @@ export default function PostDetailPage() {
   //Load in  the post data upon render
   useEffect(() => {
     if (!isLoading && !error) {
-      // Add a request interceptor
-      axiosInstance.interceptors.request.use((request) => {
-        console.log("Starting Request", JSON.stringify(request, null, 2));
-        return request;
-      });
-
-      axiosInstance.interceptors.response.use((response) => {
-        console.log("Response:", JSON.stringify(response, null, 2));
-        return response;
-      });
       axiosInstance
         .get(POSTDATAENDPOINT + "/" + router.query.id, {
           params: { userID: userID },

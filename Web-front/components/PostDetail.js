@@ -103,16 +103,7 @@ export default function PostDetail({
   //Setting functions
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // Add a request interceptor
-  axiosInstance.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
-    return request;
-  });
 
-  axiosInstance.interceptors.response.use((response) => {
-    console.log("Response:", JSON.stringify(response, null, 2));
-    return response;
-  });
   const report = () => {
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
