@@ -210,7 +210,7 @@ def deny_post_flag(flag_id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "DELETE FROM Post_Report WHERE flag_id=?"
+        query = "DELETE FROM Post_Report WHERE report_id=?"
         values = (flag_id,)
 
         #Getting data from table
@@ -262,7 +262,7 @@ def deny_reply_flag(flag_id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "DELETE FROM Reply_Report WHERE flag_id=?"
+        query = "DELETE FROM Reply_Report WHERE report_id=?"
         values = (flag_id,)
 
         #Getting data from table

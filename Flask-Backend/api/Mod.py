@@ -20,7 +20,7 @@ FLAG_ID = '/<int:id>'
 ############################
 class ModeratorAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
-    contentID = fields.Str(required=True)
+    contentID = fields.Int(required=True)
 
 ############################
 # Flask RESTful API routes #
@@ -76,7 +76,7 @@ class RespondToPostFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = deny_post_flag(flag_id)
+            res = deny_post_flag(id)
         else:
             err = "Not authorised"
             print(err)
@@ -125,8 +125,7 @@ class RespondToReplyFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = deny_reply_flag(flag_id)
-            del_post_res = delete_post(post_id)
+            res = deny_reply_flag(id)
         else:
             err = "Not authorised"
             print(err)
