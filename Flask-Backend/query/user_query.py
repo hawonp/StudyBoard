@@ -33,6 +33,33 @@ def add_user(id, nickname, email_address):
         print(f"Error adding entry to database: {e}")
     return new_user_id
 
+def add_user_to_blacklist(user_id):
+    new_user_id = "" #When meeting and error or not found
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "INSERT INTO User (user_id) VALUES (?)"
+        values = (user_id, n)
+
+        #Adding new data into table
+        print("Adding with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Getting id of newly added user
+        new_user_id = cursor.lastrowid
+        print("cursor lastrowid is ", cursor.lastrowid)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+    return new_user_id
+
 ##########################################################
 #                         SELECT                         #
 ##########################################################

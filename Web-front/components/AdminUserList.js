@@ -57,6 +57,34 @@ export default function AdminUserList() {
     });
   }, [isDataLoading, isLoading]);
 
+  const blackListUser = (user_id) => {
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      console.log("Starting Request", JSON.stringify(request, null, 2));
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      console.log("Response:", JSON.stringify(response, null, 2));
+      return response;
+    });
+    if (user) {
+      console.log("row", row.report_id);
+      const userID = user.sub;
+      axiosInstance
+        .delete(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + user_id, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          console.log("dsad");
+          console.log(JSON.parse(response.data));
+          setIsDataLoading(true);
+        });
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
@@ -73,7 +101,7 @@ export default function AdminUserList() {
 
                 <TableCell align="left">User Nickname</TableCell>
                 <TableCell align="center">Number of Flagged Posts</TableCell>
-                <TableCell align="right">Accept / Deny</TableCell>
+                <TableCell align="right">Blacklist User</TableCell>
               </TableRow>
             </TableHead>
 
@@ -92,13 +120,10 @@ export default function AdminUserList() {
                     <ListItem
                       secondaryAction={
                         <>
-                          <IconButton edge="end" aria-label="check">
-                            <CheckIcon />
-                          </IconButton>
                           <IconButton
                             edge="end"
                             aria-label="delete"
-                            onClick={() => deleteReport(row.user_id)}
+                            onClick={() => blackListUser(row.user_id)}
                           >
                             <DeleteIcon />
                           </IconButton>

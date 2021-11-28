@@ -134,7 +134,7 @@ def get_flagged_users():
     cur = conn.cursor()
 
     #Set up query statements 
-    query = "SELECT * FROM User WHERE user_flags_received >= 10"
+    query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
 
 
     #Fetching posts with filter, sort, limit, and offset
