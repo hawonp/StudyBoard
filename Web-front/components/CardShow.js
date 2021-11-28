@@ -18,8 +18,10 @@ import { getTimeDisplay } from "../utils/utils";
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
-  const today = new Date();
-  const dateDiff = getTimeDisplay(today, post.post_date);
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), post.post_date));
+  }, []);
   return (
     <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
       <a style={{ textDecoration: "none" }}>
@@ -50,7 +52,7 @@ export default function CardShow({ post }) {
                     <LightbulbIcon sx={{ color: "#FFBF00" }} />
                   </Tooltip>
                 </div>
-                <span style={{ fontSize: "0.8rem" }}> {dateDiff}</span>
+                <span style={{ fontSize: "0.8rem" }}> {diffTime}</span>
               </div>
             }
           ></CardHeader>

@@ -32,8 +32,10 @@ const CardActionsWrapper = ({ style, children }) => {
 
 export default function MyPostList({ mypost }) {
   const [myPostData, setMyPostData] = useState(mypost);
-  const today = new Date();
-  const diffTime = getTimeDisplay(today, myPostData.post_date);
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
+  }, []);
   return (
     <Link href={"posts/" + mypost.post_id}>
       <Paper

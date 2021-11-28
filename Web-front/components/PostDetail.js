@@ -22,7 +22,7 @@ import SmsIcon from "@mui/icons-material/Sms";
 import { getTimeDisplay } from "../utils/utils";
 import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";
-
+import { useEffect } from "react";
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
 
@@ -102,9 +102,12 @@ export default function PostDetail({
   const [isCopied, setisCopied] = useState(false);
   const router = useRouter();
   const { user } = useUser();
-  const today = new Date();
-  const diffTime = getTimeDisplay(today, postData.date);
-  //Setting functions
+
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), postData.date));
+  }, []);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
