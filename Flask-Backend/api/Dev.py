@@ -5,7 +5,7 @@ from config.imports import json, Resource, mariadb
 from query.post_query import add_post
 from query.tag_query import add_tag
 from query.user_query import add_user, get_user_id_with_email
-# version 1.1
+# version 1.1.1
 # api to add dummy data has been added.
 # To add dummy data to the database:
 # 1. host the server (dbms and flask backend)
@@ -57,7 +57,7 @@ def populate_db_2():
     add_post(squid_id, "Why would you place datacenters under the sea?", "<p>Sure. I know that it is for cooling the servers without having to use energy.</p><p><strong>But aren't you basically heating up the sea water with that</strong>? Who is gonna take responsibility for rising sea water temperature?</p>", "None", ["computer-science", "networking", "global-warming", "datacenters"])
     add_post(squid_id, "Does vaccination really cause autism?", "<p>I heard people talk about it and everyone in my class believes that it does cause autism.</p><p>I don't think that this makes sense, but now I don't know if I'm right anymore.</p><p>Help!</p>", "None", ["vaccination", "autism", "consipracy", "biology", "bioengineering"])
     add_post(squid_id, "My friend and I or my friend and me?", "<p>I was talking to my friend and I said “My friend and I went to the bar last night”</p><p>But my friend said that it's wrong. He said that it's supposed to be “My friend and me”</p><p>So could someone tell me which one is right?</p><ol><li>My friend and I</li><li>My friend and me</li></ol>", "None", ["english", "grammar"])
-    add_post(squid_id, "Is illuminati real?", "<p><strong>I</strong></p><p><strong>L</strong></p><p><strong>L</strong></p><p><strong>U</strong></p><p><strong>M</strong></p><p><strong>I</strong></p><p><strong>N</strong></p><p><strong>A</strong></p><p><strong>T</strong></p><p><strong>I</strong></p>", "None", ["ILLUMINATI"])
+    add_post(squid_id, "Is illuminati real?", "<p><strong>I</strong></p><p><strong>L</strong></p><p><strong>L</strong></p><p><strong>U</strong></p><p><strong>M</strong></p><p><strong>I</strong></p><p><strong>N</strong></p><p><strong>A</strong></p><p><strong>T</strong></p><p><strong>I</strong></p>", "None", ["illuminati"])
     add_post(squid_id, "What really is chemical equilibrium?", "<p>Equilibrium is the state at which both the reactants and products are present in concentrations which have no further tendency to change with time</p><p>But I dont understand what this page is saying. Could somone explain?</p>", "None", ["chemistry", "equilibrium"])
 
 
