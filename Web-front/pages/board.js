@@ -62,38 +62,59 @@ const options = ["Edit", "Delete"];
 
 export default function Board() {
   const [expanded, setExpanded] = useState(false);
-
   const isBig = useMediaQuery("(min-width:850px)");
-  const { user } = useUser();
+  const { user, isLoading, error } = useUser();
   const [feedPage, setFeedPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [feedOrder, setFeedOrder] = useState(0);
   const [feedFilter, setFeedFilter] = useState(0);
   const [posts, setPosts] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
   //Load posts when component mounts
   useEffect(() => {
-    if (user) {
-      setFeedFilter(1);
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      console.log("Starting Request", JSON.stringify(request, null, 2));
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      console.log("Response:", JSON.stringify(response, null, 2));
+      return response;
+    });
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .get(POST_FEED, {
+          params: {
+            userID: userID,
+            page: feedPage,
+            order: feedOrder,
+            filter: feedFilter,
+          },
+        })
+        .then((response) => {
+          setPosts(JSON.parse(response.data)["posts"]);
+          setMaxPage(JSON.parse(response.data)["maxPageCount"]);
+          console.log(response);
+          setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            // TODO temp redirection
+            alert("could not load data");
+          }
+        });
     }
-    axiosInstance
-      .get(POST_FEED, {
-        params: {
-          // userID: user.sub,
-          page: feedPage,
-          order: feedOrder,
-          filter: feedFilter,
-        },
-      })
-      .then((response) => {
-        setPosts(JSON.parse(response.data)["posts"]);
-        setMaxPage(JSON.parse(response.data)["maxPageCount"]);
-        console.log(response);
-      });
-  }, [feedPage, feedOrder, feedFilter]);
+  }, [feedPage, feedOrder, feedFilter, isLoading]);
 
   const updatePage = (event, page) => {
-    console.log(page);
+    console.log("page", page);
     setFeedPage(page);
   };
   const updateOrder = (order) => {
@@ -116,46 +137,53 @@ export default function Board() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
-  return (
-    <div style={{ display: "flex" }}>
-      <Container>
-        <Head>
-          <title>StudyBoard</title>
-        </Head>
+  if (isDataLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <div style={{ display: "flex" }}>
+        <Container>
+          <Head>
+            <title>StudyBoard</title>
+          </Head>
 
-        {/*{!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}*/}
-        {!isBig && <ProfileCard />}
+          {/*{!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}*/}
+          {/* {!isBig && <ProfileCard />} */}
 
-        {/* Write Qeustion */}
-        <PostNavigation />
+          {/* Write Qeustion */}
+          <PostNavigation />
 
-        {/*filter*/}
-        <FilterBox>
-          <FilterButton
-            user={user}
-            handleSortClick={updateOrder}
-            handleFilterChange={updateFilter}
-          />
-        </FilterBox>
+          {/*filter*/}
+          <FilterBox>
+            <FilterButton
+              user={user}
+              handleSortClick={updateOrder}
+              handleFilterChange={updateFilter}
+              filter={feedFilter}
+            />
+          </FilterBox>
 
-        <div>
-          {/*Pre view user post Card*/}
-          {posts.map((post) => (
-            <CardShow key={post.post_id} post={post} />
-          ))}
-        </div>
+          <div>
+            {/*Pre view user post Card*/}
+            {posts.map((post) => (
+              <CardShow key={post.post_id} post={post} />
+            ))}
+          </div>
 
-        {/*pagnation*/}
-        <PageNav>
-          <PaginationButton
-            page={feedPage}
-            setPage={updatePage}
-            maxPageCount={maxPage}
-          />
-        </PageNav>
-      </Container>
-      {isBig && <ProfileCard />}
-    </div>
-  );
+          {/*pagnation*/}
+          <PageNav>
+            <PaginationButton
+              page={feedPage}
+              setPage={updatePage}
+              maxPageCount={maxPage}
+            />
+          </PageNav>
+        </Container>
+        {isBig && user && <ProfileCard />}
+      </div>
+    );
+  }
 }

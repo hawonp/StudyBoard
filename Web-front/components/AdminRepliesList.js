@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
+import Link from "next/link";
 //Importing MUI
 import { Container, ListItem } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,7 +8,6 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Link from "@mui/material/Link";
 import LinkIcon from "@mui/icons-material/Link";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
@@ -18,6 +18,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import axiosInstance from "../utils/routeUtil";
 
 const FLAGGEDENDPOINT = "/flagged";
+const REPLYDATAENDPOINT = "/replies";
+const ROUTE_ID = "/posts/[id]";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -39,76 +41,89 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
-// Col table id,name,nick,contents,status
-function createData(number, nickname, contents, link, conform) {
-  return { number, nickname, contents, link, conform };
-}
-
-const rows = [
-  createData(1, "pk-dev", "whawahwawh"),
-  createData(2, "hawonjjang", "KIN"),
-  createData(3, "HOHO", "I am smart"),
-  createData(4, "Temp", "this is dumb"),
-  createData(5, "Prof", "this is stupid"),
-];
-
 export default function AdminUserList() {
-  return (
-    <BoxWrapper>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">Number</TableCell>
+  const [rows, setRows] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
-              <TableCell align="left">Nick Name</TableCell>
-              <TableCell align="center">Contents</TableCell>
-              <TableCell align="right">Link</TableCell>
-              <TableCell align="right">Conform</TableCell>
-            </TableRow>
-          </TableHead>
+  useEffect(() => {
+    axiosInstance.get(FLAGGEDENDPOINT + REPLYDATAENDPOINT).then((response) => {
+      console.log("dsad");
+      setRows(JSON.parse(response.data));
+      console.log(JSON.parse(response.data));
+      console.log(rows);
+      setIsDataLoading(false);
+    });
+  }, []);
 
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.number}>
-                <TableCell component="th" scope="row">
-                  {row.number}
-                </TableCell>
+  if (isDataLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <BoxWrapper>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Report ID</TableCell>
 
-                <TableCell align="left">{row.nickname}</TableCell>
-                <TableCell align="center">{row.contents}</TableCell>
-                <TableCell align="right">
-                  <Link>
-                    <a>
-                      {/* link to the post */}
-                      <LinkIcon />
-                    </a>
-                  </Link>
-                </TableCell>
-
-                <TableCell align="right">
-                  <ListItem
-                    secondaryAction={
-                      <>
-                        <IconButton edge="end" aria-label="check">
-                          <CheckIcon />
-                        </IconButton>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => deleteReport(row.number)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </>
-                    }
-                  ></ListItem>
-                </TableCell>
+                <TableCell align="left">Reported by</TableCell>
+                <TableCell align="center">Contents</TableCell>
+                <TableCell align="right">Link to Post</TableCell>
+                <TableCell align="right">Accept / Deny</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </BoxWrapper>
-  );
+            </TableHead>
+
+            {rows.length > 0 ? (
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.report_id}>
+                    <TableCell component="th" scope="row">
+                      {row.report_id}
+                    </TableCell>
+
+                    <TableCell align="left">{row.user_nickname}</TableCell>
+                    <TableCell align="center">{row.report_text}</TableCell>
+                    <TableCell align="right">
+                      <Link
+                        href={{
+                          pathname: ROUTE_ID,
+                          query: { id: row.post_id },
+                        }}
+                      >
+                        <a>
+                          {/* link to the post */}
+                          <LinkIcon />
+                        </a>
+                      </Link>
+                    </TableCell>
+
+                    <TableCell align="right">
+                      <ListItem
+                        secondaryAction={
+                          <>
+                            <IconButton edge="end" aria-label="check">
+                              <CheckIcon />
+                            </IconButton>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => deleteReport(row.report_id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </>
+                        }
+                      ></ListItem>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <div>No report</div>
+            )}
+          </Table>
+        </TableContainer>
+      </BoxWrapper>
+    );
+  }
 }

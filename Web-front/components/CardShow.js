@@ -12,7 +12,6 @@ import Box from "@mui/material/Box";
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
 
-
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -37,20 +36,6 @@ const HashtagWrapper = ({ style, children }) => {
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
-  //EditPost
-  const [postCard, setpostCard] = useState({
-    id: 1,
-    title: "PK",
-    content: "PKPKPK",
-    images: "",
-    tags: ["MATH", "CSE", "HARD"],
-
-  });
-
-  useEffect(() => {
-    // TODO: API CALL (BACKEND)
-  }, []);
-
   return (
     <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
       <a style={{ textDecoration: "none" }}>
@@ -67,7 +52,6 @@ export default function CardShow({ post }) {
               <div>
                 <Tooltip title="This is Endorsed User post ">
                   <StarIcon sx={{ color: "#FFBF00", mt: "0.1rem" }} />
-
                 </Tooltip>
               </div>
             }
@@ -91,7 +75,6 @@ export default function CardShow({ post }) {
 
           <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
             <Box sx={{ width: "100%" }}>
-
               {post.post_image == "None" ? (
                 <></>
               ) : (
@@ -108,7 +91,6 @@ export default function CardShow({ post }) {
 
           {/* card content  */}
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
-
             {/* <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
           <a style={{ textDecoration: "none" }}>
             <Typography
@@ -125,9 +107,11 @@ export default function CardShow({ post }) {
             <CardTags tags={post.post_tags} />
           </CardContent>
 
-
           {/* this is icon */}
-          <ButtonComponets />
+          <ButtonComponets
+            likeCount={post.post_like_count}
+            replyCount={post.post_reply_count}
+          />
         </Card>
       </a>
     </Link>

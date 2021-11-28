@@ -1,5 +1,5 @@
 from config.imports import mariadb
-from config.db_connect import conn
+from config.db_connect import get_connection
 from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name, get_user_tags
 
 ##########################################################
@@ -10,6 +10,7 @@ def add_user(id, nickname, email_address):
     new_user_id = "" #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -27,6 +28,7 @@ def add_user(id, nickname, email_address):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     return new_user_id
@@ -36,6 +38,7 @@ def add_user(id, nickname, email_address):
 ##########################################################
 #Get all users
 def get_users():
+    conn = get_connection()
     cur = conn.cursor()
     cur.execute("SELECT * FROM User")
 
@@ -48,7 +51,8 @@ def get_users():
 
     #Close cursor
     cur.close()
-        
+    conn.commit()
+    conn.close()
     # return the results!
     return json_data
 
@@ -58,6 +62,7 @@ def get_user_id_with_email(email):
     user_id = "" #When meeting and error or not found
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -73,6 +78,7 @@ def get_user_id_with_email(email):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     #Return result
@@ -82,6 +88,7 @@ def get_user_id_with_email(email):
 def check_user_id_exists(id):
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -96,6 +103,7 @@ def check_user_id_exists(id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"No user exists: {e}")
 
@@ -103,8 +111,10 @@ def check_user_id_exists(id):
 
 #Get user by id
 def get_user_by_id(id):
+    res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
         
         if(id == None):
@@ -126,9 +136,9 @@ def get_user_by_id(id):
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1
     
     return res
 
@@ -136,6 +146,7 @@ def get_user_by_id(id):
 def get_users_order_by_rank():
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -153,13 +164,15 @@ def get_users_order_by_rank():
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
 
-        for user in json_data:
-            user["tags"] = get_user_tags(user["user_id"])
-            print(user)
-
         #Closing cursor
         cursor.close()
         conn.commit()
+        conn.close()
+
+        for user in json_data:
+            user["tags"] = get_user_tags(user["user_id"])
+            print(user)
+ 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
@@ -172,6 +185,7 @@ def update_user(id, nickname, tags):
     res = 1
     try:
         #Obtain DB cursor
+        conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
@@ -186,9 +200,7 @@ def update_user(id, nickname, tags):
         #Closing cursor and commiting  connection
         cursor.close()
         conn.commit()
-
-        #Obtain DB cursor
-        cursor = conn.cursor()
+        conn.close()
 
         #Clear all the tags from the post
         if delete_all_tags_of_user(id) == 0:
@@ -196,6 +208,7 @@ def update_user(id, nickname, tags):
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
+            tag = tag.strip()
             #Check if tag already exists.
             tag_row = get_tag_by_name(tag)
             
