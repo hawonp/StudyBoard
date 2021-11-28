@@ -75,12 +75,12 @@ export default function Board() {
   useEffect(() => {
     // Add a request interceptor
     axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request", JSON.stringify(request, null, 2));
+      // console.log("Starting Request", JSON.stringify(request, null, 2));
       return request;
     });
 
     axiosInstance.interceptors.response.use((response) => {
-      console.log("Response:", JSON.stringify(response, null, 2));
+      // console.log("Response:", JSON.stringify(response, null, 2));
       return response;
     });
     if (!isLoading && !error) {
@@ -100,7 +100,7 @@ export default function Board() {
         .then((response) => {
           setPosts(JSON.parse(response.data)["posts"]);
           setMaxPage(JSON.parse(response.data)["maxPageCount"]);
-          console.log(response);
+          // console.log(response);
           setIsDataLoading(false);
         })
         .catch((e) => {

@@ -289,12 +289,35 @@ def get_post_by_id(post_id):
         print(f"Error adding entry to database: {e}")
         return -1
 
+def get_tag_name_by_id(tag_id):
+    tag_name = ""
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
+        
+        #Set up query statements and values
+        query = "SELECT Tag.tag_name FROM Tag WHERE Tag.tag_id = ?"
+        values = (tag_id, )
+        print("Selecting with query", query)
+        cur.execute(query, values)
+
+        rv = cur.fetchall()
+        flat = list(sum(rv, ()))
+        print("\t\t\t\t\t\t\tthis is the tag name", list(sum(rv, ())))
+        tag_name = flat[0]
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return tag_name
+
+    return tag_name
+
 def get_posts_by_tag(tag_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
         cur = conn.cursor()
-
+        
         #Set up query statements and values
         query = "SELECT Post.* FROM Post, Post_Tag WHERE Post_Tag.tag_id = ? && Post_Tag.post_id = Post.post_id"
         values = (tag_id, )
@@ -308,7 +331,7 @@ def get_posts_by_tag(tag_id):
 
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
-
+        print(json_data)
         #Close cursor
         cur.close()
         conn.commit()
