@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
 //Importing MUI
-import { Alert, Box, Modal, TextField } from "@mui/material";
+import { Alert, Box, Modal, TextField, Stack } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -30,7 +30,7 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -69,7 +69,7 @@ const DetailWrapper = ({ style, children }) => {
         backgroundColor: "white",
         borderRadius: "8px",
         boxSizing: "border-box",
-
+        position: "inherit",
         ...style,
       }}
     >
@@ -98,6 +98,7 @@ export default function PostDetail({
   const [open, setOpen] = useState(false);
   const [flagText, setFlagText] = useState("");
   const [flagList, setFlagList] = useContext(ReportContext);
+  const [isCopied, setisCopied] = useState(false);
   const router = useRouter();
   const { user } = useUser();
   //Setting functions
@@ -124,9 +125,24 @@ export default function PostDetail({
     setFlagText("");
     setOpen(false);
   };
+
+  const alertCopy = () => {
+    setisCopied(true);
+    setTimeout(() => {
+      setisCopied(false);
+    }, 2000);
+  };
+
   console.log("postdata", postData);
   return (
     <DetailWrapper>
+      {isCopied && (
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert severity="success">
+            This is a success alert — check it out!
+          </Alert>
+        </Stack>
+      )}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         {/*title*/}
         <header style={{ marginBottom: "1.5rem" }}>
@@ -217,6 +233,7 @@ export default function PostDetail({
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
+              alertCopy();
             }}
           >
             <ShareIcon sx={{ fontSize: "1.2rem" }} />

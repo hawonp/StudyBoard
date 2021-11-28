@@ -14,6 +14,8 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+
+import StarIcon from "@mui/icons-material/Star";
 import Switch from "@mui/material/Switch";
 import { Avatar, Modal, Alert, Box, TextField } from "@mui/material";
 import axiosInstance from "../utils/routeUtil";
@@ -290,6 +292,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               paddingTop: "15px",
               borderBottom: "1px #ddd",
               paddingBottom: "20px",
+              alignItems: "start",
             }}
           >
             <div
@@ -302,6 +305,9 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
+                <StarIcon
+                  sx={{ color: "#FFBF00", fontSize: "1.2rem", mb: "0.2rem" }}
+                />
                 <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
                   {replyData.reply_date}
                 </span>
@@ -312,7 +318,10 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             {/* like button */}
             <IconButton
               disableRipple
-              style={{ padding: "0", paddingLeft: "0.5rem" }}
+              style={{
+                padding: "0",
+                paddingLeft: "0.5rem",
+              }}
               onClick={() => handleLikePressed()}
             >
               {didUserLike ? (
@@ -541,7 +550,15 @@ const Reply = ({ replyData }) => {
   };
 
   return (
-    <div style={{ display: "flex", flex: 1, marginLeft: "4rem" }}>
+    <div
+      style={{
+        display: "flex",
+        flex: 1,
+        marginLeft: "4rem",
+        alignItems: "start",
+      }}
+    >
+      {/* icon ss */}
       <div
         style={{
           display: "flex",
@@ -556,7 +573,6 @@ const Reply = ({ replyData }) => {
             {replyData.reply_date}
           </span>
         </div>
-
         {/*reply to reply contents*/}
         <div
           style={{
@@ -584,7 +600,6 @@ const Reply = ({ replyData }) => {
           <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
         )}
       </IconButton>
-
       {/* Report reply contents */}
       <Modal
         open={open}
