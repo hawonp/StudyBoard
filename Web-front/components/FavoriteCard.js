@@ -31,26 +31,6 @@ const CardActionsWrapper = ({ style, children }) => {
 };
 
 export default function FavoriteCard({ favorite }) {
-  const postData = favorite;
-  console.log(favorite);
-
-
-  useEffect(() => {
-    // TODO: API CALL BACKEND NEED
-
-    // favorite는 post id
-    // post 정보 불러오는 api 호출 (밑은 예시 결과값)
-    // const result = {
-    //   date: "2021-11-09",
-    //   title: favorite,
-    //   username: "PK HONG",
-    //   image:
-    //     "https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
-    //   content: `THIS IS ${favorite}`,
-    // };
-    setPostData(favorite);
-  }, [favorite]);
-
   return (
     <>
       <Paper
@@ -65,7 +45,7 @@ export default function FavoriteCard({ favorite }) {
         <img
           width="150"
           height="120"
-          src={postData.post_image}
+          src={favorite.post_image}
           style={{ objectFit: "cover" }}
           alt="green iguana"
         />
@@ -92,7 +72,7 @@ export default function FavoriteCard({ favorite }) {
                 fontSize: "1.6rem",
               }}
             >
-              {postData.post_title}
+              {favorite.post_title}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
@@ -103,7 +83,7 @@ export default function FavoriteCard({ favorite }) {
                   fontSize: "1rem",
                 }}
               >
-                {postData.post_text}
+                {favorite.post_text}
               </Typography>
               <Typography
                 gutterBottom
@@ -114,7 +94,7 @@ export default function FavoriteCard({ favorite }) {
                   marginLeft: "0.8rem",
                 }}
               >
-                {postData.date}
+                {favorite.date}
               </Typography>
             </Box>
 
@@ -127,7 +107,7 @@ export default function FavoriteCard({ favorite }) {
               >
                 <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {user_post_like} Likes
+                  {/* {user_post_like} Likes */}
                 </div>
               </IconButton>
 
@@ -149,7 +129,7 @@ export default function FavoriteCard({ favorite }) {
               >
                 <SmsIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {reply_count} Comment
+                  {favorite.reply_count} Comment
                 </div>
               </IconButton>
 
