@@ -17,6 +17,16 @@ import CardTags from "./CardTags";
 const ROUTE_ID = "posts/[id]";
 
 export default function CardShow({ post }) {
+  const today = new Date(),
+    date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate(),
+    time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
   return (
     <Link href={{ pathname: ROUTE_ID, query: { id: post.post_id } }}>
       <a style={{ textDecoration: "none" }}>
@@ -48,8 +58,9 @@ export default function CardShow({ post }) {
                   </Tooltip>
                 </div>
                 <span style={{ fontSize: "0.8rem" }}>
-                  - {post.date || "hours ago"}
+                  - {post.post_date} hours ago
                 </span>
+                {console.log("current time", date, time)}
               </div>
             }
           ></CardHeader>

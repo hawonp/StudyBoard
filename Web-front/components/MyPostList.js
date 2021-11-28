@@ -137,17 +137,6 @@ export default function MyPostList({ mypost }) {
               </div>
             </IconButton>
 
-            {/* Moderator */}
-
-            {/* <IconButton
-              aria-label="SmsIcon"
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
-            >
-                <ThumbUpIcon />
-                <div>: {user_is_endorsed_like}</div>
-              </IconButton>
-             */}
-
             {/* Comment */}
             <IconButton
               disableRipple

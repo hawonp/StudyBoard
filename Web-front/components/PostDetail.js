@@ -18,6 +18,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import EditIcon from "@mui/icons-material/Edit";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import Button from "@mui/material/Button";
+import SmsIcon from "@mui/icons-material/Sms";
 
 import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";

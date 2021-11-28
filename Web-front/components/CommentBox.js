@@ -14,7 +14,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-
+import Divider from "@mui/material/Divider";
 import StarIcon from "@mui/icons-material/Star";
 import Switch from "@mui/material/Switch";
 import { Avatar, Modal, Alert, Box, TextField } from "@mui/material";
@@ -126,11 +126,11 @@ export const CommentBox = ({ postID }) => {
 
   const _getCommentsTitle = (commentCount) => {
     if (commentCount === 0) {
-      return "No comments yet";
+      return "No Replies Yet";
     } else if (commentCount === 1) {
-      return "1 comment";
+      return "1 Reply";
     } else {
-      return `${commentCount} comments`;
+      return `${commentCount}`;
     }
   };
 
@@ -138,6 +138,9 @@ export const CommentBox = ({ postID }) => {
     <div style={{ disply: "flex" }}>
       <h3>Join the Discussion!</h3>
       <CommentForm addComment={_addComment} />
+      {/* <Divider variant="middle" /> */}
+      <br />
+      <Divider variant="middle" />
 
       <Box
         sx={{
@@ -149,7 +152,9 @@ export const CommentBox = ({ postID }) => {
           // marginTop: "0.5rem",
         }}
       >
-        <h3 style={{ display: "inline" }}>Replies</h3>
+        <h3 style={{ display: "inline" }}>
+          {_getCommentsTitle(comments.length)} Replies
+        </h3>
 
         {/* 필터 */}
         <FormControl variant={"standard"} sx={{ width: "10rem" }}>
@@ -160,6 +165,13 @@ export const CommentBox = ({ postID }) => {
             id="demo-simple-select-standard"
             value={feedOrder}
             onChange={handleChange}
+            sx={{
+              fontSize: "0.8rem",
+              borderRadius: "16px",
+              maxWidth: "auto",
+              maxHeight: "32px",
+            }}
+            variant="outlined"
           >
             <MenuItem value={0}>Newest</MenuItem>
             <MenuItem value={1}>Liked Most</MenuItem>
@@ -169,8 +181,8 @@ export const CommentBox = ({ postID }) => {
       </Box>
 
       {/* post_reply_count */}
-      <h5>{_getCommentsTitle(comments.length)}</h5>
-      <hr />
+      {/* <Divider variant="middle" /> */}
+
       {commentNodes}
     </div>
   );
@@ -195,10 +207,10 @@ const CommentForm = ({ addComment }) => {
       <div className="comment-form-fields">
         <TextField
           fullWidth
-          label="Comment"
+          label="Leave your reply here!"
           sx={{ marginTop: "1rem" }}
           multiline
-          rows={4}
+          minRows={1}
           inputRef={textRef}
         ></TextField>
       </div>
@@ -217,7 +229,7 @@ const CommentForm = ({ addComment }) => {
           color="success"
           type="submit"
         >
-          Submit Reply
+          Leave Reply
         </Button>
       </div>
     </form>
