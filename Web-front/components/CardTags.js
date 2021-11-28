@@ -5,13 +5,13 @@ const HashtagWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        padding: "4px 15px",
+        padding: "5px 7px",
         fontSize: "13px",
         color: "#3F8CB8",
         background: "#E1ECF4",
         borderRadius: "4px",
         marginRight: "4px",
-        marginBottom: "2px",
+        // marginBottom: "2px",
         ...style,
       }}
     >
