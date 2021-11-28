@@ -39,14 +39,16 @@ export default function CardShow({ post }) {
                   marginTop: "0.4rem",
                 }}
               >
-                <span style={{ fontWeight: "bold" }}>{post.user_nickname}</span>
+                <span style={{ fontSize: "0.8rem" }}>
+                  Posted by {post.user_nickname}
+                </span>
                 <div>
                   <Tooltip title="This is Endorsed User post ">
                     <LightbulbIcon sx={{ color: "#FFBF00" }} />
                   </Tooltip>
                 </div>
-                <span style={{ marginLeft: "1rem", fontSize: "0.8rem" }}>
-                  - {post.date || "Date"}
+                <span style={{ fontSize: "0.8rem" }}>
+                  - {post.date || "hours ago"}
                 </span>
               </div>
             }
@@ -67,9 +69,8 @@ export default function CardShow({ post }) {
               )}
             </Box>
           </Link>
-          <p> Click to see the full question... </p>
           {/* card content  */}
-          <div style={{ padding: "16px" }}>
+          <div style={{ marginLeft: "1rem" }}>
             Click here to see the question..
           </div>
 
