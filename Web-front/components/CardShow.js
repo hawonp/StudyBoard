@@ -12,26 +12,6 @@ import Box from "@mui/material/Box";
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
 
-const HashtagWrapper = ({ style, children }) => {
-  return (
-    <div
-      style={{
-        padding: "4px 15px",
-        fontSize: "13px",
-        color: "#ffffff",
-        background: "#20247b",
-        borderRadius: "4px",
-        marginRight: "4px",
-        marginBottom: "2px",
-        ...style,
-      }}
-    >
-      {" "}
-      {children}{" "}
-    </div>
-  );
-};
-
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
 
@@ -67,7 +47,7 @@ export default function CardShow({ post }) {
               >
                 <span style={{ fontWeight: "bold" }}>{post.user_nickname}</span>
                 <span style={{ marginLeft: "1rem", fontSize: "0.8rem" }}>
-                  - {post.date || "2021년 11월 23일"}
+                  - {post.date || "No Date"}
                 </span>
               </div>
             }

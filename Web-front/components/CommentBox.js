@@ -54,8 +54,6 @@ export const CommentBox = ({ postID }) => {
 
   //Load comments upon render
   useEffect(() => {
-    console.log("loading");
-    console.log("req to b");
     let userID = -1;
     if (user) {
       userID = user.sub;
@@ -70,6 +68,7 @@ export const CommentBox = ({ postID }) => {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         //Assign data
+        console.log("Load comments", responseData);
         setComments(responseData);
       });
     setLoadingReplies(false);
@@ -302,30 +301,34 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <h4 style={{ marginLeft: ".5rem" }}>
-                  {replyData.user_nickname}
-                </h4>
+                <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
                 <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
                   {replyData.reply_date}
                 </span>
               </div>
-              <p>{replyData.reply_text}</p>
+              <p style={{ margin: "0" }}>{replyData.reply_text}</p>
             </div>
 
             {/* like button */}
             <IconButton
-              style={{ marginRight: "8px" }}
+              disableRipple
+              style={{ padding: "0", paddingLeft: "0.5rem" }}
               onClick={() => handleLikePressed()}
             >
-              {didUserLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {didUserLike ? (
+                <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+              )}
             </IconButton>
 
             {/* reply button */}
             <IconButton
-              style={{ marginRight: "8px" }}
+              disableRipple
+              style={{ padding: "0", paddingLeft: "0.5rem" }}
               onClick={() => setIsReplying(true)}
             >
-              <ReplyIcon />
+              <ReplyIcon sx={{ fontSize: "1.2rem" }} />
             </IconButton>
 
             {/* reply report */}
@@ -365,15 +368,24 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 </div>
               </Box>
             </Modal>
-            <IconButton aria-label="report" onClick={handleOpen}>
-              <FlagIcon />
+            <IconButton
+              disableRipple
+              style={{ padding: "0", paddingLeft: "0.5rem" }}
+              aria-label="report"
+              onClick={handleOpen}
+            >
+              <FlagIcon sx={{ fontSize: "1.2rem" }} />
             </IconButton>
 
             {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
             {user && replyData.user_id === user.sub && (
-              <div style={{ marginRight: "20px" }}>
-                <DeleteIcon onClick={deleteSelf} />
-              </div>
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                onClick={deleteSelf}
+              >
+                <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
             )}
           </div>
         </div>
@@ -387,7 +399,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         />
       )}
 
-      <div>
+      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         {replyData.replies_to_reply &&
           replyData.replies_to_reply.map((reply) => (
             <Reply key={reply.reply_id} replyData={reply} />
@@ -529,23 +541,48 @@ const Reply = ({ replyData }) => {
   };
 
   return (
-    <div style={{ display: "flex", marginLeft: "4rem" }}>
-      <div style={{ flex: 1, flexDirection: "column" }}>
+    <div style={{ display: "flex", flex: 1, marginLeft: "4rem" }}>
+      <div
+        style={{
+          display: "flex",
+          position: "relative",
+          flex: 1,
+          flexDirection: "column",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h4 style={{ marginLeft: ".5rem" }}>{replyData.user_nickname}</h4>
+          <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
           <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
             {replyData.reply_date}
           </span>
         </div>
 
         {/*reply to reply contents*/}
-        <p>{replyData.reply_text}</p>
+        <div
+          style={{
+            width: "100%",
+            // display: "flex",
+            // flexDirection: "row",
+            // flexGrow: 1,
+            flexWrap: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          <p style={{ margin: "0", wordWrap: "break-word" }}>
+            {replyData.reply_text}
+          </p>
+        </div>
       </div>
       <IconButton
-        style={{ marginRight: "8px" }}
+        disableRipple
+        style={{ padding: "0", paddingLeft: "0.5rem" }}
         onClick={() => handleLikePressed()}
       >
-        {didUserLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        {didUserLike ? (
+          <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+        ) : (
+          <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+        )}
       </IconButton>
 
       {/* Report reply contents */}
@@ -579,9 +616,24 @@ const Reply = ({ replyData }) => {
           </div>
         </Box>
       </Modal>
-      <IconButton aria-label="report" onClick={handleOpen}>
-        <FlagIcon />
+      <IconButton
+        disableRipple
+        style={{ padding: "0", paddingLeft: "0.5rem" }}
+        aria-label="report"
+        onClick={handleOpen}
+      >
+        <FlagIcon sx={{ fontSize: "1.2rem" }} />
       </IconButton>
+      {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
+      {/* {user && replyData.user_id === user.sub && (
+        <IconButton
+          disableRipple
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={deleteSelf}
+        >
+          <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+      )} */}
     </div>
   );
 };

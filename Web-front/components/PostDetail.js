@@ -105,12 +105,12 @@ export default function PostDetail({
   const handleClose = () => setOpen(false);
   // Add a request interceptor
   axiosInstance.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
+    // console.log("Starting Request", JSON.stringify(request, null, 2));
     return request;
   });
 
   axiosInstance.interceptors.response.use((response) => {
-    console.log("Response:", JSON.stringify(response, null, 2));
+    // console.log("Response:", JSON.stringify(response, null, 2));
     return response;
   });
   const report = () => {
