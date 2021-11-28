@@ -19,11 +19,11 @@ const CountNumber = ({ style, children }) => {
 
 export default function ButtonComponets({ likeCount, replyCount }) {
   return (
-    <CardActions disableSpacing sx={{ justifyContent: "end" }}>
+    <CardActions disableSpacing sx={{ justifyContent: "end", padding: 0 }}>
       <IconButton aria-label="favorites" sx={{ borderRadius: "4px" }}>
         <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-
-        <CountNumber>{likeCount}</CountNumber>
+        &nbsp;
+        <CountNumber>{likeCount} Likes</CountNumber>
       </IconButton>
       {/* post_like_count */}
 
@@ -36,7 +36,7 @@ export default function ButtonComponets({ likeCount, replyCount }) {
       <IconButton aria-label="SmsIcon" sx={{ borderRadius: "4px" }}>
         <SmsIcon sx={{ fontSize: "1.2rem" }} />
         &nbsp;
-        <CountNumber>{replyCount}</CountNumber>
+        <CountNumber>{replyCount} Comments</CountNumber>
       </IconButton>
       {/* post_reply_count */}
     </CardActions>
