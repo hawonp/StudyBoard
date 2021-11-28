@@ -177,7 +177,8 @@ export default function ProfileCard() {
                 <HashtagWrapper>tag</HashtagWrapper>
                 <HashtagWrapper>Hard</HashtagWrapper>
                 <HashtagWrapper>CSE</HashtagWrapper>
-              </TagWrapper> */}
+              </TagWrapper>
+
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}
