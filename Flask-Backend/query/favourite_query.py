@@ -82,7 +82,7 @@ def get_favourited_post(user_id):
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
         
-        res = -json_data
+        res = json_data
         #Closing cursor, commit and close connection
         cursor.close()
         conn.commit()
