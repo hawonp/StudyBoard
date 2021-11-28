@@ -185,7 +185,7 @@ def check_if_user_is_mod(user_id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT EXISTS(SELECT * FROM User_id WHERE user_id=? AND user_is_mod=1)"
+        query = "SELECT EXISTS(SELECT * FROM User WHERE user_id=? AND user_is_mod=1)"
         values = (user_id, )
 
         #Getting data from table
