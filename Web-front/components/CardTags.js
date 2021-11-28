@@ -7,8 +7,8 @@ const HashtagWrapper = ({ style, children }) => {
       style={{
         padding: "4px 15px",
         fontSize: "13px",
-        color: "#ffffff",
-        background: "#20247b",
+        color: "#3F8CB8",
+        background: "#E1ECF4",
         borderRadius: "4px",
         marginRight: "4px",
         marginBottom: "2px",

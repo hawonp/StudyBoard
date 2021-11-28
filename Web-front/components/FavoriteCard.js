@@ -34,6 +34,7 @@ export default function FavoriteCard({ favorite }) {
   const postData = favorite;
   console.log(favorite);
 
+
   useEffect(() => {
     // TODO: API CALL BACKEND NEED
 
