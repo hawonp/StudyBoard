@@ -287,3 +287,29 @@ def delete_user_like_reply(reply_id, user_id):
         res = 0
     
     return res
+
+#Delete reply
+def delete_reply(reply_id):
+    res = 1
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "DELETE FROM Reply WHERE reply_id=?"
+        values = (reply_id,)
+
+        #Getting data from table
+        print("Deleting with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    return res

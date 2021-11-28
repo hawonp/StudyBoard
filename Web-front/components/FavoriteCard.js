@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Card from "@mui/material/Card";
+import ShareIcon from "@mui/icons-material/Share";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -48,7 +49,6 @@ export default function FavoriteCard({ favorite }) {
     // };
     setPostData(favorite);
   }, [favorite]);
-
 
   return (
     <>
