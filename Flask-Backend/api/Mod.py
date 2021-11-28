@@ -1,6 +1,6 @@
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
-from query.flag_query import get_flagged_posts, get_flagged_replies, accept_post_flag
+from query.flag_query import get_flagged_posts, get_flagged_replies, get_flagged_users
 from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag, deny_reply_flag, update_flag_count
 from query.user_query import check_if_user_is_mod
 from query.post_query import delete_post
@@ -136,19 +136,18 @@ class RespondToReplyFlag(Resource):
 
 class FlaggedReplies(Resource):
     def get(self):
-
         #Get posts with given offset, sort order and tag filter
         reports = get_flagged_replies()
             
         return json.dumps(reports, default=str)
 
-    def delete(self):
-        pass
-
 
 class FlaggedUsers(Resource):
     def get(self):
-        pass
+        #Get posts with given offset, sort order and tag filter
+        reports = get_flagged_users()
+            
+        return json.dumps(reports, default=str)
 
 #Add routes to api
 def init_routes(api):

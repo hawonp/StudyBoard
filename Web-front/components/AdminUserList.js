@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -17,6 +19,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import axiosInstance from "../utils/routeUtil";
 
 const FLAGGEDENDPOINT = "/flagged";
+const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -38,76 +41,77 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
-// Col table id,name,nick,contents,status
-function createData(number, nickname, contents, link, conform) {
-  return { number, nickname, contents, link, conform };
-}
-
-const rows = [
-  createData(1, "pk-dev", "whawahwawh"),
-  createData(2, "hawonjjang", "KIN"),
-  createData(3, "HOHO", "I am smart"),
-  createData(4, "Temp", "this is dumb"),
-  createData(5, "Prof", "this is stupid"),
-];
-
 export default function AdminUserList() {
-  return (
-    <BoxWrapper>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">Number</TableCell>
+  const [rows, setRows] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const { user, isLoading, error } = useUser();
 
-              <TableCell align="left">Nick Name</TableCell>
-              <TableCell align="center">Contents</TableCell>
-              <TableCell align="right">Link</TableCell>
-              <TableCell align="right">Conform</TableCell>
-            </TableRow>
-          </TableHead>
+  //Load users
+  useEffect(() => {
+    axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
+      console.log("dsad");
+      setRows(JSON.parse(response.data));
+      console.log(JSON.parse(response.data));
+      console.log(rows);
+      setIsDataLoading(false);
+    });
+  }, [isDataLoading, isLoading]);
 
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.number}>
-                <TableCell component="th" scope="row">
-                  {row.number}
-                </TableCell>
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
-                <TableCell align="left">{row.nickname}</TableCell>
-                <TableCell align="center">{row.contents}</TableCell>
-                <TableCell align="right">
-                  <Link>
-                    <a>
-                      {/* link to the post */}
-                      <LinkIcon />
-                    </a>
-                  </Link>
-                </TableCell>
+  if (isDataLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <BoxWrapper>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">User ID</TableCell>
 
-                <TableCell align="right">
-                  <ListItem
-                    secondaryAction={
-                      <>
-                        <IconButton edge="end" aria-label="check">
-                          <CheckIcon />
-                        </IconButton>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => deleteReport(row.number)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </>
-                    }
-                  ></ListItem>
-                </TableCell>
+                <TableCell align="left">User Nickname</TableCell>
+                <TableCell align="center">Number of Flagged Posts</TableCell>
+                <TableCell align="right">Accept / Deny</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </BoxWrapper>
-  );
+            </TableHead>
+
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.user_id}>
+                  <TableCell component="th" scope="row">
+                    {row.user_id}
+                  </TableCell>
+
+                  <TableCell align="left">{row.user_nickname}</TableCell>
+                  <TableCell align="center">
+                    {row.user_flags_received}
+                  </TableCell>
+                  <TableCell align="right">
+                    <ListItem
+                      secondaryAction={
+                        <>
+                          <IconButton edge="end" aria-label="check">
+                            <CheckIcon />
+                          </IconButton>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => deleteReport(row.user_id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </>
+                      }
+                    ></ListItem>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </BoxWrapper>
+    );
+  }
 }
