@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
+import Router from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -12,7 +13,6 @@ import Button from "@mui/material/Button";
 import PostEditor from "./PostEditor";
 import axiosInstance from "../utils/routeUtil";
 
-const cookies = new Cookies();
 const POSTDATAENDPOINT = "/posts";
 
 export default function EditPost({ postCard, finish }) {
@@ -23,17 +23,17 @@ export default function EditPost({ postCard, finish }) {
     tags: null,
   };
   const router = useRouter();
-
+  const { user } = useUser();
   const [inputTitle, setInputTitle] = useState(title);
   const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
-  const [inputTag, setInputTag] = useState(tags);
+  const [inputTag, setInputTag] = useState(tags.flat());
 
-  const savePost = async () => {
+  const savePost = async (user) => {
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           title: inputTitle,
           text: inputContents,
           imageURL: inputImages,
@@ -44,6 +44,7 @@ export default function EditPost({ postCard, finish }) {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
           finish();
+          Router.push(POSTDATAENDPOINT + "/" + router.query.id);
         }
       });
   };
@@ -82,26 +83,18 @@ export default function EditPost({ postCard, finish }) {
         label="#tag"
         variant="outlined"
         value={inputTag}
-        onChange={(event) => setInputTag(event.target.value.split(","))}
+        onChange={(event) =>
+          setTag(
+            event.target.value
+              .split(",")
+              .map((unadjustedTag) =>
+                unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+              )
+          )
+        }
       />
 
       <div style={{ display: "flex" }}>
-        <label htmlFor="icon-button-file">
-          {/* <input
-            style={{ display: "none" }}
-            accept="image/*"
-            id="icon-button-file"
-            type="file"
-            onChange={(event) => setInputImages(event.target.files[0])}
-          />
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <PhotoCamera />
-          </IconButton> */}
-        </label>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button
             sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
@@ -115,7 +108,7 @@ export default function EditPost({ postCard, finish }) {
             sx={{ borderRadius: "8px" }}
             variant="contained"
             color="success"
-            onClick={savePost}
+            onClick={() => savePost(user)}
           >
             SAVE
           </Button>

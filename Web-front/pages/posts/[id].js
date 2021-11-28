@@ -52,39 +52,42 @@ const DetailWrapper = ({ style, children }) => {
 
 export default function PostDetailPage() {
   const router = useRouter();
-  const { user } = useUser();
-  let userID = user.sub;
-  if (!user) {
-    userID = -1;
-  }
+  const { user, isLoading, error } = useUser();
   const [isEdit, setIsEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [postData, setPostData] = useState({});
-
+  let userID = "";
+  if (user) {
+    userID = user.sub;
+  }
   //Load in  the post data upon render
   useEffect(() => {
-    axiosInstance
-      .get(POSTDATAENDPOINT + "/" + router.query.id, {
-        params: { userID: userID },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data according to whether the user liked the post
-        setPostData({
-          id: responseData["post_id"],
-          user: responseData["user_nickname"],
-          title: responseData["post_title"],
-          text: responseData["post_text"],
-          images: responseData["post_image"],
-          tags: responseData["post_tags"],
-          date: responseData["post_date"],
-          didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
-          didUserFavourite:
-            responseData["did_user_favourite_post"] != 0 ? true : false,
+    if (!isLoading && !error) {
+      axiosInstance
+        .get(POSTDATAENDPOINT + "/" + router.query.id, {
+          params: { userID: userID },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data according to whether the user liked the post
+          console.log(responseData);
+          setPostData({
+            id: responseData["post_id"],
+            user: responseData["user_nickname"],
+            title: responseData["post_title"],
+            text: responseData["post_text"],
+            images: responseData["post_image"],
+            tags: responseData["post_tags"],
+            date: responseData["post_date"],
+            postLikeCount: responseData["post_like_count"],
+            didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
+            didUserFavourite:
+              responseData["did_user_favourite_post"] != 0 ? true : false,
+          });
+          setHasLoaded(true);
         });
-        setIsLoading(false);
-      });
-  }, [isLoading]);
+    }
+  }, [isEdit]);
 
   //Handle like press
   const handleLikePressed = () => {
@@ -98,19 +101,27 @@ export default function PostDetailPage() {
         })
         .then((response) => {
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserLike };
+            return {
+              ...prevData,
+              didUserLike: !prevData.didUserLike,
+              postLikeCount: prevData.postLikeCount - 1,
+            };
           });
         });
     } else {
       axiosInstance
         .post(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {
           setPostData((prevData) => {
-            return { ...prevData, didUserLike: !prevData.didUserLike };
+            return {
+              ...prevData,
+              didUserLike: !prevData.didUserLike,
+              postLikeCount: prevData.postLikeCount + 1,
+            };
           });
         });
     }
@@ -139,7 +150,7 @@ export default function PostDetailPage() {
       axiosInstance
         .post(requestEndpoint, {
           params: {
-            userID: id,
+            userID: userID,
           },
         })
         .then((response) => {
@@ -153,8 +164,12 @@ export default function PostDetailPage() {
     }
   };
 
+  //Must not load when the following are true
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+
   //Render if the post has loaded
-  if (isLoading) {
+  if (!hasLoaded) {
     return <div> Loading... </div>;
   } else {
     return (
@@ -167,7 +182,7 @@ export default function PostDetailPage() {
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);
-                  setIsLoading(true);
+                  setHasLoaded(true);
                 }}
               />
             ) : (
@@ -189,7 +204,7 @@ export default function PostDetailPage() {
           )}
         </div>
 
-        <ProfileCard />
+        {user && <ProfileCard />}
       </div>
     );
   }

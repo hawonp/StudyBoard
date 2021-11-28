@@ -29,7 +29,8 @@ class Login(Resource):
         if res[0] != 1:
             print("Add Current user to DB")
             add_user(user_id, user_nickname, user_email)
-
+        else:
+            print("User already exists | user_id:", user_id)
         return user_id
         # print("Save to Session")
         # session["user_id"] = user_id

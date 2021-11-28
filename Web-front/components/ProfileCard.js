@@ -1,19 +1,15 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
-import Avatar from "@mui/material/Avatar";
-import { Badge, CardMedia, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
-import React from "react";
-import Cookies from "universal-cookie";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { useState, useEffect } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-//Importing and settings vars for axios parse
+
 import axiosInstance from "../utils/routeUtil";
-const users = "/users/";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -96,50 +92,36 @@ export default function ProfileCard() {
   const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
   const { user, error, isLoading } = useUser();
+  const users = "/users/";
+
+  // console.log(user);
+  // console.log(user.sub);
+  // console.log(user.nickname);
+  // console.log(user.email);
+  // console.log(user.last_ip);
+
+  // setUserId(user.sub);
 
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      console.log(user.sub);
-      console.log(user.nickname);
-      console.log(user.email);
-      console.log(user.last_ip);
-
-      setUserId(user.sub);
-
+    if (!isLoading && !error) {
       console.log("Crawling User Profile Data");
-      axiosInstance
-        .get(users + userId, {
-          params: {
-            user_id: user.sub,
-            user_nickname: user.nickname,
-            user_email: user.email,
-          },
-        })
-        .then((response) => {
-          console.log("response from backend" + response);
-          if (response["status"] == 200) {
-            const temp = response["data"];
-            const temp_json = JSON.parse(temp);
-            const user_nickname = temp_json.user.user_nickname;
-            const tag = temp_json.tags;
-            setNickname(user_nickname);
-            setTags(tag);
-            console.log(tag);
-            setIsLoading(false);
-          }
-        })
-        .catch((e) => {
-          const resp = e.response;
-          if (resp["status"] == 403) {
-            // TODO temp redirection
-            // cookies.remove("user_token", { path: "/" });
-            // cookies.remove("user_id", { path: "/" });
-            // window.location.href = "./error/403";
-          }
-        });
+      axiosInstance.get(users + user.sub).then((response) => {
+        console.log("response from backend" + response);
+        if (response["status"] == 200) {
+          const temp = response["data"];
+          const temp_json = JSON.parse(temp);
+          const user_nickname = temp_json.user.user_nickname;
+          const tag = temp_json.tags;
+          console.log("tag", tag);
+          setNickname(user_nickname);
+          setUserId(temp_json.user.user_id);
+          setTags(tag);
+          console.log(tag);
+          console.log(user_nickname);
+        }
+      });
     }
-  }, []);
+  }, [isLoading]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -178,17 +160,25 @@ export default function ProfileCard() {
                 marginLeft: "1rem",
               }}
             >
-              <TagWrapper>
-                {tags.map((tag, i) => (
-                  <HashtagWrapper key={i}>{tag}</HashtagWrapper>
-                ))}
-              </TagWrapper>
+              {tags.length > 0 ? (
+                <TagWrapper>
+                  {tags.map((tag, i) => (
+                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                  ))}
+                </TagWrapper>
+              ) : (
+                <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+                  User has no tags
+                </p>
+              )}
+
               {/* 테스트 */}
-              <TagWrapper>
+              {/* <TagWrapper>
                 <HashtagWrapper>tag</HashtagWrapper>
                 <HashtagWrapper>Hard</HashtagWrapper>
                 <HashtagWrapper>CSE</HashtagWrapper>
               </TagWrapper>
+
             </div>
 
             {/*Link to My Post, Favorite, Notification*/}

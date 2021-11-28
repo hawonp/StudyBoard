@@ -17,8 +17,6 @@ import Button from "@mui/material/Button";
 import NotificationList from "../components/NotificationList";
 import Popover from "@mui/material/Popover";
 import { useUser } from "@auth0/nextjs-auth0";
-import { useEffect } from "react";
-import axiosInstance from "../utils/routeUtil";
 
 const HrWrapper = ({ style, children }) => {
   return (
@@ -116,35 +114,6 @@ export default function CustomAppBar() {
       },
     },
   ];
-
-  useEffect(() => {
-    if (user) {
-      console.log("adding new user");
-      axiosInstance
-        .get("/login", {
-          params: {
-            user_id: user.sub,
-            user_nickname: user.nickname,
-            user_email: user.email,
-          },
-        })
-        .then((response) => {
-          console.log("response from backend" + response);
-          if (response["status"] == 200) {
-            console.log("success");
-          }
-        })
-        .catch((e) => {
-          const resp = e.response;
-          if (resp["status"] == 403) {
-            // TODO temp redirection
-            // cookies.remove("user_token", { path: "/" });
-            // cookies.remove("user_id", { path: "/" });
-            // window.location.href = "./error/403";
-          }
-        });
-    }
-  }, []);
 
   return (
     <ContainerWrapper>

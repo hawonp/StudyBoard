@@ -28,30 +28,9 @@ const CardActionsWrapper = ({ style, children }) => {
   );
 };
 
-const dummy_count = {
-  user_post_like: 3,
-  reply_count: 2,
-  user_is_endorsed_like: 1,
-};
-
 export default function MyPostList({ mypost }) {
-  const { user_post_like, user_is_endorsed_like, reply_count } = dummy_count;
-  const [myPostData, setMyPostData] = useState({});
+  const [myPostData, setMyPostData] = useState(mypost);
 
-  useEffect(() => {
-    // TODO: API CALL BACKEND NEED
-    // mypost는 post id
-    // post 정보 불러오는 api 호출 (밑은 예시 결과값)
-    const result = {
-      date: "2021-11-09",
-      title: mypost,
-      username: "PK HONG",
-      image:
-        "https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
-      content: `THIS IS ${mypost}`,
-    };
-    setMyPostData(result);
-  }, [mypost]);
   return (
     <>
       <Paper
@@ -63,13 +42,17 @@ export default function MyPostList({ mypost }) {
           overflow: "hidden",
         }}
       >
-        <img
-          width="150"
-          height="120"
-          src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-          style={{ objectFit: "cover" }}
-          alt="green iguana"
-        />
+        {mypost.post_image != "None" ? (
+          <img
+            width="150"
+            height="120"
+            src={mypost.post_image}
+            style={{ objectFit: "cover" }}
+            alt="green iguana"
+          />
+        ) : (
+          <></>
+        )}
         <Box
           sx={{
             display: "flex",
@@ -93,7 +76,7 @@ export default function MyPostList({ mypost }) {
                 fontSize: "1.6rem",
               }}
             >
-              {myPostData.title}
+              {myPostData.post_title}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Typography
@@ -115,7 +98,7 @@ export default function MyPostList({ mypost }) {
                   marginLeft: "0.8rem",
                 }}
               >
-                {myPostData.date}
+                {myPostData.post_date}
               </Typography>
             </Box>
           </Box>
@@ -128,7 +111,7 @@ export default function MyPostList({ mypost }) {
             >
               <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {user_post_like} Likes
+                {myPostData.post_like_count} Likes
               </div>
             </IconButton>
 
@@ -150,7 +133,7 @@ export default function MyPostList({ mypost }) {
             >
               <SmsIcon sx={{ fontSize: "1.2rem" }} />
               <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                {reply_count} Comment
+                {myPostData.post_reply_count} Comments
               </div>
             </IconButton>
 

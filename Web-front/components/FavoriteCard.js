@@ -30,8 +30,9 @@ const CardActionsWrapper = ({ style, children }) => {
 };
 
 export default function FavoriteCard({ favorite }) {
-  const [postData, setPostData] = useState({});
+  const postData = favorite;
   console.log(favorite);
+
   useEffect(() => {
     // TODO: API CALL BACKEND NEED
 
@@ -47,6 +48,7 @@ export default function FavoriteCard({ favorite }) {
     // };
     setPostData(favorite);
   }, [favorite]);
+
 
   return (
     <>

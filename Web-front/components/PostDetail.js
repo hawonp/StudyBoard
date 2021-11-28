@@ -103,16 +103,7 @@ export default function PostDetail({
   //Setting functions
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // Add a request interceptor
-  axiosInstance.interceptors.request.use((request) => {
-    console.log("Starting Request", JSON.stringify(request, null, 2));
-    return request;
-  });
 
-  axiosInstance.interceptors.response.use((response) => {
-    console.log("Response:", JSON.stringify(response, null, 2));
-    return response;
-  });
   const report = () => {
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
@@ -124,7 +115,7 @@ export default function PostDetail({
     setFlagText("");
     setOpen(false);
   };
-
+  console.log("postdata", postData);
   return (
     <DetailWrapper>
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
@@ -194,9 +185,7 @@ export default function PostDetail({
             ) : (
               <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
             )}
-            <CountNumber>
-              &nbsp;{postData.post_like_count || 0} Likes
-            </CountNumber>
+            <CountNumber>&nbsp;{postData.postLikeCount || 0} Likes</CountNumber>
           </IconButton>
           {/*즐겨찾기 저장버튼*/}
           <IconButton

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -37,36 +37,34 @@ const POSTDATAENDPOINT = "/posts";
 const REPLYDATAENDPOINT = "/replies";
 const LIKEENDPOINT = "/likes";
 const FLAGENDPOINT = "/flag";
-const cookies = new Cookies();
 
 // Comment whole thing Container
 export const CommentBox = ({ postID }) => {
   const [showComments, setShowComments] = useState(true);
   const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
+  const { user } = useUser();
 
   // 필터
-  const [sort, setSort] = React.useState("All");
   const handleChange = (event) => {
-    setSort(event.target.value);
+    setFeedOrder(event.target.value);
   };
 
   const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    //여기에다 댓글 Sorting
-    // TODO: API Backend NEED
-  }, [sort]);
 
   //Load comments upon render
   useEffect(() => {
     console.log("loading");
     console.log("req to b");
+    let userID = -1;
+    if (user) {
+      userID = user.sub;
+    }
     axiosInstance
       .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
         params: {
           order: feedOrder,
-          userID: cookies.get("user_id"),
+          userID: userID,
         },
       })
       .then((response) => {
@@ -75,7 +73,7 @@ export const CommentBox = ({ postID }) => {
         setComments(responseData);
       });
     setLoadingReplies(false);
-  }, [loadingReplies]);
+  }, [loadingReplies, feedOrder]);
 
   // Switch to show and hide replies
   let buttonText = showComments ? "Hide Comments" : "Show Comments";
@@ -90,7 +88,7 @@ export const CommentBox = ({ postID }) => {
     console.log(postID);
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
-        params: { userID: cookies.get("user_id"), text: body },
+        params: { userID: user.sub, text: body },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
@@ -159,12 +157,12 @@ export const CommentBox = ({ postID }) => {
           </InputLabel> */}
           <Select
             id="demo-simple-select-standard"
-            value={sort}
+            value={feedOrder}
             onChange={handleChange}
           >
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Like"}>Like</MenuItem>
-            <MenuItem value={"Inf"}>Moderator</MenuItem>
+            <MenuItem value={0}>Newest</MenuItem>
+            <MenuItem value={1}>Liked Most</MenuItem>
+            <MenuItem value={2}>Highest Ranking</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -233,12 +231,13 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+  const { user } = useUser();
 
   const report = () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           postID: router.query.id,
           text: flagText,
         },
@@ -252,7 +251,8 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   };
   //Handle like press
   const handleLikePressed = () => {
-    const id = cookies.get("user_id");
+    const id = user.sub;
+
     const requestEndpoint =
       REPLYDATAENDPOINT + "/" + replyData.reply_id + LIKEENDPOINT;
     if (didUserLike) {
@@ -370,7 +370,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             </IconButton>
 
             {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
-            {replyData.user_id === cookies.get("user_id") && (
+            {user && replyData.user_id === user.sub && (
               <div style={{ marginRight: "20px" }}>
                 <DeleteIcon onClick={deleteSelf} />
               </div>
@@ -400,12 +400,13 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
 //댓글에 댓글 reply ro reply
 const InputReply = ({ setLoading, replyID, finish }) => {
   const inputRef = useRef();
+  const { user } = useUser();
 
   const postReply = async () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyID + REPLYDATAENDPOINT, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           text: inputRef.current.value,
         },
       })
@@ -476,6 +477,7 @@ const Reply = ({ replyData }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
+  const { user } = useUser();
 
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
@@ -484,7 +486,7 @@ const Reply = ({ replyData }) => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           postID: router.query.id,
           text: flagText,
         },
@@ -499,7 +501,7 @@ const Reply = ({ replyData }) => {
 
   //Handle like press
   const handleLikePressed = () => {
-    const id = cookies.get("user_id");
+    const id = user.sub;
     console.log(didUserLike);
     const requestEndpoint =
       REPLYDATAENDPOINT + "/" + replyData.reply_id + LIKEENDPOINT;
