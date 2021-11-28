@@ -108,6 +108,8 @@ export default function MyPost() {
 
   if (isDataLoading) {
     return <div> Loading... </div>;
+  } else if (myPosts.length == 0) {
+    return <div> No Search Results </div>;
   } else {
     console.log("posts", myPosts);
     return (
