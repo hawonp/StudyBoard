@@ -95,7 +95,7 @@ export function PostWrite() {
           onChange={(event) => setTitle(event.target.value)}
         />
         <PostEditor
-          content="<p>Write your question here!</p>"
+          // content="<p>Write your question here!</p>"
           setContent={setContent}
         />
         <TextField

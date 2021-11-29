@@ -14,6 +14,9 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import Tooltip from "@mui/material/Tooltip";
+
 import { getTimeDisplay } from "../utils/utils";
 const CardActionsWrapper = ({ style, children }) => {
   return (
@@ -37,7 +40,7 @@ export default function MyPostList({ mypost }) {
     setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
   }, []);
   return (
-    <Link href={"posts/" + mypost.post_id}>
+    <Link href={"/" + "posts/" + mypost.post_id}>
       <Paper
         sx={{
           display: "flex",
@@ -110,26 +113,42 @@ export default function MyPostList({ mypost }) {
               {/* user nickname */}
               <Typography
                 gutterBottom
-                variant="h5"
-                component="div"
-                sx={{
-                  fontSize: "1rem",
-                }}
-              >
-                {myPostData.username || "nickname"}
-              </Typography>
-
-              {/* post date */}
-              <Typography
-                gutterBottom
-                variant="h5"
+                variant="span"
                 component="div"
                 sx={{
                   fontSize: "0.8rem",
-                  marginLeft: "0.8rem",
-                  marginBottom: "0.5rem",
+                  color: "#C4C4C4",
                 }}
               >
+                {myPostData.user_nickname}
+              </Typography>
+
+              {/* user endorsed */}
+              {myPostData.user_is_endorsed ? (
+                <div>
+                  <Tooltip title="This is Endorsed User post ">
+                    <LightbulbIcon
+                      sx={{
+                        color: "#FFBF00",
+                        fontSize: "0.8rem",
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              ) : (
+                <> </>
+              )}
+              {/* post date */}
+              <Typography
+                gutterBottom
+                variant="span"
+                component="div"
+                sx={{
+                  fontSize: "0.8rem",
+                  color: "#C4C4C4",
+                }}
+              >
+                &nbsp;
                 {diffTime}
               </Typography>
             </Box>

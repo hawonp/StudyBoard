@@ -47,17 +47,23 @@ export default function CardShow({ post }) {
                 <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
                   Posted by {post.user_nickname}
                 </span>
-                <div>
-                  <Tooltip title="This is Endorsed User post ">
-                    <LightbulbIcon
-                      sx={{
-                        color: "#FFBF00",
-                        fontSize: "0.8rem",
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                {post.user_is_endorsed ? (
+                  <div>
+                    <Tooltip title="This is Endorsed User post ">
+                      <LightbulbIcon
+                        sx={{
+                          color: "#FFBF00",
+                          fontSize: "0.8rem",
+                        }}
+                      />
+                    </Tooltip>
+                  </div>
+                ) : (
+                  <> </>
+                )}
+
                 <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
+                  &nbsp;
                   {diffTime}
                 </span>
               </div>
