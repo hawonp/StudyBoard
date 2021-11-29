@@ -22,7 +22,7 @@ import StarIcon from "@mui/icons-material/Star";
 import Switch from "@mui/material/Switch";
 import { Avatar, Modal, Alert, Box, TextField } from "@mui/material";
 import axiosInstance from "../utils/routeUtil";
-
+import { getTimeDisplay } from "../utils/utils";
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -133,7 +133,7 @@ export const CommentBox = ({ postID }) => {
     } else if (commentCount === 1) {
       return "1 Reply";
     } else {
-      return `${commentCount}`;
+      return `${commentCount} Replies`;
     }
   };
 
@@ -156,7 +156,7 @@ export const CommentBox = ({ postID }) => {
         }}
       >
         <h3 style={{ display: "inline" }}>
-          {_getCommentsTitle(comments.length)} Replies
+          {_getCommentsTitle(comments.length)}
         </h3>
 
         {/* 필터 */}
@@ -211,7 +211,6 @@ const CommentForm = ({ addComment }) => {
         <TextField
           fullWidth
           label="Leave your reply here!"
-          sx={{ marginTop: "1rem" }}
           multiline
           minRows={1}
           inputRef={textRef}
@@ -296,7 +295,10 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
 
   const [isReplying, setIsReplying] = useState(false);
   const [replys, setReplys] = useState(null);
-
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
+  }, []);
   return (
     <>
       <div style={{ diplay: "flex" }} className="row">
@@ -304,9 +306,9 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
           <div
             style={{
               display: "flex",
-              paddingTop: "15px",
+              // paddingTop: "15px",
               borderBottom: "1px #ddd",
-              paddingBottom: "20px",
+              // paddingBottom: "20px",
               alignItems: "start",
             }}
           >
@@ -319,15 +321,20 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
-                <LightbulbIcon
-                  sx={{ color: "#FFBF00", fontSize: "1.2rem", mb: "0.2rem" }}
-                />
-                <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
-                  {replyData.reply_date}
+                <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
+                  Posted by {replyData.user_nickname}
+                </span>
+                <LightbulbIcon sx={{ color: "#FFBF00", fontSize: "0.8rem" }} />
+                <span
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "#C4C4C4",
+                  }}
+                >
+                  {diffTime}
                 </span>
               </div>
-              <p style={{ margin: "0" }}>{replyData.reply_text}</p>
+              <p style={{}}>{replyData.reply_text}</p>
             </div>
 
             {/* like button */}

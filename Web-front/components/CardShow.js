@@ -42,10 +42,9 @@ export default function CardShow({ post }) {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  marginTop: "0.4rem",
                 }}
               >
-                <span style={{ fontSize: "17px", color: "#C4C4C4" }}>
+                <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
                   Posted by {post.user_nickname}
                 </span>
                 <div>
@@ -53,12 +52,14 @@ export default function CardShow({ post }) {
                     <LightbulbIcon
                       sx={{
                         color: "#FFBF00",
-                        fontSize: "1.2rem",
+                        fontSize: "0.8rem",
                       }}
                     />
                   </Tooltip>
                 </div>
-                <span style={{ fontSize: "0.8rem" }}> {diffTime}</span>
+                <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
+                  {diffTime}
+                </span>
               </div>
             }
           ></CardHeader>
