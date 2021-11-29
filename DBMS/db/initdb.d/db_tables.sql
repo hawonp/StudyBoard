@@ -142,7 +142,7 @@ CREATE TABLE Post_Tag(
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(64) NOT NULL,
-    post_id INTEGER NOT NULL,
+    post_id INTEGER,
     notification_aux_id INTEGER,
     notification_type INTEGER NOT NULL,
     notification_date DATETIME NOT NULL,

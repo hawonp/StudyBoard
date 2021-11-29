@@ -113,12 +113,26 @@ export const CommentBox = ({ postID }) => {
         key={reply.reply_id}
         replyData={reply}
         deleteSelf={
-          //기능 전달하는곳
           //delete function
-          () =>
+          () => {
             setComments(
-              comments.filter((deleteComment) => deleteComment !== comment)
-            )
+              comments.filter(
+                (deleteComment) => deleteComment.reply_id !== reply.reply_id
+              )
+            );
+            //Getting id
+            // let userID = -1;
+            // if (user) {
+            //   userID = user.sub;
+            // }
+            axiosInstance
+              .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
+              .then((response) => {
+                const responseData = JSON.parse(response["data"]);
+
+                console.log("deleted reply", responseData);
+              });
+          }
         }
         setLoading={setLoadingReplies}
       />
@@ -419,7 +433,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               <IconButton
                 disableRipple
                 style={{ padding: "0", paddingLeft: "0.5rem" }}
-                onClick={deleteSelf}
+                onClick={() => deleteSelf()}
               >
                 <DeleteIcon sx={{ fontSize: "1.2rem" }} />
               </IconButton>

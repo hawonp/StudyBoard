@@ -1,7 +1,7 @@
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.flag_query import flag_reply
-from query.reply_query import get_replies_to_post, add_post_reply, add_reply_reply
+from query.reply_query import get_replies_to_post, add_post_reply, add_reply_reply, delete_reply
 from query.reply_query import add_user_like_reply, delete_user_like_reply
 ############################
 #    CONSTANT URL PATH     #
@@ -68,6 +68,12 @@ class PostReply(Resource):
         res = add_post_reply(user_id, id, text)
 
         return json.dumps(res)
+
+class Reply(Resource):
+    def delete(self, id):
+        #remove reply
+        res = delete_reply(id)
+        return res
 
 class ReplyReply(Resource):
     def post(self, id):
@@ -140,6 +146,7 @@ def init_routes(api):
     api.add_resource(ReplyReply, REPLIES+REPLY_ID+REPLIES)
     api.add_resource(ReplyLike, REPLIES+REPLY_ID+LIKES)
     api.add_resource(ReplyFlag, REPLIES+REPLY_ID+FLAG)
+    api.add_resource(Reply, REPLIES+REPLY_ID)
 
 add_reply_schema = AddReplySchema()
 reply_flag_schema = ReplyFlagSchema()

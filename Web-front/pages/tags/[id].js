@@ -4,7 +4,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { useRefresh } from "react-tidy";
 import Link from "next/link";
 
 // import MUI
@@ -29,7 +29,7 @@ import PostEdit from "../../components/PostEdit";
 import PostDetail from "../../components/PostDetail";
 import { CommentBox } from "../../components/CommentBox";
 import MyPostList from "../../components/MyPostList";
-
+import { useReducer } from "react";
 // axios instance
 import axiosInstance from "../../utils/routeUtil";
 const POSTTAGENDPOINT = "/feed/posts/tags";
@@ -78,33 +78,21 @@ export async function getServerSideProps(context) {
     props: {},
   };
 }
-// export async function getServerSideProps({ params }) {
-//   const props = await getData(params);
-
-//   // key is needed here
-//   props.key = data.id;
-
-//   return {
-//     props: props,
-//   };
-// }
 
 export default function MyPost() {
   const router = useRouter();
+  const refresh = useRefresh();
   const [myPosts, setMyPosts] = useState([]);
   const [tagId, setTagId] = useState(router.query.id);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [tagName, setTagName] = useState();
   //   const dynamicRoute = router.asPath;
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  function handleClick() {
+    forceUpdate();
+  }
   useEffect(() => {
-    // if (!isLoading && !error) {
-    //   let userID = "";
-    //   if (user) {
-    //     userID = user.sub;
-    //   }
     setTagId(router.query.id);
-
-    // console.log("bitch ass", dynamicRoute, tagId);
 
     axiosInstance
       .get(POSTTAGENDPOINT, {
@@ -113,24 +101,22 @@ export default function MyPost() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setTagName(response.data.shift);
-        console.log("tagname", tagName);
         setMyPosts(JSON.parse(response.data));
+        setIsDataLoading(false);
       });
     const handleRouteChange = (url, { shallow }) => {
-      router.reload();
+      console.log("routechanged");
+      console.log(router.asPath);
+      setIsDataLoading(true);
+      handleClick();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
-  }, []);
+  }, [isDataLoading]);
 
-  //   if (isLoading) return <div>Loading...</div>;
-  //   if (error) return <div>{error.message}</div>;
-
-  //   if (isDataLoading) {
-  //     return <div> Loading... </div>;
-  //   } else
-  if (myPosts.length == 0) {
+  if (isDataLoading) {
+    return <div>Loading...</div>;
+  } else if (myPosts.length == 0) {
     return <div> No Search Results </div>;
   } else {
     console.log("posts", myPosts);

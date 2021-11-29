@@ -121,6 +121,7 @@ export default function PostDetail({
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
+        console.log(responseData);
       });
     setFlagText("");
     setOpen(false);
@@ -155,26 +156,31 @@ export default function PostDetail({
             >
               Posted by {postData.user}
             </div>
-            <div>
-              <Tooltip title="This is Endorsed User post ">
-                <LightbulbIcon
-                  sx={{
-                    color: "#FFBF00",
-                    fontSize: "0.8rem",
-                  }}
-                />
-              </Tooltip>
-            </div>
+            {postData.user_is_endorsed ? (
+              <div>
+                <Tooltip title="This is Endorsed User post ">
+                  <LightbulbIcon
+                    sx={{
+                      color: "#FFBF00",
+                      fontSize: "0.8rem",
+                    }}
+                  />
+                </Tooltip>
+              </div>
+            ) : (
+              <></>
+            )}
+
             {/*date*/}
             <div
               style={{
                 display: "flex",
                 flex: 1,
-                marginLeft: "0.5rem",
                 fontSize: "0.8rem",
                 color: "#C4C4C4",
               }}
             >
+              &nbsp;
               {diffTime}
             </div>
           </div>
@@ -216,14 +222,19 @@ export default function PostDetail({
           disableSpacing
           sx={{ justifyContent: "end", padding: "0" }}
         >
-          <IconButton
-            title={"I want to edit"}
-            onClick={edit}
-            sx={{ borderRadius: "4px" }}
-          >
-            <EditIcon sx={{ fontSize: "1.2rem" }} />
-            <CountNumber> &nbsp;Edit</CountNumber>
-          </IconButton>
+          {user.sub == postData.user_id ? (
+            <IconButton
+              title={"I want to edit"}
+              onClick={edit}
+              sx={{ borderRadius: "4px" }}
+            >
+              <EditIcon sx={{ fontSize: "1.2rem" }} />
+              <CountNumber> &nbsp;Edit</CountNumber>
+            </IconButton>
+          ) : (
+            <> </>
+          )}
+
           {/*일반유저좋아요*/}
           <IconButton
             sx={{ borderRadius: "4px" }}
