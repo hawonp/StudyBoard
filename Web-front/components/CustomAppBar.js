@@ -139,11 +139,15 @@ export default function CustomAppBar() {
         <div>
           {user ? (
             <Link href="/api/auth/logout">
-              <a>Log Out</a>
+              <Button variant="outlined" color="error">
+                Log Out
+              </Button>
             </Link>
           ) : (
             <Link href="/api/auth/login">
-              <a>Logged In</a>
+              <Button variant="outlined" color="success">
+                Log In
+              </Button>
             </Link>
           )}
         </div>

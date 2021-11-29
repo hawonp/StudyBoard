@@ -5,7 +5,7 @@ const HashtagWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        padding: "5px 7px",
+        padding: "2px 6px",
         fontSize: "13px",
         color: "#3F8CB8",
         background: "#E1ECF4",

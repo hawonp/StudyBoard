@@ -14,7 +14,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import StarIcon from "@mui/icons-material/Star";
 import Switch from "@mui/material/Switch";
 import { Avatar, Modal, Alert, Box, TextField } from "@mui/material";
@@ -305,7 +305,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
-                <StarIcon
+                <LightbulbIcon
                   sx={{ color: "#FFBF00", fontSize: "1.2rem", mb: "0.2rem" }}
                 />
                 <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
