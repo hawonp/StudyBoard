@@ -147,9 +147,14 @@ export default function ProfileCard() {
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ marginLeft: "1rem" }}>
-                {/*user name*/}
-                {/* <h1> Welcome </h1> */}
+              <div
+                style={{
+                  marginLeft: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <h4>{nickname}</h4>
               </div>
               <div
@@ -210,8 +215,15 @@ export default function ProfileCard() {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <div>Perfer your tags</div>
-                  <TagIcon sx={{ fontSize: "1rem", color: "#3F8CB8" }} />
+                  <div
+                    style={{
+                      fontSize: "0.9rem",
+                      color: "gray",
+                    }}
+                  >
+                    Your preferred tags
+                  </div>
+                  <TagIcon sx={{ fontSize: "0.9rem", color: "gray" }} />
                 </div>
               </div>
 
