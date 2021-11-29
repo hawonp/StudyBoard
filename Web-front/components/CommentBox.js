@@ -228,6 +228,7 @@ const CommentForm = ({ addComment }) => {
           label="Leave your reply here!"
           multiline
           minRows={1}
+          inputProps={{ maxLength: 512 }}
           inputRef={textRef}
         ></TextField>
       </div>
@@ -396,6 +397,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                     fullWidth
                     multiline
                     label={"Report Information"}
+                    inputProps={{ maxLength: 256 }}
                     value={flagText}
                     onChange={(e) => setFlagText(e.target.value)}
                   />
@@ -499,6 +501,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
         fullWidth
         label="REPLY"
         multiline
+        inputProps={{ maxLength: 512 }}
         inputRef={inputRef}
       ></TextField>
       <div
@@ -665,6 +668,7 @@ const Reply = ({ replyData }) => {
               fullWidth
               multiline
               label={"Report Information"}
+              inputProps={{ maxLength: 256 }}
               value={flagText}
               onChange={(e) => setFlagText(e.target.value)}
             />
