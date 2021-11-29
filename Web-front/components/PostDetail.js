@@ -156,26 +156,31 @@ export default function PostDetail({
             >
               Posted by {postData.user}
             </div>
-            <div>
-              <Tooltip title="This is Endorsed User post ">
-                <LightbulbIcon
-                  sx={{
-                    color: "#FFBF00",
-                    fontSize: "0.8rem",
-                  }}
-                />
-              </Tooltip>
-            </div>
+            {postData.user_is_endorsed ? (
+              <div>
+                <Tooltip title="This is Endorsed User post ">
+                  <LightbulbIcon
+                    sx={{
+                      color: "#FFBF00",
+                      fontSize: "0.8rem",
+                    }}
+                  />
+                </Tooltip>
+              </div>
+            ) : (
+              <></>
+            )}
+
             {/*date*/}
             <div
               style={{
                 display: "flex",
                 flex: 1,
-                marginLeft: "0.5rem",
                 fontSize: "0.8rem",
                 color: "#C4C4C4",
               }}
             >
+              &nbsp;
               {diffTime}
             </div>
           </div>
