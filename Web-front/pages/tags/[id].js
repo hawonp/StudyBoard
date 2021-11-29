@@ -78,16 +78,6 @@ export async function getServerSideProps(context) {
     props: {},
   };
 }
-// export async function getServerSideProps({ params }) {
-//   const props = await getData(params);
-
-//   // key is needed here
-//   props.key = data.id;
-
-//   return {
-//     props: props,
-//   };
-// }
 
 export default function MyPost() {
   const router = useRouter();
@@ -102,14 +92,7 @@ export default function MyPost() {
     forceUpdate();
   }
   useEffect(() => {
-    // if (!isLoading && !error) {
-    //   let userID = "";
-    //   if (user) {
-    //     userID = user.sub;
-    //   }
     setTagId(router.query.id);
-
-    // console.log("bitch ass", dynamicRoute, tagId);
 
     axiosInstance
       .get(POSTTAGENDPOINT, {
@@ -118,23 +101,22 @@ export default function MyPost() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setTagName(response.data.shift);
-        console.log("tagname", tagName);
         setMyPosts(JSON.parse(response.data));
+        setIsDataLoading(false);
       });
     const handleRouteChange = (url, { shallow }) => {
-      // router.reload();
-      // forceRender({});
+      console.log("routechanged");
       console.log(router.asPath);
-      // router.replace(router.asPath);
-      // refresh;
+      setIsDataLoading(true);
       handleClick();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
-  }, []);
+  }, [isDataLoading]);
 
-  if (myPosts.length == 0) {
+  if (isDataLoading) {
+    return <div>Loading...</div>;
+  } else if (myPosts.length == 0) {
     return <div> No Search Results </div>;
   } else {
     console.log("posts", myPosts);
