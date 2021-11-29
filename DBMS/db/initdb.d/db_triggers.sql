@@ -88,8 +88,8 @@ BEGIN
 END; //
 delimiter ;
 
--- Adding Replies --
--- UPDATE REPLY Count for post when replyu has been added
+-- REPLY ADD / REMOVE --
+-- UPDATE REPLY Count for post when reply has been added
 delimiter //
 CREATE TRIGGER Add_Reply AFTER INSERT ON Reply_To_Post
 FOR EACH ROW
@@ -97,6 +97,40 @@ BEGIN
 
     -- Increment the like count on the post
     UPDATE Post SET Post.post_reply_count = Post.post_reply_count+1 WHERE post_id = NEW.post_id;
+END; //
+delimiter ;
+
+-- UPDATE REPLY COUNT FOR POST AND USER WHEN A ROW IS DELETED 
+delimiter //
+CREATE TRIGGER Remove_Reply AFTER DELETE ON Reply_To_Post
+FOR EACH ROW
+BEGIN
+
+    -- Increment the like count on the post
+    UPDATE Post SET Post.post_reply_count = Post.post_reply_count-1 WHERE post_id = OLD.post_id;
+END; //
+delimiter ;
+
+-- DELETE REPLIES TO REPLIES IF SOURCE REPLY IS DELETED
+delimiter //
+CREATE TRIGGER Cascade_Reply_To_Replies AFTER DELETE ON Reply_To_Post
+FOR EACH ROW
+BEGIN
+    DELETE FROM Reply WHERE reply_id IN (
+        SELECT source_id FROM Reply_To_Reply WHERE source_id = OLD.reply_id
+    )
+END; //
+delimiter ;
+
+-- RANK --
+-- SET LIKE COUNT THRESHHOLD FOR ENDORSED STATUS
+delimiter //
+CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User
+FOR EACH ROW
+BEGIN
+    IF NEW.user_likes_received > 10
+    THEN SET NEW.user_is_endorsed=1
+    END IF
 END; //
 delimiter ;
 
