@@ -143,9 +143,9 @@ export default function PostDetail({
         </Stack>
       )}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
-        {/*title*/}
-        <header style={{}}>
-          <h1>{postData.title}</h1>
+        <header>
+          {/*title*/}
+          <h1 style={{ marginBottom: "0.5rem" }}>{postData.title}</h1>
           {/*username*/}
           <div style={{ display: "flex" }}>
             <div
