@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
+import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -308,7 +309,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               display: "flex",
               // paddingTop: "15px",
               borderBottom: "1px #ddd",
-              // paddingBottom: "20px",
+              paddingBottom: "1.2rem",
               alignItems: "start",
             }}
           >
@@ -321,20 +322,25 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
+                <div
+                  style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}
+                >
                   Posted by {replyData.user_nickname}
-                </span>
-                <LightbulbIcon sx={{ color: "#FFBF00", fontSize: "0.8rem" }} />
-                <span
+                </div>
+                <LightbulbIcon
+                  sx={{ color: "#FFBF00", fontSize: "0.8rem", mb: "0.2rem" }}
+                />
+                <div
                   style={{
+                    marginLeft: "1rem",
                     fontSize: "0.8rem",
                     color: "#C4C4C4",
                   }}
                 >
                   {diffTime}
-                </span>
+                </div>
               </div>
-              <p style={{}}>{replyData.reply_text}</p>
+              <div style={{ margin: "0" }}>{replyData.reply_text}</div>
             </div>
 
             {/* like button */}
@@ -576,11 +582,15 @@ const Reply = ({ replyData }) => {
       style={{
         display: "flex",
         flex: 1,
-        marginLeft: "4rem",
+        marginLeft: "2.2rem",
+        marginBottom: "0.4rem",
         alignItems: "start",
       }}
     >
       {/* icon ss */}
+      <SubdirectoryArrowRightIcon
+        sx={{ fontSize: "1.2rem", marginRight: "0.2rem", color: "#B0B0B0" }}
+      />
       <div
         style={{
           display: "flex",
@@ -590,10 +600,15 @@ const Reply = ({ replyData }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h4 style={{ margin: "0" }}>{replyData.user_nickname}</h4>
-          <span style={{ marginLeft: "2rem", fontSize: "12px" }}>
+          <div style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}>
+            {replyData.user_nickname}
+          </div>
+          <LightbulbIcon sx={{ color: "#FFBF00", fontSize: "0.8rem" }} />
+          <div
+            style={{ marginLeft: "2rem", fontSize: "0.8rem", color: "#C4C4C4" }}
+          >
             {replyData.reply_date}
-          </span>
+          </div>
         </div>
         {/*reply to reply contents*/}
         <div
@@ -606,9 +621,9 @@ const Reply = ({ replyData }) => {
             overflow: "hidden",
           }}
         >
-          <p style={{ margin: "0", wordWrap: "break-word" }}>
+          <div style={{ margin: "0", wordWrap: "break-word" }}>
             {replyData.reply_text}
-          </p>
+          </div>
         </div>
       </div>
       <IconButton
