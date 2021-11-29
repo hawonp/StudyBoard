@@ -81,6 +81,7 @@ export default function PostDetailPage() {
             date: responseData["post_date"],
             user_id: responseData["user_id"],
             postLikeCount: responseData["post_like_count"],
+            user_is_endorsed: responseData["user_is_endorsed"],
             didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
             didUserFavourite:
               responseData["did_user_favourite_post"] != 0 ? true : false,
