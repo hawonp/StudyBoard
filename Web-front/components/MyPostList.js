@@ -48,13 +48,15 @@ export default function MyPostList({ mypost }) {
         }}
       >
         {mypost.post_image != "None" ? (
-          <img
-            width="150"
-            height="120"
-            src={mypost.post_image}
-            style={{ objectFit: "cover" }}
-            alt="green iguana"
-          />
+          <Paper>
+            <img
+              width="150"
+              height="120"
+              src={mypost.post_image}
+              style={{ objectFit: "cover" }}
+              alt="green iguana"
+            />
+          </Paper>
         ) : (
           <Paper
             style={{
@@ -85,6 +87,19 @@ export default function MyPostList({ mypost }) {
               paddingTop: "1rem",
             }}
           >
+            {/* My Post title */}
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: "1.6rem",
+                marginBottom: "0",
+              }}
+            >
+              {myPostData.post_title}
+            </Typography>
+
             <Box
               sx={{
                 display: "flex",
@@ -92,17 +107,19 @@ export default function MyPostList({ mypost }) {
                 alignItems: "end",
               }}
             >
+              {/* user nickname */}
               <Typography
                 gutterBottom
                 variant="h5"
                 component="div"
                 sx={{
-                  fontSize: "1.6rem",
-                  marginBottom: "0",
+                  fontSize: "1rem",
                 }}
               >
-                {myPostData.post_title}
+                {myPostData.username || "nickname"}
               </Typography>
+
+              {/* post date */}
               <Typography
                 gutterBottom
                 variant="h5"
@@ -110,21 +127,12 @@ export default function MyPostList({ mypost }) {
                 sx={{
                   fontSize: "0.8rem",
                   marginLeft: "0.8rem",
+                  marginBottom: "0.5rem",
                 }}
               >
                 {diffTime}
               </Typography>
             </Box>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              sx={{
-                fontSize: "1rem",
-              }}
-            >
-              {myPostData.username || "nickname"}
-            </Typography>
           </Box>
 
           <CardActionsWrapper>
