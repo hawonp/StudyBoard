@@ -18,10 +18,11 @@ import FlagIcon from "@mui/icons-material/Flag";
 import EditIcon from "@mui/icons-material/Edit";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import Button from "@mui/material/Button";
-
+import SmsIcon from "@mui/icons-material/Sms";
+import { getTimeDisplay } from "../utils/utils";
 import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";
-
+import { useEffect } from "react";
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
 
@@ -101,7 +102,12 @@ export default function PostDetail({
   const [isCopied, setisCopied] = useState(false);
   const router = useRouter();
   const { user } = useUser();
-  //Setting functions
+
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), postData.date));
+  }, []);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -144,7 +150,7 @@ export default function PostDetail({
                 color: "#C4C4C4",
               }}
             >
-              Posted by {postData.user}&nbsp;
+              Posted by {postData.user}
             </div>
             {/*date*/}
             <div
@@ -156,7 +162,7 @@ export default function PostDetail({
                 color: "#C4C4C4",
               }}
             >
-              {postData.date}
+              {diffTime}
             </div>
           </div>
         </header>

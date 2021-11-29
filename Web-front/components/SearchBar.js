@@ -78,12 +78,6 @@ export default function SearchBar() {
         console.log("User selected a tag");
         console.log("go to this tag page");
         Router.push("../tags/" + id);
-        // pathname: '/about',
-        // query: { name: 'Someone' }
-        // Router.push({
-        //   pathname: '../tags/" + id',
-        //   query: { text: value["text"] },
-        // });
       } else {
         console.log("User selected a post ", value["text"]);
         const postID = value["id"];

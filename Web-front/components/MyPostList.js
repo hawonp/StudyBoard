@@ -14,7 +14,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-
+import { getTimeDisplay } from "../utils/utils";
 const CardActionsWrapper = ({ style, children }) => {
   return (
     <div
@@ -32,7 +32,10 @@ const CardActionsWrapper = ({ style, children }) => {
 
 export default function MyPostList({ mypost }) {
   const [myPostData, setMyPostData] = useState(mypost);
-
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
+  }, []);
   return (
     <Link href={"posts/" + mypost.post_id}>
       <Paper
@@ -127,7 +130,7 @@ export default function MyPostList({ mypost }) {
                   marginBottom: "0.5rem",
                 }}
               >
-                {myPostData.post_date}
+                {diffTime}
               </Typography>
             </Box>
           </Box>
@@ -144,17 +147,6 @@ export default function MyPostList({ mypost }) {
                 &nbsp; {myPostData.post_like_count} Likes
               </div>
             </IconButton>
-
-            {/* Moderator */}
-
-            {/* <IconButton
-              aria-label="SmsIcon"
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
-            >
-                <ThumbUpIcon />
-                <div>: {user_is_endorsed_like}</div>
-              </IconButton>
-             */}
 
             {/* Comment */}
             <IconButton

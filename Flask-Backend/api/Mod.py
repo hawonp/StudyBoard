@@ -1,8 +1,8 @@
 from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
-from query.flag_query import get_flagged_posts, get_flagged_replies, accept_post_flag
+from query.flag_query import get_flagged_posts, get_flagged_replies, get_flagged_users
 from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag, deny_reply_flag, update_flag_count
-from query.user_query import check_if_user_is_mod
+from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 
@@ -14,10 +14,18 @@ REPLIES = '/replies'
 POSTS = '/posts'
 USERS = '/users'
 FLAG_ID = '/<int:id>'
+USER_ID = '/<string:id>'
+MOD = '/moderator'
+ENDORSE = '/endorsed'
+THRESHHOLD = '/<int:num>'
 
 ############################
 #    Marshmallow Schema    #
 ############################
+class HandleReportAuthorisationSchema(Schema):
+    userID = fields.Str(required=True)
+    contentID = fields.Int(required=True)
+
 class ModeratorAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
     contentID = fields.Int(required=True)
@@ -26,19 +34,10 @@ class ModeratorAuthorisationSchema(Schema):
 # Flask RESTful API routes #
 ############################
 
-class FlaggedPosts(Resource):
-    def get(self):
-
-        #Get posts with given offset, sort order and tag filter
-        reports = get_flagged_posts()
-            
-        return json.dumps(reports, default=str)
-
-
 class RespondToPostFlag(Resource):
     def delete(self, id):
         #Validate params first
-        errors = mod_authorise_schema.validate(request.args)
+        errors = handle_report_authorise_schema.validate(request.args)
         if errors:
             print(errors)
             abort(400, str(errors))
@@ -64,7 +63,7 @@ class RespondToPostFlag(Resource):
         #Validate params first
         formData = request.get_json()["params"]
         print("formdata", formData)
-        errors = mod_authorise_schema.validate(formData)
+        errors = handle_report_authorise_schema.validate(formData)
         if errors:
             print(errors)
             abort(400, str(errors))
@@ -87,7 +86,7 @@ class RespondToPostFlag(Resource):
 class RespondToReplyFlag(Resource):
     def delete(self, id):
         #Validate params first
-        errors = mod_authorise_schema.validate(request.args)
+        errors = handle_report_authorise_schema.validate(request.args)
         if errors:
             print(errors)
             abort(400, str(errors))
@@ -112,7 +111,7 @@ class RespondToReplyFlag(Resource):
         #Validate params first
         formData = request.get_json()["params"]
         print("formdata", formData)
-        errors = mod_authorise_schema.validate(formData)
+        errors = handle_report_authorise_schema.validate(formData)
 
         if errors:
             print(errors)
@@ -133,22 +132,60 @@ class RespondToReplyFlag(Resource):
 
         return res
 
+class BlacklistUser(Resource):
+    def post(self, id):
+        #Validate params first
+        formData = request.get_json()["params"]
+        print("formdata", formData)
+        errors = mod_authorise_schema.validate(formData)
+        if errors:
+            print(errors)
+            abort(400, str(errors))
+        
+        #Now fetch the params
+        user_id = formData["userID"]
+
+        #Check if the user is a mod and execute
+        if check_if_user_is_mod(user_id):
+            #User must be a mod
+            add_user_to_blacklist
+        else:
+            err = "Not authorised"
+            print(err)
+            abort(403, err)
+        
+        return json.dumps(res)
+
+class FlaggedPosts(Resource):
+    def get(self):
+
+        #Get posts with given offset, sort order and tag filter
+        reports = get_flagged_posts()
+            
+        return json.dumps(reports, default=str)
 
 class FlaggedReplies(Resource):
     def get(self):
-
         #Get posts with given offset, sort order and tag filter
         reports = get_flagged_replies()
             
         return json.dumps(reports, default=str)
 
-    def delete(self):
-        pass
-
-
 class FlaggedUsers(Resource):
     def get(self):
-        pass
+        #Get posts with given offset, sort order and tag filter
+        reports = get_flagged_users()
+            
+        return json.dumps(reports, default=str)
+
+class EndorseThreshhold(Resource):
+    def put(self, num):
+        #Get posts with given offset, sort order and tag filter
+        res = set_endorse_threshhold(int(num))
+
+        return json.dumps(res)
+
+
 
 #Add routes to api
 def init_routes(api):
@@ -157,5 +194,8 @@ def init_routes(api):
     api.add_resource(RespondToReplyFlag, FLAGGED+REPLIES+FLAG_ID)
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
     api.add_resource(FlaggedUsers, FLAGGED+USERS)
+    api.add_resource(BlacklistUser, FLAGGED+USERS+USER_ID)
+    api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
 
 mod_authorise_schema = ModeratorAuthorisationSchema()
+handle_report_authorise_schema = HandleReportAuthorisationSchema()
