@@ -84,7 +84,7 @@ export default function EditPost({ postCard, finish }) {
         variant="outlined"
         value={inputTag}
         onChange={(event) =>
-          setTag(
+          setInputTag(
             event.target.value
               .split(",")
               .map((unadjustedTag) =>
