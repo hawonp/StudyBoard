@@ -79,6 +79,7 @@ export default function PostDetailPage() {
             images: responseData["post_image"],
             tags: responseData["post_tags"],
             date: responseData["post_date"],
+            user_id: responseData["user_id"],
             postLikeCount: responseData["post_like_count"],
             didUserLike: responseData["did_user_like_post"] != 0 ? true : false,
             didUserFavourite:
