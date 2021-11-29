@@ -278,3 +278,36 @@ def update_user(id, nickname, tags):
         res = 0
 
     return res
+
+
+###########################################################
+#                         TRIGGER                         #
+###########################################################
+def set_endorse_threshhold(count):
+    res = 1
+    try:        
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #First drop the existing query
+        query = "DROP TRIGGER IF EXISTS Set_Endorse_Trigger"
+        cursor.execute(query)
+
+        #Set up query statement and values
+        query = "CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User FOR EACH ROW BEGIN IF NEW.user_likes_received > "+str(count)+" THEN SET NEW.user_is_endorsed=1; END IF; END"
+
+        #Adding new data into table
+        print("Setting with query", query)
+        cursor.execute(query)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+
+    return res

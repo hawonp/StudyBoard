@@ -2,7 +2,7 @@ from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.flag_query import get_flagged_posts, get_flagged_replies, get_flagged_users
 from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag, deny_reply_flag, update_flag_count
-from query.user_query import check_if_user_is_mod, add_user_to_blacklist
+from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 
@@ -15,6 +15,9 @@ POSTS = '/posts'
 USERS = '/users'
 FLAG_ID = '/<int:id>'
 USER_ID = '/<string:id>'
+MOD = '/moderator'
+ENDORSE = '/endorsed'
+THRESHHOLD = '/<int:num>'
 
 ############################
 #    Marshmallow Schema    #
@@ -168,13 +171,21 @@ class FlaggedReplies(Resource):
             
         return json.dumps(reports, default=str)
 
-
 class FlaggedUsers(Resource):
     def get(self):
         #Get posts with given offset, sort order and tag filter
         reports = get_flagged_users()
             
         return json.dumps(reports, default=str)
+
+class EndorseThreshhold(Resource):
+    def put(self, num):
+        #Get posts with given offset, sort order and tag filter
+        res = set_endorse_threshhold(int(num))
+
+        return json.dumps(res)
+
+
 
 #Add routes to api
 def init_routes(api):
@@ -184,6 +195,7 @@ def init_routes(api):
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
     api.add_resource(FlaggedUsers, FLAGGED+USERS)
     api.add_resource(BlacklistUser, FLAGGED+USERS+USER_ID)
+    api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
 
 mod_authorise_schema = ModeratorAuthorisationSchema()
 handle_report_authorise_schema = HandleReportAuthorisationSchema()
