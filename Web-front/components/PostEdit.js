@@ -71,6 +71,7 @@ export default function EditPost({ postCard, finish }) {
         id="title"
         label="Title"
         variant="outlined"
+        inputProps={{ maxLength: 64 }}
         value={inputTitle}
         onChange={(event) => setInputTitle(event.target.value)}
       />
