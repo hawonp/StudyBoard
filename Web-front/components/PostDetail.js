@@ -23,6 +23,9 @@ import { getTimeDisplay } from "../utils/utils";
 import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";
 import { useEffect } from "react";
+import Tooltip from "@mui/material/Tooltip";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
 
@@ -140,17 +143,27 @@ export default function PostDetail({
       )}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         {/*title*/}
-        <header style={{ marginBottom: "1.5rem" }}>
+        <header style={{}}>
           <h1>{postData.title}</h1>
           {/*username*/}
-          <div style={{ display: "flex", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex" }}>
             <div
               style={{
-                fontSize: "17px",
+                fontSize: "0.8rem",
                 color: "#C4C4C4",
               }}
             >
               Posted by {postData.user}
+            </div>
+            <div>
+              <Tooltip title="This is Endorsed User post ">
+                <LightbulbIcon
+                  sx={{
+                    color: "#FFBF00",
+                    fontSize: "0.8rem",
+                  }}
+                />
+              </Tooltip>
             </div>
             {/*date*/}
             <div
@@ -158,7 +171,7 @@ export default function PostDetail({
                 display: "flex",
                 flex: 1,
                 marginLeft: "0.5rem",
-                fontSize: "17px",
+                fontSize: "0.8rem",
                 color: "#C4C4C4",
               }}
             >

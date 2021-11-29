@@ -217,13 +217,13 @@ export default function ProfileCard() {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div
                     style={{
-                      fontSize: "0.9rem",
-                      color: "gray",
+                      fontSize: "0.8rem",
+                      color: "#C4C4C4",
                     }}
                   >
-                    Your preferred tags
+                    Personal Tags
                   </div>
-                  <TagIcon sx={{ fontSize: "0.9rem", color: "gray" }} />
+                  {/* <TagIcon sx={{ fontSize: "0.9rem", color: "gray" }} /> */}
                 </div>
               </div>
 
