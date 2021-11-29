@@ -93,7 +93,7 @@ export default function EditProfile({ profile }) {
           label="Please edit your personal tags"
           value={inputTag}
           onChange={(event) =>
-            setTag(
+            setInputTag(
               event.target.value
                 .split(",")
                 .map((unadjustedTag) =>
