@@ -142,11 +142,14 @@ CREATE TABLE Post_Tag(
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(64) NOT NULL,
-    notification_text VARCHAR(128) NOT NULL,
+    post_id INTEGER NOT NULL,
+    notification_aux_id INTEGER,
+    notification_type INTEGER NOT NULL,
     notification_date DATETIME NOT NULL,
     notification_seen BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY(notification_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES Post(post_id)
 );
 -- FAVOURITE QUESTION --
 CREATE TABLE Favourite_Question(

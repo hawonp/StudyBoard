@@ -33,6 +33,33 @@ def add_user(id, nickname, email_address):
         print(f"Error adding entry to database: {e}")
     return new_user_id
 
+def add_user_to_blacklist(user_id):
+    new_user_id = "" #When meeting and error or not found
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "INSERT INTO User (user_id) VALUES (?)"
+        values = (user_id, n)
+
+        #Adding new data into table
+        print("Adding with query", query, " and values ", values)
+        cursor.execute(query, values)
+        
+        #Getting id of newly added user
+        new_user_id = cursor.lastrowid
+        print("cursor lastrowid is ", cursor.lastrowid)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+    return new_user_id
+
 ##########################################################
 #                         SELECT                         #
 ##########################################################
@@ -203,6 +230,31 @@ def check_if_user_is_mod(user_id):
     
     return res[0]
 
+def check_if_user_is_blacklisted(user_id):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #Set up query statement and values
+        query = "SELECT EXISTS(SELECT * FROM Blacklisted_User WHERE user_id=?)"
+        values = (user_id, )
+
+        #Getting data from table
+        print("Checking if is mod with query", query, " and values ", values)
+        cursor.execute(query, values)
+        res = cursor.fetchone()
+        
+        #Closing cursor, commit and close connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = [0]
+    
+    return res[0]
+
 ##########################################################
 #                         UPDATE                         #
 ##########################################################
@@ -245,6 +297,39 @@ def update_user(id, nickname, tags):
 
             #Add the entry to post_tag
             add_user_tag(tag_id, id)
+
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+
+    return res
+
+
+###########################################################
+#                         TRIGGER                         #
+###########################################################
+def set_endorse_threshhold(count):
+    res = 1
+    try:        
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        #First drop the existing query
+        query = "DROP TRIGGER IF EXISTS Set_Endorse_Trigger"
+        cursor.execute(query)
+
+        #Set up query statement and values
+        query = "CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User FOR EACH ROW BEGIN IF NEW.user_likes_received > "+str(count)+" THEN SET NEW.user_is_endorsed=1; END IF; END"
+
+        #Adding new data into table
+        print("Setting with query", query)
+        cursor.execute(query)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
