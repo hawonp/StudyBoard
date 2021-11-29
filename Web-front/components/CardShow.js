@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
@@ -44,12 +45,17 @@ export default function CardShow({ post }) {
                   marginTop: "0.4rem",
                 }}
               >
-                <span style={{ fontSize: "0.8rem" }}>
+                <span style={{ fontSize: "17px", color: "#C4C4C4" }}>
                   Posted by {post.user_nickname}
                 </span>
                 <div>
                   <Tooltip title="This is Endorsed User post ">
-                    <LightbulbIcon sx={{ color: "#FFBF00" }} />
+                    <LightbulbIcon
+                      sx={{
+                        color: "#FFBF00",
+                        fontSize: "1.2rem",
+                      }}
+                    />
                   </Tooltip>
                 </div>
                 <span style={{ fontSize: "0.8rem" }}> {diffTime}</span>
@@ -73,7 +79,21 @@ export default function CardShow({ post }) {
             </Box>
           </Link>
           {/* card content  */}
-          <div style={{ marginLeft: "1rem" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "1rem",
+              justifyContent: "start",
+            }}
+          >
+            <MenuBookIcon
+              sx={{
+                fontSize: "1.2rem",
+                marginRight: "0.5rem",
+                // color: "#FFBF00",
+              }}
+            />
             Click here to see the question..
           </div>
 

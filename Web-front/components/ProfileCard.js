@@ -8,6 +8,10 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Grid from "@mui/material/Grid";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import Box from "@mui/material/Box";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import TagIcon from "@mui/icons-material/Tag";
 
 import axiosInstance from "../utils/routeUtil";
 
@@ -94,6 +98,17 @@ export default function ProfileCard() {
   const { user, error, isLoading } = useUser();
   const users = "/users/";
 
+  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((previousOpen) => !previousOpen);
+  };
+
+  const canBeOpen = open && Boolean(anchorEl);
+  const id = canBeOpen ? "transition-popper" : undefined;
+
   // console.log(user);
   // console.log(user.sub);
   // console.log(user.nickname);
@@ -132,12 +147,15 @@ export default function ProfileCard() {
         <Grid item xs={2}>
           <BoxWrapper>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ marginLeft: "1rem" }}>
-                {/*user name*/}
-                {/* <h1> Welcome </h1> */}
-                <h4>
-                  <italic>Hi</italic> {nickname}
-                </h4>
+              <div
+                style={{
+                  marginLeft: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <h4>{nickname}</h4>
               </div>
               <div
                 style={{
@@ -147,11 +165,36 @@ export default function ProfileCard() {
                 }}
               >
                 {/*만약 수퍼유저가 아니면 안보이게 */}
-                <Link href="/admin/admin">
-                  <AdminPanelSettingsIcon
-                    sx={{ marginLeft: "0.8rem", color: "darkred" }}
-                  />
-                </Link>
+
+                <IconButton
+                  disableRipple
+                  aria-describedby={id}
+                  type="button"
+                  onClick={handleClick}
+                >
+                  <AdminPanelSettingsIcon sx={{ color: "darkred" }} />
+                </IconButton>
+                <Popper id={id} open={open} anchorEl={anchorEl} transition>
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                      <Box
+                        sx={{
+                          border: 1,
+                          borderRadius: "4px",
+                          p: 1,
+                          bgcolor: "background.paper",
+                        }}
+                      >
+                        <Link
+                          href="/admin/admin"
+                          style={{ textDecoration: "none", color: "blue" }}
+                        >
+                          Click to see report user
+                        </Link>
+                      </Box>
+                    </Fade>
+                  )}
+                </Popper>
               </div>
             </div>
 
@@ -164,6 +207,26 @@ export default function ProfileCard() {
               }}
             >
               {/* <p> Your personal tags </p> */}
+              <div
+                style={{
+                  display: "flex",
+                  margin: 0,
+                  fontSize: "0.9rem",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      fontSize: "0.9rem",
+                      color: "gray",
+                    }}
+                  >
+                    Your preferred tags
+                  </div>
+                  <TagIcon sx={{ fontSize: "0.9rem", color: "gray" }} />
+                </div>
+              </div>
+
               {tags.length > 0 ? (
                 <TagWrapper>
                   {tags.map((tag, i) => (
