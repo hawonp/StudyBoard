@@ -95,7 +95,9 @@ class RespondToReplyFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = add_user_to_blacklist(id)
+            res = accept_reply_flag(reply_id)
+            del_reply_res = delete_reply(reply_id)
+            upd_flag_count_res = update_flag_count(id,0, 1)
         else:
             err = "Not authorised"
             print(err)
@@ -127,7 +129,7 @@ class RespondToReplyFlag(Resource):
 
         return res
 
-class RespondToReplyFlag(Resource):
+class BlacklistUser(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
@@ -143,9 +145,7 @@ class RespondToReplyFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = accept_reply_flag(reply_id)
-            del_reply_res = delete_reply(reply_id)
-            upd_flag_count_res = update_flag_count(id,0, 1)
+            add_user_to_blacklist
         else:
             err = "Not authorised"
             print(err)
@@ -182,8 +182,8 @@ def init_routes(api):
     api.add_resource(RespondToPostFlag, FLAGGED+POSTS+FLAG_ID)
     api.add_resource(RespondToReplyFlag, FLAGGED+REPLIES+FLAG_ID)
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
-    # api.add_resource(FlaggedUsers, FLAGGED+USERS)
-    # api.add_resource(FlaggedUsers, FLAGGED+USERS+USER_ID)
+    api.add_resource(FlaggedUsers, FLAGGED+USERS)
+    api.add_resource(BlacklistUser, FLAGGED+USERS+USER_ID)
 
 mod_authorise_schema = ModeratorAuthorisationSchema()
 handle_report_authorise_schema = HandleReportAuthorisationSchema()
