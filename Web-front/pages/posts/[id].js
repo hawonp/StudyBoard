@@ -88,7 +88,10 @@ export default function PostDetailPage() {
           setHasLoaded(true);
         });
     }
-  }, [isEdit]);
+  }, [isEdit, isLoading]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   //Handle like press
   const handleLikePressed = () => {
