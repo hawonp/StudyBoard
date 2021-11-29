@@ -99,5 +99,16 @@ BEGIN
     UPDATE Post SET Post.post_reply_count = Post.post_reply_count+1 WHERE post_id = NEW.post_id;
 END; //
 delimiter ;
+-- Deleting Replies --
+-- UPDATE LIKE COUNT FOR POST AND USER WHEN A ROW IS DELETED FROM User_Post_Like (One likes a post)
+delimiter //
+CREATE TRIGGER Remove_Reply AFTER DELETE ON Reply_To_Post
+FOR EACH ROW
+BEGIN
+
+    -- Increment the like count on the post
+    UPDATE Post SET Post.post_reply_count = Post.post_reply_count-1 WHERE post_id = OLD.post_id;
+END; //
+delimiter ;
 
 -- -- NOTIFICATIONS --
