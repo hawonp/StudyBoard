@@ -121,6 +121,7 @@ export default function PostDetail({
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
+        console.log(responseData);
       });
     setFlagText("");
     setOpen(false);
@@ -216,14 +217,19 @@ export default function PostDetail({
           disableSpacing
           sx={{ justifyContent: "end", padding: "0" }}
         >
-          <IconButton
-            title={"I want to edit"}
-            onClick={edit}
-            sx={{ borderRadius: "4px" }}
-          >
-            <EditIcon sx={{ fontSize: "1.2rem" }} />
-            <CountNumber> &nbsp;Edit</CountNumber>
-          </IconButton>
+          {user.sub == postData.user_id ? (
+            <IconButton
+              title={"I want to edit"}
+              onClick={edit}
+              sx={{ borderRadius: "4px" }}
+            >
+              <EditIcon sx={{ fontSize: "1.2rem" }} />
+              <CountNumber> &nbsp;Edit</CountNumber>
+            </IconButton>
+          ) : (
+            <> </>
+          )}
+
           {/*일반유저좋아요*/}
           <IconButton
             sx={{ borderRadius: "4px" }}

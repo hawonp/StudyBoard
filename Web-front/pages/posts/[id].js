@@ -166,7 +166,7 @@ export default function PostDetailPage() {
   };
 
   //Must not load when the following are true
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Getting User Info...</div>;
   if (error) return <div>{error.message}</div>;
 
   //Render if the post has loaded

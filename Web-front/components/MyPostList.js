@@ -37,7 +37,7 @@ export default function MyPostList({ mypost }) {
     setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
   }, []);
   return (
-    <Link href={"posts/" + mypost.post_id}>
+    <Link href={"/" + "posts/" + mypost.post_id}>
       <Paper
         sx={{
           display: "flex",

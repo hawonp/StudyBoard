@@ -4,7 +4,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { useRefresh } from "react-tidy";
 import Link from "next/link";
 
 // import MUI
@@ -29,7 +29,7 @@ import PostEdit from "../../components/PostEdit";
 import PostDetail from "../../components/PostDetail";
 import { CommentBox } from "../../components/CommentBox";
 import MyPostList from "../../components/MyPostList";
-
+import { useReducer } from "react";
 // axios instance
 import axiosInstance from "../../utils/routeUtil";
 const POSTTAGENDPOINT = "/feed/posts/tags";
@@ -91,11 +91,16 @@ export async function getServerSideProps(context) {
 
 export default function MyPost() {
   const router = useRouter();
+  const refresh = useRefresh();
   const [myPosts, setMyPosts] = useState([]);
   const [tagId, setTagId] = useState(router.query.id);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [tagName, setTagName] = useState();
   //   const dynamicRoute = router.asPath;
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  function handleClick() {
+    forceUpdate();
+  }
   useEffect(() => {
     // if (!isLoading && !error) {
     //   let userID = "";
@@ -119,17 +124,16 @@ export default function MyPost() {
         setMyPosts(JSON.parse(response.data));
       });
     const handleRouteChange = (url, { shallow }) => {
-      router.reload();
+      // router.reload();
+      // forceRender({});
+      console.log(router.asPath);
+      // router.replace(router.asPath);
+      // refresh;
+      handleClick();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
   }, []);
 
-  //   if (isLoading) return <div>Loading...</div>;
-  //   if (error) return <div>{error.message}</div>;
-
-  //   if (isDataLoading) {
-  //     return <div> Loading... </div>;
-  //   } else
   if (myPosts.length == 0) {
     return <div> No Search Results </div>;
   } else {
