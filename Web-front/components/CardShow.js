@@ -29,7 +29,7 @@ export default function CardShow({ post }) {
       <a style={{ textDecoration: "none" }}>
         <Card
           sx={{
-            maxWidth: 1250,
+            // maxWidth: 1250,
             marginTop: "1rem",
             border: "0.1rem solid lightgray",
           }}

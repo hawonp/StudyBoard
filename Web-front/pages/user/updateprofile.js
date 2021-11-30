@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ProfileCard from "../../components/ProfileCard";
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import * as React from "react";
 import EditProfile from "../../components/EditProfile";
 import { useEffect, useState } from "react";
@@ -45,11 +45,10 @@ export default function UpdateProfile() {
   } else {
     return (
       <div style={{ display: "flex" }}>
-        <div>
-          <Container>
-            <EditProfile profile={profile} />
-          </Container>
-        </div>
+        <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
+          <EditProfile profile={profile} />
+        </Box>
+
         <ProfileCard />
       </div>
     );

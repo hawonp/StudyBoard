@@ -21,12 +21,11 @@ const BoxWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        marginTop: "1.3rem",
+        marginTop: "20px",
         backgroundColor: "#ffffff",
         borderRadius: "4px",
         boxShadow: "0 3px 110px lightgray",
         margin: "1.0rem auto 0",
-
         width: "14rem",
         display: "flex",
         flexDirection: "column",
@@ -153,10 +152,16 @@ export default function ProfileCard() {
       {user ? (
         <Grid item xs={2}>
           <BoxWrapper>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <div
                 style={{
-                  marginLeft: "1rem",
+                  // marginLeft: "1rem",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -170,7 +175,7 @@ export default function ProfileCard() {
                   style={{
                     display: "flex",
                     // justifyContent: "end",
-                    marginRight: "0.8rem",
+                    // marginRight: "0.8rem",
                   }}
                 >
                   {/*만약 수퍼유저가 아니면 안보이게 */}
@@ -239,6 +244,7 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/myPost">
                   <IconButton
+                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >
@@ -255,6 +261,7 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/favorite/favorite">
                   <IconButton
+                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >

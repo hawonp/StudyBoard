@@ -12,6 +12,9 @@ const BoxWrapper = ({ style, children }) => {
         borderRadius: "8px",
         marginBottom: "16px",
         marginTop: "20px",
+
+        marginLeft: "20px",
+        marginRight: "20px",
         padding: "10px 12px",
         backgroundColor: "white",
         ...style,
