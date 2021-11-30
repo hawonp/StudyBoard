@@ -33,17 +33,17 @@ export default function PostNavigation() {
           <TextField
             fullWidth
             id="standard-basic"
-            label=" Ask Question"
+            label="Ask a Question!"
             variant="standard"
           />
         </Link>
       </Box>
 
-      <IconButton>
+      {/* <IconButton>
         <Link href="/writePost">
           <ImageSearchIcon />
         </Link>
-      </IconButton>
+      </IconButton> */}
     </div>
   );
 }
