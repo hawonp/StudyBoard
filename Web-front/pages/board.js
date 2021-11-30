@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
-import Container from "@mui/material/Container";
+import { Box } from "@mui/material";
 
 import ProfileCard from "../components/ProfileCard";
 import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/Pagination";
 import CardShow from "../components/CardShow";
 import FilterButton from "../components/FilterButton";
+import LoadingProgress from "../components/Loading";
 
 const PageNav = ({ style, children }) => {
   return (
@@ -137,15 +138,15 @@ export default function Board() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>
-        <Container>
+        <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
           <Head>
             <title>StudyBoard</title>
           </Head>
@@ -181,7 +182,7 @@ export default function Board() {
               maxPageCount={maxPage}
             />
           </PageNav>
-        </Container>
+        </Box>
         {isBig && user && <ProfileCard />}
       </div>
     );

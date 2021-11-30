@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import { Container, ListItem } from "@mui/material";
+import { Box, ListItem } from "@mui/material";
 import Link from "@mui/material/Link";
 import LinkIcon from "@mui/icons-material/Link";
 import IconButton from "@mui/material/IconButton";
@@ -23,13 +23,15 @@ const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
   return (
-    <Container
+    <Box
       style={{
         flex: 1,
         border: "0.1rem solid lightgray",
         borderRadius: "4px",
         marginBottom: "16px",
         marginTop: "20px",
+        marginLeft: "20px",
+        marginRight: "20px",
         padding: "10px 12px",
         backgroundColor: "white",
         ...style,
@@ -37,7 +39,7 @@ const BoxWrapper = ({ style, children }) => {
     >
       {" "}
       {children}{" "}
-    </Container>
+    </Box>
   );
 };
 

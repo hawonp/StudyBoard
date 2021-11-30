@@ -1,4 +1,4 @@
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import ProfileCard from "../../components/ProfileCard";
 import * as React from "react";
 import ProfileInfo from "../../components/ProfileInfo";
@@ -56,12 +56,11 @@ export default function Profile() {
   } else {
     return (
       <div style={{ display: "flex" }}>
-        <div>
-          <Container>
-            {/* Profile information */}
-            <ProfileInfo profile={profile} />
-          </Container>
-        </div>
+        <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
+          {/* Profile information */}
+          <ProfileInfo profile={profile} />
+        </Box>
+
         <ProfileCard />
       </div>
     );

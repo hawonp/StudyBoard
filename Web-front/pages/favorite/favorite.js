@@ -80,7 +80,7 @@ export default function Favorite() {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
-          <Container>
+          <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
             <Box
               style={{
                 border: "0.1rem solid lightgray",
@@ -99,7 +99,7 @@ export default function Favorite() {
                 ))}
               </BoxWrapper>
             </Box>
-          </Container>
+          </Box>
         </div>
 
         <ProfileCard />

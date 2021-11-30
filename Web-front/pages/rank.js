@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import RankUserList from "../components/RankUserList";
@@ -7,7 +6,7 @@ import RankUserList from "../components/RankUserList";
 export default function Rank() {
   return (
     <div>
-      <Container>
+      <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
         <Box
           style={{
             backgroundColor: "white",
@@ -30,7 +29,7 @@ export default function Rank() {
 
           <RankUserList />
         </Box>
-      </Container>
+      </Box>
     </div>
   );
 }

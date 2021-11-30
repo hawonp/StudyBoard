@@ -300,6 +300,20 @@ export default function PostDetail({
                     borderRadius: "8px",
                     height: "2rem",
                     marginTop: "0.5rem",
+                    marginRight: "0.5rem",
+                  }}
+                  variant="contained"
+                  color="error"
+                  type="error"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
                   }}
                   variant="contained"
                   color="success"
