@@ -71,10 +71,9 @@ export default function AdminUserList() {
       return response;
     });
     if (user) {
-      console.log("row", row.report_id);
       const userID = user.sub;
       axiosInstance
-        .delete(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + user_id, {
+        .delete(FLAGGEDENDPOINT + USERS + "/" + user_id, {
           params: {
             userID: userID,
           },

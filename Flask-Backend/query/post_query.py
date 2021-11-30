@@ -99,9 +99,9 @@ def get_post_feed(page, order):
     offset = (page - 1) * 10 #if page 1, then it should start from 1.
     if order:
         #If the order is in likes
-        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
     else:
-        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_date DESC LIMIT ?, ?"
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE User.user_id = Post.user_id ORDER BY post_date DESC LIMIT ?, ?"
     values = (offset, limit)
 
     #Fetching posts with filter, sort, limit, and offset
@@ -259,35 +259,6 @@ def get_posts_by_user(user_id):
         return -1
 
     return json_data
-
-# get post by id
-def get_post_by_id(post_id):
-    try:
-        # Obtainting DB cursor
-        conn = get_connection()
-        cur = conn.cursor()
-
-        #Set up query statements and values
-        query = "SELECT * FROM Post WHERE user_id=?"
-        values = (post_id, )
-        print("Selecting with query", query)
-        cur.execute(query, values)
-
-        # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
-        json_data=[]
-
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
-
-        #Close cursor
-        cur.close()
-        conn.commit()
-        conn.close()
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-        return -1
 
 def get_tag_name_by_id(tag_id):
     tag_name = ""

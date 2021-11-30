@@ -91,6 +91,7 @@ export function PostWrite() {
           id="title"
           label="Title"
           variant="outlined"
+          inputProps={{ maxLength: 64 }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />

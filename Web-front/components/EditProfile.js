@@ -82,7 +82,8 @@ export default function EditProfile({ profile }) {
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="NickName"
+          label="NickNamae"
+          inputProps={{ maxLength: 16 }}
           value={inputNick}
           onChange={(e) => setInputNick(e.target.value)}
         />
