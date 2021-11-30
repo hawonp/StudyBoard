@@ -324,7 +324,7 @@ def search_tags(input):
             abort(400)
 
         #Set up query statements and values
-        query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && Tag.tag_name LIKE ?"
+        query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)
@@ -365,7 +365,7 @@ def search_posts(input):
                 # query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ? || Post.post_text LIKE ?"
         # query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ?"
 
-        query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ?"
+        query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where LOWER(Post.post_title) LIKE LOWER(?)"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)

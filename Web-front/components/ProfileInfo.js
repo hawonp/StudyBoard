@@ -83,12 +83,16 @@ export default function ProfileInfo({ profile }) {
 
         {/*edit button for profile*/}
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-          <IconButton aria-label="edit">
+          <IconButton sx={{ borderRadius: "4px" }} aria-label="edit">
             <Link href="/user/updateprofile">
               <EditIcon />
             </Link>
           </IconButton>
-          <IconButton aria-label="delete" onClick={handleOpen}>
+          <IconButton
+            sx={{ borderRadius: "4px" }}
+            aria-label="delete"
+            onClick={handleOpen}
+          >
             <DeleteIcon />
           </IconButton>
           <Modal
@@ -131,6 +135,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
+          label="Email (Fixed)"
           defaultValue={email}
         />
         <TextField
@@ -146,7 +151,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="Please enter your preferred tags (separated by commas)"
+          label="Personal Tags"
           defaultValue={tag}
         />
       </div>
