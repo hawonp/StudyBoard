@@ -131,7 +131,7 @@ export default function MyPost() {
                   fontSize: "1rem",
                 }}
               >
-                Search Results for {router.query.name}
+                Search Results for the Tag "{router.query.name}"
               </h5>
               <LineWrapper />
               <BoxWrapper>
