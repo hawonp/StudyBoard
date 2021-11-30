@@ -121,7 +121,6 @@ export default function PostDetail({
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
       });
     setFlagText("");
     setOpen(false);

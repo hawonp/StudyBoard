@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import TagIcon from "@mui/icons-material/Tag";
+import Tooltip from "@mui/material/Tooltip";
+import { useRouter } from "next/router";
 
 import axiosInstance from "../utils/routeUtil";
 
@@ -92,10 +94,12 @@ const TagWrapper = ({ style, children }) => {
 };
 
 export default function ProfileCard() {
+  const router = useRouter();
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
   const { user, error, isLoading } = useUser();
+  const [mod, setMod] = useState();
   const users = "/users/";
 
   const [open, setOpen] = React.useState(false);
@@ -104,6 +108,7 @@ export default function ProfileCard() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
+    router.push("/admin/admin");
   };
 
   const canBeOpen = open && Boolean(anchorEl);
@@ -126,11 +131,13 @@ export default function ProfileCard() {
           const temp = response["data"];
           const temp_json = JSON.parse(temp);
           const user_nickname = temp_json.user.user_nickname;
+          const user_is_mod = temp_json.user.user_is_mod;
           const tag = temp_json.tags;
           console.log("tag", tag);
           setNickname(user_nickname);
           setUserId(temp_json.user.user_id);
           setTags(tag);
+          setMod(user_is_mod);
           console.log(tag);
           console.log(user_nickname);
         }
@@ -157,45 +164,31 @@ export default function ProfileCard() {
               >
                 <h4>{nickname}</h4>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  // justifyContent: "end",
-                  marginRight: "0.8rem",
-                }}
-              >
-                {/*만약 수퍼유저가 아니면 안보이게 */}
 
-                <IconButton
-                  disableRipple
-                  aria-describedby={id}
-                  type="button"
-                  onClick={handleClick}
+              {mod ? (
+                <div
+                  style={{
+                    display: "flex",
+                    // justifyContent: "end",
+                    marginRight: "0.8rem",
+                  }}
                 >
-                  <AdminPanelSettingsIcon sx={{ color: "darkred" }} />
-                </IconButton>
-                <Popper id={id} open={open} anchorEl={anchorEl} transition>
-                  {({ TransitionProps }) => (
-                    <Fade {...TransitionProps} timeout={350}>
-                      <Box
-                        sx={{
-                          border: 1,
-                          borderRadius: "4px",
-                          p: 1,
-                          bgcolor: "background.paper",
-                        }}
-                      >
-                        <Link
-                          href="/admin/admin"
-                          style={{ textDecoration: "none", color: "blue" }}
-                        >
-                          Click to see report user
-                        </Link>
-                      </Box>
-                    </Fade>
-                  )}
-                </Popper>
-              </div>
+                  {/*만약 수퍼유저가 아니면 안보이게 */}
+
+                  <IconButton
+                    disableRipple
+                    aria-describedby={id}
+                    type="button"
+                    onClick={handleClick}
+                  >
+                    <Tooltip title="Click to go to the moderator page">
+                      <AdminPanelSettingsIcon sx={{ color: "darkred" }} />
+                    </Tooltip>
+                  </IconButton>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
 
             <div
