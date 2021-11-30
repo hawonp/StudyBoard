@@ -246,6 +246,7 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/myPost">
                   <IconButton
+                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >
@@ -262,6 +263,7 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/favorite/favorite">
                   <IconButton
+                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >
