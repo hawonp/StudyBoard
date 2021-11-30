@@ -56,50 +56,6 @@ const DateWrapper = ({ style, children }) => {
     </p>
   );
 };
-
-const dummy_list = [
-  {
-    notification_id: "1",
-    user_id: "1",
-    user_nickname: "Nick1",
-    post_id: "1",
-    comment_id: null,
-    type: 1,
-    notification_date: "Dummy Date ",
-    notification_seen: false,
-  },
-  {
-    notification_id: "2",
-    user_id: "2",
-    user_nickname: "Nick2",
-    post_id: "2",
-    comment_id: null,
-    type: 0,
-    notification_date: "Dummy Date ",
-    notification_seen: false,
-  },
-  {
-    notification_id: "3",
-    user_id: "3",
-    user_nickname: "Nick3",
-    post_id: "1",
-    comment_id: "1",
-    type: 0,
-    notification_date: "Dummy Date ",
-    notification_seen: true,
-  },
-  {
-    notification_id: "4",
-    user_id: "4",
-    user_nickname: "Nick4",
-    post_id: "2",
-    comment_id: "1",
-    type: 1,
-    notification_date: "Dummy Date ",
-    notification_seen: true,
-  },
-];
-
 // const dummy_noti={
 //     notification_id: "1",
 //     user_id: "pk",
@@ -129,10 +85,10 @@ const Notification = ({ data }) => {
   const {
     notification_id, // 1
     user_id, // 2
-    user_nickname, // 2
+    interactor_nickname, // 2
     post_id, // 3 (
-    comment_id, // 3 (대댓글일 경우 그 댓글의 id)
-    type, // 4 ('like' or 'reply')
+    reply_id, // 3 (대댓글일 경우 그 댓글의 id)
+    notification_type, // 4 ('like' or 'reply')
     notification_date, // 5
     notification_seen, // 6
   } = data;
@@ -162,12 +118,12 @@ const Notification = ({ data }) => {
             }}
           >
             <span>
-              <b>{user_nickname}</b>님이&nbsp;
+              <b>{interactor_nickname}</b>님이&nbsp;
             </span>
-            {comment_id ? (
+            {reply_id ? (
               <a
                 style={{ textDecoration: "none" }}
-                href={`/postdetail?post_id=${post_id}&comment_id=${comment_id}`}
+                href={`/postdetail?post_id=${post_id}&comment_id=${reply_id}`}
               >
                 <strong>이 댓글</strong>
               </a>
@@ -179,7 +135,9 @@ const Notification = ({ data }) => {
                 <strong>이 게시글</strong>
               </a>
             )}
-            {type === 0 ? "에 좋아요를 눌렀습니다" : "에 댓글을 달았습니다"}
+            {notification_type === 0
+              ? "에 좋아요를 눌렀습니다"
+              : "에 댓글을 달았습니다"}
           </div>
           <IconButton>
             <CancelIcon sx={{ justifyContent: "end" }} />
@@ -208,7 +166,7 @@ export default function NotificationList() {
         .get(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
         .then((response) => {
           setNotifications(JSON.parse(response.data));
-          console.log();
+          console.log("notifs", notifications);
           setIsDataLoading(false);
         });
     }
