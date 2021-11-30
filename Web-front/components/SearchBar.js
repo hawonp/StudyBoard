@@ -77,7 +77,7 @@ export default function SearchBar() {
       if (type == "tag") {
         console.log("User selected a tag");
         console.log("go to this tag page");
-        Router.push("../tags/" + id);
+        Router.push("../tags/" + value["text"]);
       } else {
         console.log("User selected a post ", value["text"]);
         const postID = value["id"];
