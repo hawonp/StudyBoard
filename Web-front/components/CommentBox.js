@@ -16,6 +16,8 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import InputAdornment from "@mui/material/InputAdornment";
+import Tooltip from "@mui/material/Tooltip";
 
 import Divider from "@mui/material/Divider";
 
@@ -31,9 +33,8 @@ const modalStyle = {
   transform: "translate(-50%, -50%)",
   width: 800,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
-  pt: 2,
+  borderRadius: "8px",
   px: 4,
   pb: 3,
 };
@@ -225,14 +226,36 @@ const CommentForm = ({ addComment }) => {
       <div className="comment-form-fields">
         <TextField
           fullWidth
-          label="Leave your reply here!"
+          label="Leave your response here!"
           multiline
           minRows={1}
           inputProps={{ maxLength: 512 }}
           inputRef={textRef}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {/* <IconButton
+                  sx={{ fontSize: "0.8rem", borderRadius: "4px" }}
+                  edge="end"
+                >
+                  <Tooltip title="Click to add a reply">
+                    <ReplyIcon />
+                  </Tooltip>
+                </IconButton> */}
+                <Button
+                  sx={{ borderRadius: "8px" }}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                >
+                  Reply
+                </Button>
+              </InputAdornment>
+            ),
+          }}
         ></TextField>
       </div>
-      <div
+      {/* <div
         className="comment-form-actions"
         style={{
           display: "flex",
@@ -249,7 +272,7 @@ const CommentForm = ({ addComment }) => {
         >
           Leave Reply
         </Button>
-      </div>
+      </div> */}
     </form>
   );
 };
@@ -391,12 +414,14 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               aria-describedby="parent-modal-description"
             >
               <Box sx={{ ...modalStyle }}>
-                <h4 id="child-modal-title">Report</h4>
+                <h4 id="child-modal-title">Submit a Report</h4>
                 <div style={{ flex: 1 }}>
                   <TextField
                     fullWidth
                     multiline
-                    label={"Report Information"}
+                    label={
+                      "Please explain in a few sentances why you think this reply deserves a report!"
+                    }
                     inputProps={{ maxLength: 256 }}
                     value={flagText}
                     onChange={(e) => setFlagText(e.target.value)}
@@ -410,13 +435,27 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                       borderRadius: "8px",
                       height: "2rem",
                       marginTop: "0.5rem",
+                      marginRight: "0.5rem",
                     }}
-                    variant="contained"
+                    variant="outlined"
                     color="success"
                     type="submit"
                     onClick={report}
                   >
                     Report
+                  </Button>
+                  <Button
+                    sx={{
+                      borderRadius: "8px",
+                      height: "2rem",
+                      marginTop: "0.5rem",
+                    }}
+                    variant="outlined"
+                    color="error"
+                    // type="submit"
+                    onClick={handleClose}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </Box>
@@ -499,7 +538,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
     >
       <TextField
         fullWidth
-        label="REPLY"
+        label="Leave your response here!"
         multiline
         inputProps={{ maxLength: 512 }}
         inputRef={inputRef}
@@ -515,21 +554,21 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       >
         <Button
           sx={{ borderRadius: "8px", height: "2rem", marginRight: "0.5rem" }}
-          variant="contained"
-          type="error"
-          color="error"
-          onClick={finish}
-        >
-          CANCEL
-        </Button>
-        <Button
-          sx={{ borderRadius: "8px", height: "2rem" }}
-          variant="contained"
+          variant="outlined"
           color="success"
           type="submit"
           onClick={postReply}
         >
           REPLY
+        </Button>
+        <Button
+          sx={{ borderRadius: "8px", height: "2rem" }}
+          variant="outlined"
+          type="error"
+          color="error"
+          onClick={finish}
+        >
+          CANCEL
         </Button>
       </div>
     </div>
@@ -662,12 +701,14 @@ const Reply = ({ replyData }) => {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...modalStyle }}>
-          <h4 id="child-modal-title">Report</h4>
+          <h4 id="child-modal-title">Submit a Report</h4>
           <div style={{ flex: 1 }}>
             <TextField
               fullWidth
               multiline
-              label={"Report Information"}
+              label={
+                "Please explain in a few sentances why you think this reply deserves a report!"
+              }
               inputProps={{ maxLength: 256 }}
               value={flagText}
               onChange={(e) => setFlagText(e.target.value)}
@@ -675,13 +716,27 @@ const Reply = ({ replyData }) => {
           </div>
           <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
             <Button
-              sx={{ borderRadius: "8px", height: "2rem", marginTop: "0.5rem" }}
-              variant="contained"
+              sx={{
+                borderRadius: "8px",
+                height: "2rem",
+                marginTop: "0.5rem",
+                marginRight: "0.5rem",
+              }}
+              variant="outlined"
               color="success"
               type="submit"
               onClick={report}
             >
               Report
+            </Button>
+            <Button
+              sx={{ borderRadius: "8px", height: "2rem", marginTop: "0.5rem" }}
+              variant="outlined"
+              color="error"
+              // type="submit"
+              onClick={handleClose}
+            >
+              Cancel
             </Button>
           </div>
         </Box>
