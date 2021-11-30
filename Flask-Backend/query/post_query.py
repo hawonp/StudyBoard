@@ -330,7 +330,7 @@ def search_tags(input):
 
     return return_result
 
-
+# search bar
 def search_posts(input):
     try:
         # Obtainting DB cursor
@@ -368,6 +368,76 @@ def search_posts(input):
         return None
 
     return return_result
+
+# search just tags
+def get_search_results_posts(input):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT DISTINCT Post.* From Post where LOWER(Post.post_title) LIKE LOWER(?)"
+
+        values = ("%" + input + "%", )
+
+        print("Selecting with query", query, " and values ", values)
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        print(json_data)
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+    
+    return json_data
+
+def get_search_results_tags(input):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
+        values = ("%" + input + "%", )
+        print("Selecting with query", query, " and values ", values)
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        json_data=[]
+
+        for result in rv:
+            json_data.append(dict(zip(row_headers,result)))
+        print(json_data)
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+    
+    return json_data
+
 
 #Get post by id
 def get_post_by_id(post_id):

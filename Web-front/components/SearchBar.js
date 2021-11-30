@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Router from "next/router";
 
 import axiosInstance from "../utils/routeUtil";
-const POST_FEED = "/feed/posts";
+const SEARCHPREVIEW = "/search/preview";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -48,7 +48,7 @@ export default function SearchBar() {
     }
     console.log(value);
     axiosInstance
-      .get(POST_FEED + "/search", {
+      .get(SEARCHPREVIEW, {
         params: {
           input: value,
         },
