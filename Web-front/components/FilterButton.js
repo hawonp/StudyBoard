@@ -19,7 +19,7 @@ export default function FilterButton({
   return (
     <Stack direction="row" spacing={1}>
       <Chip
-        label="Recently"
+        label="Most Recent"
         component="a"
         href="#Most-Recent"
         variant="outlined"
