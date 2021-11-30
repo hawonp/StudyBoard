@@ -6,6 +6,12 @@ import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { InputLabel, Select } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+
+const CountNumber = ({ style, children }) => {
+  return <div style={{ fontSize: "0.8rem", ...style }}> {children} </div>;
+};
 
 export default function FilterButton({
   user,
@@ -19,7 +25,7 @@ export default function FilterButton({
   return (
     <Stack direction="row" spacing={1}>
       <Chip
-        label="Recently"
+        label="Most Recent"
         component="a"
         href="#Most-Recent"
         variant="outlined"

@@ -68,7 +68,7 @@ def add_reply_to_post_link(post_id, reply_id):
     return res
 
 #Add reply to reply
-def add_reply_reply(user_id, reply_id, text):
+def add_reply_reply(user_id, reply_id, post_id, text):
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -92,7 +92,7 @@ def add_reply_reply(user_id, reply_id, text):
         conn.commit()
         conn.close()
 
-        add_reply_to_reply_link(reply_id, res)
+        add_reply_to_reply_link(reply_id, post_id, res)
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
@@ -101,15 +101,15 @@ def add_reply_reply(user_id, reply_id, text):
     return res
 
 # Adding when reply is a reply to a reply
-def add_reply_to_reply_link(source_id, reply_id):
+def add_reply_to_reply_link(source_id, post_id, reply_id):
     try:
         #Obtain DB cursor
         conn = get_connection()
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "INSERT INTO Reply_To_Reply (source_id, reply_id) VALUES (?, ?)"
-        values = (int(source_id), int(reply_id))
+        query = "INSERT INTO Reply_To_Reply (post_id, source_id, reply_id) VALUES (?, ?)"
+        values = (int(post_id), int(source_id), int(reply_id))
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)

@@ -1,8 +1,25 @@
 import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
 import EditIcon from "@mui/icons-material/Edit";
-import { TextField } from "@mui/material";
-import * as React from "react";
+import { TextField, Modal, Box } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "8px",
+  px: 4,
+  pb: 3,
+};
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -45,7 +62,17 @@ const HrWrapper = ({ style, children }) => {
 
 export default function ProfileInfo({ profile }) {
   console.log(profile);
+  const router = useRouter();
   const { email, nick, tag } = profile;
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleDelete = () => {
+    setOpen(false);
+
+    router.push("/");
+  };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <BoxWrapper>
@@ -61,6 +88,38 @@ export default function ProfileInfo({ profile }) {
               <EditIcon />
             </Link>
           </IconButton>
+          <IconButton aria-label="delete" onClick={handleOpen}>
+            <DeleteIcon />
+          </IconButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyle}>
+              <h4 id="child-modal-title">Delete Account</h4>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Will you really delete your account? This action is not
+                reversible.
+              </Typography>
+              <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="contained"
+                  color="error"
+                  type="submit"
+                  onClick={handleDelete}
+                >
+                  Delete Account
+                </Button>
+              </div>
+            </Box>
+          </Modal>
         </div>
       </div>
 

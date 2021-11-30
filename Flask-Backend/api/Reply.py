@@ -19,7 +19,7 @@ FLAG = '/flag'
 class ReplyInteractorIDSchema(Schema):
     userID = fields.Str(required=True)
 
-class getRepliesSchenma(Schema):
+class GetRepliesSchenma(Schema):
     userID = fields.Str(required=False)
     order = fields.Int(required=True)
 
@@ -27,7 +27,7 @@ class AddReplySchema(Schema):
     userID = fields.Str(required=True)
     text = fields.Str(required=True)
 
-class ReplyFlagSchema(Schema):
+class ReplyInteractionSchema(Schema):
     userID = fields.Str(required=True)
     postID = fields.Str(required=True)
     text = fields.Str(required=True)
@@ -80,7 +80,7 @@ class ReplyReply(Resource):
         #Validate params first
         formData = request.get_json()["params"]
         print(formData)
-        errors = add_reply_schema.validate(formData)
+        errors = reply_interaction_schema.validate(formData)
 
         if errors:
             print(errors)
@@ -88,8 +88,9 @@ class ReplyReply(Resource):
 
         text = formData["text"]
         user_id = formData["userID"]
+        post_id = formData["postID"]
 
-        res = add_reply_reply(user_id, id, text)
+        res = add_reply_reply(user_id, id, post_id, text)
 
 
         return json.dumps(res, default=str)
@@ -127,7 +128,7 @@ class ReplyFlag(Resource):
     def post(self, id):
         #Validate params and assign variables
         formData = request.get_json()["params"]
-        errors = reply_flag_schema.validate(formData)
+        errors = reply_interaction_schema.validate(formData)
         if errors:
             print("Request parameters error")
             abort(400, str(errors))
@@ -149,6 +150,6 @@ def init_routes(api):
     api.add_resource(Reply, REPLIES+REPLY_ID)
 
 add_reply_schema = AddReplySchema()
-reply_flag_schema = ReplyFlagSchema()
-get_replies_schema = getRepliesSchenma()
+reply_interaction_schema = ReplyInteractionSchema()
+get_replies_schema = GetRepliesSchenma()
 reply_interactor_id_schema = ReplyInteractorIDSchema()

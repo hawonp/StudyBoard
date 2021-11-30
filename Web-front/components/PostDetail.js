@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
 //Importing MUI
-import { Alert, Box, Modal, TextField, Stack } from "@mui/material";
+import { Box, Modal, TextField, Stack } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -25,6 +25,11 @@ import { ReportContext } from "../contexts/ReportContext";
 import { useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
+import * as React from "react";
+import MuiAlert from "@mui/material/Alert";
+import Slide from "@mui/material/Slide";
 
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
@@ -36,9 +41,8 @@ const modalStyle = {
   transform: "translate(-50%, -50%)",
   width: 800,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
-  pt: 2,
+  borderRadius: "8px",
   px: 4,
   pb: 3,
 };
@@ -92,6 +96,10 @@ const CountNumber = ({ style, children }) => {
   );
 };
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function PostDetail({
   postData,
   onLikePressed,
@@ -133,14 +141,43 @@ export default function PostDetail({
     }, 2000);
   };
 
+  const [openShare, setOpenShare] = React.useState(false);
+
+  const handleClickShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenShare(false);
+  };
+
   console.log("postdata", postData);
   return (
     <DetailWrapper>
-      {isCopied && (
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert severity="success">Success Copy URL !</Alert>
-        </Stack>
-      )}
+      {/* {isCopied && ( */}
+      {/* // <Stack sx={{ width: "100%" }} spacing={2}>
+        //   <Alert severity="success">Success Copy URL !</Alert>
+        // </Stack> */}
+      <Snackbar
+        open={openShare}
+        autoHideDuration={1500}
+        onClose={handleCloseShare}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        // key={"top" + "center"}
+      >
+        <Alert
+          onClose={handleCloseShare}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          The current URL has been copied to your clipboard!{" "}
+        </Alert>
+      </Snackbar>
+      {/* )} */}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         <header>
           {/*title*/}
@@ -268,7 +305,7 @@ export default function PostDetail({
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
-              alertCopy();
+              handleClickShare();
             }}
           >
             <ShareIcon sx={{ fontSize: "1.2rem" }} />
@@ -283,12 +320,14 @@ export default function PostDetail({
             aria-describedby="parent-modal-description"
           >
             <Box sx={{ ...modalStyle }}>
-              <h4 id="child-modal-title">Report</h4>
+              <h4 id="child-modal-title">Submit a Report</h4>
               <div style={{ flex: 1 }}>
                 <TextField
                   fullWidth
                   multiline
-                  label={"Report Information"}
+                  label={
+                    "Please explain in a few sentances why you think this reply deserves a report!"
+                  }
                   value={flagText}
                   onChange={(e) => setFlagText(e.target.value)}
                 />
@@ -301,12 +340,12 @@ export default function PostDetail({
                     marginTop: "0.5rem",
                     marginRight: "0.5rem",
                   }}
-                  variant="contained"
-                  color="error"
-                  type="error"
-                  onClick={handleClose}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                  onClick={report}
                 >
-                  Cancel
+                  Report
                 </Button>
                 <Button
                   sx={{
@@ -314,12 +353,12 @@ export default function PostDetail({
                     height: "2rem",
                     marginTop: "0.5rem",
                   }}
-                  variant="contained"
-                  color="success"
-                  type="submit"
-                  onClick={report}
+                  variant="outlined"
+                  color="error"
+                  // type="submit"
+                  onClick={handleClose}
                 >
-                  Report
+                  Cancel
                 </Button>
               </div>
             </Box>
