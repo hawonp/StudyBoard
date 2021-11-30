@@ -93,7 +93,17 @@ export default function MyPost() {
                 backgroundColor: "white",
               }}
             >
-              <h5 style={{ marginBottom: "2rem" }}>My Posts</h5>
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                My Posts
+              </h5>
               <LineWrapper />
               <BoxWrapper>
                 {myPosts.map((post) => (
