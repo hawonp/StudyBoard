@@ -58,6 +58,8 @@ class UserInfo(Resource):
         res = update_user(id, user_nickname, user_tags)
         return res
 
+# delete user profile (set name to )
+
 #Get favourite posts
 class PostFavourites(Resource):
     def get(self, id):
