@@ -39,6 +39,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchBar() {
   const [searchResults, setSearchResults] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   function handleInputChange(event, value) {
     if (value == null) {
@@ -66,6 +67,7 @@ export default function SearchBar() {
         }
       });
     // console.log(event);
+    setInputValue(value);
   }
 
   function handleSelection(event, value) {
@@ -77,7 +79,7 @@ export default function SearchBar() {
       if (type == "tag") {
         console.log("User selected a tag");
         console.log("go to this tag page");
-        Router.push("../tags/" + id);
+        Router.push("../tags/" + value["text"]);
       } else {
         console.log("User selected a post ", value["text"]);
         const postID = value["id"];
@@ -92,6 +94,11 @@ export default function SearchBar() {
     setSearchResults([]);
   }
 
+  function handleEnter() {
+    console.log("user has pressed enter on value ", inputValue);
+    Router.push("../search/" + inputValue);
+  }
+
   return (
     <Search>
       <Autocomplete
@@ -100,9 +107,18 @@ export default function SearchBar() {
         id="combo-box-demo"
         options={searchResults}
         sx={{ width: "auto" }}
+        inputValue={inputValue}
         onInputChange={handleInputChange}
         onChange={handleSelection}
         onClose={handleClear}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            // Prevent's default 'Enter' behavior.
+            event.defaultMuiPrevented = true;
+            // your handler code
+            handleEnter();
+          }
+        }}
         groupBy={(option) => option.type.toString()}
         getOptionLabel={(option) => option.text.toString()}
         renderInput={(params) => (

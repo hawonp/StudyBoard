@@ -30,6 +30,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import * as React from "react";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
+import Link from "next/link";
 
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
@@ -249,7 +250,11 @@ export default function PostDetail({
             }}
           >
             {postData.tags.map((tag, i) => (
-              <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+              <Link href={`/tags/${tag}`} key={tag}>
+                <a style={{ textDecoration: "none" }}>
+                  <HashtagWrapper>{tag}</HashtagWrapper>
+                </a>
+              </Link>
             ))}
           </div>
         </div>

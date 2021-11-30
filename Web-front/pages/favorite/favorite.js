@@ -91,7 +91,17 @@ export default function Favorite() {
                 backgroundColor: "white",
               }}
             >
-              <h5 style={{ marginBottom: "2rem" }}>My Favorite Posts</h5>
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                Favorites
+              </h5>
               <LineWrapper />
               <BoxWrapper>
                 {favorites.map((post) => (
