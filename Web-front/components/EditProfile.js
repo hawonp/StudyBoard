@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
-
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
@@ -75,14 +74,14 @@ export default function EditProfile({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="Email"
+          label="Email (Fixed)"
           defaultValue={email}
         />
         <TextField
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="NickNamae"
+          label="Nickname"
           inputProps={{ maxLength: 16 }}
           value={inputNick}
           onChange={(e) => setInputNick(e.target.value)}
@@ -91,7 +90,7 @@ export default function EditProfile({ profile }) {
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="Please edit your personal tags"
+          label="Please edit your personal tags (Separated by Commas)"
           value={inputTag}
           onChange={(event) =>
             setInputTag(
@@ -106,12 +105,22 @@ export default function EditProfile({ profile }) {
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
         <Button
-          sx={{ borderRadius: "8px" }}
-          variant="contained"
+          sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
+          variant="outlined"
           color="success"
           onClick={saveProfile}
         >
-          Save
+          Save Changes
+        </Button>
+        <Button
+          sx={{ borderRadius: "8px" }}
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            Router.push("/user/profile");
+          }}
+        >
+          Cancel
         </Button>
       </div>
     </Box>
