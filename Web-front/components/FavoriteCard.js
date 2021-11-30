@@ -20,7 +20,7 @@ const CardActionsWrapper = ({ style, children }) => {
     <div
       style={{
         display: "flex",
-        marginLeft: "1rem",
+        marginLeft: "calc(1rem - 8px)",
         ...style,
       }}
     >
@@ -45,7 +45,8 @@ export default function FavoriteCard({ favorite }) {
         <img
           width="150"
           height="120"
-          src={favorite.post_image}
+          // src={mypost.post_image}
+          src={"https://i.stack.imgur.com/17vnL.jpg"}
           style={{ objectFit: "cover" }}
           alt="green iguana"
         />
@@ -64,36 +65,49 @@ export default function FavoriteCard({ favorite }) {
               paddingTop: "1rem",
             }}
           >
+            {/* Favorite title */}
             <Typography
               gutterBottom
               variant="h5"
               component="div"
               sx={{
                 fontSize: "1.6rem",
+                marginBottom: "0",
               }}
             >
               {favorite.post_title}
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "end",
+              }}
+            >
+              {/* Favorite's user nickname */}
               <Typography
                 gutterBottom
-                variant="h5"
+                variant="span"
                 component="div"
                 sx={{
-                  fontSize: "1rem",
+                  fontSize: "0.8rem",
+                  color: "#C4C4C4",
                 }}
               >
                 {favorite.post_text}
               </Typography>
+
               <Typography
                 gutterBottom
-                variant="h5"
+                variant="span"
                 component="div"
                 sx={{
                   fontSize: "0.8rem",
-                  marginLeft: "0.8rem",
+                  color: "#C4C4C4",
                 }}
               >
+                &nbsp;
                 {favorite.date}
               </Typography>
             </Box>
@@ -102,12 +116,13 @@ export default function FavoriteCard({ favorite }) {
             <CardActionsWrapper>
               {/* Like */}
               <IconButton
+                disableRipple
                 aria-label="favorites"
-                sx={{ padding: 0, borderRadius: "4px" }}
+                sx={{ borderRadius: "4px" }}
               >
                 <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {favorite.post_like_count} Likes
+                  &nbsp; {favorite.post_like_count} Likes
                 </div>
               </IconButton>
 
@@ -124,17 +139,19 @@ export default function FavoriteCard({ favorite }) {
 
               {/* Comment */}
               <IconButton
+                disableRipple
                 aria-label="SmsIcon"
-                sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+                sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
               >
                 <SmsIcon sx={{ fontSize: "1.2rem" }} />
                 <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  {favorite.post_reply_count} Comment
+                  &nbsp;{favorite.post_reply_count} Comment
                 </div>
               </IconButton>
 
               {/* Share */}
               <IconButton
+                disableRipple
                 sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
                 aria-label="share"
                 onClick={() => {

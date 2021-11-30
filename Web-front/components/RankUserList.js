@@ -19,12 +19,12 @@ const HashtagWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        padding: "4px 10px",
-        fontSize: "12px",
-        color: "#ffffff",
-        background: "#20247b",
+        padding: "2px 6px",
+        fontSize: "13px",
+        color: "#3F8CB8",
+        background: "#E1ECF4",
         borderRadius: "4px",
-        marginRight: "2px",
+        marginRight: "4px",
         ...style,
       }}
     >
