@@ -2,7 +2,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 //Importing components
 import ProfileCard from "../components/ProfileCard";
@@ -162,7 +161,7 @@ export default function SearchResult() {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
-          <Container>
+          <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
             <SmallBoxWrapper>
               {/* tag */}
               <h5 style={{ marginBottom: "2rem" }}>Tags</h5>
@@ -185,7 +184,7 @@ export default function SearchResult() {
                 ))}
               </BoxWrapper>
             </SmallBoxWrapper>
-          </Container>
+          </Box>
         </div>
         <ProfileCard />
       </div>

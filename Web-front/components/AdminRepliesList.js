@@ -3,7 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
-import { Container, ListItem } from "@mui/material";
+import { Box, ListItem } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -24,12 +24,15 @@ const ROUTE_ID = "/posts/[id]";
 
 const BoxWrapper = ({ style, children }) => {
   return (
-    <Container
+    <Box
       style={{
         flex: 1,
         border: "0.1rem solid lightgray",
         borderRadius: "4px",
         marginBottom: "16px",
+
+        marginLeft: "20px",
+        marginRight: "20px",
         marginTop: "20px",
         padding: "10px 12px",
         backgroundColor: "white",
@@ -38,7 +41,7 @@ const BoxWrapper = ({ style, children }) => {
     >
       {" "}
       {children}{" "}
-    </Container>
+    </Box>
   );
 };
 

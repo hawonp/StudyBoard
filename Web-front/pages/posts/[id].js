@@ -180,7 +180,14 @@ export default function PostDetailPage() {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-          <Container sx={{ marginBottom: "16px", marginTop: "20px" }}>
+          <Box
+            sx={{
+              marginBottom: "16px",
+              marginTop: "20px",
+              marginLeft: "20px",
+              marginRight: "20px",
+            }}
+          >
             {console.log(isEdit)}
             {isEdit ? (
               <PostEdit
@@ -198,14 +205,14 @@ export default function PostDetailPage() {
                 edit={() => setIsEdit(true)}
               />
             )}
-          </Container>
+          </Box>
           {!isEdit && (
-            <Container>
+            <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
               <DetailWrapper>
                 {/*comment*/}
                 <CommentBox postID={postData.id} />
               </DetailWrapper>
-            </Container>
+            </Box>
           )}
         </div>
 
