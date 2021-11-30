@@ -47,7 +47,7 @@ export default function CardShow({ post }) {
                 <span style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
                   Posted by {post.user_nickname}
                 </span>
-                {post.user_is_endorsed ? (
+                {post.user_is_endorsed == 1 ? (
                   <div>
                     <Tooltip title="This is Endorsed User post ">
                       <LightbulbIcon
