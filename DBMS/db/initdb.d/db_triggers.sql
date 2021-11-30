@@ -142,8 +142,10 @@ FOR EACH ROW
 BEGIN
 
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
+    SELECT user_id INTO @interactor_user_id FROM Reply WHERE reply_id = NEW.reply_id;
+    SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=@interactor_user_id;
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, post_id, notification_type, notification_date, reply_id) VALUES (@target_post_user_id, NEW.post_id, 0, NOW(), NEW.reply_id);
+    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.post_id, 0, NOW(), NEW.reply_id);
 END //
 delimiter ;
 
@@ -154,8 +156,10 @@ FOR EACH ROW
 BEGIN
 
     SELECT user_id, post_id INTO @target_reply_user_id, @target_reply_post_id FROM Reply WHERE reply_id = NEW.source_id;
+    SELECT user_id INTO @interactor_user_id FROM Reply WHERE reply_id = NEW.reply_id;
+    SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=@interactor_user_id;
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @target_reply_post_id, 0, NOW(), NEW.reply_id);
+    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, @target_reply_post_id, 0, NOW(), NEW.reply_id);
 END //
 delimiter ;
 
@@ -167,8 +171,9 @@ FOR EACH ROW
 BEGIN
 
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
+    SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, post_id, notification_type, notification_date) VALUES (@target_post_user_id, NEW.post_id, 0, NOW());
+    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.post_id, 0, NOW());
 END //
 delimiter ;
 
@@ -178,9 +183,10 @@ CREATE TRIGGER Noti_Like_Reply AFTER INSERT ON User_Reply_Like
 FOR EACH ROW
 BEGIN
 
-    SELECT user_id, reply_id INTO @target_reply_user_id, @target_reply_post_id FROM Reply WHERE reply_id = NEW.source_id;
+    SELECT user_id, reply_id INTO @target_reply_user_id, @target_reply_post_id FROM Reply WHERE reply_id = NEW.reply_id;
+    SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
 
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @target_reply_post_id, 0, NOW(), NEW.reply_id);
+    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, @target_reply_post_id, 0, NOW(), NEW.reply_id);
 END //
 delimiter ;
