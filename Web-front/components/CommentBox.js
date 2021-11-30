@@ -472,6 +472,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       .post(REPLYDATAENDPOINT + "/" + replyID + REPLYDATAENDPOINT, {
         params: {
           userID: user.sub,
+          postID: router.query.id,
           text: inputRef.current.value,
         },
       })

@@ -1,8 +1,13 @@
-import { Paper } from "@mui/material";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+//Importing MUI
+import { Paper } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
+import axiosInstance from "../utils/routeUtil";
+const USERSENDPOINT = "/users";
+const NOTIFICATIONENDPOINT = "/notifications";
 
 const PaperWrapper = ({ style, children }) => {
   return (
@@ -108,7 +113,9 @@ const dummy_list = [
 
 const Notification = ({ data }) => {
   // 밑에 3개의 타입을 따로 만든다
-  // 게시글 좋아요, 댓글, 댓글 좋아요
+  // Reply to post, reply to reply (post) 00 01
+  // LIke to post, like to reply 10 11
+  // Report accepted, your post/reply deleted 20 21 22
   // DB(TABLE)는 모든 유저, 모든 게시글, 모든 댓글에 대한 활동을 기록한다
   // GET 호출을 할때, 유저의 id를 보내면 그걸로 필터링된 것을 응답
 
@@ -188,11 +195,37 @@ const Notification = ({ data }) => {
 };
 
 export default function NotificationList() {
-  return (
-    <>
-      {dummy_list.map((dummy) => (
-        <Notification key={dummy.notification_id} data={dummy} />
-      ))}
-    </>
-  );
+  const [notifications, setNotifications] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const { user, isLoading, error } = useUser();
+  useEffect(() => {
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .get(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
+        .then((response) => {
+          setNotifications(JSON.parse(response.data));
+          console.log();
+          setIsDataLoading(false);
+        });
+    }
+  }, [isLoading]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+
+  if (isDataLoading) {
+    return <div> Loading... </div>;
+  } else {
+    return (
+      <>
+        {notifications.map((notif) => (
+          <Notification key={notif.notification_id} data={notif} />
+        ))}
+      </>
+    );
+  }
 }
