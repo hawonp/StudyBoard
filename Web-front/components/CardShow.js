@@ -14,6 +14,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
 import { getTimeDisplay } from "../utils/utils";
+import parse from "html-react-parser";
 
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
@@ -101,7 +102,10 @@ export default function CardShow({ post }) {
                 // color: "#FFBF00",
               }}
             />
-            Click here to see the question..
+            {/* Click here to see the question.. */}
+            <section>{parse(post.post_text)}</section>
+
+            {/* {post.post_text} */}
           </div>
 
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>

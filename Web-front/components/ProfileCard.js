@@ -251,7 +251,7 @@ export default function ProfileCard() {
                     <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
 
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      My Post
+                      My Posts
                     </p>
                   </IconButton>
                 </Link>
@@ -267,7 +267,7 @@ export default function ProfileCard() {
                   >
                     <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      Favorite
+                      Favorites
                     </p>
                   </IconButton>
                 </Link>
