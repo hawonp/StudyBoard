@@ -93,7 +93,6 @@ export default function Favorite() {
             >
               <h5 style={{ marginBottom: "2rem" }}>My Favorite Posts</h5>
               <LineWrapper />
-              {/*고정되는거가 minwidth , */}
               <BoxWrapper>
                 {favorites.map((post) => (
                   <FavoriteCard key={post.post_id} favorite={post} />
