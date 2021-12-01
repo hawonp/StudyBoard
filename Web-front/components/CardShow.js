@@ -92,6 +92,7 @@ export default function CardShow({ post }) {
               display: "flex",
               flexDirection: "row",
               marginLeft: "1rem",
+              marginRight: "1rem",
               justifyContent: "start",
             }}
           >
@@ -103,7 +104,22 @@ export default function CardShow({ post }) {
               }}
             />
             {/* Click here to see the question.. */}
-            <section>{parse(post.post_text)}</section>
+            <section>
+              <p
+                style={{
+                  margin: 0,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  maxHeight: "3em",
+                  lineHeight: "1.5em",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {post.post_text}
+              </p>
+            </section>
 
             {/* {post.post_text} */}
           </div>
