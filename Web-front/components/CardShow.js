@@ -97,8 +97,8 @@ export default function CardShow({ post }) {
             }}
           >
             {/* Click here to see the question.. */}
-            <section>
-              <p
+            {/* <section>
+              <Typography
                 style={{
                   margin: 0,
                   marginRight: "0.5rem",
@@ -113,8 +113,15 @@ export default function CardShow({ post }) {
                 }}
               >
                 {stripHTMLTags(post.post_text)}
-              </p>
-            </section>
+              </Typography>
+            </section> */}
+            <Typography
+              sx={{ marginBottom: "1.2rem" }}
+              variant="body2"
+              color="text.secondary"
+            >
+              Click to see the full question!
+            </Typography>
           </div>
 
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
