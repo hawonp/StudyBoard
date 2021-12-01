@@ -144,6 +144,7 @@ CREATE TABLE Post_Tag(
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(64) NOT NULL,
+    interactor_id VARCHAR(64),
     interactor_nickname VARCHAR(16),
     post_id INTEGER,
     reply_id INTEGER,

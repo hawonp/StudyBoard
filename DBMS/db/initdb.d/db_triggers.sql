@@ -173,7 +173,10 @@ BEGIN
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.post_id, 10, NOW());
+    IF NOT (SELECT EXISTS(SELECT * FROM Notification WHERE post_id=NEW.post_id AND interactor_id=NEW.user_id))
+    THEN INSERT INTO Notification (user_id, interactor_nickname, interactor_id, post_id, notification_type, notification_date) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.user_id, NEW.post_id, 10, NOW());
+    END IF;
+    
 END //
 delimiter ;
 
@@ -186,8 +189,10 @@ BEGIN
     SELECT user_id, reply_id INTO @target_reply_user_id, @target_reply_post_id FROM Reply WHERE reply_id = NEW.reply_id;
     SELECT post_id INTO @target_post_id FROM Reply_To_Post WHERE reply_id=@target_reply_post_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
-
+    IF NOT (SELECT EXISTS(SELECT * FROM Notification WHERE reply_id=NEW.reply_id AND interactor_id=NEW.user_id))
+    THEN INSERT INTO Notification (user_id, interactor_nickname, interactor_id, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, NEW.user_id, @target_post_id, 11, NOW(), NEW.reply_id);
+    END IF;
     -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, @target_post_id, 11, NOW(), NEW.reply_id);
+    
 END //
 delimiter ;
