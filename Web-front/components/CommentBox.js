@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,7 +24,15 @@ import Divider from "@mui/material/Divider";
 
 import StarIcon from "@mui/icons-material/Star";
 import Switch from "@mui/material/Switch";
-import { Avatar, Modal, Alert, Box, TextField } from "@mui/material";
+import {
+  Avatar,
+  Modal,
+  Alert,
+  Box,
+  TextField,
+  Popover,
+  Typography,
+} from "@mui/material";
 import axiosInstance from "../utils/routeUtil";
 import { getTimeDisplay } from "../utils/utils";
 const modalStyle = {
@@ -287,6 +296,11 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const router = useRouter();
   const { user } = useUser();
 
+  const [option, setOption] = useState(null);
+  const openOption = (event) => setOption(event.currentTarget);
+  const closeOption = () => setOption(null);
+  const isOptionOpened = Boolean(option);
+
   const report = () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
@@ -460,25 +474,46 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 </div>
               </Box>
             </Modal>
+
             <IconButton
               disableRipple
               style={{ padding: "0", paddingLeft: "0.5rem" }}
-              aria-label="report"
-              onClick={handleOpen}
+              onClick={openOption}
             >
-              <FlagIcon sx={{ fontSize: "1.2rem" }} />
+              <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
             </IconButton>
-
-            {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
-            {user && replyData.user_id === user.sub && (
+            <Popover
+              open={isOptionOpened}
+              anchorEl={option}
+              onClose={closeOption}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                horizontal: "right",
+              }}
+            >
               <IconButton
                 disableRipple
-                style={{ padding: "0", paddingLeft: "0.5rem" }}
-                onClick={() => deleteSelf()}
+                // style={{ padding: "0", paddingLeft: "0.5rem" }}
+                aria-label="report"
+                onClick={handleOpen}
               >
-                <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+                <FlagIcon sx={{ fontSize: "1.2rem" }} />
               </IconButton>
-            )}
+
+              {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
+              {user && replyData.user_id === user.sub && (
+                <IconButton
+                  disableRipple
+                  // style={{ padding: "0", paddingLeft: "0.5rem" }}
+                  onClick={() => deleteSelf()}
+                >
+                  <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              )}
+            </Popover>
           </div>
         </div>
       </div>
@@ -518,12 +553,13 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
+        console.log(responseData);
         //Assign data according to whether the user liked the post
         if (responseData != -1) {
           setLoading(true);
           console.log("added reply to reply");
         }
-        inputRef.current.value = "";
+        if (inputRef.current !== null) inputRef.current.value = "";
         finish();
       });
   };
@@ -585,6 +621,11 @@ const Reply = ({ replyData }) => {
   const handleClose = () => setOpen(false);
   const router = useRouter();
   const { user } = useUser();
+
+  const [option, setOption] = useState(null);
+  const openOption = (event) => setOption(event.currentTarget);
+  const closeOption = () => setOption(null);
+  const isOptionOpened = Boolean(option);
 
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
@@ -743,24 +784,44 @@ const Reply = ({ replyData }) => {
           </div>
         </Box>
       </Modal>
+
       <IconButton
         disableRipple
         style={{ padding: "0", paddingLeft: "0.5rem" }}
-        aria-label="report"
-        onClick={handleOpen}
+        onClick={openOption}
       >
-        <FlagIcon sx={{ fontSize: "1.2rem" }} />
+        <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
       </IconButton>
-      {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
-      {/* {user && replyData.user_id === user.sub && (
+      <Popover
+        open={isOptionOpened}
+        anchorEl={option}
+        onClose={closeOption}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          horizontal: "right",
+        }}
+      >
         <IconButton
           disableRipple
-          style={{ padding: "0", paddingLeft: "0.5rem" }}
-          onClick={deleteSelf}
+          // style={{ padding: "0", paddingLeft: "0.5rem" }}
+          aria-label="report"
+          onClick={handleOpen}
+        >
+          <FlagIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+        {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
+        {/* {user && replyData.user_id === user.sub && ( */}
+        <IconButton
+          disableRipple
+          // style={{ padding: "0", paddingLeft: "0.5rem" }}
+          // onClick={deleteSelf}
         >
           <DeleteIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-      )} */}
+      </Popover>
     </div>
   );
 };
