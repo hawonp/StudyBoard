@@ -31,6 +31,8 @@ import * as React from "react";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
 import Link from "next/link";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import Typography from "@mui/material/Typography";
 
 const POSTDATAENDPOINT = "/posts";
@@ -42,6 +44,18 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 800,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "8px",
+  px: 4,
+  pb: 3,
+};
+
+const deleteModalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   boxShadow: 24,
   borderRadius: "8px",
@@ -124,6 +138,9 @@ export default function PostDetail({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [openDelete, setOpenDelete] = useState(false);
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
   const report = () => {
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
@@ -134,13 +151,6 @@ export default function PostDetail({
       });
     setFlagText("");
     setOpen(false);
-  };
-
-  const alertCopy = () => {
-    setisCopied(true);
-    setTimeout(() => {
-      setisCopied(false);
-    }, 2000);
   };
 
   const [openShare, setOpenShare] = React.useState(false);
@@ -157,19 +167,25 @@ export default function PostDetail({
     setOpenShare(false);
   };
 
+  const deletePost = () => {
+    // router.push("/");
+    axiosInstance
+      .delete(POSTDATAENDPOINT + "/" + router.query.id)
+      .then((response) => {
+        // const responseData = JSON.parse(response["data"]);
+        console.log(response);
+        router.push("/" + "board");
+      });
+  };
+
   console.log("postdata", postData);
   return (
     <DetailWrapper>
-      {/* {isCopied && ( */}
-      {/* // <Stack sx={{ width: "100%" }} spacing={2}>
-        //   <Alert severity="success">Success Copy URL !</Alert>
-        // </Stack> */}
       <Snackbar
         open={openShare}
         autoHideDuration={1500}
         onClose={handleCloseShare}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        // key={"top" + "center"}
       >
         <Alert
           onClose={handleCloseShare}
@@ -281,10 +297,25 @@ export default function PostDetail({
             <IconButton
               title={"I want to edit"}
               onClick={edit}
+              color="primary"
               sx={{ borderRadius: "4px" }}
             >
               <EditIcon sx={{ fontSize: "1.2rem" }} />
               <CountNumber> &nbsp;Edit</CountNumber>
+            </IconButton>
+          ) : (
+            <> </>
+          )}
+
+          {user.sub == postData.user_id ? (
+            <IconButton
+              title={"I want to edit"}
+              color="error"
+              onClick={handleOpenDelete}
+              sx={{ borderRadius: "4px" }}
+            >
+              <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+              <CountNumber> &nbsp;Delete</CountNumber>
             </IconButton>
           ) : (
             <> </>
@@ -332,6 +363,17 @@ export default function PostDetail({
             <CountNumber> Share</CountNumber>
           </IconButton>
           {/* report button*/}
+          <IconButton
+            aria-label="report"
+            onClick={handleOpen}
+            sx={{ borderRadius: "4px" }}
+          >
+            <FlagIcon sx={{ fontSize: "1.2rem" }} />
+            &nbsp;
+            <CountNumber> Report</CountNumber>
+          </IconButton>
+
+          {/* Report Modal */}
           <Modal
             open={open}
             onClose={handleClose}
@@ -382,15 +424,49 @@ export default function PostDetail({
               </div>
             </Box>
           </Modal>
-          <IconButton
-            aria-label="report"
-            onClick={handleOpen}
-            sx={{ borderRadius: "4px" }}
+          {/* Delete Modal */}
+          <Modal
+            open={openDelete}
+            onClose={handleCloseDelete}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            <FlagIcon sx={{ fontSize: "1.2rem" }} />
-            &nbsp;
-            <CountNumber> Report</CountNumber>
-          </IconButton>
+            <Box sx={deleteModalStyle}>
+              <h4 id="child-modal-title">Delete Account</h4>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Will you really delete this post? This action is not reversible.
+              </Typography>
+              <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                    marginRight: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="error"
+                  type="submit"
+                  onClick={deletePost}
+                >
+                  Delete Account
+                </Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                  onClick={handleCloseDelete}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </Box>
+          </Modal>
         </CardActions>
       </Box>
     </DetailWrapper>

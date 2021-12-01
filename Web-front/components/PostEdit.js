@@ -69,7 +69,7 @@ export default function EditPost({ postCard, finish }) {
         style={{ marginTop: "10px", marginBottom: "10px" }}
         fullWidth
         id="title"
-        label="Title"
+        label="Post Title"
         variant="outlined"
         inputProps={{ maxLength: 64 }}
         value={inputTitle}
@@ -81,7 +81,7 @@ export default function EditPost({ postCard, finish }) {
         style={{ marginTop: "10px", marginBottom: "10px" }}
         fullWidth
         id="tag"
-        label="#tag"
+        label="Tags Attributed to this Post"
         variant="outlined"
         value={inputTag}
         onChange={(event) =>

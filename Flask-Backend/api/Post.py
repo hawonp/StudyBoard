@@ -136,6 +136,7 @@ class PostData(Resource):
 
     def delete(self, id):
         #Delete the post
+        print("Deleting post with id", id)
         res = delete_post(id)
         return json.dumps(res)
 

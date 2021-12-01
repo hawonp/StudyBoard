@@ -113,13 +113,27 @@ export default function ProfileInfo({ profile }) {
                     borderRadius: "8px",
                     height: "2rem",
                     marginTop: "0.5rem",
+                    marginRight: "0.5rem",
                   }}
-                  variant="contained"
+                  variant="outlined"
                   color="error"
                   type="submit"
                   onClick={handleDelete}
                 >
                   Delete Account
+                </Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                  onClick={handleClose}
+                >
+                  Cancel
                 </Button>
               </div>
             </Box>
