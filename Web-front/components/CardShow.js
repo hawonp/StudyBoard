@@ -97,31 +97,29 @@ export default function CardShow({ post }) {
             }}
           >
             {/* Click here to see the question.. */}
-            {/* <section>
+            <section>
               <Typography
-                style={{
-                  margin: 0,
-                  marginRight: "0.5rem",
-                  marginTop: "1rem",
+                color="text.secondary"
+                variant="body2"
+                sx={{
                   display: "-webkit-box",
-                  WebkitLineClamp: 2,
+                  wordBreak: "break-all",
                   WebkitBoxOrient: "vertical",
-                  maxHeight: "3em",
-                  lineHeight: "1.5em",
+                  WebkitLineClamp: 2,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 }}
               >
                 {stripHTMLTags(post.post_text)}
               </Typography>
-            </section> */}
-            <Typography
+            </section>
+            {/* <Typography
               sx={{ marginBottom: "1.2rem" }}
               variant="body2"
               color="text.secondary"
             >
               Click to see the full question!
-            </Typography>
+            </Typography> */}
           </div>
 
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>

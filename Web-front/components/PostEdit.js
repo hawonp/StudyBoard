@@ -99,19 +99,19 @@ export default function EditPost({ postCard, finish }) {
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button
             sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
-            variant="contained"
-            color="error"
-            onClick={finish}
-          >
-            CANCEL
-          </Button>
-          <Button
-            sx={{ borderRadius: "8px" }}
-            variant="contained"
+            variant="outlined"
             color="success"
             onClick={() => savePost(user)}
           >
             SAVE
+          </Button>
+          <Button
+            sx={{ borderRadius: "8px" }}
+            variant="outlined"
+            color="error"
+            onClick={finish}
+          >
+            CANCEL
           </Button>
         </div>
       </div>

@@ -17,7 +17,12 @@ export default function PostEditor({ setContent, content }) {
   return editorLoaded ? (
     <div>
       <CKEditor
-        style={{ minHeight: 300 }}
+        style={{
+          minHeight: 300,
+          // wordBreak: "break-all",
+          // WebkitBoxOrient: "vertical",
+          // display: "-webkit-box",
+        }}
         editor={CustomEditor}
         data={content}
         onReady={(editor) => {
