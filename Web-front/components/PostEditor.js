@@ -37,11 +37,8 @@ export default function PostEditor({ setContent, content }) {
         }}
         onChange={(event, editor) => {
           const data = editor.getData();
-          const text = data.substring(3, data.length - 4);
-          // console.log(typeof data);
-
-          setContent(text);
-          console.log({ event, editor, text });
+          setContent(data);
+          console.log({ event, editor, data });
         }}
         onBlur={(event, editor) => {
           console.log("Blur.", editor);
