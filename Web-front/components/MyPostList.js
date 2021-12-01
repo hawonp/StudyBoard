@@ -120,7 +120,7 @@ export default function MyPostList({ mypost }) {
                   color: "#C4C4C4",
                 }}
               >
-                {myPostData.user_nickname}
+                Posted by {myPostData.user_nickname}
               </Typography>
 
               {/* user endorsed */}
