@@ -1,3 +1,4 @@
+import re
 from config.imports import mariadb, abort
 from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
@@ -376,7 +377,8 @@ def get_search_results_posts(input):
         conn = get_connection()
         cursor = conn.cursor()
 
-        query = "SELECT DISTINCT Post.* From Post where LOWER(Post.post_title) LIKE LOWER(?)"
+        # query = "SELECT DISTINCT Post.post_id, Post.post_title, Post_post_image, Post.post_like_count, Post.post_reply_count, CONVERT(VARCHAR, Post.data, 20) From Post where LOWER(Post.post_title) LIKE LOWER(?)"
+        query = "SELECT DISTINCT Post.*, User.user_nickname From Post, User where Post.user_id = User.user_id && LOWER(Post.post_title) LIKE LOWER(?)"
 
         values = ("%" + input + "%", )
 
@@ -388,12 +390,19 @@ def get_search_results_posts(input):
 
         # serialize results into JSON
         row_headers=[x[0] for x in cursor.description]
+        print("row headers", row_headers)
         rv = cursor.fetchall()
+
+        print("this is all posts", rv)
         json_data=[]
 
         for result in rv:
+            print("\n\n\nresult", result)
+            result = list(result)
+            datetime = result[-2].strftime('%Y-%m-%d %H:%M:%S')
+            result[-2] = datetime
+            result = tuple(result)
             json_data.append(dict(zip(row_headers,result)))
-        print(json_data)
 
         #Closing cursor
         cursor.close()
@@ -411,7 +420,7 @@ def get_search_results_tags(input):
         conn = get_connection()
         cursor = conn.cursor()
 
-        query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
+        query = "SELECT DISTINCT Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
 
@@ -420,13 +429,13 @@ def get_search_results_tags(input):
         cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cursor.description]
-        rv = cursor.fetchall()
-        json_data=[]
+        # row_headers=[x[0] for x in cursor.description]
+        res = cursor.fetchall()
+        # json_data=[]
 
-        for result in rv:
-            json_data.append(dict(zip(row_headers,result)))
-        print(json_data)
+        # for result in rv:
+        #     json_data.append(dict(zip(row_headers,result)))
+        # print(json_data)
 
         #Closing cursor
         cursor.close()
@@ -436,7 +445,7 @@ def get_search_results_tags(input):
         print(f"Error adding entry to database: {e}")
         return None
     
-    return json_data
+    return res
 
 
 #Get post by id

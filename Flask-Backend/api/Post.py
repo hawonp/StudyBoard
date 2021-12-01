@@ -180,16 +180,19 @@ class SearchPreview(Resource):
 class SearchQuery(Resource):
     def get(self):
         input = request.args.get('input')
-        result_list = []
-
+        
         post_json = get_search_results_posts(input)
         tag_json = get_search_results_tags(input)
 
-        result_list.append(post_json)
-        result_list.append(tag_json)
+        # result_list.append(post_json)
+        result_json = {
+            "tags" : tag_json,
+            "posts" : post_json
+        }
+ 
 
-        print("Search Result", result_list)
-        return result_list
+        print("Search Result", result_json)
+        return json.dumps(result_json)
 
 
  # get posts by tag_id
