@@ -59,6 +59,11 @@ export function getTimeDisplay(currentTimeStamp, postTimeStamp) {
 
   return result;
 }
+
+export function stripHTMLTags(text) {
+  const regex = /(<([^>]+)>)/gi;
+  return text.replace(regex, "");
+}
 // Debugging tool
 // Following is used to intercept axios calls to see our requests
 // // Add a request interceptor

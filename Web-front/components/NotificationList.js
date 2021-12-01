@@ -68,7 +68,7 @@ const DateWrapper = ({ style, children }) => {
 //     notification_seen: null,
 // };
 
-const Notification = ({ data }) => {
+const Notification = ({ data, handleNotifDelete }) => {
   // 밑에 3개의 타입을 따로 만든다
   // Reply to post, reply to reply (post) 00 01
   // LIke to post, like to reply 10 11
@@ -95,30 +95,32 @@ const Notification = ({ data }) => {
   // } = data;
   const notifType = data.notification_type / 10;
   const timeDiff = getTimeDisplay(new Date(), data.notification_date);
-  console.log(notifType);
-  let typeText = "";
+
+  //Construct the text
+  let actionText = "";
+  let contentText = "";
   if (notifType < 1) {
     // Reply
-    typeText += "replied to your";
+    actionText += "replied to your";
     if (notifType == 0) {
-      typeText += " post";
+      contentText += " post";
     } else if (notifType == 0.1) {
-      typeText += " reply";
+      contentText += " reply";
     }
   } else if (notifType < 2) {
     //Like
-    typeText += "liked your";
+    actionText += "liked your";
     if (notifType == 1) {
-      typeText += " post";
+      contentText += " post";
     } else if (notifType == 1.1) {
-      typeText += " reply";
+      contentText += " reply";
     }
   } else if (notifType < 3) {
     //Herro
-    typeText +=
+    actionText +=
       "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
   }
-  console.log(typeText);
+
   return (
     <PaperWrapper>
       {/* <DivEmptyWrapper /> */}
@@ -145,7 +147,7 @@ const Notification = ({ data }) => {
           >
             {notifType < 2 ? (
               <span>
-                <b>{data.interactor_nickname}</b>&nbsp;
+                <b>{data.interactor_nickname}</b>&nbsp;{actionText}
               </span>
             ) : (
               <></>
@@ -162,10 +164,10 @@ const Notification = ({ data }) => {
               style={{ textDecoration: "none" }}
               href={`/posts/${data.post_id}`}
             >
-              <strong>{typeText}</strong>
+              <strong>{contentText}</strong>
             </a>
           </div>
-          <IconButton>
+          <IconButton onClick={() => handleNotifDelete(data.notification_id)}>
             <CancelIcon sx={{ justifyContent: "end" }} />
           </IconButton>
         </div>
@@ -196,6 +198,26 @@ export default function NotificationList() {
     }
   }, [isLoading]);
 
+  const handleNotifDelete = (notifID) => {
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .delete(
+          USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT + "/" + notifID
+        )
+        .then((response) => {
+          setNotifications(
+            notifications.filter(
+              (notification) => notification.notification_id !== notifID
+            )
+          );
+        });
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
@@ -205,7 +227,11 @@ export default function NotificationList() {
     return (
       <>
         {notifications.map((notif) => (
-          <Notification key={notif.notification_id} data={notif} />
+          <Notification
+            key={notif.notification_id}
+            data={notif}
+            handleNotifDelete={handleNotifDelete}
+          />
         ))}
       </>
     );

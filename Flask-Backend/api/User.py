@@ -18,6 +18,7 @@ USER_ID = '/<string:id>'
 RANK = '/rank'
 FAVOURITE = '/favourite'
 NOTIFICATIONS = '/notifications'
+NOTIFICATION_ID = '/<int:nid>'
 
 ############################
 #    Marshmallow Schema    #
@@ -114,7 +115,14 @@ class UserNotifications(Resource):
         res = delete_all_notifications(id)
             
         return json.dumps(res)
-        
+
+#Post feed
+class UserNotification(Resource):
+    def delete(self, id, nid):
+        #Delete all notifs
+        res = delete_notification(nid)
+            
+        return json.dumps(res)
 
 
 #Add routes to api
@@ -124,5 +132,6 @@ def init_routes(api):
     api.add_resource(UserPosts, USERS+USER_ID+POSTS)
     api.add_resource(PostFavourites, USERS+USER_ID+FAVOURITE)
     api.add_resource(UserNotifications, USERS+USER_ID+NOTIFICATIONS)
+    api.add_resource(UserNotification, USERS+USER_ID+NOTIFICATIONS+NOTIFICATION_ID)
 
 user_info_schema = UserInfoSchema()
