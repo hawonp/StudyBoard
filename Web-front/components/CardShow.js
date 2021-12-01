@@ -14,7 +14,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
 import { getTimeDisplay } from "../utils/utils";
-import parse from "html-react-parser";
+import { stripHTMLTags } from "../utils/utils";
 
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
@@ -98,26 +98,28 @@ export default function CardShow({ post }) {
           >
             {/* Click here to see the question.. */}
             <section>
-              <p
-                style={{
-                  margin: 0,
-                  marginRight: "0.5rem",
-                  marginTop: "1rem",
+              <Typography
+                color="text.secondary"
+                variant="body2"
+                sx={{
                   display: "-webkit-box",
-                  WebkitLineClamp: 2,
+                  wordBreak: "break-all",
                   WebkitBoxOrient: "vertical",
-                  maxHeight: "3em",
-                  lineHeight: "1.5em",
+                  WebkitLineClamp: 2,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 }}
               >
-                {post.post_text}
-              </p>
+                {stripHTMLTags(post.post_text)}
+              </Typography>
             </section>
-//             <section>{parse(post.post_text.replace(/<[^>]+>/g, ""))}</section>
-
-            {/* {post.post_text} */}
+            {/* <Typography
+              sx={{ marginBottom: "1.2rem" }}
+              variant="body2"
+              color="text.secondary"
+            >
+              Click to see the full question!
+            </Typography> */}
           </div>
 
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
