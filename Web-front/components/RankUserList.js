@@ -9,6 +9,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 import axiosInstance from "../utils/routeUtil";
 import Link from "next/link";
@@ -40,7 +43,7 @@ const TagWrapper = ({ style, children }) => {
     <div
       style={{
         display: "flex",
-        flexFlow: "row wrap",
+        // flexFlow: "row wrap",
         justifyContent: "left",
         ...style,
       }}
@@ -49,12 +52,6 @@ const TagWrapper = ({ style, children }) => {
       {children}{" "}
     </div>
   );
-};
-
-const dummy_rank = {
-  user_id: 1,
-  user_nickname: "Nick PK",
-  tags: "#math #cse",
 };
 
 export default function RankUserList() {
@@ -70,17 +67,22 @@ export default function RankUserList() {
   // const [tag, setTag] = useState("");
 
   return (
-    <div style={{ minWidth: 750 }}>
+    <div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: "bold" }}>Nick Name</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="center">
+                Endorsed Status
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="center">
+                Nickname
+              </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="center">
                 Rank
               </TableCell>
-              <TableCell sx={{ fontWeight: "bold" }} align="left">
-                Like
+              <TableCell sx={{ fontWeight: "bold" }} align="center">
+                Number of Likes Received
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Tag
@@ -93,22 +95,40 @@ export default function RankUserList() {
                 key={user.user_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell scope="row" align="center">
+                  {user.user_is_endorsed ? (
+                    <Tooltip title="This is an endorsed user">
+                      <LightbulbIcon
+                        sx={{
+                          color: "#FFBF00",
+                          fontSize: "0.8rem",
+                        }}
+                      />
+                    </Tooltip>
+                  ) : (
+                    <></>
+                  )}
+                </TableCell>
+                <TableCell component="th" scope="row" align="center">
                   {user.user_nickname}
                 </TableCell>
                 <TableCell align="center">{i + 1}</TableCell>
-                <TableCell align="left">{user.user_likes_received}</TableCell>
+                <TableCell align="center">{user.user_likes_received}</TableCell>
                 <TableCell align="left">
-                  <TagWrapper>
-                    {user.tags &&
-                      user.tags.map((tag) => (
-                        <Link href={`/tags/${tag}`} key={tag}>
-                          <a style={{ textDecoration: "none" }}>
-                            <HashtagWrapper>{tag}</HashtagWrapper>
-                          </a>
-                        </Link>
-                      ))}
-                  </TagWrapper>
+                  {user.tags.length > 0 ? (
+                    <TagWrapper>
+                      {user.tags &&
+                        user.tags.map((tag) => (
+                          <Link href={`/tags/${tag}`} key={tag}>
+                            <a style={{ textDecoration: "none" }}>
+                              <HashtagWrapper>{tag}</HashtagWrapper>
+                            </a>
+                          </Link>
+                        ))}
+                    </TagWrapper>
+                  ) : (
+                    <span> No Tags Set</span>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

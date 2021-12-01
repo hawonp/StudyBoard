@@ -31,6 +31,7 @@ import * as React from "react";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
 import Link from "next/link";
+import Typography from "@mui/material/Typography";
 
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
@@ -238,7 +239,20 @@ export default function PostDetail({
         </div>
 
         {/* question text */}
-        <section>{parse(postData.text)}</section>
+        <section>
+          {" "}
+          <Typography
+            color="text.secondary"
+            variant="body2"
+            sx={{
+              display: "-webkit-box",
+              wordBreak: "break-all",
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {parse(postData.text)}
+          </Typography>
+        </section>
 
         {/*hashtag*/}
         <div style={{ display: "flex", flexDirection: "column" }}>
