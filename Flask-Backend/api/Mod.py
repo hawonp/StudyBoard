@@ -2,7 +2,7 @@ from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.flag_query import get_flagged_posts, get_flagged_replies, get_flagged_users
 from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag, deny_reply_flag, update_flag_count
-from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold
+from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold, update_user
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 from query.notification_query import add_notif_report_accepted
@@ -151,7 +151,8 @@ class BlacklistUser(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            add_user_to_blacklist
+            add_user_to_blacklist(user_id)
+            update_user(user_id, "user-deleted", [])
         else:
             err = "Not authorised"
             print(err)
