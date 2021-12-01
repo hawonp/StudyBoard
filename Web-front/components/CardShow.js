@@ -14,7 +14,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import ButtonComponets from "../components/ButtonComponets";
 import CardTags from "./CardTags";
 import { getTimeDisplay } from "../utils/utils";
-import parse from "html-react-parser";
+import { stripHTMLTags } from "../utils/utils";
 
 //link to post detail page
 const ROUTE_ID = "posts/[id]";
@@ -112,12 +112,9 @@ export default function CardShow({ post }) {
                   textOverflow: "ellipsis",
                 }}
               >
-                {post.post_text}
+                {stripHTMLTags(post.post_text)}
               </p>
             </section>
-//             <section>{parse(post.post_text.replace(/<[^>]+>/g, ""))}</section>
-
-            {/* {post.post_text} */}
           </div>
 
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
