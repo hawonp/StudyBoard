@@ -177,7 +177,7 @@ def get_users_order_by_rank():
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT user_id, user_nickname, user_likes_received FROM User ORDER BY user_likes_received DESC, user_flags_received ASC LIMIT 10"
+        query = "SELECT user_id, user_nickname, user_likes_received, user_is_endorsed FROM User ORDER BY user_likes_received DESC, user_flags_received ASC LIMIT 10"
 
         #Getting data from table
         print("Searching with query", query)
