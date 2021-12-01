@@ -108,8 +108,8 @@ def add_reply_to_reply_link(source_id, post_id, reply_id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "INSERT INTO Reply_To_Reply (post_id, source_id, reply_id) VALUES (?, ?)"
-        values = (int(post_id), int(source_id), int(reply_id))
+        query = "INSERT INTO Reply_To_Reply (source_id, reply_id, post_id) VALUES (?, ?, ?)"
+        values = (int(source_id), int(reply_id), int(post_id))
 
         #Adding new data into table
         print("Adding with query", query, " and values ", values)

@@ -505,6 +505,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
 const InputReply = ({ setLoading, replyID, finish }) => {
   const inputRef = useRef();
   const { user } = useUser();
+  const router = useRouter();
 
   const postReply = async () => {
     axiosInstance

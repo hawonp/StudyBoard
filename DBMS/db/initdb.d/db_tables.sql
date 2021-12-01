@@ -89,9 +89,9 @@ CREATE TABLE Reply_To_Post(
 );
 
 CREATE TABLE Reply_To_Reply(
-    post_id INTEGER NOT NULL,
     source_id INTEGER NOT NULL,
     reply_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
     PRIMARY KEY(source_id, reply_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (source_id) REFERENCES Reply(reply_id) ON DELETE CASCADE,
@@ -152,8 +152,8 @@ CREATE TABLE Notification(
     notification_seen BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY(notification_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
-    FOREIGN KEY(post_id) REFERENCES Post(post_id),
-    FOREIGN KEY(reply_id) REFERENCES Reply(reply_id)
+    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE NO ACTION,
+    FOREIGN KEY(reply_id) REFERENCES Reply(reply_id) ON DELETE NO ACTION
 );
 -- FAVOURITE QUESTION --
 CREATE TABLE Favourite_Question(

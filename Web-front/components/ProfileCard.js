@@ -228,7 +228,12 @@ export default function ProfileCard() {
               {tags.length > 0 ? (
                 <TagWrapper>
                   {tags.map((tag, i) => (
-                    <HashtagWrapper key={i}>{tag}</HashtagWrapper>
+                    <Link href={`/tags/${tag}`} key={tag}>
+                      <a style={{ textDecoration: "none" }}>
+                        <HashtagWrapper>{tag}</HashtagWrapper>
+                      </a>
+                    </Link>
+                    // <HashtagWrapper key={i}>{tag}</HashtagWrapper>
                   ))}
                 </TagWrapper>
               ) : (

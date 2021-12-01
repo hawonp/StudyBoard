@@ -6,6 +6,7 @@ import { Paper } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
 import axiosInstance from "../utils/routeUtil";
+import { getTimeDisplay } from "../utils/utils";
 const USERSENDPOINT = "/users";
 const NOTIFICATIONENDPOINT = "/notifications";
 
@@ -56,50 +57,6 @@ const DateWrapper = ({ style, children }) => {
     </p>
   );
 };
-
-const dummy_list = [
-  {
-    notification_id: "1",
-    user_id: "1",
-    user_nickname: "Nick1",
-    post_id: "1",
-    comment_id: null,
-    type: 1,
-    notification_date: "Dummy Date ",
-    notification_seen: false,
-  },
-  {
-    notification_id: "2",
-    user_id: "2",
-    user_nickname: "Nick2",
-    post_id: "2",
-    comment_id: null,
-    type: 0,
-    notification_date: "Dummy Date ",
-    notification_seen: false,
-  },
-  {
-    notification_id: "3",
-    user_id: "3",
-    user_nickname: "Nick3",
-    post_id: "1",
-    comment_id: "1",
-    type: 0,
-    notification_date: "Dummy Date ",
-    notification_seen: true,
-  },
-  {
-    notification_id: "4",
-    user_id: "4",
-    user_nickname: "Nick4",
-    post_id: "2",
-    comment_id: "1",
-    type: 1,
-    notification_date: "Dummy Date ",
-    notification_seen: true,
-  },
-];
-
 // const dummy_noti={
 //     notification_id: "1",
 //     user_id: "pk",
@@ -126,17 +83,42 @@ const Notification = ({ data }) => {
   // 4. 활동 타입 (좋아요 혹은 댓글)
   // 5. 시간
   // 6. 확인 유무
-  const {
-    notification_id, // 1
-    user_id, // 2
-    user_nickname, // 2
-    post_id, // 3 (
-    comment_id, // 3 (대댓글일 경우 그 댓글의 id)
-    type, // 4 ('like' or 'reply')
-    notification_date, // 5
-    notification_seen, // 6
-  } = data;
-
+  // const {
+  //   notification_id, // 1
+  //   user_id, // 2
+  //   interactor_nickname, // 2
+  //   post_id, // 3 (
+  //   reply_id, // 3
+  //   notification_type, // 4 ('like' or 'reply')
+  //   notification_date, // 5
+  //   notification_seen, // 6
+  // } = data;
+  const notifType = data.notification_type / 10;
+  const timeDiff = getTimeDisplay(new Date(), data.notification_date);
+  console.log(notifType);
+  let typeText = "";
+  if (notifType < 1) {
+    // Reply
+    typeText += "replied to your";
+    if (notifType == 0) {
+      typeText += " post";
+    } else if (notifType == 0.1) {
+      typeText += " reply";
+    }
+  } else if (notifType < 2) {
+    //Like
+    typeText += "liked your";
+    if (notifType == 1) {
+      typeText += " post";
+    } else if (notifType == 1.1) {
+      typeText += " reply";
+    }
+  } else if (notifType < 3) {
+    //Herro
+    typeText +=
+      "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
+  }
+  console.log(typeText);
   return (
     <PaperWrapper>
       {/* <DivEmptyWrapper /> */}
@@ -161,34 +143,34 @@ const Notification = ({ data }) => {
               overflow: "hidden",
             }}
           >
-            <span>
-              <b>{user_nickname}</b>님이&nbsp;
-            </span>
-            {comment_id ? (
+            {notifType < 2 ? (
+              <span>
+                <b>{data.interactor_nickname}</b>&nbsp;
+              </span>
+            ) : (
+              <></>
+            )}
+            {/* {reply_id ? (
               <a
                 style={{ textDecoration: "none" }}
-                href={`/postdetail?post_id=${post_id}&comment_id=${comment_id}`}
+                href={`/postdetail?post_id=${post_id}&comment_id=${reply_id}`}
               >
                 <strong>이 댓글</strong>
               </a>
-            ) : (
-              <a
-                style={{ textDecoration: "none" }}
-                href={`/postdetail?post_id=${post_id}`}
-              >
-                <strong>이 게시글</strong>
-              </a>
-            )}
-            {type === 0 ? "에 좋아요를 눌렀습니다" : "에 댓글을 달았습니다"}
+            ) : ( */}
+            <a
+              style={{ textDecoration: "none" }}
+              href={`/posts/${data.post_id}`}
+            >
+              <strong>{typeText}</strong>
+            </a>
           </div>
           <IconButton>
             <CancelIcon sx={{ justifyContent: "end" }} />
           </IconButton>
         </div>
 
-        <DateWrapper style={{ justifyContent: "end" }}>
-          {notification_date}
-        </DateWrapper>
+        <DateWrapper style={{ justifyContent: "end" }}>{timeDiff}</DateWrapper>
       </BoxContainWrapper>
     </PaperWrapper>
   );
@@ -208,7 +190,7 @@ export default function NotificationList() {
         .get(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
         .then((response) => {
           setNotifications(JSON.parse(response.data));
-          console.log();
+          console.log("notifs", notifications);
           setIsDataLoading(false);
         });
     }
