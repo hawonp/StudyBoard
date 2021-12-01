@@ -96,18 +96,13 @@ export default function CardShow({ post }) {
               justifyContent: "start",
             }}
           >
-            <MenuBookIcon
-              sx={{
-                fontSize: "1.2rem",
-                marginRight: "0.5rem",
-                // color: "#FFBF00",
-              }}
-            />
             {/* Click here to see the question.. */}
             <section>
               <p
                 style={{
                   margin: 0,
+                  marginRight: "0.5rem",
+                  marginTop: "1rem",
                   display: "-webkit-box",
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",
