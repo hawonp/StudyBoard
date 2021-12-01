@@ -16,8 +16,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import Tooltip from "@mui/material/Tooltip";
-
+import { baseURL } from "../utils/routeUtil";
 import { getTimeDisplay } from "../utils/utils";
+import axiosInstance from "../utils/routeUtil";
+
 const CardActionsWrapper = ({ style, children }) => {
   return (
     <div
@@ -36,53 +38,71 @@ const CardActionsWrapper = ({ style, children }) => {
 export default function MyPostList({ mypost }) {
   const [myPostData, setMyPostData] = useState(mypost);
   const [diffTime, setDiffTime] = useState();
+
   useEffect(() => {
     setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
   }, []);
+
+  const [openShare, setOpenShare] = React.useState(false);
+
+  const handleClickShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenShare(false);
+  };
+
   return (
-    <Link href={"/" + "posts/" + mypost.post_id}>
-      <Paper
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: "2px",
-          marginBottom: "2px",
-          overflow: "hidden",
-        }}
-      >
-        {mypost.post_image != "None" ? (
-          <Paper>
-            <img
-              width="150"
-              height="120"
-              src={mypost.post_image}
-              style={{ objectFit: "cover" }}
-              alt="green iguana"
-            />
-          </Paper>
-        ) : (
-          <Paper
-            style={{
-              width: "150px",
-              height: "120px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ImageNotSupportedOutlinedIcon sx={{ fontSize: "3rem" }} />
-            <p style={{ fontSize: "0.6rem" }}>No Image</p>
-          </Paper>
-        )}
-        <Box
-          sx={{
+    <Paper
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        marginTop: "2px",
+        marginBottom: "2px",
+        overflow: "hidden",
+      }}
+    >
+      {mypost.post_image != "None" ? (
+        <Paper>
+          <img
+            width="150"
+            height="120"
+            src={mypost.post_image}
+            style={{ objectFit: "cover" }}
+            alt="green iguana"
+          />
+        </Paper>
+      ) : (
+        <Paper
+          style={{
+            width: "150px",
+            height: "120px",
             display: "flex",
-            flex: 1,
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
+          <ImageNotSupportedOutlinedIcon sx={{ fontSize: "3rem" }} />
+          <p style={{ fontSize: "0.6rem" }}>No Image</p>
+        </Paper>
+      )}
+
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        {" "}
+        <Link href={"/" + "posts/" + mypost.post_id}>
           <Box
             sx={{
               flexDirection: "column",
@@ -120,7 +140,7 @@ export default function MyPostList({ mypost }) {
                   color: "#C4C4C4",
                 }}
               >
-                {myPostData.user_nickname}
+                Posted by {myPostData.user_nickname}
               </Typography>
 
               {/* user endorsed */}
@@ -153,48 +173,50 @@ export default function MyPostList({ mypost }) {
               </Typography>
             </Box>
           </Box>
+        </Link>
+        <CardActionsWrapper>
+          {/* Like */}
+          <IconButton
+            disableRipple
+            aria-label="favorites"
+            sx={{ borderRadius: "4px" }}
+          >
+            <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp; {myPostData.post_like_count} Likes
+            </div>
+          </IconButton>
 
-          <CardActionsWrapper>
-            {/* Like */}
-            <IconButton
-              disableRipple
-              aria-label="favorites"
-              sx={{ borderRadius: "4px" }}
-            >
-              <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                &nbsp; {myPostData.post_like_count} Likes
-              </div>
-            </IconButton>
+          {/* Comment */}
+          <IconButton
+            disableRipple
+            aria-label="SmsIcon"
+            sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
+          >
+            <SmsIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp;{myPostData.post_reply_count} Comments
+            </div>
+          </IconButton>
 
-            {/* Comment */}
-            <IconButton
-              disableRipple
-              aria-label="SmsIcon"
-              sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
-            >
-              <SmsIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                &nbsp;{myPostData.post_reply_count} Comments
-              </div>
-            </IconButton>
+          {/* Share */}
+          <IconButton
+            // disableRipple
+            sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+            aria-label="share"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                window.location.origin + "/posts/" + myPostData.post_id
+              );
+            }}
+          >
+            <ShareIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp;Share
+            </div>
+          </IconButton>
 
-            {/* Share */}
-            <IconButton
-              disableRipple
-              sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
-              aria-label="share"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-              }}
-            >
-              <ShareIcon sx={{ fontSize: "1.2rem" }} />
-              <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                &nbsp;Share
-              </div>
-            </IconButton>
-
-            {/* report button
+          {/* report button
             <Modal
               open={open}
               onClose={handleClose}
@@ -240,9 +262,8 @@ export default function MyPostList({ mypost }) {
               &nbsp;
               <CountNumber> Report</CountNumber>
             </IconButton> */}
-          </CardActionsWrapper>
-        </Box>
-      </Paper>
-    </Link>
+        </CardActionsWrapper>
+      </Box>
+    </Paper>
   );
 }

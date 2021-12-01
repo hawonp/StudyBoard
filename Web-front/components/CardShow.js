@@ -115,6 +115,7 @@ export default function CardShow({ post }) {
                 {post.post_text}
               </p>
             </section>
+//             <section>{parse(post.post_text.replace(/<[^>]+>/g, ""))}</section>
 
             {/* {post.post_text} */}
           </div>
