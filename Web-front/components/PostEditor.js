@@ -19,18 +19,18 @@ export default function PostEditor({ setContent, content }) {
       <CKEditor
         style={{
           minHeight: 300,
-          // wordBreak: "break-all",
-          // WebkitBoxOrient: "vertical",
-          // display: "-webkit-box",
         }}
         editor={CustomEditor}
         data={content}
+        config={{ height: 400 }}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           editor.editing.view.change((writer) => {
             writer.setStyle(
-              "min-height",
-              "200px",
+              // "min-height",
+              // "200px",
+              "word-wrap",
+              "break-word",
               editor.editing.view.document.getRoot()
             );
           });
