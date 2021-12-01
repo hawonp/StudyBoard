@@ -5,6 +5,7 @@ from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag
 from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold
 from query.post_query import delete_post
 from query.reply_query import delete_reply
+from query.notification_query import add_notif_report_accepted
 
 ############################
 #    CONSTANT URL PATH     #
@@ -49,9 +50,10 @@ class RespondToPostFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
+            add_notif_res = add_notif_report_accepted(id, "Post_Report")
+            upd_flag_count_res = update_flag_count(id,1, 0)
             res = accept_post_flag(post_id)
             del_post_res = delete_post(post_id)
-            upd_flag_count_res = update_flag_count(id,1, 1)
         else:
             err = "Not authorised"
             print(err)
@@ -99,8 +101,9 @@ class RespondToReplyFlag(Resource):
         if check_if_user_is_mod(user_id):
             #User must be a mod
             res = accept_reply_flag(reply_id)
+            add_notif_res = add_notif_report_accepted(id, "Reply_Report")
             del_reply_res = delete_reply(reply_id)
-            upd_flag_count_res = update_flag_count(id,0, 1)
+            upd_flag_count_res = update_flag_count(id,0, 0)
         else:
             err = "Not authorised"
             print(err)

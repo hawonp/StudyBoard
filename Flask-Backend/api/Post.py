@@ -1,7 +1,8 @@
+import re
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_by_id, update_post
-from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag,search_tags,get_tag_name_by_id
+from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag_name,search_tags, get_search_results_tags, get_search_results_posts
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags, get_user_tag_ids
 from config.config import ApplicationConfig
@@ -20,6 +21,8 @@ WRITE = '/write'
 FLAG = '/flag'
 TAGS = '/tags'
 SEARCH = '/search'
+PREVIEW = '/preview'
+QUERY = '/query'
 
 ############################
 #    Marshmallow Schema    #
@@ -163,7 +166,7 @@ class PostWrite(Resource):
         return res
 
 #Post Search
-class PostSearch(Resource):
+class SearchPreview(Resource):
     def get(self):
         print("Querying search result")
         input = request.args.get('input')
@@ -174,14 +177,32 @@ class PostSearch(Resource):
         print(post_list + tag_list)
         return post_list + tag_list
 
+class SearchQuery(Resource):
+    def get(self):
+        input = request.args.get('input')
+        
+        post_json = get_search_results_posts(input)
+        tag_json = get_search_results_tags(input)
+
+        # result_list.append(post_json)
+        result_json = {
+            "tags" : tag_json,
+            "posts" : post_json
+        }
+ 
+
+        print("Search Result", result_json)
+        return json.dumps(result_json)
+
+
  # get posts by tag_id
 class PostTag(Resource):
     def get(self):
         # formData = request.get_json()["params"]
         # tag_id = formData["tagID"]
-        tag_id = request.args.get('tagID')
-        
-        posts = get_posts_by_tag(tag_id)
+        tag_name = request.args.get('tagName')
+        print("tag name", tag_name)
+        posts = get_posts_by_tag_name(tag_name)
         #For every post, get the tags and append it to the respective post object
         for post in posts:            
             #Finding and adding related tags to each post
@@ -278,7 +299,9 @@ def init_routes(api):
     api.add_resource(PostFavourite, POSTS+POST_ID+FAVOURITE)
     api.add_resource(PostFlag, POSTS+POST_ID+FLAG)
     api.add_resource(PostTag, FEED + POSTS + TAGS)
-    api.add_resource(PostSearch, FEED +  POSTS + SEARCH)
+    api.add_resource(SearchPreview, SEARCH + PREVIEW)
+    api.add_resource(SearchQuery, SEARCH + QUERY)
+
 
 
 feed_post_schema = FeedPostSchema()

@@ -4,32 +4,19 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useRefresh } from "react-tidy";
-import Link from "next/link";
 
 // import MUI
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import FlagIcon from "@mui/icons-material/Flag";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ShareIcon from "@mui/icons-material/Share";
-import CardActions from "@mui/material/CardActions";
 import { Box } from "@mui/material";
-import Button from "@mui/material/Button";
 
 // package imports
 import { useUser } from "@auth0/nextjs-auth0";
 
 // project imports
 import ProfileCard from "../../components/ProfileCard";
-import PostEdit from "../../components/PostEdit";
-import PostDetail from "../../components/PostDetail";
-import { CommentBox } from "../../components/CommentBox";
+
 import MyPostList from "../../components/MyPostList";
 import { useReducer } from "react";
+
 // axios instance
 import axiosInstance from "../../utils/routeUtil";
 const POSTTAGENDPOINT = "/feed/posts/tags";
@@ -72,7 +59,7 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
-//Need this to keep post id
+//Need this to keep tag_id
 export async function getServerSideProps(context) {
   return {
     props: {},
@@ -81,27 +68,23 @@ export async function getServerSideProps(context) {
 
 export default function MyPost() {
   const router = useRouter();
-  const refresh = useRefresh();
   const [myPosts, setMyPosts] = useState([]);
-  const [tagId, setTagId] = useState(router.query.id);
   const [isDataLoading, setIsDataLoading] = useState(true);
-  const [tagName, setTagName] = useState();
+  // const [tagName, setTagName] = useState(router.query.name);
   //   const dynamicRoute = router.asPath;
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   function handleClick() {
     forceUpdate();
   }
   useEffect(() => {
-    setTagId(router.query.id);
-
+    // console.log("This is tag name", tagName, router.query, router.query.name);
     axiosInstance
       .get(POSTTAGENDPOINT, {
         params: {
-          tagID: tagId,
+          tagName: router.query.name,
         },
       })
       .then((response) => {
-        setTagName(response.data.shift);
         setMyPosts(JSON.parse(response.data));
         setIsDataLoading(false);
       });
@@ -148,7 +131,7 @@ export default function MyPost() {
                   fontSize: "1rem",
                 }}
               >
-                Search Results
+                Search Results for the Tag "{router.query.name}"
               </h5>
               <LineWrapper />
               <BoxWrapper>

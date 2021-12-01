@@ -1,3 +1,4 @@
+import re
 from config.imports import mariadb, abort
 from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
@@ -260,39 +261,16 @@ def get_posts_by_user(user_id):
 
     return json_data
 
-def get_tag_name_by_id(tag_id):
-    tag_name = ""
+def get_posts_by_tag_name(tag_name):
     try:
         # Obtainting DB cursor
         conn = get_connection()
         cur = conn.cursor()
         
         #Set up query statements and values
-        query = "SELECT Tag.tag_name FROM Tag WHERE Tag.tag_id = ?"
-        values = (tag_id, )
-        print("Selecting with query", query)
-        cur.execute(query, values)
-
-        rv = cur.fetchall()
-        flat = list(sum(rv, ()))
-        print("\t\t\t\t\t\t\tthis is the tag name", list(sum(rv, ())))
-        tag_name = flat[0]
-    except mariadb.Error as e:
-        print(f"Error adding entry to database: {e}")
-        return tag_name
-
-    return tag_name
-
-def get_posts_by_tag(tag_id):
-    try:
-        # Obtainting DB cursor
-        conn = get_connection()
-        cur = conn.cursor()
-        
-        #Set up query statements and values
-        query = "SELECT Post.* FROM Post, Post_Tag WHERE Post_Tag.tag_id = ? && Post_Tag.post_id = Post.post_id"
-        values = (tag_id, )
-        print("Selecting with query", query)
+        query = "SELECT Post.* FROM Post, Post_Tag, Tag WHERE Post_Tag.post_id = Post.post_id && Post_Tag.tag_id = Tag.tag_id && LOWER(Tag.tag_name) = LOWER(?)"
+        values = (tag_name, )
+        print("Selecting with query", query, " and values ", values)
         cur.execute(query, values)
 
         # serialize results into JSON
@@ -353,7 +331,7 @@ def search_tags(input):
 
     return return_result
 
-
+# search bar
 def search_posts(input):
     try:
         # Obtainting DB cursor
@@ -391,6 +369,84 @@ def search_posts(input):
         return None
 
     return return_result
+
+# search just tags
+def get_search_results_posts(input):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # query = "SELECT DISTINCT Post.post_id, Post.post_title, Post_post_image, Post.post_like_count, Post.post_reply_count, CONVERT(VARCHAR, Post.data, 20) From Post where LOWER(Post.post_title) LIKE LOWER(?)"
+        query = "SELECT DISTINCT Post.*, User.user_nickname From Post, User where Post.user_id = User.user_id && LOWER(Post.post_title) LIKE LOWER(?)"
+
+        values = ("%" + input + "%", )
+
+        print("Selecting with query", query, " and values ", values)
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        print("row headers", row_headers)
+        rv = cursor.fetchall()
+
+        print("this is all posts", rv)
+        json_data=[]
+
+        for result in rv:
+            print("\n\n\nresult", result)
+            result = list(result)
+            datetime = result[-2].strftime('%Y-%m-%d %H:%M:%S')
+            result[-2] = datetime
+            result = tuple(result)
+            json_data.append(dict(zip(row_headers,result)))
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+    
+    return json_data
+
+def get_search_results_tags(input):
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT DISTINCT Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
+        values = ("%" + input + "%", )
+        print("Selecting with query", query, " and values ", values)
+
+        #Getting data from table
+        print("Searching with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        # serialize results into JSON
+        # row_headers=[x[0] for x in cursor.description]
+        res = cursor.fetchall()
+        # json_data=[]
+
+        # for result in rv:
+        #     json_data.append(dict(zip(row_headers,result)))
+        # print(json_data)
+
+        #Closing cursor
+        cursor.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        return None
+    
+    return res
+
 
 #Get post by id
 def get_post_by_id(post_id):

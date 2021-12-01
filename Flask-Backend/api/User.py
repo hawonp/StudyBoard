@@ -8,7 +8,7 @@ from query.favourite_query import get_favourited_post
 from query.tag_query import get_user_tags, get_post_tags
 from query.user_query import get_user_by_id, update_user, get_users_order_by_rank
 from query.login_query import verify_id_token
-from query.notification_query import get_user_notifications
+from query.notification_query import get_user_notifications, delete_all_notifications, delete_notification
 ############################
 #    CONSTANT URL PATH     #
 ############################
@@ -18,6 +18,7 @@ USER_ID = '/<string:id>'
 RANK = '/rank'
 FAVOURITE = '/favourite'
 NOTIFICATIONS = '/notifications'
+NOTIFICATION_ID = '/<int:nid>'
 
 ############################
 #    Marshmallow Schema    #
@@ -103,12 +104,26 @@ class UsersByRank(Resource):
         return json.dumps(data)
 
 #Post feed
-class UserNotification(Resource):
+class UserNotifications(Resource):
     def get(self, id):
         #Get the list of user's posts
         notifs = get_user_notifications(id)
             
         return json.dumps(notifs, default=str)
+    def delete(self, id):
+        #Delete all notifs
+        res = delete_all_notifications(id)
+            
+        return json.dumps(res)
+
+#Post feed
+class UserNotification(Resource):
+    def delete(self, id, nid):
+        #Delete all notifs
+        res = delete_notification(nid)
+            
+        return json.dumps(res)
+
 
 #Add routes to api
 def init_routes(api):
@@ -116,6 +131,7 @@ def init_routes(api):
     api.add_resource(UsersByRank, USERS+RANK)
     api.add_resource(UserPosts, USERS+USER_ID+POSTS)
     api.add_resource(PostFavourites, USERS+USER_ID+FAVOURITE)
-    api.add_resource(UserNotification, USERS+USER_ID+NOTIFICATIONS)
+    api.add_resource(UserNotifications, USERS+USER_ID+NOTIFICATIONS)
+    api.add_resource(UserNotification, USERS+USER_ID+NOTIFICATIONS+NOTIFICATION_ID)
 
 user_info_schema = UserInfoSchema()

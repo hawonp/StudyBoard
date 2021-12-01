@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
 import { Widget } from "@uploadcare/react-widget";
 import PostEditor from "./PostEditor";
-
+import { useRouter } from "next/router";
 const POSTDATAENDPOINT = "/posts";
 
 export function PostWrite() {
@@ -19,6 +19,7 @@ export function PostWrite() {
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState("");
   const { user } = useUser();
+  const router = useRouter();
   // widget.onChange(function (file) {
   //   console.log(file);
   // });
@@ -56,7 +57,8 @@ export function PostWrite() {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        alert("post added!");
+        // alert("post added!");
+        router.push("/board");
       })
       .catch((e) => {
         const resp = e.response;

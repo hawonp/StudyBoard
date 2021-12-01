@@ -2,6 +2,7 @@ from config.imports import mariadb
 from config.db_connect import get_connection
 #Import datetime to insert date time when creating row
 from datetime import datetime
+from query.notification_query import add_notif_report_accepted
 ##########################################################
 #                         INSERT                         #
 ##########################################################
@@ -223,7 +224,6 @@ def accept_post_flag(post_id):
         cursor.close()
         conn.commit()
         conn.close()
-        
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0

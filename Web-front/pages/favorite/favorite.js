@@ -2,16 +2,14 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
 import ProfileCard from "../../components/ProfileCard";
-import FavoriteCard from "../../components/FavoriteCard";
 
 import axiosInstance from "../../utils/routeUtil";
-
+import MyPostList from "../../components/MyPostList";
 const FAVOURITEENDPOINT = "/favourite";
-const USERS = "/users";
+const USERS = "/users/";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -19,7 +17,7 @@ const BoxWrapper = ({ style, children }) => {
       style={{
         minWidth: "750px",
         display: "flex",
-        flexWrap: "wrap",
+        flexDirection: "column",
         justifyContent: "space-around",
         alignItems: "space-around",
         ...style,
@@ -62,12 +60,10 @@ export default function Favorite() {
       if (user) {
         userID = user.sub;
       }
-      axiosInstance
-        .get(USERS + "/" + userID + FAVOURITEENDPOINT)
-        .then((response) => {
-          setFavorites(JSON.parse(response.data));
-          setIsDataLoading(false);
-        });
+      axiosInstance.get(USERS + userID + FAVOURITEENDPOINT).then((response) => {
+        setFavorites(JSON.parse(response.data));
+        setIsDataLoading(false);
+      });
     }
   }, [isLoading]);
 
@@ -91,11 +87,21 @@ export default function Favorite() {
                 backgroundColor: "white",
               }}
             >
-              <h5 style={{ marginBottom: "2rem" }}>My Favorite Posts</h5>
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                Favorites
+              </h5>
               <LineWrapper />
               <BoxWrapper>
                 {favorites.map((post) => (
-                  <FavoriteCard key={post.post_id} favorite={post} />
+                  <MyPostList key={post.post_id} mypost={post} />
                 ))}
               </BoxWrapper>
             </Box>

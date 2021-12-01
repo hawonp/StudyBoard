@@ -68,7 +68,7 @@ def get_favourited_post(user_id):
         cursor = conn.cursor()
 
         #Set up query statement and values
-        query = "SELECT p.* FROM Post p INNER JOIN (SELECT post_id FROM Favourite_Question WHERE user_id=?) AS fav ON fav.post_id = p.post_id"
+        query = "SELECT p.*, u.user_nickname FROM Post p INNER JOIN (SELECT post_id FROM Favourite_Question WHERE user_id=?) AS fav ON fav.post_id = p.post_id INNER JOIN User u ON u.user_id = P.user_id"
         values = (user_id, )
 
         #Getting data from table

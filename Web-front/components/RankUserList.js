@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import axiosInstance from "../utils/routeUtil";
+import Link from "next/link";
 
 const USERSENDPOINT = "/users";
 const RANKENDPOINT = "/rank";
@@ -99,17 +100,13 @@ export default function RankUserList() {
                 <TableCell align="left">{user.user_likes_received}</TableCell>
                 <TableCell align="left">
                   <TagWrapper>
-                    {/* {post.post_tags.map((post_tags, i) => (
-                                        <Link key={i} href="/board">
-                                            <a>
-                                                <HashtagWrapper key={i}>{post_tags}</HashtagWrapper>
-                                            </a>
-                                        </Link>
-                                    ))} */}
-
                     {user.tags &&
                       user.tags.map((tag) => (
-                        <HashtagWrapper key={tag}>{tag}</HashtagWrapper>
+                        <Link href={`/tags/${tag}`} key={tag}>
+                          <a style={{ textDecoration: "none" }}>
+                            <HashtagWrapper>{tag}</HashtagWrapper>
+                          </a>
+                        </Link>
                       ))}
                   </TagWrapper>
                 </TableCell>
