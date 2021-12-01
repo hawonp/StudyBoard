@@ -135,9 +135,6 @@ class PostData(Resource):
         return res
 
     def delete(self, id):
-        #First get post
-        post = get_post_by_id(id)
-
         #Delete the post
         res = delete_post(id)
         return json.dumps(res)
@@ -196,8 +193,7 @@ class SearchQuery(Resource):
         result_json = {
             "tags" : tag_json,
             "posts" : post_json
-        }
- 
+        } 
 
         print("Search Result", result_json)
         return json.dumps(result_json)
