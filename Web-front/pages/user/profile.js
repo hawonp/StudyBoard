@@ -4,7 +4,7 @@ import * as React from "react";
 import ProfileInfo from "../../components/ProfileInfo";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-
+import LoadingProgress from "../../components/Loading";
 //Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 const users = "/users/";
@@ -47,12 +47,12 @@ export default function Profile() {
     }
   }, [isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
   // if (!profile) return <Spinner />;
 
   if (!dataLoaded) {
-    return <div> Loading ... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>

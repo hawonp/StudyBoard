@@ -5,7 +5,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Box from "@mui/material/Box";
 
 import ProfileCard from "../../components/ProfileCard";
-
+import LoadingProgress from "../../components/Loading";
 import axiosInstance from "../../utils/routeUtil";
 import MyPostList from "../../components/MyPostList";
 const FAVOURITEENDPOINT = "/favourite";
@@ -67,11 +67,11 @@ export default function Favorite() {
     }
   }, [isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>

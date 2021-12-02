@@ -162,7 +162,7 @@ export default function CustomAppBar() {
                   variant="contained"
                   onClick={handleClick}
                 >
-                  <Badge color="secondary" variant="dot">
+                  <Badge color="secondary">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -177,7 +177,7 @@ export default function CustomAppBar() {
                   }}
                   transformOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: "center",
                   }}
                 >
                   <NotificationList />

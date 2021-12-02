@@ -13,7 +13,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 // project imports
 import ProfileCard from "../../components/ProfileCard";
-
+import LoadingProgress from "../../components/Loading";
 import MyPostList from "../../components/MyPostList";
 import { useReducer } from "react";
 
@@ -98,7 +98,7 @@ export default function MyPost() {
   }, [isDataLoading]);
 
   if (isDataLoading) {
-    return <div>Loading...</div>;
+    return <LoadingProgress />;
   } else if (myPosts.length == 0) {
     return <div> No Search Results </div>;
   } else {
