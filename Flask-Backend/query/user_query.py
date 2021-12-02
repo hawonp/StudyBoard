@@ -358,7 +358,7 @@ def set_endorse_threshhold(count):
         cursor.execute(query)
 
         #Set up query statement and values
-        query = "CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User FOR EACH ROW BEGIN IF NEW.user_likes_received > "+str(count)+" THEN SET NEW.user_is_endorsed=1; END IF; END"
+        query = "CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User FOR EACH ROW BEGIN IF NEW.user_likes_received > "+str(count)+" THEN SET NEW.user_is_endorsed=1; ELSE SET NEW.user_is_endorsed=0; END IF; END"
 
         #Adding new data into table
         print("Setting with query", query)

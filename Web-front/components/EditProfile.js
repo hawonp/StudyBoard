@@ -19,11 +19,16 @@ export default function EditProfile({ profile }) {
   const [inputTag, setInputTag] = useState(tag.flat());
   const { user, error, isLoading } = useUser();
   const saveProfile = async () => {
+    const formattedTags = inputTag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
     axiosInstance
       .put(users + user.sub, {
         params: {
           user_nickname: inputNick,
-          user_tags: inputTag,
+          user_tags: formattedTags,
         },
       })
       .then((response) => {
@@ -92,15 +97,7 @@ export default function EditProfile({ profile }) {
           id="outlined-disabled"
           label="Please edit your personal tags (Separated by Commas)"
           value={inputTag}
-          onChange={(event) =>
-            setInputTag(
-              event.target.value
-                .split(",")
-                .map((unadjustedTag) =>
-                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
-                )
-            )
-          }
+          onChange={(event) => setInputTag(event.target.value)}
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>

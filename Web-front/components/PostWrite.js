@@ -27,6 +27,11 @@ export function PostWrite() {
     console.log("content", content);
     console.log("tag", tag);
     console.log(image);
+    const formattedTags = tag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
 
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
@@ -35,7 +40,7 @@ export function PostWrite() {
           title: title,
           text: content,
           imageURL: image,
-          tags: tag,
+          tags: formattedTags,
           uuid: uuid,
         },
       })
@@ -93,15 +98,7 @@ export function PostWrite() {
           label="Please add the tags to categorize this post by (separated by commas)"
           variant="outlined"
           value={tag}
-          onChange={(event) =>
-            setTag(
-              event.target.value
-                .split(",")
-                .map((unadjustedTag) =>
-                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
-                )
-            )
-          }
+          onChange={(event) => setTag(event.target.value)}
         />
         <div style={{ display: "flex", fontSize: "0.8rem" }}>
           <p>

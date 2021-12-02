@@ -30,6 +30,13 @@ export default function EditPost({ postCard, finish }) {
   const [inputTag, setInputTag] = useState(tags.flat());
 
   const savePost = async (user) => {
+    //Format the tags before sending it to the db
+    const formattedTags = inputTag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
+    console.log("tags", formattedTags);
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
@@ -37,7 +44,7 @@ export default function EditPost({ postCard, finish }) {
           title: inputTitle,
           text: inputContents,
           imageURL: inputImages,
-          tags: inputTag,
+          tags: formattedTags,
         },
       })
       .then((response) => {
@@ -84,15 +91,7 @@ export default function EditPost({ postCard, finish }) {
         label="Tags Attributed to this Post"
         variant="outlined"
         value={inputTag}
-        onChange={(event) =>
-          setInputTag(
-            event.target.value
-              .split(",")
-              .map((unadjustedTag) =>
-                unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
-              )
-          )
-        }
+        onChange={(event) => setInputTag(event.target.value)}
       />
 
       <div style={{ display: "flex" }}>

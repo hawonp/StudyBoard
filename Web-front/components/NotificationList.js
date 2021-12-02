@@ -115,10 +115,20 @@ const Notification = ({ data, handleNotifDelete }) => {
     } else if (notifType == 1.1) {
       contentText += " reply";
     }
-  } else if (notifType < 3) {
+  } else {
     //Herro
-    actionText +=
-      "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
+    if (notifType == 2) {
+      actionText +=
+        "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
+    } else if (notifType == 2.1) {
+      actionText +=
+        "The content you have recently posted was deemed inappropirate and removed.";
+    } else if (notifType == 3) {
+      actionText +=
+        "You are now an endorsed user! Please continue with us in making Studyboard a more helpful place.";
+    } else if (notifType == 3.1) {
+      actionText += "You are no longer an endorsed user.";
+    }
   }
 
   return (
@@ -147,11 +157,12 @@ const Notification = ({ data, handleNotifDelete }) => {
           >
             {notifType < 2 ? (
               <span>
-                <b>{data.interactor_nickname}</b>&nbsp;{actionText}
+                <b>{data.interactor_nickname}</b>&nbsp;
               </span>
             ) : (
               <></>
             )}
+            {actionText}
             {/* {reply_id ? (
               <a
                 style={{ textDecoration: "none" }}
