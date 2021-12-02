@@ -19,6 +19,3 @@ from google.oauth2 import id_token
 from google.oauth2 import service_account
 import google.auth
 import google.auth.transport.requests as google_requests
-
-from numpy.random import seed
-from numpy.random import randint

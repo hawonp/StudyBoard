@@ -1,4 +1,4 @@
-from config.imports import mariadb, seed, randint
+from config.imports import mariadb
 from config.db_connect import get_connection
 from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name, get_user_tags
 from api.Auth0 import delete_user as delete_user_auth0
@@ -318,8 +318,6 @@ def delete_user(user_id):
         print("updating user nickname")
         #Set up query statement and values
         query = "UPDATE User SET user_email_address = ?, user_nickname = \'Deleted User \', user_is_endorsed = 0, user_is_mod = 0, user_id = ? WHERE user_id=?"
-
-        # seed + random number generate
         
         random_string = get_random_string(20)
 

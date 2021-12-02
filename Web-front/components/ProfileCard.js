@@ -217,6 +217,7 @@ export default function ProfileCard() {
                     style={{
                       fontSize: "0.8rem",
                       color: "#C4C4C4",
+                      fontWeight: "bold",
                     }}
                   >
                     Personal Tags
@@ -237,8 +238,13 @@ export default function ProfileCard() {
                   ))}
                 </TagWrapper>
               ) : (
-                <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  User has no tags
+                <p
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "#C4C4C4",
+                  }}
+                >
+                  No Personal Tags Set
                 </p>
               )}
             </div>
