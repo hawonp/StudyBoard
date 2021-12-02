@@ -293,7 +293,7 @@ export default function PostDetail({
           disableSpacing
           sx={{ justifyContent: "end", padding: "0" }}
         >
-          {user.sub == postData.user_id ? (
+          {user && user.sub == postData.user_id ? (
             <IconButton
               title={"I want to edit"}
               onClick={edit}
@@ -307,7 +307,7 @@ export default function PostDetail({
             <> </>
           )}
 
-          {user.sub == postData.user_id ? (
+          {user && user.sub == postData.user_id ? (
             <IconButton
               title={"I want to edit"}
               color="error"
@@ -321,57 +321,110 @@ export default function PostDetail({
             <> </>
           )}
 
-          {/*일반유저좋아요*/}
-          <IconButton
-            sx={{ borderRadius: "4px" }}
-            aria-label="thumbup"
-            onClick={() => onLikePressed(postData.id, postData.didUserLike)}
-          >
-            {postData.didUserLike ? (
-              <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-            ) : (
-              <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-            )}
-            <CountNumber>&nbsp;{postData.postLikeCount || 0} Likes</CountNumber>
-          </IconButton>
-          {/*즐겨찾기 저장버튼*/}
-          <IconButton
-            sx={{ borderRadius: "4px" }}
-            aria-label="favorites"
-            onClick={() =>
-              onFavouritePressed(postData.id, postData.didUserFavourite)
-            }
-          >
-            {postData.didUserFavourite ? (
-              <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
-            ) : (
-              <BookmarkBorderIcon sx={{ fontSize: "1.2rem" }} />
-            )}
-            <CountNumber> &nbsp;Favorite</CountNumber>
-          </IconButton>
-          {/* copy the link */}
-          <IconButton
-            sx={{ borderRadius: "4px" }}
-            aria-label="share"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              handleClickShare();
-            }}
-          >
-            <ShareIcon sx={{ fontSize: "1.2rem" }} />
-            &nbsp;
-            <CountNumber> Share</CountNumber>
-          </IconButton>
-          {/* report button*/}
-          <IconButton
-            aria-label="report"
-            onClick={handleOpen}
-            sx={{ borderRadius: "4px" }}
-          >
-            <FlagIcon sx={{ fontSize: "1.2rem" }} />
-            &nbsp;
-            <CountNumber> Report</CountNumber>
-          </IconButton>
+          {/* check if the user is logged in */}
+          {user ? (
+            <div>
+              {" "}
+              {/*일반유저좋아요*/}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="thumbup"
+                onClick={() => onLikePressed(postData.id, postData.didUserLike)}
+              >
+                {postData.didUserLike ? (
+                  <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+                ) : (
+                  <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+                )}
+                <CountNumber>
+                  &nbsp;{postData.postLikeCount || 0} Likes
+                </CountNumber>
+              </IconButton>
+              {/*즐겨찾기 저장버튼*/}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="favorites"
+                onClick={() =>
+                  onFavouritePressed(postData.id, postData.didUserFavourite)
+                }
+              >
+                {postData.didUserFavourite ? (
+                  <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
+                ) : (
+                  <BookmarkBorderIcon sx={{ fontSize: "1.2rem" }} />
+                )}
+                <CountNumber> &nbsp;Favorite</CountNumber>
+              </IconButton>
+              {/* copy the link */}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="share"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  handleClickShare();
+                }}
+              >
+                <ShareIcon sx={{ fontSize: "1.2rem" }} />
+                &nbsp;
+                <CountNumber> Share</CountNumber>
+              </IconButton>
+              {/* report button*/}
+              <IconButton
+                aria-label="report"
+                onClick={handleOpen}
+                sx={{ borderRadius: "4px" }}
+              >
+                <FlagIcon sx={{ fontSize: "1.2rem" }} />
+                &nbsp;
+                <CountNumber> Report</CountNumber>
+              </IconButton>
+            </div>
+          ) : (
+            <>
+              {" "}
+              {/*일반유저좋아요*/}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="thumbup"
+                disabled
+              >
+                <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+                <CountNumber>
+                  &nbsp;{postData.postLikeCount || 0} Likes
+                </CountNumber>
+              </IconButton>
+              {/*즐겨찾기 저장버튼*/}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="favorites"
+                disabled
+              >
+                <BookmarkBorderIcon sx={{ fontSize: "1.2rem" }} />
+
+                <CountNumber> &nbsp;Favorite</CountNumber>
+              </IconButton>
+              {/* copy the link */}
+              <IconButton
+                sx={{ borderRadius: "4px" }}
+                aria-label="share"
+                disabled
+              >
+                <ShareIcon sx={{ fontSize: "1.2rem" }} />
+                &nbsp;
+                <CountNumber> Share</CountNumber>
+              </IconButton>
+              {/* report button*/}
+              <IconButton
+                aria-label="report"
+                disabled
+                sx={{ borderRadius: "4px" }}
+              >
+                <FlagIcon sx={{ fontSize: "1.2rem" }} />
+                &nbsp;
+                <CountNumber> Report</CountNumber>
+              </IconButton>
+            </>
+          )}
 
           {/* Report Modal */}
           <Modal

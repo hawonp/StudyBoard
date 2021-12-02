@@ -14,13 +14,13 @@ Flask-Session==0.4.0
 google-auth==2.3.3
 gunicorn==20.1.0
 idna==3.3
-imagekitio==2.2.8
 itsdangerous==2.0.1
 Jinja2==3.0.2
 mariadb==1.0.8
 MarkupSafe==2.0.1
 marshmallow==3.14.0
 msgpack==1.0.2
+numpy==1.21.4
 oauthlib==3.1.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8

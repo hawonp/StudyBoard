@@ -164,11 +164,18 @@ export const CommentBox = ({ postID }) => {
 
   return (
     <div style={{ disply: "flex" }}>
-      <h3>Join the Discussion!</h3>
-      <CommentForm addComment={_addComment} />
-      {/* <Divider variant="middle" /> */}
-      <br />
-      <Divider variant="middle" />
+      {user ? (
+        <div>
+          {" "}
+          <h3>Join the Discussion!</h3>
+          <CommentForm addComment={_addComment} />
+          {/* <Divider variant="middle" /> */}
+          <br />
+          <Divider variant="middle" />
+        </div>
+      ) : (
+        <></>
+      )}
 
       <Box
         sx={{
@@ -346,6 +353,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
     }
   };
 
+  // reply to post component
   const [isReplying, setIsReplying] = useState(false);
   const [replys, setReplys] = useState(null);
   const [diffTime, setDiffTime] = useState();
@@ -396,29 +404,52 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             </div>
 
             {/* like button */}
-            <IconButton
-              disableRipple
-              style={{
-                padding: "0",
-                paddingLeft: "0.5rem",
-              }}
-              onClick={() => handleLikePressed()}
-            >
-              {didUserLike ? (
-                <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-              ) : (
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{
+                  padding: "0",
+                  paddingLeft: "0.5rem",
+                }}
+                onClick={() => handleLikePressed()}
+              >
+                {didUserLike ? (
+                  <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+                ) : (
+                  <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+                )}
+              </IconButton>
+            ) : (
+              <IconButton
+                disabled
+                disableRipple
+                style={{
+                  padding: "0",
+                  paddingLeft: "0.5rem",
+                }}
+              >
                 <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-              )}
-            </IconButton>
+              </IconButton>
+            )}
 
             {/* reply button */}
-            <IconButton
-              disableRipple
-              style={{ padding: "0", paddingLeft: "0.5rem" }}
-              onClick={() => setIsReplying(true)}
-            >
-              <ReplyIcon sx={{ fontSize: "1.2rem" }} />
-            </IconButton>
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                onClick={() => setIsReplying(true)}
+              >
+                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            ) : (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                disabled
+              >
+                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            )}
 
             {/* reply report */}
             <Modal
@@ -475,13 +506,24 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               </Box>
             </Modal>
 
-            <IconButton
-              disableRipple
-              style={{ padding: "0", paddingLeft: "0.5rem" }}
-              onClick={openOption}
-            >
-              <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-            </IconButton>
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                onClick={openOption}
+              >
+                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            ) : (
+              <IconButton
+                disableRipple
+                disabled
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+              >
+                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            )}
+
             <Popover
               open={isOptionOpened}
               anchorEl={option}
@@ -514,6 +556,8 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 </IconButton>
               )}
             </Popover>
+
+            {/* end of div */}
           </div>
         </div>
       </div>
@@ -536,7 +580,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   );
 };
 
-//댓글에 댓글 reply ro reply
+//댓글에 댓글 reply to reply
 const InputReply = ({ setLoading, replyID, finish }) => {
   const inputRef = useRef();
   const { user } = useUser();
@@ -725,17 +769,30 @@ const Reply = ({ replyData }) => {
           </div>
         </div>
       </div>
-      <IconButton
-        disableRipple
-        style={{ padding: "0", paddingLeft: "0.5rem" }}
-        onClick={() => handleLikePressed()}
-      >
-        {didUserLike ? (
-          <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-        ) : (
+
+      {/* like button disabled if not logged in */}
+      {user ? (
+        <IconButton
+          disableRipple
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={() => handleLikePressed()}
+        >
+          {didUserLike ? (
+            <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+          ) : (
+            <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+          )}
+        </IconButton>
+      ) : (
+        <IconButton
+          disableRipple
+          disabled
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+        >
           <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-        )}
-      </IconButton>
+        </IconButton>
+      )}
+
       {/* Report reply contents */}
       <Modal
         open={open}
@@ -785,13 +842,25 @@ const Reply = ({ replyData }) => {
         </Box>
       </Modal>
 
-      <IconButton
-        disableRipple
-        style={{ padding: "0", paddingLeft: "0.5rem" }}
-        onClick={openOption}
-      >
-        <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-      </IconButton>
+      {user ? (
+        <IconButton
+          disableRipple
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={openOption}
+        >
+          <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+      ) : (
+        <IconButton
+          disableRipple
+          disabled
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={openOption}
+        >
+          <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+      )}
+
       <Popover
         open={isOptionOpened}
         anchorEl={option}

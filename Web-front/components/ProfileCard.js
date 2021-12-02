@@ -122,7 +122,7 @@ export default function ProfileCard() {
   // setUserId(user.sub);
 
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isLoading && !error && user) {
       console.log("Crawling User Profile Data");
       axiosInstance.get(users + user.sub).then((response) => {
         console.log("response from backend" + response);

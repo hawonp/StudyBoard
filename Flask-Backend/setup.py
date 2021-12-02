@@ -12,7 +12,6 @@ import api.User as User
 import api.Reply as Reply
 import api.Mod as Mod
 import api.MySql as MySql
-import api.Image as Image
 
 
 # initialize Flask, 
@@ -20,7 +19,7 @@ app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 
 # initialize CORS
-CORS(app, origins=["http://backend.studyboard.info", "https://ik.imagekit.io/2r9v46xw1et1", "localhost:9090", "localhost:3000", "*"])
+CORS(app, origins=["http://backend.studyboard.info", "localhost:9090", "localhost:3000", "*"])
 
 # initialize Flask-RESTful
 api = Api(app)
@@ -38,7 +37,6 @@ Post.init_routes(api)
 Reply.init_routes(api)
 Mod.init_routes(api)
 MySql.init_routes(api)
-Image.init_routes(api)
 
 # Run the application
 if __name__ == '__main__':

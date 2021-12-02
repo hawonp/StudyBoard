@@ -1,5 +1,7 @@
 import http.client
 import json, requests
+import random
+import string
 from requests.exceptions import RequestException, HTTPError, URLRequired
 
 def get_auth_token2():
@@ -94,5 +96,12 @@ def delete_user(user_id):
     except Exception as e:
         print(f'Generic Exception: {e}')   
 
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_letters
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    print("Random string of length", length, "is:", result_str)
+
+    return result_str
 # delete_user('auth0|61a5b8bb5e789500708a4450')
 # block_user('google-oauth2|111018540029339892762')
