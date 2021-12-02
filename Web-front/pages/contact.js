@@ -53,28 +53,28 @@ export default function Contact() {
         }}
       >
         <Button
-          variant="contained"
+          variant="outlined"
           sx={{ marginRight: "0.5rem", borderRadius: "20px" }}
         >
           <Link href="/about">
-            <a style={{ textDecoration: "none", color: "white" }}>
+            <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
               <div>About</div>
             </a>
           </Link>
         </Button>
         <Button
-          variant="contained"
+          variant="outlined"
           sx={{ marginRight: "0.5rem", borderRadius: "20px" }}
         >
           <Link href="/leadership">
-            <a style={{ textDecoration: "none", color: "white" }}>
+            <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
               <div>Leadership</div>
             </a>
           </Link>
         </Button>
-        <Button variant="contained" sx={{ borderRadius: "20px" }}>
+        <Button variant="outlined" sx={{ borderRadius: "20px" }}>
           <Link href="/contact">
-            <a style={{ textDecoration: "none", color: "white" }}>
+            <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
               <div>Contact</div>
             </a>
           </Link>
