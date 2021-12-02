@@ -262,8 +262,6 @@ export default function NotificationList() {
       axiosInstance
         .delete(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
         .then((response) => {
-          setNotifications(JSON.parse(response.data));
-          console.log("notifs", notifications);
           setNotifications([]);
         });
     }
@@ -324,7 +322,6 @@ export default function NotificationList() {
           </Button>
         </div>
         <HrLineWrapper />
-
         {notifications.map((notif) => (
           <Notification
             key={notif.notification_id}
