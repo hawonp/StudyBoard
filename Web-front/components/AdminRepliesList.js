@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
 import axiosInstance from "../utils/routeUtil";
+import LoadingProgress from "../components/Loading";
 
 const FLAGGEDENDPOINT = "/flagged";
 const REPLYDATAENDPOINT = "/replies";
@@ -92,11 +93,11 @@ export default function AdminUserList() {
       }
     }
   };
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <BoxWrapper>

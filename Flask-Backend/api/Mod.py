@@ -2,10 +2,11 @@ from config.imports import json, Resource, request, abort
 from config.imports import Schema, fields
 from query.flag_query import get_flagged_posts, get_flagged_replies, get_flagged_users
 from query.flag_query import accept_post_flag, deny_post_flag, accept_reply_flag, deny_reply_flag, update_flag_count
-from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold
+from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_endorse_threshhold, update_user
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 from query.notification_query import add_notif_report_accepted
+from api.Auth0 import block_user
 
 ############################
 #    CONSTANT URL PATH     #
@@ -100,10 +101,10 @@ class RespondToReplyFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = accept_reply_flag(reply_id)
             add_notif_res = add_notif_report_accepted(id, "Reply_Report")
-            del_reply_res = delete_reply(reply_id)
             upd_flag_count_res = update_flag_count(id,0, 0)
+            res = accept_reply_flag(reply_id)
+            del_reply_res = delete_reply(reply_id)
         else:
             err = "Not authorised"
             print(err)
@@ -151,7 +152,10 @@ class BlacklistUser(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            add_user_to_blacklist
+            add_user_to_blacklist(id)
+            res =update_user(id, "Banned User", [])
+            block_user(id)
+
         else:
             err = "Not authorised"
             print(err)

@@ -8,6 +8,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
+import axiosInstance from "../utils/routeUtil";
+
+const DELETEENDPOINT = "/users/";
 
 const modalStyle = {
   position: "absolute",
@@ -61,15 +64,24 @@ const HrWrapper = ({ style, children }) => {
 };
 
 export default function ProfileInfo({ profile }) {
-  console.log(profile);
   const router = useRouter();
   const { email, nick, tag } = profile;
+  const { user, error, isLoading } = useUser();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+
   const handleDelete = () => {
     setOpen(false);
-
-    router.push("/");
+    if (!isLoading && !error) {
+      axiosInstance.delete(DELETEENDPOINT + user.sub).then((response) => {
+        if (response["data"] == 1) {
+          console.log("user deleted!");
+          router.push("/api/auth/logout");
+          // router.push("/");
+        }
+      });
+    }
   };
 
   const handleClose = () => setOpen(false);
@@ -113,13 +125,27 @@ export default function ProfileInfo({ profile }) {
                     borderRadius: "8px",
                     height: "2rem",
                     marginTop: "0.5rem",
+                    marginRight: "0.5rem",
                   }}
-                  variant="contained"
+                  variant="outlined"
                   color="error"
                   type="submit"
                   onClick={handleDelete}
                 >
                   Delete Account
+                </Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                  onClick={handleClose}
+                >
+                  Cancel
                 </Button>
               </div>
             </Box>

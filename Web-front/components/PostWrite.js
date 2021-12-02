@@ -15,27 +15,11 @@ const POSTDATAENDPOINT = "/posts";
 export function PostWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState();
-  const [tag, setTag] = useState([]);
+  const [tag, setTag] = useState("");
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState("");
   const { user } = useUser();
   const router = useRouter();
-  // widget.onChange(function (file) {
-  //   console.log(file);
-  // });
-  // Widget.onUploadComplete(function (info) {
-  //   // Handle uploaded file info.
-  //   console.log(info);
-  // });
-
-  // // Same as above:
-  // Widget.onChange(function (file) {
-  //   if (file) {
-  //     file.done(function (info) {
-  //       console.log(info);
-  //     });
-  //   }
-  // });
 
   const post = (user) => {
     console.log("title", title);
@@ -43,6 +27,11 @@ export function PostWrite() {
     console.log("content", content);
     console.log("tag", tag);
     console.log(image);
+    const formattedTags = tag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
 
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
@@ -51,7 +40,7 @@ export function PostWrite() {
           title: title,
           text: content,
           imageURL: image,
-          tags: tag,
+          tags: formattedTags,
           uuid: uuid,
         },
       })
@@ -91,7 +80,7 @@ export function PostWrite() {
           className="post-text"
           fullWidth
           id="title"
-          label="Title"
+          label="Post Title"
           variant="outlined"
           inputProps={{ maxLength: 64 }}
           value={title}
@@ -106,20 +95,12 @@ export function PostWrite() {
           className="post-text"
           fullWidth
           id="tag"
-          label="#tag"
+          label="Please add the tags to categorize this post by (separated by commas)"
           variant="outlined"
           value={tag}
-          onChange={(event) =>
-            setTag(
-              event.target.value
-                .split(",")
-                .map((unadjustedTag) =>
-                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
-                )
-            )
-          }
+          onChange={(event) => setTag(event.target.value)}
         />
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", fontSize: "0.8rem" }}>
           <p>
             <label htmlFor="file">Your file:</label>{" "}
             <Widget
@@ -134,12 +115,24 @@ export function PostWrite() {
           </p>
           <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
             <Button
-              sx={{ borderRadius: "8px" }}
-              variant="contained"
+              sx={{
+                borderRadius: "8px",
+                marginRight: "0.5rem",
+                padding: "0rem",
+              }}
+              variant="outlined"
               color="success"
               onClick={() => post(user)}
             >
               Post
+            </Button>
+            <Button
+              sx={{ borderRadius: "8px", padding: "0rem" }}
+              variant="outlined"
+              color="error"
+              onClick={() => router.push("/" + "board")}
+            >
+              Cancel
             </Button>
           </div>
         </div>

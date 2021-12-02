@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 //Importing and settings vars for axios parse
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
+import LoadingProgress from "../../components/Loading";
 const users = "/users/";
 
 export default function UpdateProfile() {
@@ -41,7 +42,7 @@ export default function UpdateProfile() {
   if (error) return <div>{error.message}</div>;
 
   if (userLoaded) {
-    return <div> Loading ... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>

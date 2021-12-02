@@ -107,7 +107,6 @@ export default function Board() {
         .catch((e) => {
           const resp = e.response;
           if (resp["status"] == 400) {
-            // TODO temp redirection
             alert("could not load data");
           }
         });

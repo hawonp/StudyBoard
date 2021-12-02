@@ -35,7 +35,14 @@ export default function CardShow({ post }) {
           }}
         >
           <CardHeader
-            style={{ textAlign: "left" }}
+            style={{
+              wordBreak: "break-all",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 1,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              textAlign: "left",
+            }}
             title={post.post_title}
             subheader={
               <div
