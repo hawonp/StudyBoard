@@ -19,11 +19,9 @@ import IconButton from "@mui/material/IconButton";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
-
 import Divider from "@mui/material/Divider";
 
-import StarIcon from "@mui/icons-material/Star";
-import Switch from "@mui/material/Switch";
+import LoadingProgress from "../components/Loading";
 import {
   Avatar,
   Modal,
@@ -167,7 +165,7 @@ export const CommentBox = ({ postID }) => {
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
   if (loadingReplies) {
-    return <div>Loading...</div>;
+    return <LoadingProgress />;
   }
   return (
     <div style={{ disply: "flex" }}>
