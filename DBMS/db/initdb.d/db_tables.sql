@@ -23,6 +23,7 @@ CREATE TABLE User(
     user_is_mod BOOLEAN NOT NULL DEFAULT 0,
     user_flags_received INTEGER NOT NULL DEFAULT 0,
     user_likes_received INTEGER NOT NULL DEFAULT 0,
+    user_rank_points INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY(user_id)
 );
 
