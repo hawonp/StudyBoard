@@ -152,7 +152,6 @@ export default function CustomAppBar() {
         <div>
           {user ? (
             <div>
-
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                   <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
@@ -166,6 +165,9 @@ export default function CustomAppBar() {
                       </Badge>
                     </IconButton>
                     <Popover
+                      PaperProps={{
+                        style: { width: "400px" },
+                      }}
                       {...bindPopover(popupState)}
                       anchorOrigin={{
                         vertical: "bottom",
@@ -173,7 +175,7 @@ export default function CustomAppBar() {
                       }}
                       transformOrigin={{
                         vertical: "top",
-                        horizontal: 150,
+                        horizontal: 200,
                         // horizontal: "center",
                       }}
                     >
