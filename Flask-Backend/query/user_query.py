@@ -315,7 +315,7 @@ def delete_user(user_id):
 
         print("updating user nickname")
         #Set up query statement and values
-        query = "UPDATE User SET user_nickname = \'Account Deleted\' WHERE user_id=?"
+        query = "UPDATE User SET user_nickname = \'Account_Deleted\' WHERE user_id=?"
         values = (user_id, )
 
         #Adding new data into table
