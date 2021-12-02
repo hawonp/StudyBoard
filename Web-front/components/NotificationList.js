@@ -9,8 +9,30 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
 import axiosInstance from "../utils/routeUtil";
 import { getTimeDisplay } from "../utils/utils";
+import Button from "@mui/material/Button";
+
 const USERSENDPOINT = "/users";
 const NOTIFICATIONENDPOINT = "/notifications";
+
+const HrLineWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        margin: "0px",
+        flexShrink: "0",
+        borderWidth: "0px 0px thin",
+        borderStyle: "solid",
+        marginBottom: "10px",
+        opacity: 1,
+        borderColor: "rgb(227, 242, 253)",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 const PaperWrapper = ({ style, children }) => {
   return (
@@ -231,6 +253,22 @@ export default function NotificationList() {
     }
   };
 
+  const clearAll = () => {
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .delete(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
+        .then((response) => {
+          setNotifications(JSON.parse(response.data));
+          console.log("notifs", notifications);
+          setNotifications([]);
+        });
+    }
+  };
+
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
@@ -258,6 +296,35 @@ export default function NotificationList() {
   } else {
     return (
       <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0rem",
+            margin: "0rem",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "1.0rem",
+              // marginBottom: "2rem",
+              marginLeft: "0.5rem",
+            }}
+          >
+            Notifications
+          </h2>{" "}
+          <Button
+            size="small"
+            variant="text"
+            style={{ markerStart: "0.5rem", marginRight: "0.5rem" }}
+            onClick={clearAll}
+          >
+            Clear All
+          </Button>
+        </div>
+        <HrLineWrapper />
+
         {notifications.map((notif) => (
           <Notification
             key={notif.notification_id}

@@ -176,8 +176,6 @@ export default function CustomAppBar() {
                         // horizontal: "center",
                       }}
                     >
-                      {/* <Typography sx={{ p: 2 }}>Clear All </Typography> */}
-
                       <NotificationList />
 
                       <HrWrapper />
