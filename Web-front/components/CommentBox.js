@@ -59,9 +59,9 @@ export const CommentBox = ({ postID }) => {
   const [showComments, setShowComments] = useState(true);
   const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
-  const { user } = useUser();
+  const { user, isLoading, error } = useUser();
 
-  // 필터
+  // filter
   const handleChange = (event) => {
     setFeedOrder(event.target.value);
   };
@@ -70,25 +70,28 @@ export const CommentBox = ({ postID }) => {
 
   //Load comments upon render
   useEffect(() => {
-    let userID = -1;
-    if (user) {
-      userID = user.sub;
+    if (!isLoading && !error && user) {
+      let userID = -1;
+      if (user) {
+        userID = user.sub;
+      }
+      console.log("user", userID);
+      axiosInstance
+        .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
+          params: {
+            order: feedOrder,
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data
+          console.log("Load comments", responseData);
+          setComments(responseData);
+          setLoadingReplies(false);
+        });
     }
-    axiosInstance
-      .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
-        params: {
-          order: feedOrder,
-          userID: userID,
-        },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data
-        console.log("Load comments", responseData);
-        setComments(responseData);
-      });
-    setLoadingReplies(false);
-  }, [loadingReplies, feedOrder]);
+  }, [loadingReplies, feedOrder, isLoading]);
 
   // Switch to show and hide replies
   let buttonText = showComments ? "Hide Comments" : "Show Comments";
@@ -149,7 +152,6 @@ export const CommentBox = ({ postID }) => {
     ));
   };
 
-  console.log("showing");
   let commentNodes = showComments ? <div>{_getComments()}</div> : <></>;
 
   const _getCommentsTitle = (commentCount) => {
@@ -162,6 +164,11 @@ export const CommentBox = ({ postID }) => {
     }
   };
 
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
+  if (loadingReplies) {
+    return <div>Loading...</div>;
+  }
   return (
     <div style={{ disply: "flex" }}>
       {user ? (
@@ -296,7 +303,7 @@ const CommentForm = ({ addComment }) => {
 //Showing the comment
 const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
-  const [didUserLike, setDidUserLike] = useState(false);
+  const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -319,7 +326,6 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         setFlagText("");
         setOpen(false);
       });
@@ -597,7 +603,6 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         //Assign data according to whether the user liked the post
         if (responseData != -1) {
           setLoading(true);
@@ -659,7 +664,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
 
 const Reply = ({ replyData }) => {
   const [open, setOpen] = useState(false);
-  const [didUserLike, setDidUserLike] = useState(false);
+  const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -670,7 +675,10 @@ const Reply = ({ replyData }) => {
   const openOption = (event) => setOption(event.currentTarget);
   const closeOption = () => setOption(null);
   const isOptionOpened = Boolean(option);
-
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
+  }, []);
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
     // setReportList([...reportList, reportData])
@@ -685,7 +693,6 @@ const Reply = ({ replyData }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         setFlagText("");
         setOpen(false);
       });
@@ -694,7 +701,6 @@ const Reply = ({ replyData }) => {
   //Handle like press
   const handleLikePressed = () => {
     const id = user.sub;
-    console.log(didUserLike);
     const requestEndpoint =
       REPLYDATAENDPOINT + "/" + replyData.reply_id + LIKEENDPOINT;
     if (didUserLike) {
@@ -750,7 +756,7 @@ const Reply = ({ replyData }) => {
           <div
             style={{ marginLeft: "2rem", fontSize: "0.8rem", color: "#C4C4C4" }}
           >
-            {replyData.reply_date}
+            {diffTime}
           </div>
         </div>
         {/*reply to reply contents*/}

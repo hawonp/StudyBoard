@@ -60,16 +60,6 @@ export default function AdminUserList() {
   }, [isDataLoading, isLoading]);
 
   const blackListUser = (user_id) => {
-    // Add a request interceptor
-    axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request", JSON.stringify(request, null, 2));
-      return request;
-    });
-
-    axiosInstance.interceptors.response.use((response) => {
-      console.log("Response:", JSON.stringify(response, null, 2));
-      return response;
-    });
     if (user) {
       const userID = user.sub;
       axiosInstance
