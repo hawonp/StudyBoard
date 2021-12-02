@@ -170,21 +170,23 @@ def update_flag_count(flag_id, report_tpye, updateType):
 
         if report_tpye: #1 = post, 0 = reply
             content_table_name = "Post"
-            content_table_id = ".post_id"
+            content_table_id = "post_id"
             report_table_name = "Post_Report"
         else:
             content_table_name = "Reply"
-            content_table_id = ".reply_id"
+            content_table_id = "reply_id"
             report_table_name = "Reply_Report"
         #Set up query statement and values. 1 is accept, 0 is deny SELECT Post.user_id FROM Post, Post_Report WHERE Post_Report.report_id = flag_id
-        getting_user_id = "SELECT "+content_table_name+".user_id FROM "+content_table_name+", "+report_table_name+" WHERE "+report_table_name+content_table_id+"="+report_table_name+content_table_id+" AND "+report_table_name+".report_id = ?"
-        if updateType:
-            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5 WHERE User.user_id=uid.user_id"
+        getting_user_id = "SELECT user_id FROM "+content_table_name+" INNER JOIN (SELECT "+content_table_id+" FROM "+report_table_name+" WHERE report_id=?) AS rpt ON "+content_table_name+"."+content_table_id+"=rpt."+content_table_id
+        if updateType: 
+            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5"
         else:
-            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1, User.user_rank_points = User.user_rank_points-5 WHERE User.user_id=uid.user_id"
+            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1, User.user_rank_points = User.user_rank_points-5"
         values = (flag_id, )
 
-
+# SELECT user_id FROM Post INNER JOIN(SELECT post_id FROM Post_Report WHERE report_id=4) AS rpt ON Post.post_id=rpt.post_id
+#  AS rp ON User.user_id=rp.user_id 
+#  SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5
         #Adding new data into table
         print("Updating with query", query, " and values ", values)
         cursor.execute(query, values)
