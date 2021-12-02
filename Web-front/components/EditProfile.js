@@ -16,7 +16,8 @@ export default function EditProfile({ profile }) {
   const { email, nick, tag } = profile;
 
   const [inputNick, setInputNick] = useState(nick);
-  const [inputTag, setInputTag] = useState(tag.flat());
+  const [inputTag, setInputTag] = useState(tag.flat().toString());
+  console.log(inputTag);
   const { user, error, isLoading } = useUser();
   const saveProfile = async () => {
     const formattedTags = inputTag
