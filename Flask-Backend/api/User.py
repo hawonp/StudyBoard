@@ -42,7 +42,7 @@ class UserInfo(Resource):
         }
         return json.dumps(data)
 
-    # TODO fix validation
+    # TODO: fix validation
     def put(self, id):
         #Validate params first    
         formData = request.get_json()["params"]
