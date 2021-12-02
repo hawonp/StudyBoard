@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Box from "@mui/material/Box";
-import AllInboxIcon from "@mui/icons-material/AllInbox";
-import FolderOffIcon from "@mui/icons-material/FolderOff";
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import ProfileCard from "../../components/ProfileCard";
 import LoadingProgress from "../../components/Loading";
 import axiosInstance from "../../utils/routeUtil";
@@ -111,8 +110,10 @@ export default function Favorite() {
                   paddingBottom: "30px",
                 }}
               >
-                <FolderOffIcon sx={{ fontSize: "3.2rem" }} />
-                <div style={{ fontSize: "1.2", color: "#B0B0B0" }}>
+                <ReportGmailerrorredOutlinedIcon
+                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                />
+                <div style={{ fontSize: "0.8rem", color: "#B0B0B0" }}>
                   No Favorites
                 </div>
               </Box>
