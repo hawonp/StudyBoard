@@ -2,9 +2,110 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
+
+import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import { Container } from "@mui/material";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import StarIcon from "@mui/icons-material/StarBorder";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import Container from "@mui/material/Container";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const tiers = [
+  {
+    title: "Free",
+    price: "0",
+    description: [
+      "10 users included",
+      "2 GB of storage",
+      "Help center access",
+      "Email support",
+    ],
+    buttonText: "Sign up for free",
+    buttonVariant: "outlined",
+  },
+  {
+    title: "Pro",
+    subheader: "Most popular",
+    price: "15",
+    description: [
+      "20 users included",
+      "10 GB of storage",
+      "Help center access",
+      "Priority email support",
+    ],
+    buttonText: "Get started",
+    buttonVariant: "contained",
+  },
+  {
+    title: "Enterprise",
+    price: "30",
+    description: [
+      "50 users included",
+      "30 GB of storage",
+      "Help center access",
+      "Phone & email support",
+    ],
+    buttonText: "Contact us",
+    buttonVariant: "outlined",
+  },
+];
+
+const footers = [
+  {
+    title: "Company",
+    description: ["Team", "History", "Contact us", "Locations"],
+  },
+  {
+    title: "Features",
+    description: [
+      "Cool stuff",
+      "Random feature",
+      "Team feature",
+      "Developer stuff",
+      "Another one",
+    ],
+  },
+  {
+    title: "Resources",
+    description: [
+      "Resource",
+      "Resource name",
+      "Another resource",
+      "Final resource",
+    ],
+  },
+  {
+    title: "Legal",
+    description: ["Privacy policy", "Terms of use"],
+  },
+];
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +157,7 @@ export default function AboutPageNav() {
         borderRadius: "4px",
       }}
     >
+      {/* tab for about leadership and conatc us */}
       <Tabs
         orientation="vertical"
         variant="scrollable"
@@ -70,122 +172,128 @@ export default function AboutPageNav() {
       </Tabs>
 
       {/* about */}
-      <TabPanel value={value} index={0}>
-        <br />
+      <Box
+        value={value}
+        index={0}
+        sx={{
+          margin: "1rem 1rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* <GlobalStyles
+          styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
+        />
+        <CssBaseline /> */}
 
-        <Container>
-          <div className="main-timeline">
-            <div className="timeline">
-              <div className="icon"></div>
-              <div className="date-content">
-                <div className="date-outer">
-                  <span className="date">
-                    <span className="month">Frist</span>
-                    <span className="year">1</span>
-                  </span>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <h5 className="title">Why do you need our service?</h5>
-                <p className="description">
-                  StudyBoard's community-based, information-providing service to
-                  answer your questions is like no other
-                </p>
-              </div>
-            </div>
-
-            <div className="timeline">
-              <div className="icon"></div>
-              <div className="date-content">
-                <div className="date-outer">
-                  <span className="date">
-                    <span className="month">Second</span>
-                    <span className="year">2</span>
-                  </span>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <h5 className="title">How to use our service?</h5>
-                <p className="description">
-                  Ask any question and recieve replies from a <br /> wide
-                  variety of knowledgeable people!
-                </p>
-              </div>
-            </div>
-
-            <div className="timeline">
-              <div className="icon"></div>
-              <div className="date-content">
-                <div className="date-outer">
-                  <span className="date">
-                    <span className="month">Thrid</span>
-                    <span className="year">3</span>
-                  </span>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <h5 className="title">SOmething</h5>
-                <p className="description">SOmething</p>
-              </div>
-            </div>
-
-            <div className="timeline">
-              <div className="icon"></div>
-              <div className="date-content">
-                <div className="date-outer">
-                  <span className="date">
-                    <span className="month">Fourth</span>
-                    <span className="year">4</span>
-                  </span>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <h5 className="title">How to use our service?</h5>
-                <p className="description">
-                  User take pictures of homework or questions <br /> that you
-                  don't know and upload them.
-                  <br />
-                  You're going to add hashtags to for
-                  <br /> people can see what user interesed
-                </p>
-              </div>
-            </div>
-
-            <div className="timeline">
-              <div className="icon"></div>
-              <div className="date-content">
-                <div className="date-outer">
-                  <span className="date">
-                    <span className="month">Fifth</span>
-                    <span className="year">5</span>
-                  </span>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <h5 className="title">How to use our service?</h5>
-                <p className="description">
-                  User take pictures of homework or questions <br /> that you
-                  don't know and upload them.
-                  <br />
-                  You're going to add hashtags to for
-                  <br /> people can see what user interesed
-                </p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </TabPanel>
+        {/* Hero unit */}
+        <Box
+          disableGutters
+          maxWidth="sm"
+          component="main"
+          sx={{ pt: 8, pb: 6 }}
+        >
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="text.primary"
+            gutterBottom
+          >
+            About
+          </Typography>
+          <Typography
+            variant="h5"
+            align="center"
+            color="text.secondary"
+            component="p"
+          >
+            Studyboard leadership team
+          </Typography>
+        </Box>
+        {/* End hero unit */}
+        <Box maxWidth="md" component="main">
+          <Grid container spacing={5} alignItems="flex-end">
+            {tiers.map((tier) => (
+              // Enterprise card is full width at sm breakpoint
+              <Grid
+                item
+                key={tier.title}
+                xs={12}
+                sm={tier.title === "Enterprise" ? 12 : 6}
+                md={4}
+              >
+                <Card>
+                  <CardHeader
+                    title={tier.title}
+                    subheader={tier.subheader}
+                    titleTypographyProps={{ align: "center" }}
+                    action={tier.title === "Pro" ? <StarIcon /> : null}
+                    subheaderTypographyProps={{
+                      align: "center",
+                    }}
+                    sx={{
+                      backgroundColor: (theme) =>
+                        theme.palette.mode === "light"
+                          ? theme.palette.grey[200]
+                          : theme.palette.grey[700],
+                    }}
+                  />
+                  <CardContent>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "baseline",
+                        mb: 2,
+                      }}
+                    >
+                      <Typography
+                        component="h2"
+                        variant="h3"
+                        color="text.primary"
+                      >
+                        ${tier.price}
+                      </Typography>
+                      <Typography variant="h6" color="text.secondary">
+                        /mo
+                      </Typography>
+                    </Box>
+                    <ul>
+                      {tier.description.map((line) => (
+                        <Typography
+                          component="li"
+                          variant="subtitle1"
+                          align="center"
+                          key={line}
+                        >
+                          {line}
+                        </Typography>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardActions>
+                    <Button fullWidth variant={tier.buttonVariant}>
+                      Link
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Box>
 
       {/* Leadership */}
       <TabPanel value={value} index={1}>
-        <br />
-        Page Under Construction!
+        <Box></Box>
       </TabPanel>
 
       {/* Contact us  */}
       <TabPanel value={value} index={2}>
-        <br />
-        Page Under Construction!
+        <Box></Box>
       </TabPanel>
     </Box>
   );

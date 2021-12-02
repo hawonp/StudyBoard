@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Box from "@mui/material/Box";
-
+import AllInboxIcon from "@mui/icons-material/AllInbox";
+import FolderOffIcon from "@mui/icons-material/FolderOff";
 import ProfileCard from "../../components/ProfileCard";
 import LoadingProgress from "../../components/Loading";
 import axiosInstance from "../../utils/routeUtil";
@@ -72,6 +73,56 @@ export default function Favorite() {
 
   if (isDataLoading) {
     return <LoadingProgress />;
+  } else if (favorites.length === 0) {
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
+            <Box
+              style={{
+                border: "0.1rem solid lightgray",
+                borderRadius: "8px",
+                marginBottom: "16px",
+                marginTop: "20px",
+                padding: "10px 12px",
+                backgroundColor: "white",
+              }}
+            >
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                Favorites
+              </h5>
+              <LineWrapper />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "60px",
+                  paddingTop: "30px",
+                  paddingBottom: "30px",
+                }}
+              >
+                <FolderOffIcon sx={{ fontSize: "3.2rem" }} />
+                <div style={{ fontSize: "1.2", color: "#B0B0B0" }}>
+                  No Favorites
+                </div>
+              </Box>
+            </Box>
+          </Box>
+        </div>
+
+        <ProfileCard />
+      </div>
+    );
   } else {
     return (
       <div style={{ display: "flex" }}>

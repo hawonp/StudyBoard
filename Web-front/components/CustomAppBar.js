@@ -152,6 +152,7 @@ export default function CustomAppBar() {
         <div>
           {user ? (
             <div>
+
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
                   <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
