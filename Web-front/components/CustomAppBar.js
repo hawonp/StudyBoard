@@ -166,7 +166,7 @@ export default function CustomAppBar() {
                     </IconButton>
                     <Popover
                       PaperProps={{
-                        style: { width: "400px" },
+                        style: { width: "400px", maxHeight: "600px" },
                       }}
                       {...bindPopover(popupState)}
                       anchorOrigin={{
