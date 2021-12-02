@@ -118,6 +118,12 @@ export default function MyPostList({ mypost }) {
               sx={{
                 fontSize: "1.6rem",
                 marginBottom: "0",
+                display: "-webkit-box",
+                wordBreak: "break-all",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {myPostData.post_title}
