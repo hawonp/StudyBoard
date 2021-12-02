@@ -173,11 +173,11 @@ export default function CustomAppBar() {
                   onClose={handleClose}
                   anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "right",
+                    horizontal: "left",
                   }}
                   transformOrigin={{
                     vertical: "top",
-                    horizontal: "center",
+                    horizontal: "left",
                   }}
                 >
                   <NotificationList />
