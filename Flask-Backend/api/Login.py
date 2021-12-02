@@ -1,7 +1,11 @@
-from config.imports import Resource, request, abort
+from config.imports import Resource, abort, datetime
+from config.imports import id_token, google_requests, cachecontrol, requests
+from config.imports import request as req
+
+from config.config import ApplicationConfig
+
 from query.user_query import add_user, check_user_id_exists
 from query.login_query import verify_id_token, get_user_from_id_token
-
 class Default(Resource):
     def get(self):
         return {
@@ -10,18 +14,12 @@ class Default(Resource):
         }
 class Login(Resource):
     def get(self):
+        print("add new user")
         # get id_token from URL call
-        token = request.args.get('id_token')
-        print("BE: Received auth req from FE")
-        
-        # authenticate token_id from signin
-        success, idinfo = verify_id_token(token)
-            
-        if(success != True):
-            abort(403)
 
-        # get logged in users info (used for first time log in)
-        user_id, user_email, user_nickname = get_user_from_id_token(idinfo)
+        user_id = req.args.get('user_id')
+        user_nickname = req.args.get('user_nickname')
+        user_email = req.args.get('user_email')
 
         # check if user already exists in the database
         res = check_user_id_exists(user_id)
@@ -31,7 +29,8 @@ class Login(Resource):
         if res[0] != 1:
             print("Add Current user to DB")
             add_user(user_id, user_nickname, user_email)
-
+        else:
+            print("User already exists | user_id:", user_id)
         return user_id
         # print("Save to Session")
         # session["user_id"] = user_id

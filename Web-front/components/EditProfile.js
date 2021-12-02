@@ -1,52 +1,58 @@
+import * as React from "react";
+import { useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+import Router from "next/router";
+import Link from "next/link";
+//Importing MUI
 import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import * as React from "react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-
-import Cookies from "universal-cookie";
+import EditIcon from "@mui/icons-material/Edit";
+import LoadingProgress from "../components/Loading";
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
-const cookies = new Cookies();
-const user_id = cookies.get("user_id");
-const id_token = cookies.get("user_token");
+
 export default function EditProfile({ profile }) {
   const { email, nick, tag } = profile;
-  const router = useRouter();
 
   const [inputNick, setInputNick] = useState(nick);
-  const [inputTag, setInputTag] = useState(tag);
-
+  const [inputTag, setInputTag] = useState(tag.flat().toString());
+  console.log(inputTag);
+  const { user, error, isLoading } = useUser();
   const saveProfile = async () => {
-    // TODO: API CALL BACKEND NEED
-    // 보낼 데이터는 name, email, inputNick, inputTag
-    // const result = await fetch('URL', {method: "POST", body: {name: name, email: email, nick: inputNick, tag: inputTag}})
-    // // { data: "failed" }
-    // if ((await result.json()).data === "failed") { alert("업로드 실패") }
-    // else { router.replace("/user/profile") }
+    const formattedTags = inputTag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
     axiosInstance
-      .put(users + user_id, {
+      .put(users + user.sub, {
         params: {
           user_nickname: inputNick,
-          user_tags: inputTag,
+          user_tags: formattedTags,
         },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
-          // TODO proper reloading
-          window.location.reload();
+          Router.push("/user/profile");
         }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        console.log(resp);
       });
   };
+
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <Box
       sx={{
         border: "0.1rem solid lightgray",
-        borderRadius: "8px",
+        borderRadius: "4px",
         marginBottom: "16px",
         marginTop: "20px",
         padding: "10px 12px",
@@ -75,14 +81,15 @@ export default function EditProfile({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="Email"
+          label="Email (Fixed)"
           defaultValue={email}
         />
         <TextField
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="NickName"
+          label="Nickname"
+          inputProps={{ maxLength: 16 }}
           value={inputNick}
           onChange={(e) => setInputNick(e.target.value)}
         />
@@ -90,19 +97,29 @@ export default function EditProfile({ profile }) {
           style={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
           id="outlined-disabled"
-          label="Please edit your personal tags"
+          label="Please edit your personal tags (Separated by Commas)"
           value={inputTag}
-          onChange={(e) => setInputTag(e.target.value.split(","))}
+          onChange={(event) => setInputTag(event.target.value)}
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
         <Button
-          sx={{ borderRadius: "8px" }}
-          variant="contained"
+          sx={{ borderRadius: "8px", marginRight: "0.5rem" }}
+          variant="outlined"
           color="success"
           onClick={saveProfile}
         >
-          Save
+          Save Changes
+        </Button>
+        <Button
+          sx={{ borderRadius: "8px" }}
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            Router.push("/user/profile");
+          }}
+        >
+          Cancel
         </Button>
       </div>
     </Box>

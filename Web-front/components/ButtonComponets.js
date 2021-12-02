@@ -8,24 +8,45 @@ import CardActions from "@mui/material/CardActions";
 import React from "react";
 import FlagIcon from "@mui/icons-material/Flag";
 
-export default function ButtonComponets() {
+const CountNumber = ({ style, children }) => {
   return (
-    <CardActions disableSpacing sx={{ justifyContent: "end" }}>
-      <IconButton aria-label="favorites">
-        <FavoriteIcon />
+    <div style={{ fontSize: "0.8rem", fontWeight: "bold", ...style }}>
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+export default function ButtonComponets({ likeCount, replyCount }) {
+  return (
+    <CardActions disableSpacing sx={{ justifyContent: "end", padding: 0 }}>
+      <IconButton
+        disableRipple
+        aria-label="favorites"
+        sx={{ borderRadius: "4px" }}
+      >
+        <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+        &nbsp;
+        <CountNumber>{likeCount} Likes</CountNumber>
       </IconButton>
-      <IconButton aria-label="thoumup">
-        <ThumbUpIcon />
+      {/* post_like_count */}
+
+      {/* <IconButton aria-label="thoumup">
+                <ThumbUpIcon sx={{ fontSize: '1.2rem' }}/>
+            </IconButton>
+            <CountNumber>: 0</CountNumber> */}
+      {/* Comment button &  */}
+
+      <IconButton
+        disableRipple
+        aria-label="SmsIcon"
+        sx={{ borderRadius: "4px" }}
+      >
+        <SmsIcon sx={{ fontSize: "1.2rem" }} />
+        &nbsp;
+        <CountNumber>{replyCount} Comments</CountNumber>
       </IconButton>
-      <IconButton aria-label="SmsIcon">
-        <SmsIcon />
-      </IconButton>
-      <IconButton aria-label="BookmarkIcon">
-        <BookmarkIcon />
-      </IconButton>
-      <IconButton aria-label="report">
-        <FlagIcon />
-      </IconButton>
+      {/* post_reply_count */}
     </CardActions>
   );
 }

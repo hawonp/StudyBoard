@@ -1,43 +1,60 @@
 import * as React from "react";
 import { useState } from "react";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import axiosInstance from "../utils/routeUtil";
-
-const cookies = new Cookies();
+import { Widget } from "@uploadcare/react-widget";
+import PostEditor from "./PostEditor";
+import { useRouter } from "next/router";
 const POSTDATAENDPOINT = "/posts";
 
 export function PostWrite() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState();
   const [tag, setTag] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("None");
+  const [uuid, setUuid] = useState("");
+  const { user } = useUser();
+  const router = useRouter();
 
-  const post = () => {
+  const post = (user) => {
     console.log("title", title);
+    console.log(typeof content);
     console.log("content", content);
     console.log("tag", tag);
+    console.log(image);
+    const formattedTags = tag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
 
-    // TODO: IMAGE
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
-          userID: cookies.get("user_id"),
+          userID: user.sub,
           title: title,
           text: content,
-          imageURL: "None",
-          tags: tag,
+          imageURL: image,
+          tags: formattedTags,
+          uuid: uuid,
         },
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        alert("post added!");
+        // alert("post added!");
+        router.push("/board");
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          console.log("Bad request");
+          //todo redirect
+        }
       });
   };
 
@@ -58,70 +75,68 @@ export function PostWrite() {
         >
           <Typography variant={"button"}>Post Your Question</Typography>
         </div>
-
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
           fullWidth
           id="title"
-          label="Title"
+          label="Post Title"
           variant="outlined"
+          inputProps={{ maxLength: 64 }}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <TextField
-          rows={12}
-          multiline
-          style={{ marginTop: "10px", marginBottom: "10px" }}
-          className="post-text"
-          fullWidth
-          id="title"
-          label="Question?"
-          variant="outlined"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        >
-          <span>hi</span>
-        </TextField>
+        <PostEditor
+          // content="<p>Write your question here!</p>"
+          setContent={setContent}
+        />
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
           fullWidth
           id="tag"
-          label="#tag"
+          label="Please add the tags to categorize this post by (separated by commas)"
           variant="outlined"
           value={tag}
-          onChange={(event) => setTag(event.target.value.split(","))}
+          onChange={(event) => setTag(event.target.value)}
         />
-        <div style={{ display: "flex" }}>
-          <label htmlFor="icon-button-file">
-            <input
-              style={{ display: "none" }}
-              accept="image/*"
-              id="icon-button-file"
-              type="file"
-              onChange={(event) => setImage(event.target.files[0])}
+        <div style={{ display: "flex", fontSize: "0.8rem" }}>
+          <p>
+            <label htmlFor="file">Your file:</label>{" "}
+            <Widget
+              publicKey="6bbd404d21507ac51c8f"
+              id="file"
+              onChange={(info) => {
+                console.log(info), setImage(info.cdnUrl), setUuid(info.uuid);
+              }}
+              clearable
+              imagesOnly
             />
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-              style={{}}
-            >
-              <PhotoCamera />
-            </IconButton>
-          </label>
+          </p>
           <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
             <Button
-              sx={{ borderRadius: "8px" }}
-              variant="contained"
+              sx={{
+                borderRadius: "8px",
+                marginRight: "0.5rem",
+                padding: "0rem",
+              }}
+              variant="outlined"
               color="success"
-              onClick={post}
+              onClick={() => post(user)}
             >
               Post
             </Button>
+            <Button
+              sx={{ borderRadius: "8px", padding: "0rem" }}
+              variant="outlined"
+              color="error"
+              onClick={() => router.push("/" + "board")}
+            >
+              Cancel
+            </Button>
           </div>
         </div>
+        {/* {console.log("file: " + file["value"])}; */}
       </Box>
     </Container>
   );

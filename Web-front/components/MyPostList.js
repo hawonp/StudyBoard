@@ -1,23 +1,31 @@
 import { CardActionArea, CardActions } from "@mui/material";
+import Link from "next/link";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import ShareIcon from "@mui/icons-material/Share";
 import Card from "@mui/material/Card";
 import * as React from "react";
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import Tooltip from "@mui/material/Tooltip";
+import { baseURL } from "../utils/routeUtil";
+import { getTimeDisplay } from "../utils/utils";
+import axiosInstance from "../utils/routeUtil";
 
 const CardActionsWrapper = ({ style, children }) => {
   return (
     <div
       style={{
-        display: "block",
-        paddingTop: "10px",
-        marginLeft: "auto",
-        marginRight: "auto",
+        display: "flex",
+        marginLeft: "calc(1rem - 8px)",
         ...style,
       }}
     >
@@ -26,68 +34,195 @@ const CardActionsWrapper = ({ style, children }) => {
     </div>
   );
 };
-const dummy_count = {
-  user_post_like: 3,
-  reply_count: 2,
-  user_is_endorsed_like: 1,
-};
 
 export default function MyPostList({ mypost }) {
-  const { user_post_like, user_is_endorsed_like, reply_count } = dummy_count;
-  const [myPostData, setMyPostData] = useState({});
+  const [myPostData, setMyPostData] = useState(mypost);
+  const [diffTime, setDiffTime] = useState();
 
   useEffect(() => {
-    // TODO: API CALL BACKEND NEED
-    // mypost는 post id
-    // post 정보 불러오는 api 호출 (밑은 예시 결과값)
-    const result = {
-      date: "2021-11-09",
-      title: mypost,
-      username: "PK HONG",
-      image:
-        "https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
-      content: `THIS IS ${mypost}`,
-    };
-    setMyPostData(result);
-  }, [mypost]);
+    setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
+  }, []);
+
+  const [openShare, setOpenShare] = React.useState(false);
+
+  const handleClickShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenShare(false);
+  };
+
   return (
-    <Card sx={{ width: "300px", marginTop: "20px", marginBottom: "20px" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          src="https://static01.nyt.com/images/2019/08/02/science/02EQUATION1/merlin_158743359_ff291f8a-d473-4849-9d81-9762826b55f4-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {myPostData.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {myPostData.content}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActionsWrapper>
-        <div style={{ display: "inline-block" }}>
-          <IconButton aria-label="favorites">
-            <FavoriteIcon />
-            <div>: {user_post_like}</div>
+    <Paper
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        marginTop: "2px",
+        marginBottom: "2px",
+        overflow: "hidden",
+      }}
+    >
+      {mypost.post_image != "None" ? (
+        <Paper>
+          <img
+            width="150"
+            height="120"
+            src={mypost.post_image}
+            style={{ objectFit: "cover" }}
+            alt="green iguana"
+          />
+        </Paper>
+      ) : (
+        <Paper
+          style={{
+            width: "150px",
+            height: "120px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ImageNotSupportedOutlinedIcon sx={{ fontSize: "3rem" }} />
+          <p style={{ fontSize: "0.6rem" }}>No Image</p>
+        </Paper>
+      )}
+
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        {" "}
+        <Link href={"/" + "posts/" + mypost.post_id}>
+          <Box
+            sx={{
+              flexDirection: "column",
+              marginLeft: "1rem",
+              paddingTop: "1rem",
+            }}
+          >
+            {/* My Post title */}
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontSize: "1.6rem",
+                marginBottom: "0",
+                display: "-webkit-box",
+                wordBreak: "break-all",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {myPostData.post_title}
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "end",
+              }}
+            >
+              {/* user nickname */}
+              <Typography
+                gutterBottom
+                variant="span"
+                component="div"
+                sx={{
+                  fontSize: "0.8rem",
+                  color: "#C4C4C4",
+                }}
+              >
+                Posted by {myPostData.user_nickname}
+              </Typography>
+
+              {/* user endorsed */}
+              {myPostData.user_is_endorsed ? (
+                <div>
+                  <Tooltip title="This is Endorsed User post ">
+                    <LightbulbIcon
+                      sx={{
+                        color: "#FFBF00",
+                        fontSize: "0.8rem",
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              ) : (
+                <> </>
+              )}
+              {/* post date */}
+              <Typography
+                gutterBottom
+                variant="span"
+                component="div"
+                sx={{
+                  fontSize: "0.8rem",
+                  color: "#C4C4C4",
+                }}
+              >
+                &nbsp;
+                {diffTime}
+              </Typography>
+            </Box>
+          </Box>
+        </Link>
+        <CardActionsWrapper>
+          {/* Like */}
+          <IconButton
+            disableRipple
+            aria-label="favorites"
+            sx={{ borderRadius: "4px" }}
+          >
+            <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp; {myPostData.post_like_count} Likes
+            </div>
           </IconButton>
-        </div>
-        <div style={{ display: "inline-block" }}>
-          <IconButton aria-label="thoumup">
-            <ThumbUpIcon />
-            <div>: {user_is_endorsed_like}</div>
+
+          {/* Comment */}
+          <IconButton
+            disableRipple
+            aria-label="SmsIcon"
+            sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
+          >
+            <SmsIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp;{myPostData.post_reply_count} Comments
+            </div>
           </IconButton>
-        </div>
-        <div style={{ display: "inline-block" }}>
-          <IconButton aria-label="SmsIcon">
-            <SmsIcon />
-            <div>: {reply_count}</div>
+
+          {/* Share */}
+          <IconButton
+            // disableRipple
+            sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
+            aria-label="share"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                window.location.origin + "/posts/" + myPostData.post_id
+              );
+            }}
+          >
+            <ShareIcon sx={{ fontSize: "1.2rem" }} />
+            <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+              &nbsp;Share
+            </div>
           </IconButton>
-        </div>
-      </CardActionsWrapper>
-    </Card>
+        </CardActionsWrapper>
+      </Box>
+    </Paper>
   );
 }

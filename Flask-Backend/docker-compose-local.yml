@@ -8,6 +8,9 @@ services:
       TZ: Asia/Seoul
     networks:
       - dbms_network
+    # volumes:
+    # - "/etc/timezone:/etc/timezone:ro"
+    # - "/etc/localtime:/etc/localtime:ro"
 networks:
   dbms_network:
     external: true

@@ -1,3 +1,7 @@
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
+//Importing MUI
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -5,92 +9,126 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {Container, ListItem} from "@mui/material";
+import { Box, ListItem } from "@mui/material";
+import Link from "@mui/material/Link";
+import LinkIcon from "@mui/icons-material/Link";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import * as React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 
+import axiosInstance from "../utils/routeUtil";
+import LoadingProgress from "../components/Loading";
+
+const FLAGGEDENDPOINT = "/flagged";
+const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
-    return (
-        <Container
-            style={{flex: 1,
-                border:'0.1rem solid lightgray',
-                borderRadius: '8px',marginBottom: '16px', marginTop: '20px', padding: '10px 12px', backgroundColor:'white'
-                ,...style,
-            }}
-        >
-            {" "}
-            {children}{" "}
-        </Container>
-    );
+  return (
+    <Box
+      style={{
+        flex: 1,
+        border: "0.1rem solid lightgray",
+        borderRadius: "4px",
+        marginBottom: "16px",
+        marginTop: "20px",
+        marginLeft: "20px",
+        marginRight: "20px",
+        padding: "10px 12px",
+        backgroundColor: "white",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </Box>
+  );
 };
 
-// Col table id,name,nick,contents,status
-function createData( number ,name, nickname, contents, conform ) {
-    return { number,name, nickname, contents, conform };
-}
+export default function AdminUserList() {
+  const [rows, setRows] = useState([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
+  const { user, isLoading, error } = useUser();
 
-const rows = [
-    createData(1,'PK', 'pk-dev', 'whawahwawh'),
-    createData(2,'Hawon', 'hawonjjang', 'KIN'),
-    createData(3,'JeongHo', 'HOHO', 'I am smart'),
-    createData(4,'Tim', 'Temp', 'this is dumb'),
-    createData(5,'Alex', 'Prof', 'this is stupid'),
-];
+  //Load users
+  useEffect(() => {
+    axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
+      console.log("dsad");
+      setRows(JSON.parse(response.data));
+      console.log(JSON.parse(response.data));
+      console.log(rows);
+      setIsDataLoading(false);
+    });
+  }, [isDataLoading, isLoading]);
 
+  const blackListUser = (user_id) => {
+    if (user) {
+      const userID = user.sub;
+      axiosInstance
+        .delete(FLAGGEDENDPOINT + USERS + "/" + user_id, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          console.log("dsad");
+          console.log(JSON.parse(response.data));
+          setIsDataLoading(true);
+        });
+    }
+  };
 
-export default function AdminUserList (){
-    return(
-        <BoxWrapper>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Number</TableCell>
-                            <TableCell align="right">Name</TableCell>
-                            <TableCell align="right">Nick Name</TableCell>
-                            <TableCell align="right">Contents</TableCell>
-                            <TableCell align="right">Conform</TableCell>
-                        </TableRow>
-                    </TableHead>
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
 
+  if (isDataLoading) {
+    return <LoadingProgress />;
+  } else {
+    return (
+      <BoxWrapper>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">User ID</TableCell>
 
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.number}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.number}
-                                </TableCell>
-                                <TableCell align="right">{row.name}</TableCell>
-                                <TableCell align="right">{row.nickname}</TableCell>
-                                <TableCell align="right">{row.contents}</TableCell>
+                <TableCell align="left">User Nickname</TableCell>
+                <TableCell align="center">Number of Flagged Posts</TableCell>
+                <TableCell align="right">Blacklist User</TableCell>
+              </TableRow>
+            </TableHead>
 
-                                <TableCell>
-                                    <ListItem
-                                        secondaryAction={
-                                            <>
-                                                <IconButton edge="end" aria-label="check">
-                                                    <CheckIcon />
-                                                </IconButton>
-                                                <IconButton edge="end" aria-label="delete">
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </>
-                                        }
-                                    >
-                                    </ListItem>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.user_id}>
+                  <TableCell component="th" scope="row">
+                    {row.user_id}
+                  </TableCell>
 
-
-                </Table>
-            </TableContainer>
-        </BoxWrapper>
-    )
+                  <TableCell align="left">{row.user_nickname}</TableCell>
+                  <TableCell align="center">
+                    {row.user_flags_received}
+                  </TableCell>
+                  <TableCell align="right">
+                    <ListItem
+                      secondaryAction={
+                        <>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => blackListUser(row.user_id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </>
+                      }
+                    ></ListItem>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </BoxWrapper>
+    );
+  }
 }

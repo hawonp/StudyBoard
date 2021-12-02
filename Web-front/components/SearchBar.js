@@ -1,21 +1,19 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Router from "next/router";
+
+import axiosInstance from "../utils/routeUtil";
+const SEARCHPREVIEW = "/search/preview";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
+  marginLeft: 20,
+  marginRight: 20,
+  flex: 1,
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -25,7 +23,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "end",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -40,14 +38,100 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar() {
+  const [searchResults, setSearchResults] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  function handleInputChange(event, value) {
+    if (value == null) {
+      console.log("hello");
+      setSearchResults([]);
+    }
+    console.log(value);
+    axiosInstance
+      .get(SEARCHPREVIEW, {
+        params: {
+          input: value,
+        },
+      })
+      .then((response) => {
+        // console.log(response["data"]);
+        // setSearchResults(response);
+        // console.log(response["data"].flat());
+        setSearchResults(response["data"]);
+      })
+      .catch((e) => {
+        console.log(e);
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          console.log("oh no");
+        }
+      });
+    // console.log(event);
+    setInputValue(value);
+  }
+
+  function handleSelection(event, value) {
+    console.log("user has selected", value);
+    if (value != null) {
+      const type = value["type"];
+      const id = value["id"];
+
+      if (type == "tag") {
+        console.log("User selected a tag");
+        console.log("go to this tag page");
+        Router.push("../tags/" + value["text"]);
+      } else {
+        console.log("User selected a post ", value["text"]);
+        const postID = value["id"];
+        Router.push("../posts/" + id);
+      }
+    }
+
+    // console.log(value.split("]"));
+  }
+
+  function handleClear(event, value) {
+    setSearchResults([]);
+  }
+
+  function handleEnter() {
+    console.log("user has pressed enter on value ", inputValue);
+    Router.push("../search/" + inputValue);
+  }
+
   return (
     <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
+      <Autocomplete
+        disablePortal
+        // freesolo
+        id="combo-box-demo"
+        options={searchResults}
+        sx={{ width: "auto" }}
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
+        onChange={handleSelection}
+        onClose={handleClear}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            // Prevent's default 'Enter' behavior.
+            event.defaultMuiPrevented = true;
+            // your handler code
+            handleEnter();
+          }
+        }}
+        groupBy={(option) => option.type.toString()}
+        getOptionLabel={(option) => option.text.toString()}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search"
+            placeholder="Search for what you want"
+            InputProps={{
+              ...params.InputProps,
+              type: "search",
+            }}
+          />
+        )}
       />
     </Search>
   );

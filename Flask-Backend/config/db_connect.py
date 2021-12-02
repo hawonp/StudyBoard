@@ -3,23 +3,16 @@ from config.imports import sys
 
 local_flask = False
 
-try:
-    if local_flask == False:
+def get_connection():
+    try:
         conn = mariadb.connect(
             user="mod",
             password="studyboard2021",
-            host="dbms_container",
+            host="studyboard_db",
             port=3306,
             database="studyboard_db"
         )
-    else:
-        conn = mariadb.connect(
-            user="mod",
-            password="studyboard2021",
-            host="localhost",
-            port=3306,
-            database="studyboard_db"
-        )
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    sys.exit(1)
+        return conn
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)

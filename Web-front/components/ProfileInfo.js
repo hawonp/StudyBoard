@@ -1,10 +1,28 @@
 import IconButton from "@mui/material/IconButton";
 import Link from "next/link";
 import EditIcon from "@mui/icons-material/Edit";
-import { TextField } from "@mui/material";
-import * as React from "react";
-import Box from "@mui/material/Box";
+import { TextField, Modal, Box } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
+import axiosInstance from "../utils/routeUtil";
+
+const DELETEENDPOINT = "/users/";
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: "8px",
+  px: 4,
+  pb: 3,
+};
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -46,7 +64,27 @@ const HrWrapper = ({ style, children }) => {
 };
 
 export default function ProfileInfo({ profile }) {
+  const router = useRouter();
   const { email, nick, tag } = profile;
+  const { user, error, isLoading } = useUser();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
+  const handleDelete = () => {
+    setOpen(false);
+    if (!isLoading && !error) {
+      axiosInstance.delete(DELETEENDPOINT + user.sub).then((response) => {
+        if (response["data"] == 1) {
+          console.log("user deleted!");
+          router.push("/api/auth/logout");
+          // router.push("/");
+        }
+      });
+    }
+  };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <BoxWrapper>
@@ -57,11 +95,61 @@ export default function ProfileInfo({ profile }) {
 
         {/*edit button for profile*/}
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
-          <IconButton aria-label="edit">
+          <IconButton sx={{ borderRadius: "4px" }} aria-label="edit">
             <Link href="/user/updateprofile">
               <EditIcon />
             </Link>
           </IconButton>
+          <IconButton
+            sx={{ borderRadius: "4px" }}
+            aria-label="delete"
+            onClick={handleOpen}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyle}>
+              <h4 id="child-modal-title">Delete Account</h4>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Will you really delete your account? This action is not
+                reversible.
+              </Typography>
+              <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                    marginRight: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="error"
+                  type="submit"
+                  onClick={handleDelete}
+                >
+                  Delete Account
+                </Button>
+                <Button
+                  sx={{
+                    borderRadius: "8px",
+                    height: "2rem",
+                    marginTop: "0.5rem",
+                  }}
+                  variant="outlined"
+                  color="success"
+                  type="submit"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </Box>
+          </Modal>
         </div>
       </div>
 
@@ -73,6 +161,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
+          label="Email (Fixed)"
           defaultValue={email}
         />
         <TextField
@@ -88,7 +177,7 @@ export default function ProfileInfo({ profile }) {
           fullWidth
           disabled
           id="outlined-disabled"
-          label="A list of hashtags!"
+          label="Personal Tags"
           defaultValue={tag}
         />
       </div>

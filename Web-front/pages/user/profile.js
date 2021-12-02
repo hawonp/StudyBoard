@@ -1,35 +1,27 @@
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import ProfileCard from "../../components/ProfileCard";
 import * as React from "react";
 import ProfileInfo from "../../components/ProfileInfo";
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
+import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../../components/Loading";
 //Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 const users = "/users/";
+
 export default function Profile() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [profile, setProfile] = useState({
-    // email: "PK@naver.com",
-    // nick: "PKPKPK",
-    // tag: "#MATH #CSE #HARD",
-  });
+  const { user, error, isLoading } = useUser();
+  const [dataLoaded, setDataLoading] = useState(false);
+  const [profile, setProfile] = useState({});
 
-  const cookies = new Cookies();
-  const user_id = cookies.get("user_id");
-  const id_token = cookies.get("user_token");
-
+  // if (user){
+  // }
   useEffect(() => {
-    if (user_id == null || user_id == undefined || user_id == "null") {
-      console.log("User Id is null");
-    } else {
+    if (!isLoading && !error) {
       console.log("Get profile info to display in user/profile");
+      console.log(user);
       axiosInstance
-        .get(users + user_id, {
-          params: {
-            id_token: id_token,
-          },
-        })
+        .get(users + user.sub, {})
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];
@@ -42,25 +34,33 @@ export default function Profile() {
               nick: user_info.user_nickname,
               tag: temp_json.tags,
             });
-            setIsLoading(false);
-          } else if (response["status"] == 403) {
-            alert("Could not verify token at Backend");
+            setDataLoading(true);
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            // TODO temp redirection
+            window.location.href = "../error/403";
           }
         });
     }
-  }, []);
+  }, [isLoading]);
 
-  if (isLoading) {
-    return <div> Loading ... </div>;
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
+  // if (!profile) return <Spinner />;
+
+  if (!dataLoaded) {
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>
-        <div>
-          <Container>
-            {/* Profile information */}
-            <ProfileInfo profile={profile} />
-          </Container>
-        </div>
+        <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
+          {/* Profile information */}
+          <ProfileInfo profile={profile} />
+        </Box>
+
         <ProfileCard />
       </div>
     );

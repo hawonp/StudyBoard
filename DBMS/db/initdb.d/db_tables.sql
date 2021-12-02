@@ -23,6 +23,7 @@ CREATE TABLE User(
     user_is_mod BOOLEAN NOT NULL DEFAULT 0,
     user_flags_received INTEGER NOT NULL DEFAULT 0,
     user_likes_received INTEGER NOT NULL DEFAULT 0,
+    user_rank_points INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY(user_id)
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE Post(
     post_favourite_count INTEGER NOT NULL DEFAULT 0,
     post_date DATETIME NOT NULL,
     PRIMARY KEY(post_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 -- CREATE TABLE Post_Image(
@@ -55,7 +56,7 @@ CREATE TABLE User_Post_Like(
     post_id INTEGER NOT NULL,
     PRIMARY KEY(user_id, post_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Post_Report(
@@ -66,7 +67,7 @@ CREATE TABLE Post_Report(
     report_date DATETIME NOT NULL,
     PRIMARY KEY(report_id),
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE NO ACTION
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 -- REPLY/REPLIES --
@@ -77,7 +78,7 @@ CREATE TABLE Reply(
     reply_like_count INTEGER NOT NULL DEFAULT 0,
     reply_date DATETIME NOT NULL,
     PRIMARY KEY(reply_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Reply_To_Post(
@@ -91,7 +92,9 @@ CREATE TABLE Reply_To_Post(
 CREATE TABLE Reply_To_Reply(
     source_id INTEGER NOT NULL,
     reply_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
     PRIMARY KEY(source_id, reply_id),
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (source_id) REFERENCES Reply(reply_id) ON DELETE CASCADE,
     FOREIGN KEY (reply_id) REFERENCES Reply(reply_id) ON DELETE CASCADE
 );
@@ -100,19 +103,21 @@ CREATE TABLE User_Reply_Like(
     user_id VARCHAR(64) NOT NULL,
     reply_id INTEGER NOT NULL,
     PRIMARY KEY (user_id, reply_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE,
     FOREIGN KEY (reply_id) REFERENCES Reply(reply_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Reply_Report(
     report_id INTEGER NOT NULL AUTO_INCREMENT,
+    post_id INTEGER NOT NULL,
     reply_id INTEGER NOT NULL,
     user_id VARCHAR(64) NOT NULL,
     report_text VARCHAR(256) NOT NULL,
     report_date DATETIME NOT NULL,
     PRIMARY KEY(report_id),
     FOREIGN KEY (reply_id) REFERENCES Reply(reply_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE NO ACTION
+    FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 -- TAGS --
@@ -126,48 +131,54 @@ CREATE TABLE User_Tag(
     tag_id INTEGER NOT NULL,
     user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(tag_id, user_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE Post_Tag(
     tag_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
     PRIMARY KEY(tag_id, post_id),
-    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE CASCADE
+    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON UPDATE CASCADE
 );
 
 -- NOTIFICATION --
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(64) NOT NULL,
-    notification_text VARCHAR(128) NOT NULL,
+    interactor_id VARCHAR(64),
+    interactor_nickname VARCHAR(16),
+    post_id INTEGER,
+    reply_id INTEGER,
+    notification_type INTEGER NOT NULL,
     notification_date DATETIME NOT NULL,
     notification_seen BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY(notification_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE SET NULL,
+    FOREIGN KEY(reply_id) REFERENCES Reply(reply_id) ON DELETE SET NULL
 );
 -- FAVOURITE QUESTION --
 CREATE TABLE Favourite_Question(
     post_id INTEGER NOT NULL,
     user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(post_id, user_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE,
     FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE CASCADE
 );
 
--- SEARCH HISTORY --
-CREATE TABLE Search_History(
-    search_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id VARCHAR(64) NOT NULL,
-    search_text VARCHAR(128) NOT NULL,
-    search_date DATETIME NOT NULL,
-    PRIMARY KEY(search_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
-);
+-- -- SEARCH HISTORY --
+-- CREATE TABLE Search_History(
+--     search_id INTEGER NOT NULL AUTO_INCREMENT,
+--     user_id VARCHAR(64) NOT NULL,
+--     search_text VARCHAR(128) NOT NULL,
+--     search_date DATETIME NOT NULL,
+--     PRIMARY KEY(search_id),
+--     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+-- );
 
 -- BLACKLIST --
 CREATE TABLE Blacklisted_User(
     user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );

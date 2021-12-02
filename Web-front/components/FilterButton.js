@@ -1,50 +1,67 @@
+import * as React from "react";
+
+//Importing MUI
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import * as React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import {InputLabel, Select} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { InputLabel, Select } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
-export default function FilterButton () {
-    //자기가 원하는 태그
-    const [preferred, setPreferred] = React.useState('');
+const CountNumber = ({ style, children }) => {
+  return <div style={{ fontSize: "0.8rem", ...style }}> {children} </div>;
+};
 
+export default function FilterButton({
+  user,
+  handleSortClick,
+  handleFilterChange,
+  filter,
+}) {
+  const handleChange = (event) => {
+    setPreferred(event.target.value);
+  };
+  return (
+    <Stack direction="row" spacing={1}>
+      <Chip
+        label="Most Recent"
+        component="a"
+        href="#Most-Recent"
+        variant="outlined"
+        clickable
+        onClick={() => handleSortClick(0)}
+      />
+      <Chip
+        label="Most popular"
+        component="a"
+        href="#Most-popular"
+        variant="outlined"
+        clickable
+        onClick={() => handleSortClick(1)}
+      />
 
-    const handleChange = (event) => {
-        setPreferred(event.target.value);
-    };
-    return(
-
-        <Stack direction="row" spacing={1}>
-            <Chip
-                label="Recently"
-                component="a"
-                href="#basic-chip"
-                variant="outlined"
-                clickable
-            />
-            <Chip
-                label="Most popular"
-                component="a"
-                href="#basic-chip"
-                variant="outlined"
-                clickable
-            />
-
-            {/*<InputLabel id="preferred tags">Age</InputLabel>*/}
-            <Select
-                sx ={{borderRadius:'16px',maxWidth:'auto', maxHeight:"32px"}}
-                labelId="preferred tags"
-                id="preferred tags"
-                variant="outlined"
-                value={preferred}
-                onChange={handleChange}
-            >
-                <MenuItem value={10}>Something</MenuItem>
-                <MenuItem value={20}>Something</MenuItem>
-                <MenuItem value={30}>Something</MenuItem>
-            </Select>
-        </Stack>
-    )
-
+      {/*<InputLabel id="preferred tags">Age</InputLabel>*/}
+      {user ? (
+        <Select
+          sx={{
+            fontSize: "0.8rem",
+            borderRadius: "16px",
+            maxWidth: "auto",
+            maxHeight: "32px",
+          }}
+          labelId="preferred tags"
+          id="preferred tags"
+          variant="outlined"
+          value={filter}
+          onChange={(event) => handleFilterChange(event.target.value)}
+        >
+          <MenuItem value={0}>All</MenuItem>
+          <MenuItem value={1}>Preferred</MenuItem>
+        </Select>
+      ) : (
+        <></>
+      )}
+    </Stack>
+  );
 }
