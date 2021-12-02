@@ -19,11 +19,9 @@ import IconButton from "@mui/material/IconButton";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
-
 import Divider from "@mui/material/Divider";
 
-import StarIcon from "@mui/icons-material/Star";
-import Switch from "@mui/material/Switch";
+import LoadingProgress from "../components/Loading";
 import {
   Avatar,
   Modal,
@@ -59,9 +57,9 @@ export const CommentBox = ({ postID }) => {
   const [showComments, setShowComments] = useState(true);
   const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
-  const { user } = useUser();
+  const { user, isLoading, error } = useUser();
 
-  // 필터
+  // filter
   const handleChange = (event) => {
     setFeedOrder(event.target.value);
   };
@@ -70,25 +68,28 @@ export const CommentBox = ({ postID }) => {
 
   //Load comments upon render
   useEffect(() => {
-    let userID = -1;
-    if (user) {
-      userID = user.sub;
+    if (!isLoading && !error && user) {
+      let userID = -1;
+      if (user) {
+        userID = user.sub;
+      }
+      console.log("user", userID);
+      axiosInstance
+        .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
+          params: {
+            order: feedOrder,
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data
+          console.log("Load comments", responseData);
+          setComments(responseData);
+          setLoadingReplies(false);
+        });
     }
-    axiosInstance
-      .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
-        params: {
-          order: feedOrder,
-          userID: userID,
-        },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data
-        console.log("Load comments", responseData);
-        setComments(responseData);
-      });
-    setLoadingReplies(false);
-  }, [loadingReplies, feedOrder]);
+  }, [loadingReplies, feedOrder, isLoading]);
 
   // Switch to show and hide replies
   let buttonText = showComments ? "Hide Comments" : "Show Comments";
@@ -149,7 +150,6 @@ export const CommentBox = ({ postID }) => {
     ));
   };
 
-  console.log("showing");
   let commentNodes = showComments ? <div>{_getComments()}</div> : <></>;
 
   const _getCommentsTitle = (commentCount) => {
@@ -162,13 +162,25 @@ export const CommentBox = ({ postID }) => {
     }
   };
 
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
+  // if (loadingReplies) {
+  //   return <LoadingProgress />;
+  // }
   return (
     <div style={{ disply: "flex" }}>
-      <h3>Join the Discussion!</h3>
-      <CommentForm addComment={_addComment} />
-      {/* <Divider variant="middle" /> */}
-      <br />
-      <Divider variant="middle" />
+      {user ? (
+        <div>
+          {" "}
+          <h3>Join the Discussion!</h3>
+          <CommentForm addComment={_addComment} />
+          {/* <Divider variant="middle" /> */}
+          <br />
+          <Divider variant="middle" />
+        </div>
+      ) : (
+        <></>
+      )}
 
       <Box
         sx={{
@@ -220,7 +232,6 @@ export const CommentBox = ({ postID }) => {
 const CommentForm = ({ addComment }) => {
   //const inputRef  = useRef();
   const textRef = useRef();
-
   const _handleSubmit = (event) => {
     event.preventDefault(); // prevents page from reloading on submit
     //const author = inputRef.current.value;
@@ -289,7 +300,7 @@ const CommentForm = ({ addComment }) => {
 //Showing the comment
 const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
-  const [didUserLike, setDidUserLike] = useState(false);
+  const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -312,7 +323,6 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         setFlagText("");
         setOpen(false);
       });
@@ -346,6 +356,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
     }
   };
 
+  // reply to post component
   const [isReplying, setIsReplying] = useState(false);
   const [replys, setReplys] = useState(null);
   const [diffTime, setDiffTime] = useState();
@@ -396,29 +407,52 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
             </div>
 
             {/* like button */}
-            <IconButton
-              disableRipple
-              style={{
-                padding: "0",
-                paddingLeft: "0.5rem",
-              }}
-              onClick={() => handleLikePressed()}
-            >
-              {didUserLike ? (
-                <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-              ) : (
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{
+                  padding: "0",
+                  paddingLeft: "0.5rem",
+                }}
+                onClick={() => handleLikePressed()}
+              >
+                {didUserLike ? (
+                  <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+                ) : (
+                  <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+                )}
+              </IconButton>
+            ) : (
+              <IconButton
+                disabled
+                disableRipple
+                style={{
+                  padding: "0",
+                  paddingLeft: "0.5rem",
+                }}
+              >
                 <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-              )}
-            </IconButton>
+              </IconButton>
+            )}
 
             {/* reply button */}
-            <IconButton
-              disableRipple
-              style={{ padding: "0", paddingLeft: "0.5rem" }}
-              onClick={() => setIsReplying(true)}
-            >
-              <ReplyIcon sx={{ fontSize: "1.2rem" }} />
-            </IconButton>
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                onClick={() => setIsReplying(true)}
+              >
+                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            ) : (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                disabled
+              >
+                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            )}
 
             {/* reply report */}
             <Modal
@@ -475,13 +509,24 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
               </Box>
             </Modal>
 
-            <IconButton
-              disableRipple
-              style={{ padding: "0", paddingLeft: "0.5rem" }}
-              onClick={openOption}
-            >
-              <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-            </IconButton>
+            {user ? (
+              <IconButton
+                disableRipple
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+                onClick={openOption}
+              >
+                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            ) : (
+              <IconButton
+                disableRipple
+                disabled
+                style={{ padding: "0", paddingLeft: "0.5rem" }}
+              >
+                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+              </IconButton>
+            )}
+
             <Popover
               open={isOptionOpened}
               anchorEl={option}
@@ -514,6 +559,8 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 </IconButton>
               )}
             </Popover>
+
+            {/* end of div */}
           </div>
         </div>
       </div>
@@ -536,7 +583,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   );
 };
 
-//댓글에 댓글 reply ro reply
+//댓글에 댓글 reply to reply
 const InputReply = ({ setLoading, replyID, finish }) => {
   const inputRef = useRef();
   const { user } = useUser();
@@ -553,7 +600,6 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         //Assign data according to whether the user liked the post
         if (responseData != -1) {
           setLoading(true);
@@ -615,7 +661,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
 
 const Reply = ({ replyData }) => {
   const [open, setOpen] = useState(false);
-  const [didUserLike, setDidUserLike] = useState(false);
+  const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -626,7 +672,10 @@ const Reply = ({ replyData }) => {
   const openOption = (event) => setOption(event.currentTarget);
   const closeOption = () => setOption(null);
   const isOptionOpened = Boolean(option);
-
+  const [diffTime, setDiffTime] = useState();
+  useEffect(() => {
+    setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
+  }, []);
   const report = () => {
     // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
     // setReportList([...reportList, reportData])
@@ -641,7 +690,6 @@ const Reply = ({ replyData }) => {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        console.log(responseData);
         setFlagText("");
         setOpen(false);
       });
@@ -650,7 +698,6 @@ const Reply = ({ replyData }) => {
   //Handle like press
   const handleLikePressed = () => {
     const id = user.sub;
-    console.log(didUserLike);
     const requestEndpoint =
       REPLYDATAENDPOINT + "/" + replyData.reply_id + LIKEENDPOINT;
     if (didUserLike) {
@@ -706,7 +753,7 @@ const Reply = ({ replyData }) => {
           <div
             style={{ marginLeft: "2rem", fontSize: "0.8rem", color: "#C4C4C4" }}
           >
-            {replyData.reply_date}
+            {diffTime}
           </div>
         </div>
         {/*reply to reply contents*/}
@@ -725,17 +772,30 @@ const Reply = ({ replyData }) => {
           </div>
         </div>
       </div>
-      <IconButton
-        disableRipple
-        style={{ padding: "0", paddingLeft: "0.5rem" }}
-        onClick={() => handleLikePressed()}
-      >
-        {didUserLike ? (
-          <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-        ) : (
+
+      {/* like button disabled if not logged in */}
+      {user ? (
+        <IconButton
+          disableRipple
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={() => handleLikePressed()}
+        >
+          {didUserLike ? (
+            <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+          ) : (
+            <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+          )}
+        </IconButton>
+      ) : (
+        <IconButton
+          disableRipple
+          disabled
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+        >
           <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-        )}
-      </IconButton>
+        </IconButton>
+      )}
+
       {/* Report reply contents */}
       <Modal
         open={open}
@@ -785,13 +845,25 @@ const Reply = ({ replyData }) => {
         </Box>
       </Modal>
 
-      <IconButton
-        disableRipple
-        style={{ padding: "0", paddingLeft: "0.5rem" }}
-        onClick={openOption}
-      >
-        <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-      </IconButton>
+      {user ? (
+        <IconButton
+          disableRipple
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={openOption}
+        >
+          <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+      ) : (
+        <IconButton
+          disableRipple
+          disabled
+          style={{ padding: "0", paddingLeft: "0.5rem" }}
+          onClick={openOption}
+        >
+          <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+        </IconButton>
+      )}
+
       <Popover
         open={isOptionOpened}
         anchorEl={option}

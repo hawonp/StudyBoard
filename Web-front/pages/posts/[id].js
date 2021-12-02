@@ -84,6 +84,12 @@ export default function PostDetailPage() {
               responseData["did_user_favourite_post"] != 0 ? true : false,
           });
           setHasLoaded(true);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 404) {
+            router.push("/" + "error/404");
+          }
         });
     }
   }, [isEdit, isLoading]);

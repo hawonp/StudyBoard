@@ -10,13 +10,20 @@ delimiter //
 CREATE TRIGGER Post_Like AFTER INSERT ON User_Post_Like
 FOR EACH ROW
 BEGIN
-
-    -- Get the user id of the target post to increment the author's like count
+    -- Get the user id of the target post to increment the author's like count. Depends on whether the interactor is endorsed or not
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
-    UPDATE User SET User.user_likes_received = User.user_likes_received+1 WHERE user_id = @target_post_user_id;
-
-    -- Increment the like count on the post
-    UPDATE Post SET Post.post_like_count = Post.post_like_count+1 WHERE post_id = NEW.post_id;
+    IF (SELECT EXISTS(SELECT * FROM User WHERE user_is_endorsed=1 AND user_id=NEW.user_id))
+    THEN
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received+2, User.user_rank_points = User.user_rank_points+2 WHERE user_id = @target_post_user_id;
+        UPDATE Post SET Post.post_like_count = Post.post_like_count+2 WHERE post_id = NEW.post_id;
+        END;
+    ELSE
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received+1, User.user_rank_points = User.user_rank_points+1 WHERE user_id = @target_post_user_id;
+        UPDATE Post SET Post.post_like_count = Post.post_like_count+1 WHERE post_id = NEW.post_id;
+        END;
+    END IF;
 END //
 delimiter ;
 
@@ -25,13 +32,20 @@ delimiter //
 CREATE TRIGGER Post_Unlike AFTER DELETE ON User_Post_Like
 FOR EACH ROW
 BEGIN
-
-    -- Get the user id of the target post to increment the author's like count
+    -- Get the user id of the target post to increment the author's like count. Depends on whether the interactor is endorsed or not
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = OLD.post_id;
-    UPDATE User SET User.user_likes_received = User.user_likes_received-1 WHERE user_id = @target_post_user_id;
-
-    -- Increment the like count on the post
-    UPDATE Post SET Post.post_like_count = Post.post_like_count-1 WHERE post_id = OLD.post_id;
+    IF (SELECT EXISTS(SELECT * FROM User WHERE user_is_endorsed=1 AND user_id=OLD.user_id))
+    THEN
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received-2, User.user_rank_points = User.user_rank_points-2 WHERE user_id = @target_post_user_id;
+        UPDATE Post SET Post.post_like_count = Post.post_like_count-2 WHERE post_id = OLD.post_id;
+        END;
+    ELSE
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received-1, User.user_rank_points = User.user_rank_points-1 WHERE user_id = @target_post_user_id;
+        UPDATE Post SET Post.post_like_count = Post.post_like_count-1 WHERE post_id = OLD.post_id;
+        END;
+    END IF;
 END //
 delimiter ;
 
@@ -40,13 +54,20 @@ delimiter //
 CREATE TRIGGER Reply_Like AFTER INSERT ON User_Reply_Like
 FOR EACH ROW
 BEGIN
-
-    -- Get the user id of the target post to increment the author's like count
+    -- Get the user id of the target post to increment the author's like count. Depends on whether the interactor is endorsed or not
     SELECT user_id INTO @target_reply_user_id FROM Reply WHERE reply_id = NEW.reply_id;
-    UPDATE User SET User.user_likes_received = User.user_likes_received+1 WHERE user_id = @target_reply_user_id;
-
-    -- Increment the like count on the post
-    UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count+1 WHERE reply_id = NEW.reply_id;
+    IF (SELECT EXISTS(SELECT * FROM User WHERE user_is_endorsed=1 AND user_id=NEW.user_id))
+    THEN
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received+2, User.user_rank_points = User.user_rank_points+2 WHERE user_id = @target_reply_user_id;
+        UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count+2 WHERE reply_id = NEW.reply_id;
+        END;
+    ELSE
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received+1, User.user_rank_points = User.user_rank_points+1 WHERE user_id = @target_reply_user_id;
+        UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count+1 WHERE reply_id = NEW.reply_id;
+        END;
+    END IF;
 END //
 delimiter ;
 
@@ -55,13 +76,20 @@ delimiter //
 CREATE TRIGGER Reply_Unlike AFTER DELETE ON User_Reply_Like
 FOR EACH ROW
 BEGIN
-
-    -- Get the user id of the target post to increment the author's like count
+     -- Get the user id of the target post to decrement the author's like count. Depends on whether the interactor is endorsed or not
     SELECT user_id INTO @target_reply_user_id FROM Reply WHERE reply_id = OLD.reply_id;
-    UPDATE User SET User.user_likes_received = User.user_likes_received-1 WHERE user_id = @target_reply_user_id;
-
-    -- Increment the like count on the post
-    UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count-1 WHERE reply_id = OLD.reply_id;
+    IF (SELECT EXISTS(SELECT * FROM User WHERE user_is_endorsed=1 AND user_id=OLD.user_id))
+    THEN
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received-2, User.user_rank_points = User.user_rank_points-2 WHERE user_id = @target_reply_user_id;
+        UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count-2 WHERE reply_id = OLD.reply_id;
+        END;
+    ELSE
+        BEGIN
+        UPDATE User SET User.user_likes_received = User.user_likes_received-1, User.user_rank_points = User.user_rank_points-1 WHERE user_id = @target_reply_user_id;
+        UPDATE Reply SET Reply.reply_like_count = Reply.reply_like_count-1 WHERE reply_id = OLD.reply_id;
+        END;
+    END IF;
 END //
 delimiter ;
 
@@ -121,13 +149,14 @@ END//
 delimiter ;
 
 -- RANK --
--- SET LIKE COUNT THRESHHOLD FOR ENDORSED STATUS
+-- SET LIKE COUNT THRESHHOLD FOR ENDORSED STATUS 
 delimiter //
 CREATE TRIGGER Set_Endorse_Trigger BEFORE UPDATE ON User
 FOR EACH ROW
 BEGIN
-    IF NEW.user_likes_received > 10
+    IF NEW.user_rank_points > 10 AND OLD.user_rank_points != NEW.user_rank_points
     THEN SET NEW.user_is_endorsed=1;
+    ELSE SET NEW.user_is_endorsed=0;
     END IF;
 END //
 delimiter ;
@@ -144,7 +173,7 @@ BEGIN
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
     SELECT user_id INTO @interactor_user_id FROM Reply WHERE reply_id = NEW.reply_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=@interactor_user_id;
-    -- Increment the fav count on the post
+
     INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.post_id, 0, NOW(), NEW.reply_id);
 END //
 delimiter ;
@@ -158,7 +187,7 @@ BEGIN
     SELECT user_id INTO @target_reply_user_id FROM Reply WHERE reply_id = NEW.source_id;
     SELECT user_id INTO @interactor_user_id FROM Reply WHERE reply_id = NEW.reply_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=@interactor_user_id;
-    -- Increment the fav count on the post
+
     INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, NEW.post_id, 1, NOW(), NEW.reply_id);
 END //
 delimiter ;
@@ -172,8 +201,11 @@ BEGIN
 
     SELECT user_id INTO @target_post_user_id FROM Post WHERE post_id = NEW.post_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
-    -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.post_id, 10, NOW());
+
+    IF NOT (SELECT EXISTS(SELECT * FROM Notification WHERE post_id=NEW.post_id AND interactor_id=NEW.user_id))
+    THEN INSERT INTO Notification (user_id, interactor_nickname, interactor_id, post_id, notification_type, notification_date) VALUES (@target_post_user_id, @interactor_user_nickname, NEW.user_id, NEW.post_id, 10, NOW());
+    END IF;
+    
 END //
 delimiter ;
 
@@ -186,8 +218,34 @@ BEGIN
     SELECT user_id, reply_id INTO @target_reply_user_id, @target_reply_post_id FROM Reply WHERE reply_id = NEW.reply_id;
     SELECT post_id INTO @target_post_id FROM Reply_To_Post WHERE reply_id=@target_reply_post_id;
     SELECT user_nickname INTO @interactor_user_nickname FROM User WHERE user_id=NEW.user_id;
+    IF NOT (SELECT EXISTS(SELECT * FROM Notification WHERE reply_id=NEW.reply_id AND interactor_id=NEW.user_id))
+    THEN INSERT INTO Notification (user_id, interactor_nickname, interactor_id, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, NEW.user_id, @target_post_id, 11, NOW(), NEW.reply_id);
+    END IF;
 
-    -- Increment the fav count on the post
-    INSERT INTO Notification (user_id, interactor_nickname, post_id, notification_type, notification_date, reply_id) VALUES (@target_reply_user_id, @interactor_user_nickname, @target_post_id, 11, NOW(), NEW.reply_id);
+    
+END //
+delimiter ;
+
+-- Content reported and deleted [21]
+delimiter //
+CREATE TRIGGER Noti_Your_Content_Deleted BEFORE UPDATE ON User
+FOR EACH ROW
+BEGIN
+    IF NEW.user_flags_received > OLD.user_flags_received
+    THEN INSERT INTO Notification (user_id, notification_type, notification_date) VALUES (NEW.user_id, 21, NOW());
+    END IF;
+END //
+delimiter ;
+
+-- User promoted to [30]/ demoted from [31] / endorsed
+delimiter //
+CREATE TRIGGER Noti_User_Endorse BEFORE UPDATE ON User
+FOR EACH ROW
+BEGIN
+    IF NEW.user_is_endorsed > OLD.user_is_endorsed
+    THEN INSERT INTO Notification (user_id, notification_type, notification_date) VALUES (NEW.user_id, 30, NOW());
+    ELSEIF NEW.user_is_endorsed < OLD.user_is_endorsed
+    THEN INSERT INTO Notification (user_id, notification_type, notification_date) VALUES (NEW.user_id, 31, NOW());
+    END IF;
 END //
 delimiter ;
