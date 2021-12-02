@@ -215,53 +215,6 @@ export default function MyPostList({ mypost }) {
               &nbsp;Share
             </div>
           </IconButton>
-
-          {/* report button
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="parent-modal-title"
-              aria-describedby="parent-modal-description"
-            >
-              <Box sx={{ ...modalStyle }}>
-                <h4 id="child-modal-title">Report</h4>
-                <div style={{ flex: 1 }}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    label={"Report Information"}
-                    value={flagText}
-                    onChange={(e) => setFlagText(e.target.value)}
-                  />
-                </div>
-                <div
-                  style={{ display: "flex", flex: 1, justifyContent: "end" }}
-                >
-                  <Button
-                    sx={{
-                      borderRadius: "8px",
-                      height: "2rem",
-                      marginTop: "0.5rem",
-                    }}
-                    variant="contained"
-                    color="success"
-                    type="submit"
-                    onClick={report}
-                  >
-                    Report
-                  </Button>
-                </div>
-              </Box>
-            </Modal>
-            <IconButton
-              aria-label="report"
-              onClick={handleOpen}
-              sx={{ borderRadius: "4px" }}
-            >
-              <FlagIcon sx={{ fontSize: "1.2rem" }} />
-              &nbsp;
-              <CountNumber> Report</CountNumber>
-            </IconButton> */}
         </CardActionsWrapper>
       </Box>
     </Paper>
