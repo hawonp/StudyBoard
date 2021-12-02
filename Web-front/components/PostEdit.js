@@ -27,10 +27,11 @@ export default function EditPost({ postCard, finish }) {
   const [inputTitle, setInputTitle] = useState(title);
   const [inputContents, setInputContents] = useState(text);
   const [inputImages, setInputImages] = useState(images);
-  const [inputTag, setInputTag] = useState(tags.flat());
+  const [inputTag, setInputTag] = useState(tags.flat().toString());
 
   const savePost = async (user) => {
     //Format the tags before sending it to the db
+    console.log(inputTag);
     const formattedTags = inputTag
       .split(",")
       .map((unadjustedTag) =>

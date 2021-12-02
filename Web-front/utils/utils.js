@@ -61,9 +61,7 @@ export function getTimeDisplay(currentTimeStamp, postTimeStamp) {
 }
 
 export function stripHTMLTags(text) {
-  console.log("before", text);
   text = text.replaceAll("<p>", " ");
-  console.log("after", text);
   let tmp = document.createElement("DIV");
   tmp.innerHTML = text;
   return tmp.textContent || tmp.innerText || "";

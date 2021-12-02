@@ -179,9 +179,9 @@ def update_flag_count(flag_id, report_tpye, updateType):
         #Set up query statement and values. 1 is accept, 0 is deny SELECT Post.user_id FROM Post, Post_Report WHERE Post_Report.report_id = flag_id
         getting_user_id = "SELECT "+content_table_name+".user_id FROM "+content_table_name+", "+report_table_name+" WHERE "+report_table_name+content_table_id+"="+report_table_name+content_table_id+" AND "+report_table_name+".report_id = ?"
         if updateType:
-            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received-1"
+            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5 WHERE User.user_id=uid.user_id"
         else:
-            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1"
+            query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1, User.user_rank_points = User.user_rank_points-5 WHERE User.user_id=uid.user_id"
         values = (flag_id, )
 
 

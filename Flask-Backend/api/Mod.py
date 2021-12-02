@@ -101,10 +101,10 @@ class RespondToReplyFlag(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            res = accept_reply_flag(reply_id)
             add_notif_res = add_notif_report_accepted(id, "Reply_Report")
-            del_reply_res = delete_reply(reply_id)
             upd_flag_count_res = update_flag_count(id,0, 0)
+            res = accept_reply_flag(reply_id)
+            del_reply_res = delete_reply(reply_id)
         else:
             err = "Not authorised"
             print(err)

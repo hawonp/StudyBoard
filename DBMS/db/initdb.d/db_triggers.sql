@@ -237,7 +237,7 @@ BEGIN
 END //
 delimiter ;
 
--- User promoted / demoted to / from endorsed
+-- User promoted to [30]/ demoted from [31] / endorsed
 delimiter //
 CREATE TRIGGER Noti_User_Endorse BEFORE UPDATE ON User
 FOR EACH ROW
