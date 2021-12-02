@@ -6,7 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 //Importing components
-import FolderOffIcon from "@mui/icons-material/FolderOff";
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import ProfileCard from "../components/ProfileCard";
 import MyPostList from "../components/MyPostList";
 import LoadingProgress from "../components/Loading";
@@ -117,8 +117,11 @@ export default function MyPost() {
                   paddingBottom: "30px",
                 }}
               >
-                <FolderOffIcon sx={{ fontSize: "3.2rem" }} />
-                <div style={{ fontSize: "1.2", color: "#B0B0B0" }}>
+                {" "}
+                <ReportGmailerrorredOutlinedIcon
+                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                />
+                <div style={{ fontSize: "0.8rem", color: "#B0B0B0" }}>
                   No Posts
                 </div>
               </Box>
