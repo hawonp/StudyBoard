@@ -164,9 +164,9 @@ export const CommentBox = ({ postID }) => {
 
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
-  if (loadingReplies) {
-    return <LoadingProgress />;
-  }
+  // if (loadingReplies) {
+  //   return <LoadingProgress />;
+  // }
   return (
     <div style={{ disply: "flex" }}>
       {user ? (
@@ -232,7 +232,6 @@ export const CommentBox = ({ postID }) => {
 const CommentForm = ({ addComment }) => {
   //const inputRef  = useRef();
   const textRef = useRef();
-
   const _handleSubmit = (event) => {
     event.preventDefault(); // prevents page from reloading on submit
     //const author = inputRef.current.value;

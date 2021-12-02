@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 //Importing and settings vars for axios parse
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
-import LoadingProgress from "../components/Loading";
+import LoadingProgress from "../../components/Loading";
 const users = "/users/";
 
 export default function UpdateProfile() {
