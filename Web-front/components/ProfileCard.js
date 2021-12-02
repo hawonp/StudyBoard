@@ -144,7 +144,7 @@ export default function ProfileCard() {
     }
   }, [isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <></>;
   if (error) return <div>{error.message}</div>;
 
   return (

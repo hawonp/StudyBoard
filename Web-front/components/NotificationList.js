@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../components/Loading";
 //Importing MUI
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
 import { Paper, Box } from "@mui/material";
@@ -219,11 +220,11 @@ export default function NotificationList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <></>;
   } else if (notifications.length === 0) {
     return (
       <Box

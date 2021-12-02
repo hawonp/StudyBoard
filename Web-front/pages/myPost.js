@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 //Importing components
 import ProfileCard from "../components/ProfileCard";
 import MyPostList from "../components/MyPostList";
+import LoadingProgress from "../components/Loading";
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 
@@ -72,11 +73,11 @@ export default function MyPost() {
     }
   }, [isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     console.log("posts", myPosts);
     return (

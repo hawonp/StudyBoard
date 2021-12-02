@@ -1,8 +1,11 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import LoadingProgress from "../../components/Loading";
 //Importing MUI
 import Box from "@mui/material/Box";
 //Importing components
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import ProfileCard from "../../components/ProfileCard";
 import MyPostList from "../../components/MyPostList";
 //Importing and settings vars for axios parse
@@ -135,7 +138,7 @@ export default function SearchResult() {
   }, [isDataLoading]);
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     console.log("posts", searchPosts);
     return (
@@ -167,9 +170,22 @@ export default function SearchResult() {
                   ))}
                 </TagWrapper>
               ) : (
-                <p style={{ fontSize: "0.8rem" }}>
-                  There were no tags matching "{router.query.query}"
-                </p>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <ReportGmailerrorredOutlinedIcon
+                    sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                  />
+                  <p style={{ fontSize: "0.8rem" }}>
+                    There were no tags matching "{router.query.query}"
+                  </p>
+                </Box>
               )}
 
               {/* Post */}
@@ -182,9 +198,22 @@ export default function SearchResult() {
                   ))}
                 </BoxWrapper>
               ) : (
-                <p style={{ fontSize: "0.8rem" }}>
-                  There were no posts matching "{router.query.query}"
-                </p>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <ReportGmailerrorredOutlinedIcon
+                    sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                  />
+                  <p style={{ fontSize: "0.8rem" }}>
+                    There were no posts matching "{router.query.query}"
+                  </p>
+                </Box>
               )}
             </SmallBoxWrapper>
           </Box>
