@@ -1,7 +1,8 @@
-from config.imports import mariadb
+from config.imports import mariadb, seed, randint
 from config.db_connect import get_connection
 from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name, get_user_tags
 from api.Auth0 import delete_user as delete_user_auth0
+from api.Auth0 import get_random_string
 
 ##########################################################
 #                         INSERT                         #
@@ -308,6 +309,7 @@ def update_user(id, nickname, tags):
 # set nickname to Account Deleted (for when a user deletes their own profile)
 def delete_user(user_id):
     res = 1
+    
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -315,8 +317,16 @@ def delete_user(user_id):
 
         print("updating user nickname")
         #Set up query statement and values
-        query = "UPDATE User SET user_nickname = \'Account_Deleted\' WHERE user_id=?"
-        values = (user_id, )
+        query = "UPDATE User SET user_email_address = ?, user_nickname = \'Account Deleted\', user_is_endorsed = 0, user_is_mod = 0, user_id = ? WHERE user_id=?"
+
+        # seed + random number generate
+        
+        random_string = get_random_string(20)
+
+        deleted_email_address = "[email]" + random_string
+        deleted_user_id = "[id]" + random_string
+
+        values = (deleted_email_address, deleted_user_id, user_id )
 
         #Adding new data into table
         print("Updating with query", query, " and values ", values)

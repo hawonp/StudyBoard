@@ -6,6 +6,7 @@ from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_en
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 from query.notification_query import add_notif_report_accepted
+from Auth0 import block_user
 
 ############################
 #    CONSTANT URL PATH     #
@@ -151,8 +152,10 @@ class BlacklistUser(Resource):
         #Check if the user is a mod and execute
         if check_if_user_is_mod(user_id):
             #User must be a mod
-            add_user_to_blacklist(user_id)
-            update_user(user_id, "user-deleted", [])
+            add_user_to_blacklist(id)
+            res =update_user(id, "user-deleted", [])
+            block_user(id)
+
         else:
             err = "Not authorised"
             print(err)
