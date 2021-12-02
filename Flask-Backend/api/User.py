@@ -6,7 +6,7 @@ from config.imports import Schema, fields
 from query.post_query import get_posts_by_user, check_if_user_liked_post
 from query.favourite_query import get_favourited_post
 from query.tag_query import get_user_tags, get_post_tags
-from query.user_query import get_user_by_id, update_user, get_users_order_by_rank
+from query.user_query import get_user_by_id, update_user, get_users_order_by_rank, delete_user
 from query.login_query import verify_id_token
 from query.notification_query import get_user_notifications, delete_all_notifications, delete_notification
 ############################
@@ -59,7 +59,16 @@ class UserInfo(Resource):
         res = update_user(id, user_nickname, user_tags)
         return res
 
-# delete user profile (set name to )
+    def delete(self, id):
+
+        res = delete_user(id)
+        print("result of deleting user", res)
+        return res
+
+# delete user profile():
+# set nickname to Account Deleted
+# get rids of tags
+# call Auth0 api
 
 #Get favourite posts
 class PostFavourites(Resource):

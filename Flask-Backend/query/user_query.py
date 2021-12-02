@@ -1,6 +1,7 @@
 from config.imports import mariadb
 from config.db_connect import get_connection
 from query.tag_query import add_user_tag, delete_all_tags_of_user, add_tag, get_tag_by_name, get_user_tags
+from api.Auth0 import delete_user as delete_user_auth0
 
 ##########################################################
 #                         INSERT                         #
@@ -300,6 +301,43 @@ def update_user(id, nickname, tags):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+        res = 0
+
+    return res
+
+# set nickname to Account Deleted (for when a user deletes their own profile)
+def delete_user(user_id):
+    res = 1
+    try:
+        #Obtain DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        print("updating user nickname")
+        #Set up query statement and values
+        query = "UPDATE User SET user_nickname = \'Account Deleted\' WHERE user_id=?"
+        values = (user_id, )
+
+        #Adding new data into table
+        print("Updating with query", query, " and values ", values)
+        cursor.execute(query, values)
+
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
+        print("clearing tags")
+        #Clear all the tags from the user
+        if delete_all_tags_of_user(user_id) == 0:
+            return 0
+
+        print("deleting info from Auth0")
+        #delete from auth0
+        delete_user_auth0(user_id) 
+
+    except mariadb.Error as e:
+        print(f"Error deleting user: {e}")
         res = 0
 
     return res
