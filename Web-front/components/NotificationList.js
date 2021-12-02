@@ -1,8 +1,10 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../components/Loading";
 //Importing MUI
-import { Paper } from "@mui/material";
+import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
+import { Paper, Box } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
 import axiosInstance from "../utils/routeUtil";
@@ -229,11 +231,30 @@ export default function NotificationList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <></>;
+  } else if (notifications.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "60px",
+          paddingTop: "30px",
+          paddingBottom: "30px",
+        }}
+      >
+        <NotificationsOffOutlinedIcon sx={{ fontSize: "3.2rem" }} />
+        <div style={{ fontSize: "1.2", color: "lightgray" }}>
+          No notification
+        </div>
+      </Box>
+    );
   } else {
     return (
       <>
