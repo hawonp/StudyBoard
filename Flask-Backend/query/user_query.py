@@ -317,7 +317,7 @@ def delete_user(user_id):
 
         print("updating user nickname")
         #Set up query statement and values
-        query = "UPDATE User SET user_email_address = ?, user_nickname = \'Account Deleted\', user_is_endorsed = 0, user_is_mod = 0, user_id = ? WHERE user_id=?"
+        query = "UPDATE User SET user_email_address = ?, user_nickname = \'Deleted User \', user_is_endorsed = 0, user_is_mod = 0, user_id = ? WHERE user_id=?"
 
         # seed + random number generate
         

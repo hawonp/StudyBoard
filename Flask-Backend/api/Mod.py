@@ -153,7 +153,7 @@ class BlacklistUser(Resource):
         if check_if_user_is_mod(user_id):
             #User must be a mod
             add_user_to_blacklist(id)
-            res =update_user(id, "user-deleted", [])
+            res =update_user(id, "Banned User", [])
             block_user(id)
 
         else:
