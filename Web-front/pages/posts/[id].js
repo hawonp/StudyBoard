@@ -3,11 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../../components/Loading";
 //Importing MUI
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import FlagIcon from "@mui/icons-material/Flag";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -87,11 +84,17 @@ export default function PostDetailPage() {
               responseData["did_user_favourite_post"] != 0 ? true : false,
           });
           setHasLoaded(true);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 404) {
+            router.push("/" + "error/404");
+          }
         });
     }
   }, [isEdit, isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   //Handle like press
@@ -175,7 +178,7 @@ export default function PostDetailPage() {
 
   //Render if the post has loaded
   if (!hasLoaded) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <div style={{ display: "flex" }}>

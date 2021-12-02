@@ -42,12 +42,10 @@ class PostReply(Resource):
         if errors:
             abort(400, str(errors))
 
-        #Get the replies
+        #Getting the params
         order = int(request.args.get('order'))
-        user_id = request.args.get('user_ID')
-        print(user_id)
-            
-        
+        user_id = request.args.get('userID')            
+        #Get the replies
         replies = get_replies_to_post(id, order, user_id)
 
         return json.dumps(replies, default=str)

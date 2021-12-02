@@ -122,7 +122,7 @@ export default function ProfileCard() {
   // setUserId(user.sub);
 
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isLoading && !error && user) {
       console.log("Crawling User Profile Data");
       axiosInstance.get(users + user.sub).then((response) => {
         console.log("response from backend" + response);
@@ -144,7 +144,7 @@ export default function ProfileCard() {
     }
   }, [isLoading]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <></>;
   if (error) return <div>{error.message}</div>;
 
   return (
@@ -217,6 +217,7 @@ export default function ProfileCard() {
                     style={{
                       fontSize: "0.8rem",
                       color: "#C4C4C4",
+                      fontWeight: "bold",
                     }}
                   >
                     Personal Tags
@@ -237,8 +238,13 @@ export default function ProfileCard() {
                   ))}
                 </TagWrapper>
               ) : (
-                <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                  User has no tags
+                <p
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "#C4C4C4",
+                  }}
+                >
+                  No Personal Tags Set
                 </p>
               )}
             </div>

@@ -1,14 +1,38 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../components/Loading";
 //Importing MUI
-import { Paper } from "@mui/material";
+import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
+import { Paper, Box } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
 import axiosInstance from "../utils/routeUtil";
 import { getTimeDisplay } from "../utils/utils";
+import Button from "@mui/material/Button";
+
 const USERSENDPOINT = "/users";
 const NOTIFICATIONENDPOINT = "/notifications";
+
+const HrLineWrapper = ({ style, children }) => {
+  return (
+    <div
+      style={{
+        margin: "0px",
+        flexShrink: "0",
+        borderWidth: "0px 0px thin",
+        borderStyle: "solid",
+        marginBottom: "10px",
+        opacity: 1,
+        borderColor: "rgb(227, 242, 253)",
+        ...style,
+      }}
+    >
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 const PaperWrapper = ({ style, children }) => {
   return (
@@ -115,10 +139,20 @@ const Notification = ({ data, handleNotifDelete }) => {
     } else if (notifType == 1.1) {
       contentText += " reply";
     }
-  } else if (notifType < 3) {
+  } else {
     //Herro
-    actionText +=
-      "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
+    if (notifType == 2) {
+      actionText +=
+        "The content you have recently reported has been removed. Thank you for making Studyboard cleaner!";
+    } else if (notifType == 2.1) {
+      actionText +=
+        "The content you have recently posted was deemed inappropirate and removed.";
+    } else if (notifType == 3) {
+      actionText +=
+        "You are now an endorsed user! Please continue with us in making Studyboard a more helpful place.";
+    } else if (notifType == 3.1) {
+      actionText += "You are no longer an endorsed user.";
+    }
   }
 
   return (
@@ -147,11 +181,12 @@ const Notification = ({ data, handleNotifDelete }) => {
           >
             {notifType < 2 ? (
               <span>
-                <b>{data.interactor_nickname}</b>&nbsp;{actionText}
+                <b>{data.interactor_nickname}</b>&nbsp;
               </span>
             ) : (
               <></>
             )}
+            {actionText}
             {/* {reply_id ? (
               <a
                 style={{ textDecoration: "none" }}
@@ -218,14 +253,75 @@ export default function NotificationList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  const clearAll = () => {
+    if (!isLoading && !error) {
+      let userID = "";
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .delete(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
+        .then((response) => {
+          setNotifications([]);
+        });
+    }
+  };
+
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <></>;
+  } else if (notifications.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "60px",
+          paddingTop: "30px",
+          paddingBottom: "30px",
+        }}
+      >
+        <NotificationsOffOutlinedIcon sx={{ fontSize: "3.2rem" }} />
+        <div style={{ fontSize: "1.2", color: "lightgray" }}>
+          No notification
+        </div>
+      </Box>
+    );
   } else {
     return (
       <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0rem",
+            margin: "0rem",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "1.0rem",
+              // marginBottom: "2rem",
+              marginLeft: "0.5rem",
+            }}
+          >
+            Notifications
+          </h2>{" "}
+          <Button
+            size="small"
+            variant="text"
+            style={{ markerStart: "0.5rem", marginRight: "0.5rem" }}
+            onClick={clearAll}
+          >
+            Clear All
+          </Button>
+        </div>
+        <HrLineWrapper />
         {notifications.map((notif) => (
           <Notification
             key={notif.notification_id}

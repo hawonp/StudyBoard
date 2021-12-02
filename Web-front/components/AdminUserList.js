@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
 import axiosInstance from "../utils/routeUtil";
+import LoadingProgress from "../components/Loading";
 
 const FLAGGEDENDPOINT = "/flagged";
 const USERS = "/users";
@@ -60,16 +61,6 @@ export default function AdminUserList() {
   }, [isDataLoading, isLoading]);
 
   const blackListUser = (user_id) => {
-    // Add a request interceptor
-    axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request", JSON.stringify(request, null, 2));
-      return request;
-    });
-
-    axiosInstance.interceptors.response.use((response) => {
-      console.log("Response:", JSON.stringify(response, null, 2));
-      return response;
-    });
     if (user) {
       const userID = user.sub;
       axiosInstance
@@ -86,11 +77,11 @@ export default function AdminUserList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <BoxWrapper>

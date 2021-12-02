@@ -82,7 +82,7 @@ export default function RankUserList() {
                 Rank
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="center">
-                Number of Likes Received
+                Points
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Tag
@@ -113,7 +113,7 @@ export default function RankUserList() {
                   {user.user_nickname}
                 </TableCell>
                 <TableCell align="center">{i + 1}</TableCell>
-                <TableCell align="center">{user.user_likes_received}</TableCell>
+                <TableCell align="center">{user.user_rank_points}</TableCell>
                 <TableCell align="left">
                   {user.tags.length > 0 ? (
                     <TagWrapper>

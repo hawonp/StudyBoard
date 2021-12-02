@@ -1,6 +1,13 @@
 from config.imports import mariadb
 from config.db_connect import get_connection
 from datetime import datetime
+# Notification types:
+# 0: Someone repleid to your post
+# 1: Someone replied to your reply
+# 10: Someone liked your post
+# 11: Someone liked your reply
+# 20: The post/reply you have reported has been deleted
+# 21: Your post/reply has been reported and deleted
 ##########################################################
 #                         INSERT                         #
 ##########################################################

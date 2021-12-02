@@ -17,6 +17,8 @@ import Button from "@mui/material/Button";
 import NotificationList from "../components/NotificationList";
 import Popover from "@mui/material/Popover";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
 const HrWrapper = ({ style, children }) => {
   return (
@@ -48,6 +50,7 @@ const ContainerWrapper = ({ style, children }) => {
 };
 
 export default function CustomAppBar() {
+  const router = useRouter();
   const { user } = useUser();
   const isBig = useMediaQuery("(min-width:800px)");
 
@@ -70,14 +73,9 @@ export default function CustomAppBar() {
 
       title: "Profile",
       onClick: () => {
-        // alert("Profile");
-        window.location.href = "/user/profile";
+        router.push("/" + "user/profile");
       },
     },
-    // {
-    //   type: 'special',
-    //   component: <Logout />
-    // },
   ];
 
   const menuList = [
@@ -85,8 +83,7 @@ export default function CustomAppBar() {
       type: "normal",
       title: "AskQuestion",
       onClick: () => {
-        // alert("Profile");
-        window.location.href = "/board";
+        router.push("/" + "board");
       },
     },
     {
@@ -94,7 +91,7 @@ export default function CustomAppBar() {
       title: "About",
       onClick: () => {
         // alert("Profile");
-        window.location.href = "/about";
+        router.push("/" + "about");
       },
     },
     {
@@ -102,7 +99,7 @@ export default function CustomAppBar() {
       title: "Rank",
       onClick: () => {
         // alert("Profile");
-        window.location.href = "/rank";
+        router.push("/" + "rank");
       },
     },
     {
@@ -110,7 +107,7 @@ export default function CustomAppBar() {
       title: "Profile",
       onClick: () => {
         // alert("Profile");
-        window.location.href = "/user/profile";
+        router.push("/" + "user/profile");
       },
     },
   ];
@@ -155,46 +152,50 @@ export default function CustomAppBar() {
         <div>
           {user ? (
             <div>
-              <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
-                <IconButton
-                  edge="end"
-                  aria-describedby={id}
-                  variant="contained"
-                  onClick={handleClick}
-                >
-                  <Badge color="secondary" variant="dot">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                >
-                  <NotificationList />
+              <PopupState variant="popover" popupId="demo-popup-popover">
+                {(popupState) => (
+                  <Box sx={{ color: "action.active", ml: 2, mr: 2 }}>
+                    <IconButton
+                      {...bindTrigger(popupState)}
+                      edge="end"
+                      variant="contained"
+                    >
+                      <Badge color="secondary">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                    <Popover
+                      {...bindPopover(popupState)}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: 150,
+                        // horizontal: "center",
+                      }}
+                    >
+                      <NotificationList />
 
-                  <HrWrapper />
-                  <Link href="/notification/notification">
-                    <a style={{ textDecoration: "none", color: "#191970" }}>
-                      <div
-                        style={{ textAlign: "center", marginBottom: "0.5rem" }}
-                        onClick={handleClose}
-                      >
-                        View all
-                      </div>
-                    </a>
-                  </Link>
-                </Popover>
-              </Box>
+                      <HrWrapper />
+                      <Link href="/notification/notification">
+                        <a style={{ textDecoration: "none", color: "#191970" }}>
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginBottom: "0.5rem",
+                            }}
+                            onClick={handleClose}
+                          >
+                            View all
+                          </div>
+                        </a>
+                      </Link>
+                    </Popover>
+                  </Box>
+                )}
+              </PopupState>
             </div>
           ) : (
             <></>

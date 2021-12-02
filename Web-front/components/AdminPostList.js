@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
+import LoadingProgress from "../components/Loading";
 //Importing MUI
 import Box from "@mui/material/Box";
 import TableContainer from "@mui/material/TableContainer";
@@ -106,11 +107,11 @@ export default function AdminPostList() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   if (isDataLoading) {
-    return <div> Loading... </div>;
+    return <LoadingProgress />;
   } else {
     return (
       <BoxWrapper>

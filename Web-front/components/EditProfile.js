@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
+import LoadingProgress from "../components/Loading";
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 const users = "/users/";
@@ -16,14 +17,20 @@ export default function EditProfile({ profile }) {
   const { email, nick, tag } = profile;
 
   const [inputNick, setInputNick] = useState(nick);
-  const [inputTag, setInputTag] = useState(tag.flat());
+  const [inputTag, setInputTag] = useState(tag.flat().toString());
+  console.log(inputTag);
   const { user, error, isLoading } = useUser();
   const saveProfile = async () => {
+    const formattedTags = inputTag
+      .split(",")
+      .map((unadjustedTag) =>
+        unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
+      );
     axiosInstance
       .put(users + user.sub, {
         params: {
           user_nickname: inputNick,
-          user_tags: inputTag,
+          user_tags: formattedTags,
         },
       })
       .then((response) => {
@@ -38,7 +45,7 @@ export default function EditProfile({ profile }) {
       });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
   return (
@@ -92,15 +99,7 @@ export default function EditProfile({ profile }) {
           id="outlined-disabled"
           label="Please edit your personal tags (Separated by Commas)"
           value={inputTag}
-          onChange={(event) =>
-            setInputTag(
-              event.target.value
-                .split(",")
-                .map((unadjustedTag) =>
-                  unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
-                )
-            )
-          }
+          onChange={(event) => setInputTag(event.target.value)}
         />
       </div>
       <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
