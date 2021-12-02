@@ -6,7 +6,7 @@ from query.user_query import check_if_user_is_mod, add_user_to_blacklist, set_en
 from query.post_query import delete_post
 from query.reply_query import delete_reply
 from query.notification_query import add_notif_report_accepted
-from Auth0 import block_user
+from api.Auth0 import block_user
 
 ############################
 #    CONSTANT URL PATH     #
