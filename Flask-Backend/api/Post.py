@@ -1,13 +1,13 @@
+from datetime import datetime
 import re
 from config.imports import json, Resource, request, abort, requests
 from config.imports import Schema, fields
+from config.config import ApplicationConfig
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_by_id, update_post, delete_post
 from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag_name,search_tags, get_search_results_tags, get_search_results_posts
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags, get_user_tag_ids
-from config.config import ApplicationConfig
 from query.flag_query import flag_post
-from datetime import datetime
 
 ############################
 #    CONSTANT URL PATH     #

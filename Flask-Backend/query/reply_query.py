@@ -34,7 +34,7 @@ def add_post_reply(user_id, post_id, text):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
+        res = 0 #When meeting and error or not found
 
     return res
 
@@ -63,7 +63,7 @@ def add_reply_to_post_link(post_id, reply_id):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
+        res = 0 #When meeting and error or not found
 
     return res
 
@@ -96,7 +96,7 @@ def add_reply_reply(user_id, reply_id, post_id, text):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
+        res = 0 #When meeting and error or not found
 
     return res
 
@@ -154,7 +154,7 @@ def add_user_like_reply(reply_id, user_id):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error
+        res = 0 #When meeting and error
 
     return res
 
