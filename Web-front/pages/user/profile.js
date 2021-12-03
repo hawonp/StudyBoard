@@ -1,10 +1,11 @@
 import Box from "@mui/material/Box";
-import ProfileCard from "../../components/ProfileCard";
+import ProfileCard from "../../components/user/ProfileCard";
 import * as React from "react";
-import ProfileInfo from "../../components/ProfileInfo";
+import ProfileInfo from "../../components/user/ProfileInfo";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
+
 //Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 const users = "/users/";

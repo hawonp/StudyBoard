@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 // package imports
 import axiosInstance from "../../utils/routeUtil";
-import LoadingProgress from "../Loading";
+import LoadingProgress from "../utils/Loading";
 
 // constants
 const FLAGGEDENDPOINT = "/flagged";
@@ -48,7 +48,7 @@ const BoxWrapper = ({ style, children }) => {
 };
 
 // functional component that renders the list of users with 10 or more reports
-export default function ReportedUserList() {
+export default function ReportedUsersList() {
   const router = useRouter(); // used for redirection
   const [rows, setRows] = useState([]); // data state
   const [isDataLoading, setIsDataLoading] = useState(true); // data loading state

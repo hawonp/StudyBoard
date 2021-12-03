@@ -1,6 +1,8 @@
+// react imports
 import React from "react";
 import Link from "next/link";
 
+// HashTagWrapper styling
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -11,7 +13,6 @@ const HashtagWrapper = ({ style, children }) => {
         background: "#E1ECF4",
         borderRadius: "4px",
         marginRight: "4px",
-        // marginBottom: "2px",
         ...style,
       }}
     >
@@ -21,9 +22,8 @@ const HashtagWrapper = ({ style, children }) => {
   );
 };
 
-// 해시태그 정규표현식
 // HashTag Link Components
-const CardTags = ({ tags }) => (
+const PostPreviewTags = ({ tags }) => (
   <div
     style={{
       display: "flex",
@@ -42,6 +42,6 @@ const CardTags = ({ tags }) => (
       );
     })}
   </div>
-);
+); // functional component closure
 
-export default CardTags;
+export default PostPreviewTags;

@@ -1,17 +1,24 @@
-import IconButton from "@mui/material/IconButton";
+// react imports
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
+
+// MUI imports
+import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { TextField, Modal, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useRouter } from "next/router";
-import { useUser } from "@auth0/nextjs-auth0";
-import axiosInstance from "../utils/routeUtil";
 
+// package imports
+import { useUser } from "@auth0/nextjs-auth0";
+import axiosInstance from "../../utils/routeUtil";
+
+// constants
 const DELETEENDPOINT = "/users/";
 
+// modal styling that appears when deleting the user profile
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -24,6 +31,7 @@ const modalStyle = {
   pb: 3,
 };
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -43,6 +51,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// HRWrapper styling
 const HrWrapper = ({ style, children }) => {
   return (
     <div
@@ -63,28 +72,28 @@ const HrWrapper = ({ style, children }) => {
   );
 };
 
+// functional component for displaying the profile info in the profile page
 export default function ProfileInfo({ profile }) {
-  const router = useRouter();
-  const { email, nick, tag } = profile;
-  const { user, error, isLoading } = useUser();
+  const router = useRouter(); // used for redirection
+  const { email, nick, tag } = profile; // profile info fed in from profile page
+  const { user, error, isLoading } = useUser(); // user session data from Auth0
 
+  // states for handling modal opening and closing
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
+  // action handling for deleting a user profile
   const handleDelete = () => {
     setOpen(false);
     if (!isLoading && !error) {
       axiosInstance.delete(DELETEENDPOINT + user.sub).then((response) => {
         if (response["data"] == 1) {
-          console.log("user deleted!");
-          router.push("/api/auth/logout");
-          // router.push("/");
+          router.push("/" + "api/auth/logout");
         }
       });
     }
   };
-
-  const handleClose = () => setOpen(false);
 
   return (
     <BoxWrapper>
@@ -93,13 +102,15 @@ export default function ProfileInfo({ profile }) {
           <h5>Profile Page!</h5>
         </div>
 
-        {/*edit button for profile*/}
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
+          {/* edit button to redirect to edit page */}
           <IconButton sx={{ borderRadius: "4px" }} aria-label="edit">
             <Link href="/user/updateprofile">
               <EditIcon />
             </Link>
           </IconButton>
+
+          {/* delete button to delete user profile */}
           <IconButton
             sx={{ borderRadius: "4px" }}
             aria-label="delete"
@@ -107,6 +118,8 @@ export default function ProfileInfo({ profile }) {
           >
             <DeleteIcon />
           </IconButton>
+
+          {/* modal that appears to confirm user profile deletion */}
           <Modal
             open={open}
             onClose={handleClose}
@@ -156,6 +169,7 @@ export default function ProfileInfo({ profile }) {
       <HrWrapper />
 
       <div>
+        {/* user email */}
         <TextField
           sx={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -164,6 +178,7 @@ export default function ProfileInfo({ profile }) {
           label="Email (Fixed)"
           defaultValue={email}
         />
+        {/* user nickname */}
         <TextField
           sx={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -172,6 +187,7 @@ export default function ProfileInfo({ profile }) {
           label="NickName"
           defaultValue={nick}
         />
+        {/* user tags */}
         <TextField
           sx={{ marginBottom: "10px", marginTop: "8px" }}
           fullWidth
@@ -183,4 +199,4 @@ export default function ProfileInfo({ profile }) {
       </div>
     </BoxWrapper>
   );
-}
+} // functional component closure

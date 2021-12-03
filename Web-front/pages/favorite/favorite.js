@@ -5,7 +5,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Box from "@mui/material/Box";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import ProfileCard from "../../components/ProfileCard";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 import MyPostList from "../../components/MyPostList";
 const FAVOURITEENDPOINT = "/favourite";

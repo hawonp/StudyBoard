@@ -20,8 +20,8 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import Divider from "@mui/material/Divider";
+import LoadingProgress from "./utils/Loading";
 
-import LoadingProgress from "../components/Loading";
 import {
   Avatar,
   Modal,

@@ -3,7 +3,7 @@ import * as React from "react";
 
 // package imports
 import ModeratorNavigation from "../../components/moderator/ModeratorNavigation";
-import ReportedUserList from "../../components/moderator/ReportedUserList";
+import ReportedUsersList from "../../components/moderator/ReportedUsersList";
 
 // page for rendering list of users with 10 or more active reports
 export default function Users() {
@@ -13,7 +13,7 @@ export default function Users() {
       <ModeratorNavigation />
 
       {/* reported users component */}
-      <ReportedUserList />
+      <ReportedUsersList />
     </div>
   );
 }

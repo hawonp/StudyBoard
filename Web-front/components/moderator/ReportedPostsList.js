@@ -1,9 +1,9 @@
 // react imports
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../Loading";
+import LoadingProgress from "../utils/Loading";
 import { useRouter } from "next/router";
 
 // MUI imports
@@ -23,7 +23,6 @@ import CheckIcon from "@mui/icons-material/Check";
 
 // package imports
 import axiosInstance from "../../utils/routeUtil";
-import { ReportContext } from "../../contexts/ReportContext";
 
 // constants
 const FLAGGEDENDPOINT = "/flagged";
@@ -56,7 +55,7 @@ const BoxWrapper = ({ style, children }) => {
 // functional component that renders the list of reported posts
 export default function ReportedPostsList() {
   const router = useRouter(); // used for redirection
-  const [rows, setRows] = useContext(ReportContext); // report context
+  const [rows, setRows] = useState([]); // report context
   const [isDataLoading, setIsDataLoading] = useState(true); // data loading state
   const { user, isLoading, error } = useUser(); // user session data from Auth0
 

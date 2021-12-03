@@ -13,16 +13,16 @@ import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
 // package imports
-import { getTimeDisplay } from "../utils/utils";
-import { stripHTMLTags } from "../utils/utils";
+import { getTimeDisplay } from "../../utils/utils";
+import { stripHTMLTags } from "../../utils/utils";
 import ButtonComponents from "./ButtonComponents";
-import CardTags from "./CardTags";
+import PostPreviewTags from "./PostPreviewTags";
 
 // link to post detail page
 const ROUTE_ID = "posts/[id]";
 
 // functional component that renders the post previews shown in the board page
-export default function CardShow({ post }) {
+export default function PostPreview({ post }) {
   // dynamically renders post time
   const [diffTime, setDiffTime] = useState();
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function CardShow({ post }) {
 
           {/* tag components */}
           <CardContent style={{ textAlign: "left", padding: "0 1rem" }}>
-            <CardTags tags={post.post_tags} />
+            <PostPreviewTags tags={post.post_tags} />
           </CardContent>
 
           {/* button components for like and reply counts */}

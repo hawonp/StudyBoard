@@ -1,13 +1,19 @@
+// react imports
 import React, { useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
+import { useRouter } from "next/router";
+
+// MUI imports
+import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import Router from "next/router";
 
+// package imports
 import axiosInstance from "../../utils/routeUtil";
+
+// constants
 const SEARCHPREVIEW = "/search/preview";
 
+// Search bar styling
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -16,37 +22,17 @@ const Search = styled("div")(({ theme }) => ({
   flex: 1,
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "end",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-  },
-}));
-
+// functional component for search previews
 export default function SearchBar() {
-  const [searchResults, setSearchResults] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const router = useRouter(); // used for redirection
+  const [searchResults, setSearchResults] = useState([]); // search results data state
+  const [inputValue, setInputValue] = useState(""); // user keystroke input data state
 
+  // when the user has typed something in the search bar
   function handleInputChange(event, value) {
     if (value == null) {
-      console.log("hello");
       setSearchResults([]);
     }
-    console.log(value);
     axiosInstance
       .get(SEARCHPREVIEW, {
         params: {
@@ -54,56 +40,47 @@ export default function SearchBar() {
         },
       })
       .then((response) => {
-        // console.log(response["data"]);
-        // setSearchResults(response);
-        // console.log(response["data"].flat());
         setSearchResults(response["data"]);
       })
       .catch((e) => {
-        console.log(e);
         const resp = e.response;
         if (resp["status"] == 400) {
-          console.log("oh no");
+          // do nothing, error 400 would mean that nothing is in the search bar
+        } else if (resp["status"] == 500) {
+          router.push("/" + "error/500");
         }
       });
-    // console.log(event);
     setInputValue(value);
   }
 
+  // when the user has selected an item in the search preview list
   function handleSelection(event, value) {
-    console.log("user has selected", value);
     if (value != null) {
       const type = value["type"];
       const id = value["id"];
 
       if (type == "tag") {
-        console.log("User selected a tag");
-        console.log("go to this tag page");
-        Router.push("../tags/" + value["text"]);
+        router.push("../tags/" + value["text"]);
       } else {
-        console.log("User selected a post ", value["text"]);
-        const postID = value["id"];
-        Router.push("../posts/" + id);
+        router.push("../posts/" + id);
       }
     }
-
-    // console.log(value.split("]"));
   }
 
+  // when the user clears his search results
   function handleClear(event, value) {
     setSearchResults([]);
   }
 
+  // when the user presses enter on some keyboard input
   function handleEnter() {
-    console.log("user has pressed enter on value ", inputValue);
-    Router.push("../search/" + inputValue);
+    router.push("../search/" + inputValue);
   }
 
   return (
     <Search>
       <Autocomplete
         disablePortal
-        // freesolo
         id="combo-box-demo"
         options={searchResults}
         sx={{ width: "auto" }}

@@ -1,21 +1,25 @@
+// react imports
 import React from "react";
 import { useState, useEffect } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+// MUI imports
 import IconButton from "@mui/material/IconButton";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Grid from "@mui/material/Grid";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import Box from "@mui/material/Box";
-import Popper from "@mui/material/Popper";
-import Fade from "@mui/material/Fade";
-import TagIcon from "@mui/icons-material/Tag";
 import Tooltip from "@mui/material/Tooltip";
-import { useRouter } from "next/router";
 
-import axiosInstance from "../utils/routeUtil";
+// package imports
+import { useUser } from "@auth0/nextjs-auth0";
+import axiosInstance from "../../utils/routeUtil";
 
+// constants
+const USERS = "/users/";
+
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -38,6 +42,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// HashTagWrapper styling
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -58,6 +63,7 @@ const HashtagWrapper = ({ style, children }) => {
   );
 };
 
+// IconWrapper styling
 const IconWrapper = ({ style, children }) => {
   return (
     <div
@@ -75,6 +81,7 @@ const IconWrapper = ({ style, children }) => {
   );
 };
 
+// TagWrapper styling
 const TagWrapper = ({ style, children }) => {
   return (
     <div
@@ -91,74 +98,67 @@ const TagWrapper = ({ style, children }) => {
   );
 };
 
+// functional component for rendering the profile card positioned to the right of the feed
 export default function ProfileCard() {
-  const router = useRouter();
+  const router = useRouter(); // used for redirection
+
+  // profile information states
   const [nickname, setNickname] = useState("");
-  const [userId, setUserId] = useState("");
   const [tags, setTags] = useState([]);
-  const { user, error, isLoading } = useUser();
   const [mod, setMod] = useState();
-  const users = "/users/";
 
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { user, error, isLoading } = useUser(); // user session data from Auth0
 
+  // action handling to go to the moderator page
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
     router.push("/" + "moderator/users");
   };
 
-  const canBeOpen = open && Boolean(anchorEl);
-  const id = canBeOpen ? "transition-popper" : undefined;
-
-  // console.log(user);
-  // console.log(user.sub);
-  // console.log(user.nickname);
-  // console.log(user.email);
-  // console.log(user.last_ip);
-
-  // setUserId(user.sub);
-
+  // load profile data from backend
   useEffect(() => {
     if (!isLoading && !error && user) {
-      console.log("Crawling User Profile Data");
       axiosInstance
-        .get(users + user.sub)
+        .get(USERS + user.sub)
         .then((response) => {
-          console.log("response from backend" + response);
           if (response["status"] == 200) {
+            // read in response as json
             const temp = response["data"];
             const temp_json = JSON.parse(temp);
+
+            // extract basic profile info
             const user_nickname = temp_json.user.user_nickname;
             const user_is_mod = temp_json.user.user_is_mod;
-            const tag = temp_json.tags;
-            console.log("tag", tag);
+            const json_tags = temp_json.tags;
+
+            // set profile information
             setNickname(user_nickname);
-            setUserId(temp_json.user.user_id);
-            setTags(tag);
+            setTags(json_tags);
             setMod(user_is_mod);
-            console.log(tag);
-            console.log(user_nickname);
           }
         })
         .catch((e) => {
           const resp = e.response;
-          if (resp["status"] == 500) {
-            router.push("/" + "api/auth/logout");
+          if (resp != undefined && resp["status"] == 500) {
+            router.push("/" + "error/500");
           }
         });
     }
   }, [isLoading]);
 
+  // user session data is loading
   if (isLoading) return <></>;
   if (error) return <div>{error.message}</div>;
 
+  // user session data and profile data has loaded
   return (
     <div>
+      {/* display profile card when user is logged in */}
       {user ? (
         <Grid item xs={2}>
           <BoxWrapper>
+            {/* user nickname */}
             <div
               style={{
                 display: "flex",
@@ -168,7 +168,6 @@ export default function ProfileCard() {
             >
               <div
                 style={{
-                  // marginLeft: "1rem",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -176,23 +175,15 @@ export default function ProfileCard() {
               >
                 <h4>{nickname}</h4>
               </div>
-
-              {mod ? (
+              {console.log(mod, tags)}
+              {mod == 1 ? (
+                // display moderator icon if moderator
                 <div
                   style={{
                     display: "flex",
-                    // justifyContent: "end",
-                    // marginRight: "0.8rem",
                   }}
                 >
-                  {/*만약 수퍼유저가 아니면 안보이게 */}
-
-                  <IconButton
-                    disableRipple
-                    aria-describedby={id}
-                    type="button"
-                    onClick={handleClick}
-                  >
+                  <IconButton disableRipple type="button" onClick={handleClick}>
                     <Tooltip title="Click to go to the moderator page">
                       <AdminPanelSettingsIcon sx={{ color: "darkred" }} />
                     </Tooltip>
@@ -203,6 +194,7 @@ export default function ProfileCard() {
               )}
             </div>
 
+            {/* personal tags */}
             <div
               style={{
                 display: "flex",
@@ -211,7 +203,6 @@ export default function ProfileCard() {
                 marginLeft: "1rem",
               }}
             >
-              {/* <p> Your personal tags </p> */}
               <div
                 style={{
                   display: "flex",
@@ -229,11 +220,10 @@ export default function ProfileCard() {
                   >
                     Personal Tags
                   </div>
-                  {/* <TagIcon sx={{ fontSize: "0.9rem", color: "gray" }} /> */}
                 </div>
               </div>
 
-              {tags.length > 0 ? (
+              {tags ? (
                 <TagWrapper>
                   {tags.map((tag, i) => (
                     <Link href={`/tags/${tag}`} key={tag}>
@@ -241,7 +231,6 @@ export default function ProfileCard() {
                         <HashtagWrapper>{tag}</HashtagWrapper>
                       </a>
                     </Link>
-                    // <HashtagWrapper key={i}>{tag}</HashtagWrapper>
                   ))}
                 </TagWrapper>
               ) : (
@@ -256,13 +245,11 @@ export default function ProfileCard() {
               )}
             </div>
 
-            {/*Link to My Post, Favorite, Notification*/}
             <IconWrapper>
-              {/* 자기 자신이 쓴글들이 모이는곳*/}
+              {/* MyPosts Button */}
               <div style={{ display: "inline-block" }}>
                 <Link href="/myPost">
                   <IconButton
-                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >
@@ -275,11 +262,10 @@ export default function ProfileCard() {
                 </Link>
               </div>
 
-              {/* 자기가 좋아하는걸 모이게 하는곳*/}
+              {/* Favorites Button */}
               <div style={{ display: "inline-block" }}>
                 <Link href="/favorite/favorite">
                   <IconButton
-                    disableRipple
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
                   >
@@ -294,8 +280,9 @@ export default function ProfileCard() {
           </BoxWrapper>
         </Grid>
       ) : (
+        // profile card not displayed if user session does not exist
         <></>
       )}
     </div>
   );
-}
+} // functional component closure

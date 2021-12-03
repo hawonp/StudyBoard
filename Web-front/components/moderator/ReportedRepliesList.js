@@ -20,7 +20,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 // package imports
 import axiosInstance from "../../utils/routeUtil";
-import LoadingProgress from "../Loading";
+import LoadingProgress from "../utils/Loading";
 
 // constants
 const FLAGGEDENDPOINT = "/flagged";

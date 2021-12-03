@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 
 // package imports
-import LoadingProgress from "../Loading";
+import LoadingProgress from "../utils/Loading";
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
 import { getTimeDisplay } from "../../utils/utils";
@@ -196,7 +196,6 @@ export default function NotificationList() {
         .get(USERSENDPOINT + "/" + userID + NOTIFICATIONENDPOINT)
         .then((response) => {
           setNotifications(JSON.parse(response.data));
-          console.log("notifs", notifications);
           setIsDataLoading(false);
         });
     }
