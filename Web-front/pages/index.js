@@ -75,7 +75,7 @@ export default function Home() {
           Our values
         </div>
         <div style={{ fontSize: "4rem", textAlign: "center" }}>
-          asjdfoijasdoifjio
+          Something information
         </div>
 
         <Box
@@ -86,36 +86,63 @@ export default function Home() {
             marginTop: "3rem",
           }}
         >
-          <Card sx={{ margin: "0.5rem" }}>
-            <div style={{ textAlign: "center", padding: "24px" }}>
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "24px",
+              }}
+            >
               <div>
                 <img src="images/values-1.png" width="300px" height="300px" />
               </div>
-              <h3>option 1</h3>
-              <span>option 1</span>
+              <h3>Global website</h3>
+              <span>
+                Eum ad dolor et. Autem aut fugiat debitis voluptatem
+                consequuntur sit. Et veritatis id.
+              </span>
             </div>
           </Card>
-          <Card sx={{ margin: "0.5rem" }}>
+
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-2.png" width="300px" height="300px" />
               </div>
-              <h3>option 2</h3>
-              <span>option 2</span>
+              <h3>Fast answer</h3>
+              <span>
+                Repudiandae amet nihil natus in distinctio suscipit id.
+                Doloremque ducimus ea sit non.
+              </span>
             </div>
           </Card>
-          <Card sx={{ margin: "0.5rem" }}>
+
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-3.png" width="300px" height="300px" />
               </div>
-              <h3>option 3</h3>
-              <span>option 3</span>
+              <h3>Time Save</h3>
+              <span>
+                Quam rem vitae est autem molestias explicabo debitis sint. Vero
+                aliquid quidem commodi.
+              </span>
             </div>
           </Card>
         </Box>
 
-        <Box>Footer</Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: " 7rem",
+            color: "#3F8CB8",
+            background: "white",
+          }}
+        >
+          Copyright © CSE 416 The StudyBoard
+        </Box>
       </Box>
     </>
   );
