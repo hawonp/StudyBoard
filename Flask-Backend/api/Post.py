@@ -7,7 +7,7 @@ from query.favourite_query import check_if_user_favourited_post, add_user_favour
 from query.tag_query import get_post_tags, get_user_tag_ids
 from config.config import ApplicationConfig
 from query.flag_query import flag_post
-
+from datetime import datetime
 
 ############################
 #    CONSTANT URL PATH     #
@@ -157,6 +157,7 @@ class PostWrite(Resource):
         text = formData["text"]
         image_url = formData["imageURL"]
         tags = formData["tags"]
+        date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         if image_url != "None":
             uuid = formData["uuid"]
 
@@ -168,7 +169,7 @@ class PostWrite(Resource):
             response = requests.put(api_call, params=payload, headers=headers)
             print("permanently storing image: ", response)
 
-        res = add_post(user_id, title, text, image_url, tags)
+        res = add_post(user_id, title, text, image_url, tags, date_time)
         return res
 
 #Post Search

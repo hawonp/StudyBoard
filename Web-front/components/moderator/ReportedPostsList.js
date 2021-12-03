@@ -70,15 +70,6 @@ export default function ReportedPostsList() {
 
   // moderator responding to a report
   const respondToReport = (row, decision) => {
-    // Add a request interceptor
-    axiosInstance.interceptors.request.use((request) => {
-      return request;
-    });
-
-    axiosInstance.interceptors.response.use((response) => {
-      return response;
-    });
-
     // check that current user session exists
     if (user) {
       const userID = user.sub;
