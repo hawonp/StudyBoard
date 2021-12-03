@@ -4,6 +4,7 @@ import React from "react";
 // MUI imports
 import { Menu, IconButton, MenuItem, Link } from "@mui/material";
 
+// functional component for rendering the menu bar inside the custom app bar
 export default function CustomMenu({ icon, itemList }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 

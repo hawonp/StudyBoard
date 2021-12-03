@@ -20,7 +20,7 @@ import SearchBar from "./SearchBar";
 import { useUser } from "@auth0/nextjs-auth0";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
-// constants
+// HRWrapper styling
 const HrWrapper = ({ style, children }) => {
   return (
     <div
@@ -41,6 +41,7 @@ const HrWrapper = ({ style, children }) => {
   );
 };
 
+// ContainerWrapper Styling
 const ContainerWrapper = ({ style, children }) => {
   return (
     <Container style={{ maxWidth: "1338px ", ...style }}>
@@ -52,35 +53,12 @@ const ContainerWrapper = ({ style, children }) => {
 
 // functional component for rendering the custom app bar
 export default function CustomAppBar() {
-  const router = useRouter();
-  const { user } = useUser();
+  const router = useRouter(); // used for redirection
+  const { user } = useUser(); // user session data from Auth0
 
-  const isBig = useMediaQuery("(min-width:800px)");
+  const isBig = useMediaQuery("(min-width:800px)"); // width constraint for responsive layouts
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "" : undefined;
-
-  const menuThreeList = [
-    {
-      type: "normal",
-
-      title: "Profile",
-      onClick: () => {
-        router.push("/" + "user/profile");
-      },
-    },
-  ];
-
+  // menu buttons
   const menuList = [
     {
       type: "normal",
@@ -93,7 +71,6 @@ export default function CustomAppBar() {
       type: "normal",
       title: "About",
       onClick: () => {
-        // alert("Profile");
         router.push("/" + "about");
       },
     },
@@ -101,7 +78,6 @@ export default function CustomAppBar() {
       type: "normal",
       title: "Rank",
       onClick: () => {
-        // alert("Profile");
         router.push("/" + "rank");
       },
     },
@@ -109,7 +85,6 @@ export default function CustomAppBar() {
       type: "special",
       title: "Profile",
       onClick: () => {
-        // alert("Profile");
         router.push("/" + "user/profile");
       },
     },
@@ -125,6 +100,7 @@ export default function CustomAppBar() {
             alt="logo"
           />
         </Link>
+        {/* responsive layout for app bar */}
         {isBig && (
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <NavButton to={"/board"} title={"AskQuestion"} />
@@ -138,12 +114,14 @@ export default function CustomAppBar() {
 
         <div>
           {user ? (
+            // if user is logged in, show logout button
             <Link href="/api/auth/logout">
               <Button variant="outlined" color="error">
                 Log Out
               </Button>
             </Link>
           ) : (
+            // if user is logged out, show login button
             <Link href="/api/auth/login">
               <Button variant="outlined" color="success">
                 Log In
@@ -154,6 +132,7 @@ export default function CustomAppBar() {
 
         <div>
           {user ? (
+            // if user is logged in, show notification
             <div>
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState) => (
@@ -179,7 +158,6 @@ export default function CustomAppBar() {
                       transformOrigin={{
                         vertical: "top",
                         horizontal: 200,
-                        // horizontal: "center",
                       }}
                     >
                       <NotificationList />
@@ -192,7 +170,7 @@ export default function CustomAppBar() {
                               textAlign: "center",
                               marginBottom: "0.5rem",
                             }}
-                            onClick={handleClose}
+                            onClick={{ ...bindPopover(popupState) }}
                           >
                             View all
                           </div>
@@ -208,7 +186,10 @@ export default function CustomAppBar() {
           )}
         </div>
         <div>
+          {/* responsive layout */}
           {isBig ? (
+            // if user is logged in, show profile button
+
             user ? (
               <div>
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
@@ -222,6 +203,7 @@ export default function CustomAppBar() {
               <> </>
             )
           ) : (
+            // responsive layout for smaller screens
             <CustomMenu icon={<MenuIcon />} itemList={menuList} />
           )}
         </div>

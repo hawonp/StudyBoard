@@ -61,7 +61,7 @@ export default function Contact() {
         >
           <Link href="/about">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>About</div>
+              <div>About Us</div>
             </a>
           </Link>
         </Button>
@@ -78,7 +78,7 @@ export default function Contact() {
         <Button variant="outlined" sx={{ borderRadius: "20px" }}>
           <Link href="/contact">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>Contact</div>
+              <div>Contact Us</div>
             </a>
           </Link>
         </Button>
@@ -105,7 +105,7 @@ export default function Contact() {
               <FmdGoodIcon sx={{ fontSize: "3rem" }} />
             </div>
             <strong style={{ marginBottom: "0.3rem" }}>Our Office</strong>
-            <div>28,Songdo-ro, Inchun, Korea</div>
+            <div>28,Songdo-ro, Incheon, Korea</div>
           </PaperWrapper>
 
           <PaperWrapper>

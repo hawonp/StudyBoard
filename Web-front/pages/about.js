@@ -24,7 +24,7 @@ export default function About() {
           marginTop: ".8rem",
           marginBottom: "2rem",
           padding: "1rem 1rem",
-          // MaxWidth: "1450px",
+          MaxWidth: "1450px",
         }}
       >
         <Button
@@ -33,7 +33,7 @@ export default function About() {
         >
           <Link href="/about">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>About</div>
+              <div>About Us</div>
             </a>
           </Link>
         </Button>
@@ -50,7 +50,7 @@ export default function About() {
         <Button variant="outlined" sx={{ borderRadius: "20px" }}>
           <Link href="/contact">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>Contact</div>
+              <div>Contact Us</div>
             </a>
           </Link>
         </Button>
@@ -62,7 +62,6 @@ export default function About() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          // boxShadow: "0 2px 10px lightgray",
         }}
       >
         <Box>
@@ -73,27 +72,26 @@ export default function About() {
         </div>
         <div className={navStyles.box}>
           <p className={navStyles.line}>
-            <h2>Why do you need our service?</h2>
-            StudyBoard's community-based, information-providing service to
-            answer your questions is like no other.
+            <h2>Why StudyBoard?</h2>
+            StudyBoard is committed to providing the highest quality questions
+            and replies.
           </p>
           <p className={navStyles.line}>
-            <h2>How to use our service?</h2>
-            Ask any question and recieve replies from a <br /> wide variety of
-            knowledgeable people!
+            <h2>How to use StudyBoard?</h2>
+            Sign up! <br /> Ask a question <br />
+            Recieve replies from the entire community
           </p>
-          <p className={navStyles.line}>
-            <h2>Something</h2>
-            something need to put it in
-          </p>
-          <p className={navStyles.line}>
-            <h2>Something</h2>
-            something need to put it in
+          {/* <p className={navStyles.line}>
+            <h2>Unique Features</h2>
           </p>
           <p className={navStyles.line}>
             <h2>Something</h2>
             something need to put it in
           </p>
+          <p className={navStyles.line}>
+            <h2>Something</h2>
+            something need to put it in
+          </p> */}
         </div>
       </Box>
     </Box>
