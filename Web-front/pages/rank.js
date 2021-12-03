@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import RankUserList from "../components/RankUserList";
-
+import UserRankList from "../components/misc/UserRankList";
 export default function Rank() {
   return (
     <div>
@@ -27,7 +26,7 @@ export default function Rank() {
             }}
           />
 
-          <RankUserList />
+          <UserRankList />
         </Box>
       </Box>
     </div>

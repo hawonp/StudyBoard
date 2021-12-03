@@ -9,7 +9,7 @@ from api.Auth0 import get_random_string
 ##########################################################
 # Adding User entries to the db.
 def add_user(id, nickname, email_address):
-    new_user_id = "" #When meeting and error or not found
+    new_user_id = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -67,28 +67,32 @@ def add_user_to_blacklist(user_id):
 ##########################################################
 #Get all users
 def get_users():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM User")
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM User")
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        res=[]
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    #Close cursor
-    cur.close()
-    conn.commit()
-    conn.close()
-    # return the results!
-    return json_data
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    #Return result
+    return res
 
 
 #Get user id by email
 def get_user_id_with_email(email):
-    user_id = "" #When meeting and error or not found
+    user_id = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()

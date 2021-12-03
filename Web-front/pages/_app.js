@@ -1,17 +1,18 @@
-import AppLayout from "../components/Applayout";
+// MUI imports
 import { CssBaseline } from "@mui/material";
-import { ReportProvider } from "../contexts/ReportContext";
-import { UserProvider } from "@auth0/nextjs-auth0";
 
+// package imports
+import { UserProvider } from "@auth0/nextjs-auth0";
+import AppLayout from "../components/base_layout/AppLayout";
+
+// base app page
 function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
   return (
     <UserProvider user={user}>
       <AppLayout>
         <CssBaseline />
-        <ReportProvider>
-          <Component {...pageProps} />
-        </ReportProvider>
+        <Component {...pageProps} />
       </AppLayout>
     </UserProvider>
   );

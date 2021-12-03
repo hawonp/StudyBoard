@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
+
 //Importing MUI
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -14,10 +15,10 @@ import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 
 import axiosInstance from "../../utils/routeUtil";
-import ProfileCard from "../../components/ProfileCard";
-import PostEdit from "../../components/PostEdit";
-import PostDetail from "../../components/PostDetail";
-import { CommentBox } from "../../components/CommentBox";
+import ProfileCard from "../../components/user/ProfileCard";
+import PostEditing from "../../components/post/PostEditing";
+import PostDetail from "../../components/post/PostDetail";
+import { CommentBox } from "../../components/post/CommentBox";
 
 const POSTDATAENDPOINT = "/posts";
 
@@ -193,7 +194,7 @@ export default function PostDetailPage() {
           >
             {console.log(isEdit)}
             {isEdit ? (
-              <PostEdit
+              <PostEditing
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);

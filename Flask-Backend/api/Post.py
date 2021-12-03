@@ -1,13 +1,13 @@
+from datetime import datetime
 import re
 from config.imports import json, Resource, request, abort, requests
-from config.imports import Schema, fields
+from config.imports import Schema, fields, validate
+from config.config import ApplicationConfig
 from query.post_query import add_user_like_post, delete_user_like_post, check_if_user_liked_post, search_posts, add_post, get_post_by_id, update_post, delete_post
 from query.post_query import get_post_feed, get_post_feed_with_filter, get_posts_by_tag_name,search_tags, get_search_results_tags, get_search_results_posts
 from query.favourite_query import check_if_user_favourited_post, add_user_favourite_post, delete_user_favourite_post
 from query.tag_query import get_post_tags, get_user_tag_ids
-from config.config import ApplicationConfig
 from query.flag_query import flag_post
-
 
 ############################
 #    CONSTANT URL PATH     #
@@ -28,25 +28,25 @@ QUERY = '/query'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
-    userID = fields.Str(required=True)
-    page = fields.Int(required=True)
-    order = fields.Int(required=True)
-    filter = fields.Int(required=True)
+    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    page = fields.Int(required=True, validate=validate.Range(min=1))
+    order = fields.Int(required=True, validate=validate.Range(min=0, max=1))
+    filter = fields.Int(required=True, validate=validate.Range(min=0, max=1))
 
 class PostDataSchema(Schema):
-    userID = fields.Str(required=True)
-    title = fields.Str(required=True)
-    text = fields.Str(required=True)
-    imageURL = fields.Str(required=True)
+    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    title = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
+    imageURL = fields.Str(required=True, validate=validate.Length(min=1, max=512))
     tags = fields.List(fields.Str())
     uuid = fields.Str(required=False)
 
 class PostInteractorIDSchema(Schema):
-    userID = fields.Str(required=True)
+    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
 
 class PostFlagSchema(Schema):
-    userID = fields.Str(required=True)
-    text = fields.Str(required=True)
+    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
 
 ############################
 # Flask RESTful API routes #
@@ -89,7 +89,7 @@ class FeedPostData(Resource):
             
         return json.dumps(feed, default=str)
 
-#Post (detail) TODO: 
+#Post (detail)
 class PostData(Resource):
     def get(self, id):
         #First get post
@@ -141,7 +141,7 @@ class PostData(Resource):
         return json.dumps(res)
 
 
-#Post creation TODO: NEEDS TO BE TESTED
+#Post creation
 class PostWrite(Resource):
     def post(self):
         print("validate inputs")
@@ -157,6 +157,9 @@ class PostWrite(Resource):
         text = formData["text"]
         image_url = formData["imageURL"]
         tags = formData["tags"]
+        date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        #
         if image_url != "None":
             uuid = formData["uuid"]
 
@@ -168,19 +171,19 @@ class PostWrite(Resource):
             response = requests.put(api_call, params=payload, headers=headers)
             print("permanently storing image: ", response)
 
-        res = add_post(user_id, title, text, image_url, tags)
+        res = add_post(user_id, title, text, image_url, tags, date_time)
         return res
 
 #Post Search
 class SearchPreview(Resource):
     def get(self):
-        print("Querying search result")
+                
         input = request.args.get('input')
 
+        #Query for input
         post_list = search_posts(input)
         tag_list = search_tags(input)
 
-        print(post_list + tag_list)
         return post_list + tag_list
 
 class SearchQuery(Resource):
@@ -203,8 +206,7 @@ class SearchQuery(Resource):
  # get posts by tag_id
 class PostTag(Resource):
     def get(self):
-        # formData = request.get_json()["params"]
-        # tag_id = formData["tagID"]
+
         tag_name = request.args.get('tagName')
         print("tag name", tag_name)
         posts = get_posts_by_tag_name(tag_name)

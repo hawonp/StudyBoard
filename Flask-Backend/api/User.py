@@ -2,7 +2,8 @@
 from flask.json import jsonify
 from google.oauth2 import id_token 
 from config.imports import mariadb, json, Resource, request, abort
-from config.imports import Schema, fields
+from config.imports import Schema, fields, validate
+
 from query.post_query import get_posts_by_user, check_if_user_liked_post
 from query.favourite_query import get_favourited_post
 from query.tag_query import get_user_tags, get_post_tags
@@ -25,8 +26,8 @@ NOTIFICATION_ID = '/<int:nid>'
 ############################
 class UserInfoSchema(Schema):
     # id_token = fields.Str(re)
-    user_nickname = fields.Str(required=True)
-    user_tags = fields.List(fields.Str(), required=True)
+    user_nickname = fields.Str(required=True, validate=validate.Length(min=1, max=16))
+    user_tags = fields.List(fields.Str(validate=validate.Length(min=1, max=32)), required=True)
     
 ############################
 # Flask RESTful API routes #
@@ -42,14 +43,13 @@ class UserInfo(Resource):
         }
         return json.dumps(data)
 
-    # TODO: fix validation
     def put(self, id):
         #Validate params first    
         formData = request.get_json()["params"]
-        # print(formData)
-        # errors = UserInfoSchema.validate(formData)        
-        # if errors:
-        #     abort(400, str(errors))
+        print(formData)
+        errors = user_info_schema.validate(formData)        
+        if errors:
+            abort(400, str(errors))
 
         #Get the params
         user_nickname = formData['user_nickname']
@@ -74,7 +74,6 @@ class UserInfo(Resource):
 class PostFavourites(Resource):
     def get(self, id):
         user_id = id
-
         posts = get_favourited_post(user_id)
 
         #For every post, get the tags and append it to the respective post object
@@ -110,6 +109,8 @@ class UsersByRank(Resource):
         #Call function and return 10 
         data = get_users_order_by_rank()
 
+        if not data:
+            abort(500, "Oops. Something went wrong.")
         return json.dumps(data)
 
 #Post feed
@@ -117,12 +118,16 @@ class UserNotifications(Resource):
     def get(self, id):
         #Get the list of user's posts
         notifs = get_user_notifications(id)
-            
+        
+        if not notifs:
+            abort(500, "Oops. Something went wrong.")
         return json.dumps(notifs, default=str)
     def delete(self, id):
         #Delete all notifs
         res = delete_all_notifications(id)
-            
+        
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
 #Post feed
@@ -130,7 +135,8 @@ class UserNotification(Resource):
     def delete(self, id, nid):
         #Delete all notifs
         res = delete_notification(nid)
-            
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
 
