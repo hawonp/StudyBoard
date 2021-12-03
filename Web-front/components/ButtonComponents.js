@@ -1,13 +1,13 @@
+// react imports
+import React from "react";
+
+// MUI imports
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ShareIcon from "@mui/icons-material/Share";
 import CardActions from "@mui/material/CardActions";
-import React from "react";
-import FlagIcon from "@mui/icons-material/Flag";
 
+// constants
 const CountNumber = ({ style, children }) => {
   return (
     <div style={{ fontSize: "0.8rem", fontWeight: "bold", ...style }}>
@@ -17,7 +17,8 @@ const CountNumber = ({ style, children }) => {
   );
 };
 
-export default function ButtonComponets({ likeCount, replyCount }) {
+// functional component renders the number of likes and replies a post has (for the board page)
+export default function ButtonComponents({ likeCount, replyCount }) {
   return (
     <CardActions disableSpacing sx={{ justifyContent: "end", padding: 0 }}>
       <IconButton
@@ -29,13 +30,6 @@ export default function ButtonComponets({ likeCount, replyCount }) {
         &nbsp;
         <CountNumber>{likeCount} Likes</CountNumber>
       </IconButton>
-      {/* post_like_count */}
-
-      {/* <IconButton aria-label="thoumup">
-                <ThumbUpIcon sx={{ fontSize: '1.2rem' }}/>
-            </IconButton>
-            <CountNumber>: 0</CountNumber> */}
-      {/* Comment button &  */}
 
       <IconButton
         disableRipple
@@ -46,7 +40,6 @@ export default function ButtonComponets({ likeCount, replyCount }) {
         &nbsp;
         <CountNumber>{replyCount} Comments</CountNumber>
       </IconButton>
-      {/* post_reply_count */}
     </CardActions>
   );
-}
+} //end of functional component

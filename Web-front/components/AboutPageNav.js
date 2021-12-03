@@ -1,23 +1,20 @@
+// react imports
 import * as React from "react";
 import PropTypes from "prop-types";
+
+// MUI imports
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import StarIcon from "@mui/icons-material/StarBorder";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import Container from "@mui/material/Container";
 
 function Copyright(props) {
   return (
@@ -140,6 +137,7 @@ function a11yProps(index) {
   };
 }
 
+// functional component that renders the about page
 export default function AboutPageNav() {
   const [value, setValue] = React.useState(0);
 
@@ -297,4 +295,4 @@ export default function AboutPageNav() {
       </TabPanel>
     </Box>
   );
-}
+} //end of functional component

@@ -186,4 +186,4 @@ export default function AdminUserList() {
       </BoxWrapper>
     );
   }
-}
+} //end of functional component

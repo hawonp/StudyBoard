@@ -194,4 +194,4 @@ export default function AdminPostList() {
       </BoxWrapper>
     );
   }
-}
+} //end of functional component
