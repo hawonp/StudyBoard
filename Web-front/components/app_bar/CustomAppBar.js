@@ -90,6 +90,40 @@ export default function CustomAppBar() {
     },
   ];
 
+  const menuList2 = [
+    {
+      type: "normal",
+      title: "AskQuestion",
+      onClick: () => {
+        router.push("/" + "board");
+      },
+    },
+    {
+      type: "normal",
+      title: "About",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "about");
+      },
+    },
+    {
+      type: "normal",
+      title: "Rank",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "rank");
+      },
+    },
+    {
+      type: "normal",
+      title: "Profile",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "user/profile");
+      },
+    },
+  ];
+
   return (
     <ContainerWrapper>
       <Toolbar>
@@ -189,7 +223,6 @@ export default function CustomAppBar() {
           {/* responsive layout */}
           {isBig ? (
             // if user is logged in, show profile button
-
             user ? (
               <div>
                 {/*<CustomMenu icon={<MenuIcon />} itemList={menuTwoList} />*/}
@@ -202,8 +235,10 @@ export default function CustomAppBar() {
             ) : (
               <> </>
             )
-          ) : (
+          ) : user ? (
             // responsive layout for smaller screens
+            <CustomMenu icon={<MenuIcon />} itemList={menuList2} />
+          ) : (
             <CustomMenu icon={<MenuIcon />} itemList={menuList} />
           )}
         </div>
