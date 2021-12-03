@@ -1,5 +1,5 @@
 from config.imports import json, Resource, request, abort
-from config.imports import Schema, fields
+from config.imports import Schema, fields, validate
 from query.flag_query import flag_reply
 from query.reply_query import get_replies_to_post, add_post_reply, add_reply_reply, delete_reply
 from query.reply_query import add_user_like_reply, delete_user_like_reply

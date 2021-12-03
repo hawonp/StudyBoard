@@ -216,7 +216,7 @@ class PostTag(Resource):
             post_tags = get_post_tags(post["post_id"])
             tags = []
             for tag in post_tags:
-            tags.append(tag[0])
+                tags.append(tag[0])
             post["post_tags"] = tags
             
         return json.dumps(posts, default=str)       
