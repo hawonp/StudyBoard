@@ -162,78 +162,87 @@ def add_user_like_reply(reply_id, user_id):
 #                         SELECT                         #
 ##########################################################
 def get_replies_to_post(post_id, order, user_id):
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
 
-    #Set up query statements and values
-    if order == 0:
-        #If the order is in date
-        query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY reply_date DESC"
-    elif order == 1:
-        #If the order is in likes
-        query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY reply_like_count DESC"
-    else:
-        #If the order is in ranks
-        query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY user_likes_received DESC"
-        
-    values = (post_id, )
+        #Set up query statements and values
+        if order == 0:
+            #If the order is in date
+            query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY reply_date DESC"
+        elif order == 1:
+            #If the order is in likes
+            query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY reply_like_count DESC"
+        else:
+            #If the order is in ranks
+            query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY user_likes_received DESC"    
+        values = (post_id, )
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query, " and values ", values)
-    cur.execute(query, values)
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        res=[]
 
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    for row in json_data:
-        row["replies_to_reply"] = get_replies_to_reply(row["reply_id"], user_id)
-        row["did_user_like"] = check_if_user_liked_reply(row["reply_id"], user_id)
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
 
-    #Close cursor
-    cur.close()
-    conn.commit()
-    conn.close()
+        #Get replies to this reply and whether current user liked it
+        for row in res:
+            row["replies_to_reply"] = get_replies_to_reply(row["reply_id"], user_id)
+            row["did_user_like"] = check_if_user_liked_reply(row["reply_id"], user_id)
+
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0 #When meeting and error
 
     # return the results!
-    return json_data
+    return res
 
 def get_replies_to_reply(reply_id, user_id):
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
 
-    #Set up query statements and values
-    query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Reply WHERE source_id=?)AS rtr ON rtr.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id"
-    values = (reply_id, )
+        #Set up query statements and values
+        query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Reply WHERE source_id=?)AS rtr ON rtr.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id"
+        values = (reply_id, )
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query, " and values ", values)
-    cur.execute(query, values)
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query, " and values ", values)
+        cur.execute(query, values)
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        res=[]
 
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    for row in json_data:
-        row["did_user_like"] = check_if_user_liked_reply(row["reply_id"], user_id)
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
 
-    #Close cursor
-    cur.close()
-    conn.commit()
-    conn.close()
-
-    # return the results!
-    return json_data
+        #Check if user liked the reply
+        for row in res:
+            row["did_user_like"] = check_if_user_liked_reply(row["reply_id"], user_id)
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    return res
 
     #Check if the user liked the post
 def check_if_user_liked_reply(reply_id, user_id):

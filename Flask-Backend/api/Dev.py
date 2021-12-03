@@ -84,7 +84,8 @@ def init_routes(api):
 # To print the last executed query
 # print(cur.statement)
 # 
-# 
+# Validating string length for a string field for marshmallow param validation
+# validate=validate.Length(min=x, max=y)
 # 
 # 
 # 

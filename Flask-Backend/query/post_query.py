@@ -11,7 +11,7 @@ import itertools
 ##########################################################
 # Adding Post entries to the db.
 def add_post(user_id, title, text, img_url, tags, date_time):
-    new_post_id = -1 #When meeting and error or not found
+    new_post_id = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -60,7 +60,7 @@ def add_post(user_id, title, text, img_url, tags, date_time):
 
 # Adding Post entries to the db.
 def add_user_like_post(user_id, post_id):
-    new_user_post_like_id = -1 #When meeting and error or not found
+    new_user_post_like_id = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -226,7 +226,7 @@ def get_posts():
         conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        return None
+        return 0
 
     return { 'posts': json_data }
 
@@ -280,7 +280,7 @@ def get_posts_by_tag_name(tag_name):
 
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
-        print(json_data)
+
         #Close cursor
         cur.close()
         conn.commit()
@@ -308,10 +308,6 @@ def search_tags(input):
         cur.execute(query, values)
 
         tag_result = cur.fetchall()
-
-        # flatten the result matrix
-        # tag_result = list(itertools.chain(*tag_result))
-
         return_result = []
 
         for i in range(len(tag_result)):
@@ -354,8 +350,6 @@ def search_posts(input):
         return_result = []
 
         # flatten the result matrix
-        # post_result = list(itertools.chain(*post_result))
-        
         for i in range(len(post_result)):
             temp = {"type" : "post", "id" : post_result[i][0], "text" : post_result[i][1]}
             return_result.append(temp)
@@ -377,7 +371,6 @@ def get_search_results_posts(input):
         conn = get_connection()
         cursor = conn.cursor()
 
-        # query = "SELECT DISTINCT Post.post_id, Post.post_title, Post_post_image, Post.post_like_count, Post.post_reply_count, CONVERT(VARCHAR, Post.data, 20) From Post where LOWER(Post.post_title) LIKE LOWER(?)"
         query = "SELECT DISTINCT Post.*, User.user_nickname From Post, User where Post.user_id = User.user_id && LOWER(Post.post_title) LIKE LOWER(?)"
 
         values = ("%" + input + "%", )

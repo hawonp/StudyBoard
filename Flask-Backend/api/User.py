@@ -3,6 +3,7 @@ from flask.json import jsonify
 from google.oauth2 import id_token 
 from config.imports import mariadb, json, Resource, request, abort
 from config.imports import Schema, fields, validate
+
 from query.post_query import get_posts_by_user, check_if_user_liked_post
 from query.favourite_query import get_favourited_post
 from query.tag_query import get_user_tags, get_post_tags
@@ -42,7 +43,6 @@ class UserInfo(Resource):
         }
         return json.dumps(data)
 
-    # TODO: fix validation
     def put(self, id):
         #Validate params first    
         formData = request.get_json()["params"]
@@ -74,7 +74,6 @@ class UserInfo(Resource):
 class PostFavourites(Resource):
     def get(self, id):
         user_id = id
-
         posts = get_favourited_post(user_id)
 
         #For every post, get the tags and append it to the respective post object
