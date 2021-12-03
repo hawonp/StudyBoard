@@ -10,7 +10,7 @@ import itertools
 #                         INSERT                         #
 ##########################################################
 # Adding Post entries to the db.
-def add_post(user_id, title, text, img_url, tags):
+def add_post(user_id, title, text, img_url, tags, date_time):
     new_post_id = -1 #When meeting and error or not found
     try:
         #Obtain DB cursor
@@ -19,7 +19,7 @@ def add_post(user_id, title, text, img_url, tags):
 
         #First add the Post to Post table
         #Set up query statement and values
-        date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
         query = "INSERT INTO Post (user_id, post_title, post_text, post_image, post_date) VALUES (?, ?, ?, ?, ?)"
         values = (user_id, title, text, img_url, date_time)
 

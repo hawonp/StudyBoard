@@ -68,7 +68,15 @@ export const CommentBox = ({ postID }) => {
 
   //Load comments upon render
   useEffect(() => {
-    if (!isLoading && !error && user) {
+    // Add a request interceptor
+    axiosInstance.interceptors.request.use((request) => {
+      return request;
+    });
+
+    axiosInstance.interceptors.response.use((response) => {
+      return response;
+    });
+    if (!isLoading && !error) {
       let userID = -1;
       if (user) {
         userID = user.sub;
@@ -89,6 +97,7 @@ export const CommentBox = ({ postID }) => {
           setLoadingReplies(false);
         });
     }
+    console.log("data", comments);
   }, [loadingReplies, feedOrder, isLoading]);
 
   // Switch to show and hide replies

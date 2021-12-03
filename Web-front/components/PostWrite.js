@@ -22,17 +22,14 @@ export function PostWrite() {
   const router = useRouter();
 
   const post = (user) => {
-    console.log("title", title);
-    console.log(typeof content);
     console.log("content", content);
-    console.log("tag", tag);
-    console.log(image);
+    console.log("image URL", image);
     const formattedTags = tag
       .split(",")
       .map((unadjustedTag) =>
         unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
       );
-
+    console.log("tags", formattedTags);
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
