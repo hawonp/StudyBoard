@@ -23,7 +23,6 @@ def get_auth_token2():
     response = requests.post(f'{base_url}/oauth/token', data=payload)
     oauth = response.json()
     access_token = oauth.get('access_token')
-    # print(access_token)
 
     return access_token, base_url
 
@@ -36,8 +35,6 @@ def block_user(user_id):
     }
 
     payload = "{\"blocked\": true}"    
-
-    print(base_url, user_id)
      # Get all Applications using the token
     try:
         res = requests.patch(f'{base_url}/api/v2/users/{user_id}', data=payload, headers=headers)

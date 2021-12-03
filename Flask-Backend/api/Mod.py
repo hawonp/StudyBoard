@@ -114,7 +114,6 @@ class RespondToReplyFlag(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = handle_report_authorise_schema.validate(formData)
 
         if errors:
@@ -140,7 +139,6 @@ class BlacklistUser(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = mod_authorise_schema.validate(formData)
         if errors:
             print(errors)

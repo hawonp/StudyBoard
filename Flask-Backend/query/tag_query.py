@@ -13,17 +13,12 @@ def add_tag(tag):
 
         #First add the Post to Post table
         #Set up query statement and values
-        print("value of tag right now:", tag)
         query = "INSERT INTO Tag (tag_name) VALUES (?)"
         values = (tag, )
 
         #Adding new data into table
         print("Adding with query", query, "and values", values)
         cursor.execute(query, values)
-
-        #Getting id of newly added post
-        print("\n\nadd_tag method\n\n")
-
         tag_id = cursor.lastrowid
 
         #Closing cursor and commiting  connection

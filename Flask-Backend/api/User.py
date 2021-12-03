@@ -46,7 +46,6 @@ class UserInfo(Resource):
     def put(self, id):
         #Validate params first    
         formData = request.get_json()["params"]
-        print(formData)
         errors = user_info_schema.validate(formData)        
         if errors:
             abort(400, str(errors))
@@ -54,7 +53,6 @@ class UserInfo(Resource):
         #Get the params
         user_nickname = formData['user_nickname']
         user_tags = formData['user_tags']
-        print(request.args)
 
         res = update_user(id, user_nickname, user_tags)
         return res

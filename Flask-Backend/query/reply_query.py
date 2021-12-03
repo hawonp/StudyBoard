@@ -259,7 +259,7 @@ def check_if_user_liked_reply(reply_id, user_id):
         print("Checking existance with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchone()
-        print("user id",user_id,"reply id",reply_id,"like", res[0])
+        
         #Closing cursor
         cursor.close()
         conn.commit()

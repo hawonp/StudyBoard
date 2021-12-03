@@ -25,7 +25,6 @@ def add_user(id, nickname, email_address):
         
         #Getting id of newly added user
         new_user_id = cursor.lastrowid
-        print("cursor lastrowid is ", cursor.lastrowid)
 
         #Closing cursor and commiting  connection
         cursor.close()
@@ -204,7 +203,6 @@ def get_users_order_by_rank():
 
         for user in json_data:
             user["tags"] = get_user_tags(user["user_id"])
-            print(user)
  
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")

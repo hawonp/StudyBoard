@@ -58,7 +58,6 @@ class PostReply(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
         errors = add_reply_schema.validate(formData)
 
         if errors:
@@ -82,7 +81,6 @@ class ReplyReply(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
         errors = add_reply_to_reply_schema.validate(formData)
 
         if errors:
