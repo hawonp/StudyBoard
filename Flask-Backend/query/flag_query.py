@@ -137,33 +137,36 @@ def get_flagged_replies():
     return res
 
 def get_flagged_users():
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cur = conn.cursor()
 
-    #Set up query statements 
-    query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
+        #Set up query statements 
+        query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
 
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query)
-    cur.execute(query)
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query)
+        cur.execute(query)
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
+        # serialize results into JSON
+        row_headers=[x[0] for x in cur.description]
+        rv = cur.fetchall()
+        res=[]
 
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    #Close cursor
-    cur.close()
-    conn.commit()
-    conn.close()
-
-    # return the results!
-    return json_data
+        #Close cursor
+        cur.close()
+        conn.commit()
+        conn.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    return res
 
 ##########################################################
 #                         UPDATE                         #

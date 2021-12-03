@@ -42,7 +42,6 @@ class UserInfo(Resource):
         }
         return json.dumps(data)
 
-    # TODO: fix validation
     def put(self, id):
         #Validate params first    
         formData = request.get_json()["params"]
@@ -74,7 +73,6 @@ class UserInfo(Resource):
 class PostFavourites(Resource):
     def get(self, id):
         user_id = id
-
         posts = get_favourited_post(user_id)
 
         #For every post, get the tags and append it to the respective post object
