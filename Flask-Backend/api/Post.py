@@ -215,8 +215,8 @@ class PostTag(Resource):
             #Finding and adding related tags to each post
             post_tags = get_post_tags(post["post_id"])
             tags = []
-            for tag in post_tags:w
-                tags.append(tag[0])
+            for tag in post_tags:
+            tags.append(tag[0])
             post["post_tags"] = tags
             
         return json.dumps(posts, default=str)       
