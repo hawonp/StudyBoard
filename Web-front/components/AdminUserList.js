@@ -1,7 +1,10 @@
+// react imports
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+import { useRouter } from "next/router";
+
+// MUI imports
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,12 +13,10 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { Box, ListItem } from "@mui/material";
-import Link from "@mui/material/Link";
-import LinkIcon from "@mui/icons-material/Link";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
 
+// package imports
 import axiosInstance from "../utils/routeUtil";
 import LoadingProgress from "../components/Loading";
 
@@ -44,18 +45,17 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// functional component that renders the list of users with 10 or more reports
 export default function AdminUserList() {
   const [rows, setRows] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { user, isLoading, error } = useUser();
+  const router = useRouter();
 
   //Load users
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
-      console.log("dsad");
       setRows(JSON.parse(response.data));
-      console.log(JSON.parse(response.data));
-      console.log(rows);
       setIsDataLoading(false);
     });
   }, [isDataLoading, isLoading]);
@@ -70,9 +70,15 @@ export default function AdminUserList() {
           },
         })
         .then((response) => {
-          console.log("dsad");
-          console.log(JSON.parse(response.data));
           setIsDataLoading(true);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
         });
     }
   };

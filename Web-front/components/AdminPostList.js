@@ -1,9 +1,12 @@
+// react imports
 import { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 import LoadingProgress from "../components/Loading";
-//Importing MUI
+import { useRouter } from "next/router";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
@@ -18,9 +21,11 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
+// package imports
 import axiosInstance from "../utils/routeUtil";
 import { ReportContext } from "../contexts/ReportContext";
 
+// constants
 const FLAGGEDENDPOINT = "/flagged";
 const POSTDATAENDPOINT = "/posts";
 const ROUTE_ID = "/posts/[id]";
@@ -47,18 +52,17 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// functional component that renders the list of reported posts
 export default function AdminPostList() {
   const [rows, setRows] = useContext(ReportContext);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { user, isLoading, error } = useUser();
+  const router = useRouter();
 
   //Load posts
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + POSTDATAENDPOINT).then((response) => {
-      console.log("dsad");
       setRows(JSON.parse(response.data));
-      console.log(JSON.parse(response.data));
-      console.log(rows);
       setIsDataLoading(false);
     });
   }, [isDataLoading, isLoading]);
@@ -66,16 +70,13 @@ export default function AdminPostList() {
   const respondToReport = (row, decision) => {
     // Add a request interceptor
     axiosInstance.interceptors.request.use((request) => {
-      console.log("Starting Request", JSON.stringify(request, null, 2));
       return request;
     });
 
     axiosInstance.interceptors.response.use((response) => {
-      console.log("Response:", JSON.stringify(response, null, 2));
       return response;
     });
     if (user) {
-      console.log("row", row.report_id);
       const userID = user.sub;
       if (decision == 1) {
         axiosInstance
@@ -86,9 +87,15 @@ export default function AdminPostList() {
             },
           })
           .then((response) => {
-            console.log("dsad");
-            console.log(JSON.parse(response.data));
             setIsDataLoading(true);
+          })
+          .catch((e) => {
+            const resp = e.response;
+            if (resp["status"] == 403) {
+              router.push("/" + "error/403");
+            } else if (resp["status"] == 400) {
+              router.push("/" + "error/400");
+            }
           });
       } else {
         axiosInstance
@@ -99,9 +106,15 @@ export default function AdminPostList() {
             },
           })
           .then((response) => {
-            console.log("dsad");
-            console.log(JSON.parse(response.data));
             setIsDataLoading(true);
+          })
+          .catch((e) => {
+            const resp = e.response;
+            if (resp["status"] == 403) {
+              router.push("/" + "error/403");
+            } else if (resp["status"] == 400) {
+              router.push("/" + "error/400");
+            }
           });
       }
     }

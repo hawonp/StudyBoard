@@ -1,5 +1,8 @@
+// react imports
 import * as React from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import { styled, ThemeProvider, createTheme } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
@@ -14,8 +17,8 @@ import Home from "@mui/icons-material/Home";
 import People from "@mui/icons-material/People";
 import PermMedia from "@mui/icons-material/PermMedia";
 import Dns from "@mui/icons-material/Dns";
-import { useRouter } from "next/router";
 
+// constants
 const data = [
   { icon: <People />, label: "User", href: "/admin/admin" },
   { icon: <PermMedia />, label: "Post", href: "/admin/flagPost" },
@@ -36,6 +39,7 @@ const FireNav = styled(List)({
   },
 });
 
+// functional component renders the moderator page
 export default function AdminNav() {
   const [open, setOpen] = React.useState(true);
   const router = useRouter();

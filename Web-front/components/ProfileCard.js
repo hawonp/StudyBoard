@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Cookies from "universal-cookie";
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
@@ -124,23 +123,31 @@ export default function ProfileCard() {
   useEffect(() => {
     if (!isLoading && !error && user) {
       console.log("Crawling User Profile Data");
-      axiosInstance.get(users + user.sub).then((response) => {
-        console.log("response from backend" + response);
-        if (response["status"] == 200) {
-          const temp = response["data"];
-          const temp_json = JSON.parse(temp);
-          const user_nickname = temp_json.user.user_nickname;
-          const user_is_mod = temp_json.user.user_is_mod;
-          const tag = temp_json.tags;
-          console.log("tag", tag);
-          setNickname(user_nickname);
-          setUserId(temp_json.user.user_id);
-          setTags(tag);
-          setMod(user_is_mod);
-          console.log(tag);
-          console.log(user_nickname);
-        }
-      });
+      axiosInstance
+        .get(users + user.sub)
+        .then((response) => {
+          console.log("response from backend" + response);
+          if (response["status"] == 200) {
+            const temp = response["data"];
+            const temp_json = JSON.parse(temp);
+            const user_nickname = temp_json.user.user_nickname;
+            const user_is_mod = temp_json.user.user_is_mod;
+            const tag = temp_json.tags;
+            console.log("tag", tag);
+            setNickname(user_nickname);
+            setUserId(temp_json.user.user_id);
+            setTags(tag);
+            setMod(user_is_mod);
+            console.log(tag);
+            console.log(user_nickname);
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "api/auth/logout");
+          }
+        });
     }
   }, [isLoading]);
 
