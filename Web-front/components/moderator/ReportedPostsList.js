@@ -30,6 +30,7 @@ const FLAGGEDENDPOINT = "/flagged";
 const POSTDATAENDPOINT = "/posts";
 const ROUTE_ID = "/posts/[id]";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <Box
@@ -54,12 +55,12 @@ const BoxWrapper = ({ style, children }) => {
 
 // functional component that renders the list of reported posts
 export default function ReportedPostsList() {
-  const [rows, setRows] = useContext(ReportContext);
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  const { user, isLoading, error } = useUser();
-  const router = useRouter();
+  const router = useRouter(); // used for redirection
+  const [rows, setRows] = useContext(ReportContext); // report context
+  const [isDataLoading, setIsDataLoading] = useState(true); // data loading state
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
 
-  //Load posts
+  //load posts from backend
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + POSTDATAENDPOINT).then((response) => {
       setRows(JSON.parse(response.data));
@@ -67,6 +68,7 @@ export default function ReportedPostsList() {
     });
   }, [isDataLoading, isLoading]);
 
+  // moderator responding to a report
   const respondToReport = (row, decision) => {
     // Add a request interceptor
     axiosInstance.interceptors.request.use((request) => {
@@ -76,8 +78,11 @@ export default function ReportedPostsList() {
     axiosInstance.interceptors.response.use((response) => {
       return response;
     });
+
+    // check that current user session exists
     if (user) {
       const userID = user.sub;
+      // moderator accepts the report
       if (decision == 1) {
         axiosInstance
           .delete(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + row.report_id, {
@@ -97,7 +102,9 @@ export default function ReportedPostsList() {
               router.push("/" + "error/400");
             }
           });
-      } else {
+      }
+      // moderator denies the report
+      else {
         axiosInstance
           .put(FLAGGEDENDPOINT + POSTDATAENDPOINT + "/" + row.report_id, {
             params: {
@@ -120,12 +127,17 @@ export default function ReportedPostsList() {
     }
   };
 
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // data is loading
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else {
+  }
+
+  // user session, post data has loaded
+  else {
     return (
       <BoxWrapper>
         <TableContainer component={Paper}>
@@ -141,6 +153,7 @@ export default function ReportedPostsList() {
             </TableHead>
 
             {rows.length > 0 ? (
+              // render when post data exists
               <TableBody>
                 {rows.map((row) => (
                   <TableRow key={row.report_id}>
@@ -187,6 +200,7 @@ export default function ReportedPostsList() {
                 ))}
               </TableBody>
             ) : (
+              // render when post data doesn't exist
               <div>There are no reported posts yet!</div>
             )}
           </Table>

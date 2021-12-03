@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../components/Loading";
+import LoadingProgress from "../Loading";
 //Importing MUI
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
 import { Paper, Box } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
-import axiosInstance from "../utils/routeUtil";
-import { getTimeDisplay } from "../utils/utils";
+import axiosInstance from "../../utils/routeUtil";
+import { getTimeDisplay } from "../../utils/utils";
 import Button from "@mui/material/Button";
 
 const USERSENDPOINT = "/users";
@@ -332,4 +332,4 @@ export default function NotificationList() {
       </>
     );
   }
-}
+} //functional component closure

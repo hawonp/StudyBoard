@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Router from "next/router";
 
-import axiosInstance from "../utils/routeUtil";
+import axiosInstance from "../../utils/routeUtil";
 const SEARCHPREVIEW = "/search/preview";
 
 const Search = styled("div")(({ theme }) => ({
@@ -135,4 +135,4 @@ export default function SearchBar() {
       />
     </Search>
   );
-}
+} //functional component closure

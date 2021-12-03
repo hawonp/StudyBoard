@@ -20,9 +20,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axiosInstance from "../../utils/routeUtil";
 import LoadingProgress from "../Loading";
 
+// constants
 const FLAGGEDENDPOINT = "/flagged";
 const USERS = "/users";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <Box
@@ -47,12 +49,12 @@ const BoxWrapper = ({ style, children }) => {
 
 // functional component that renders the list of users with 10 or more reports
 export default function ReportedUserList() {
-  const [rows, setRows] = useState([]);
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  const { user, isLoading, error } = useUser();
-  const router = useRouter();
+  const router = useRouter(); // used for redirection
+  const [rows, setRows] = useState([]); // data state
+  const [isDataLoading, setIsDataLoading] = useState(true); // data loading state
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
 
-  //Load users
+  // load users
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
       setRows(JSON.parse(response.data));
@@ -60,6 +62,7 @@ export default function ReportedUserList() {
     });
   }, [isDataLoading, isLoading]);
 
+  // moderator blacklisting a user
   const blackListUser = (user_id) => {
     if (user) {
       const userID = user.sub;
@@ -83,12 +86,16 @@ export default function ReportedUserList() {
     }
   };
 
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // data is loading
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else {
+  }
+  // user session, post data has loaded
+  else {
     return (
       <BoxWrapper>
         <TableContainer component={Paper}>
@@ -104,6 +111,7 @@ export default function ReportedUserList() {
             </TableHead>
 
             {rows.length > 0 ? (
+              // render when user data exists
               <TableBody>
                 {rows.map((row) => (
                   <TableRow key={row.user_id}>
@@ -134,6 +142,7 @@ export default function ReportedUserList() {
                 ))}
               </TableBody>
             ) : (
+              // render when user data  doesn't exists
               <div>There are no users with 10 active reports so far!</div>
             )}
           </Table>

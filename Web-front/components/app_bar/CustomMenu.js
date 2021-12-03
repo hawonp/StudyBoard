@@ -1,4 +1,7 @@
+// react imports
 import React from "react";
+
+// MUI imports
 import { Menu, IconButton, MenuItem, Link } from "@mui/material";
 
 export default function CustomMenu({ icon, itemList }) {
@@ -30,18 +33,22 @@ export default function CustomMenu({ icon, itemList }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {itemList.map((item, index) => item.type === 'normal' ? (
-          <MenuItem
-            key={`${item.title}-${index}`}
-            onClick={() => {
-              item.onClick();
-              handleClose();
-            }}
-          >
-            {item.title}
-          </MenuItem>
-        ) : ( item.component ))}
+        {itemList.map((item, index) =>
+          item.type === "normal" ? (
+            <MenuItem
+              key={`${item.title}-${index}`}
+              onClick={() => {
+                item.onClick();
+                handleClose();
+              }}
+            >
+              {item.title}
+            </MenuItem>
+          ) : (
+            item.component
+          )
+        )}
       </Menu>
     </>
   );
-}
+} //functional component closure

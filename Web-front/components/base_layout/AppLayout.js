@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
 // MUI imports
-import CustomAppBar from "./CustomAppBar";
+import CustomAppBar from "../app_bar/CustomAppBar";
 import { useMediaQuery } from "@mui/material";
 
 // general app layout

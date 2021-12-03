@@ -7,4 +7,4 @@ export default function NavButton({ to, title, sx }) {
       <Typography>{title}</Typography>
     </Link>
   );
-}
+} //functional component closure

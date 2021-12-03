@@ -27,6 +27,7 @@ const FLAGGEDENDPOINT = "/flagged";
 const REPLYDATAENDPOINT = "/replies";
 const ROUTE_ID = "/posts/[id]";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <Box
@@ -52,11 +53,12 @@ const BoxWrapper = ({ style, children }) => {
 
 // functional component that renders the list of reported replies
 export default function ReportedRepliesList() {
-  const [rows, setRows] = useState([]);
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  const { user, isLoading, error } = useUser();
-  const router = useRouter();
+  const router = useRouter(); // used for redirection
+  const [rows, setRows] = useState([]); // reply list state
+  const [isDataLoading, setIsDataLoading] = useState(true); // data loading state
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
 
+  // load replies from backend
   useEffect(() => {
     axiosInstance.get(FLAGGEDENDPOINT + REPLYDATAENDPOINT).then((response) => {
       setRows(JSON.parse(response.data));
@@ -64,9 +66,12 @@ export default function ReportedRepliesList() {
     });
   }, [isDataLoading, isLoading]);
 
+  // moderator responding to a report
   const respondToReport = (row, decision) => {
+    // check that current user session exists
     if (user) {
       const userID = user.sub;
+      // moderator accepts the report
       if (decision == 1) {
         axiosInstance
           .delete(FLAGGEDENDPOINT + REPLYDATAENDPOINT + "/" + row.report_id, {
@@ -86,7 +91,9 @@ export default function ReportedRepliesList() {
               router.push("/" + "error/400");
             }
           });
-      } else {
+      }
+      // moderator denies the report
+      else {
         axiosInstance
           .put(FLAGGEDENDPOINT + REPLYDATAENDPOINT + "/" + row.report_id, {
             params: {
@@ -108,12 +115,17 @@ export default function ReportedRepliesList() {
       }
     }
   };
+
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // data is loading
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else {
+  }
+  // user session, reply data has loaded
+  else {
     return (
       <BoxWrapper>
         <TableContainer component={Paper}>
@@ -130,6 +142,7 @@ export default function ReportedRepliesList() {
             </TableHead>
 
             {rows.length > 0 ? (
+              // render when reply data exists
               <TableBody>
                 {rows.map((row) => (
                   <TableRow key={row.report_id}>
@@ -179,6 +192,7 @@ export default function ReportedRepliesList() {
                 ))}
               </TableBody>
             ) : (
+              // render when reply data doesn't exist
               <div>There are no reported replies yet!</div>
             )}
           </Table>

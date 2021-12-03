@@ -1,15 +1,18 @@
-import Head from "next/head";
+// react imports
 import * as React from "react";
+
+// package imports
 import ModeratorNavigation from "../../components/moderator/ModeratorNavigation";
 import ReportedPostsList from "../../components/moderator/ReportedPostsList";
 
+// page for rendering reported posts
 export default function Posts() {
   return (
     <div style={{ display: "flex" }}>
-      {/*Moderator Navigation*/}
+      {/* navigation component */}
       <ModeratorNavigation />
 
-      {/*Moderators can see the list of reported posts*/}
+      {/* reported posts component*/}
       <ReportedPostsList />
     </div>
   );

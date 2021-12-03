@@ -41,8 +41,7 @@ const FireNav = styled(List)({
 
 // functional component renders the moderator page
 export default function ModeratorNavigation() {
-  const [open, setOpen] = React.useState(true);
-  const router = useRouter();
+  const router = useRouter(); // used for redirection
 
   return (
     <Box sx={{ display: "flex", margin: "1rem 1rem" }}>
@@ -82,65 +81,28 @@ export default function ModeratorNavigation() {
 
             <Box
               sx={{
-                bgcolor: open ? "rgb(35,47,152)" : "rgb(35,47,152)",
-                pb: open ? 2 : 0,
+                bgcolor: "rgb(35,47,152)",
+                pb: 2,
               }}
             >
-              <ListItemButton
-                alignItems="flex-start"
-                onClick={() => setOpen(!open)}
-                sx={{
-                  px: 3,
-                  pt: 2.5,
-                  pb: open ? 0 : 2.5,
-                  "&:hover, &:focus": { "& svg": { opacity: open ? 1 : 0 } },
-                }}
-              >
-                <ListItemText
-                  primary=""
-                  primaryTypographyProps={{
-                    fontSize: 15,
-                    fontWeight: "medium",
-                    lineHeight: "20px",
-                    mb: "2px",
-                  }}
-                  secondary=""
-                  secondaryTypographyProps={{
-                    noWrap: true,
-                    fontSize: 12,
-                    lineHeight: "16px",
-                    color: open ? "rgb(255,255,255)" : "rgb(255,255,255)",
-                  }}
-                  sx={{ my: 0 }}
-                />
-                <KeyboardArrowDown
-                  sx={{
-                    mr: -1,
-                    opacity: 0,
-                    transform: open ? "rotate(-180deg)" : "rotate(0)",
-                    transition: "0.2s",
-                  }}
-                />
-              </ListItemButton>
-              {open &&
-                data.map((item) => (
-                  <ListItemButton
-                    key={item.label}
-                    sx={{ py: 0, minHeight: 32, color: "rgb(255,255,255)" }}
-                    onClick={() => router.push(item.href)}
-                  >
-                    <ListItemIcon sx={{ color: "inherit" }}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.label}
-                      primaryTypographyProps={{
-                        fontSize: 14,
-                        fontWeight: "medium",
-                      }}
-                    />
-                  </ListItemButton>
-                ))}
+              {data.map((item) => (
+                <ListItemButton
+                  key={item.label}
+                  sx={{ py: 0, minHeight: 32, color: "rgb(255,255,255)" }}
+                  onClick={() => router.push(item.href)}
+                >
+                  <ListItemIcon sx={{ color: "inherit" }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: 14,
+                      fontWeight: "medium",
+                    }}
+                  />
+                </ListItemButton>
+              ))}
             </Box>
           </FireNav>
         </Paper>

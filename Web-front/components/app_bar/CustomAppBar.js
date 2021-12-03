@@ -1,22 +1,26 @@
+// react imports
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+// MUI imports
 import { Container, Toolbar, Badge, Box, useMediaQuery } from "@mui/material";
-import { Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Popover from "@mui/material/Popover";
+
+// package imports
+import NotificationList from "./NotificationList";
 import CustomMenu from "./CustomMenu";
 import NavButton from "./NavButton";
 import SearchBar from "./SearchBar";
-import IconButton from "@mui/material/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Image from "next/image";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import NotificationList from "../components/NotificationList";
-import Popover from "@mui/material/Popover";
 import { useUser } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
+// constants
 const HrWrapper = ({ style, children }) => {
   return (
     <div
@@ -46,9 +50,11 @@ const ContainerWrapper = ({ style, children }) => {
   );
 };
 
+// functional component for rendering the custom app bar
 export default function CustomAppBar() {
   const router = useRouter();
   const { user } = useUser();
+
   const isBig = useMediaQuery("(min-width:800px)");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -222,4 +228,4 @@ export default function CustomAppBar() {
       </Toolbar>
     </ContainerWrapper>
   );
-}
+} //functional component closure
