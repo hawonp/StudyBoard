@@ -19,8 +19,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
 // package imports
-import axiosInstance from "../utils/routeUtil";
-import LoadingProgress from "../components/Loading";
+import axiosInstance from "../../utils/routeUtil";
+import LoadingProgress from "../Loading";
 
 // constants
 const FLAGGEDENDPOINT = "/flagged";
@@ -51,7 +51,7 @@ const BoxWrapper = ({ style, children }) => {
 };
 
 // functional component that renders the list of reported replies
-export default function AdminUserList() {
+export default function ReportedRepliesList() {
   const [rows, setRows] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { user, isLoading, error } = useUser();
@@ -179,7 +179,7 @@ export default function AdminUserList() {
                 ))}
               </TableBody>
             ) : (
-              <div>No report</div>
+              <div>There are no reported replies yet!</div>
             )}
           </Table>
         </TableContainer>

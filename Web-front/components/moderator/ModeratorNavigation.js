@@ -20,9 +20,9 @@ import Dns from "@mui/icons-material/Dns";
 
 // constants
 const data = [
-  { icon: <People />, label: "User", href: "/admin/admin" },
-  { icon: <PermMedia />, label: "Post", href: "/admin/flagPost" },
-  { icon: <Dns />, label: "Replies", href: "/admin/flagReplies" },
+  { icon: <People />, label: "User", href: "/" + "moderator/users" },
+  { icon: <PermMedia />, label: "Post", href: "/" + "moderator/posts" },
+  { icon: <Dns />, label: "Replies", href: "/" + "moderator/replies" },
 ];
 
 const FireNav = styled(List)({
@@ -40,7 +40,7 @@ const FireNav = styled(List)({
 });
 
 // functional component renders the moderator page
-export default function AdminNav() {
+export default function ModeratorNavigation() {
   const [open, setOpen] = React.useState(true);
   const router = useRouter();
 

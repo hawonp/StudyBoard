@@ -1,5 +1,7 @@
-import Head from "next/head";
-import AboutPageNav from "../components/AboutPageNav";
+// react imports
+import Link from "next/link";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
@@ -8,11 +10,11 @@ import CallIcon from "@mui/icons-material/Call";
 import AppShortcutIcon from "@mui/icons-material/AppShortcut";
 import MailIcon from "@mui/icons-material/Mail";
 import LinkIcon from "@mui/icons-material/Link";
-import Link from "next/link";
-import Card from "@mui/material/Card";
-import image from "next/image";
-import Paper from "@mui/material/Paper";
 
+// package imports
+import AboutNavigation from "../components/non_functional/AboutNavigation";
+
+// constants
 const PaperWrapper = ({ style, children }) => {
   return (
     <Box
@@ -36,6 +38,7 @@ const PaperWrapper = ({ style, children }) => {
   );
 };
 
+// functional component for rendering the contact page
 export default function Contact() {
   return (
     <Box

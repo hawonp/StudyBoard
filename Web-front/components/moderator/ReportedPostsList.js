@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../components/Loading";
+import LoadingProgress from "../Loading";
 import { useRouter } from "next/router";
 
 // MUI imports
@@ -22,8 +22,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 
 // package imports
-import axiosInstance from "../utils/routeUtil";
-import { ReportContext } from "../contexts/ReportContext";
+import axiosInstance from "../../utils/routeUtil";
+import { ReportContext } from "../../contexts/ReportContext";
 
 // constants
 const FLAGGEDENDPOINT = "/flagged";
@@ -53,7 +53,7 @@ const BoxWrapper = ({ style, children }) => {
 };
 
 // functional component that renders the list of reported posts
-export default function AdminPostList() {
+export default function ReportedPostsList() {
   const [rows, setRows] = useContext(ReportContext);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { user, isLoading, error } = useUser();
@@ -187,7 +187,7 @@ export default function AdminPostList() {
                 ))}
               </TableBody>
             ) : (
-              <div>No report yet!</div>
+              <div>There are no reported posts yet!</div>
             )}
           </Table>
         </TableContainer>

@@ -17,8 +17,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 // package imports
-import axiosInstance from "../utils/routeUtil";
-import LoadingProgress from "../components/Loading";
+import axiosInstance from "../../utils/routeUtil";
+import LoadingProgress from "../Loading";
 
 const FLAGGEDENDPOINT = "/flagged";
 const USERS = "/users";
@@ -46,7 +46,7 @@ const BoxWrapper = ({ style, children }) => {
 };
 
 // functional component that renders the list of users with 10 or more reports
-export default function AdminUserList() {
+export default function ReportedUserList() {
   const [rows, setRows] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { user, isLoading, error } = useUser();
@@ -103,35 +103,39 @@ export default function AdminUserList() {
               </TableRow>
             </TableHead>
 
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.user_id}>
-                  <TableCell component="th" scope="row">
-                    {row.user_id}
-                  </TableCell>
+            {rows.length > 0 ? (
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.user_id}>
+                    <TableCell component="th" scope="row">
+                      {row.user_id}
+                    </TableCell>
 
-                  <TableCell align="left">{row.user_nickname}</TableCell>
-                  <TableCell align="center">
-                    {row.user_flags_received}
-                  </TableCell>
-                  <TableCell align="right">
-                    <ListItem
-                      secondaryAction={
-                        <>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => blackListUser(row.user_id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </>
-                      }
-                    ></ListItem>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                    <TableCell align="left">{row.user_nickname}</TableCell>
+                    <TableCell align="center">
+                      {row.user_flags_received}
+                    </TableCell>
+                    <TableCell align="right">
+                      <ListItem
+                        secondaryAction={
+                          <>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() => blackListUser(row.user_id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </>
+                        }
+                      ></ListItem>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <div>There are no users with 10 active reports so far!</div>
+            )}
           </Table>
         </TableContainer>
       </BoxWrapper>

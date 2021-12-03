@@ -16,6 +16,7 @@ import StarIcon from "@mui/icons-material/StarBorder";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
+// constants / functions
 function Copyright(props) {
   return (
     <Typography
@@ -138,7 +139,7 @@ function a11yProps(index) {
 }
 
 // functional component that renders the about page
-export default function AboutPageNav() {
+export default function AboutNavigation() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -181,11 +182,6 @@ export default function AboutPageNav() {
           alignItems: "center",
         }}
       >
-        {/* <GlobalStyles
-          styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
-        />
-        <CssBaseline /> */}
-
         {/* Hero unit */}
         <Box
           disableGutters

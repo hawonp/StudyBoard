@@ -106,7 +106,7 @@ export default function ProfileCard() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((previousOpen) => !previousOpen);
-    router.push("/admin/admin");
+    router.push("/" + "moderator/users");
   };
 
   const canBeOpen = open && Boolean(anchorEl);

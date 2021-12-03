@@ -1,12 +1,16 @@
-import Head from "next/head";
-import AboutPageNav from "../components/AboutPageNav";
+// react imports
+import Link from "next/link";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import Link from "next/link";
 import Card from "@mui/material/Card";
-import image from "next/image";
 
+// package imports
+import AboutNavigation from "../components/non_functional/AboutNavigation";
+
+// functional component for rendering the leadership page
 export default function Leadership() {
   return (
     <Box

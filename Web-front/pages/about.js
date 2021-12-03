@@ -1,11 +1,16 @@
-import Head from "next/head";
+// react imports
 import Link from "next/link";
-import AboutPageNav from "../components/AboutPageNav";
+
+// MUI imports
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
+// package imports
+import AboutNavigation from "../components/non_functional/AboutNavigation";
 import navStyles from "../styles/Nav.module.css";
 
+// functional component for rendering the base About Page
 export default function About() {
   return (
     <Box
