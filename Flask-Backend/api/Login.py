@@ -11,12 +11,12 @@ from query.login_query import verify_id_token, get_user_from_id_token
 #    Marshmallow Schema    #
 ############################
 class UserDataSchema(Schema):
-    user_id = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    user_id = fields.Str(required=True)
     user_nickname = fields.Str(required=True, validate=validate.Length(min=1, max=16))
     user_email = fields.Str(required=True, validate=validate.Length(min=1, max=32))
 
 class UserIDVerifySchema(Schema):
-    user_id = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    user_id = fields.Str(required=True)
 
 ############################
 # Flask RESTful API routes #
