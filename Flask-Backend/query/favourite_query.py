@@ -5,7 +5,7 @@ from config.db_connect import get_connection
 ##########################################################
 # Adding to favourites.
 def add_user_favourite_post(user_id, post_id):
-    new_user_post_favourite_id = -1 #When meeting and error or not found
+    res = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -20,7 +20,7 @@ def add_user_favourite_post(user_id, post_id):
         cursor.execute(query, values)
 
         #Getting id of newly added post
-        new_post_id = cursor.lastrowid
+        res = cursor.lastrowid
 
         #Closing cursor and commiting  connection
         cursor.close()
@@ -30,7 +30,8 @@ def add_user_favourite_post(user_id, post_id):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
 
-    return new_user_post_favourite_id
+
+    return res
 
 ##########################################################
 #                         SELECT                         #
@@ -57,6 +58,7 @@ def check_if_user_favourited_post(user_id, post_id):
         conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+        return 0    
     
     return res[0]
 
@@ -89,7 +91,7 @@ def get_favourited_post(user_id):
         conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1
+        res = 0
     
     return res
 

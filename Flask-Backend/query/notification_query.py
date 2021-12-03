@@ -38,7 +38,7 @@ def add_notif_report_accepted(report_id, content_type):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
+        res = 0 #When meeting and error or not found
 
     return res
 
