@@ -13,7 +13,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 // project imports
 import ProfileCard from "../../components/ProfileCard";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
 import MyPostList from "../../components/MyPostList";
 import { useReducer } from "react";
 

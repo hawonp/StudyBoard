@@ -1,14 +1,14 @@
 import Link from "next/link";
-import ProfileCard from "../../components/ProfileCard";
+import ProfileCard from "../../components/user/ProfileCard";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import EditProfile from "../../components/EditProfile";
+import ProfileEdit from "../../components/user/ProfileEdit";
 import { useEffect, useState } from "react";
 
 //Importing and settings vars for axios parse
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
 const users = "/users/";
 
 export default function UpdateProfile() {
@@ -47,7 +47,7 @@ export default function UpdateProfile() {
     return (
       <div style={{ display: "flex" }}>
         <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
-          <EditProfile profile={profile} />
+          <ProfileEdit profile={profile} />
         </Box>
 
         <ProfileCard />

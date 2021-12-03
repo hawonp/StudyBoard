@@ -4,12 +4,12 @@ import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box } from "@mui/material";
 
-import ProfileCard from "../components/ProfileCard";
+import ProfileCard from "../components/user/ProfileCard";
 import PostNavigation from "../components/PostNavigation";
-import PaginationButton from "../components/Pagination";
-import CardShow from "../components/CardShow";
+import PaginationButton from "../components/feed/Pagination";
+import PostPreview from "../components/feed/PostPreview";
 import FilterButton from "../components/FilterButton";
-import LoadingProgress from "../components/Loading";
+import LoadingProgress from "../components/utils/Loading";
 
 const PageNav = ({ style, children }) => {
   return (
@@ -61,7 +61,7 @@ const options = ["Edit", "Delete"];
 
 //Functions to handle sorts
 
-export default function Board() {
+export default function Feed() {
   const [expanded, setExpanded] = useState(false);
   const isBig = useMediaQuery("(min-width:850px)");
   const { user, isLoading, error } = useUser();
@@ -74,16 +74,6 @@ export default function Board() {
 
   //Load posts when component mounts
   useEffect(() => {
-    // Add a request interceptor
-    axiosInstance.interceptors.request.use((request) => {
-      // console.log("Starting Request", JSON.stringify(request, null, 2));
-      return request;
-    });
-
-    axiosInstance.interceptors.response.use((response) => {
-      // console.log("Response:", JSON.stringify(response, null, 2));
-      return response;
-    });
     if (!isLoading && !error) {
       let userID = "";
       if (user) {
@@ -169,7 +159,7 @@ export default function Board() {
           <div>
             {/*Pre view user post Card*/}
             {posts.map((post) => (
-              <CardShow key={post.post_id} post={post} />
+              <PostPreview key={post.post_id} post={post} />
             ))}
           </div>
 

@@ -68,7 +68,7 @@ export default function ModeratorNavigation() {
                   <Home color="primary" />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Study Board"
+                  primary="StudyBoard"
                   primaryTypographyProps={{
                     color: "primary",
                     fontWeight: "medium",

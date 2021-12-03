@@ -1,25 +1,30 @@
+// react imports
 import * as React from "react";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import Router from "next/router";
-import Link from "next/link";
-//Importing MUI
+import { useRouter } from "next/router";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import LoadingProgress from "../components/Loading";
-//Importing and settings vars for axios parse
-import axiosInstance from "../utils/routeUtil";
-const users = "/users/";
+import LoadingProgress from "../utils/Loading";
 
-export default function EditProfile({ profile }) {
-  const { email, nick, tag } = profile;
+// package imports
+import axiosInstance from "../../utils/routeUtil";
 
-  const [inputNick, setInputNick] = useState(nick);
-  const [inputTag, setInputTag] = useState(tag.flat().toString());
-  console.log(inputTag);
-  const { user, error, isLoading } = useUser();
+// constant for Axios endpoint
+const USERSENDPOINT = "/users/";
+
+// functional component for rendering the edit profile form
+export default function ProfileEdit({ profile }) {
+  const router = useRouter(); // used for redirection
+  const { email, nick, tag } = profile; // data fed into from profile
+  const [inputNick, setInputNick] = useState(nick); // nickname state
+  const [inputTag, setInputTag] = useState(tag.flat().toString()); // personal tags state (flattened into a list)
+  const { user, error, isLoading } = useUser(); // user session data from Auth0
+
+  // user clicks on the save profile button after editing their profile
   const saveProfile = async () => {
     const formattedTags = inputTag
       .split(",")
@@ -27,7 +32,7 @@ export default function EditProfile({ profile }) {
         unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
       );
     axiosInstance
-      .put(users + user.sub, {
+      .put(USERSENDPOINT + user.sub, {
         params: {
           user_nickname: inputNick,
           user_tags: formattedTags,
@@ -36,18 +41,22 @@ export default function EditProfile({ profile }) {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
-          Router.push("/user/profile");
+          router.push("/user/profile");
         }
       })
       .catch((e) => {
         const resp = e.response;
-        console.log(resp);
+        if (resp != undefined && resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
   };
 
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // user session and profile data loaded in
   return (
     <Box
       sx={{
@@ -116,7 +125,7 @@ export default function EditProfile({ profile }) {
           variant="outlined"
           color="error"
           onClick={() => {
-            Router.push("/user/profile");
+            router.push("/user/profile");
           }}
         >
           Cancel
@@ -124,4 +133,4 @@ export default function EditProfile({ profile }) {
       </div>
     </Box>
   );
-}
+} // functional component closure

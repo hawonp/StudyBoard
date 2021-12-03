@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../../components/Loading";
+import LoadingProgress from "../../components/utils/Loading";
+
 //Importing MUI
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";

@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
@@ -21,7 +21,6 @@ import Button from "@mui/material/Button";
 import SmsIcon from "@mui/icons-material/Sms";
 import { getTimeDisplay } from "../utils/utils";
 import axiosInstance from "../utils/routeUtil";
-import { ReportContext } from "../contexts/ReportContext";
 import { useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
@@ -125,7 +124,7 @@ export default function PostDetail({
   //Necessary hooks
   const [open, setOpen] = useState(false);
   const [flagText, setFlagText] = useState("");
-  const [flagList, setFlagList] = useContext(ReportContext);
+  const [flagList, setFlagList] = useState([]);
   const [isCopied, setisCopied] = useState(false);
   const router = useRouter();
   const { user } = useUser();
@@ -174,7 +173,7 @@ export default function PostDetail({
       .then((response) => {
         // const responseData = JSON.parse(response["data"]);
         console.log(response);
-        router.push("/" + "board");
+        router.push("/" + "feed");
       });
   };
 

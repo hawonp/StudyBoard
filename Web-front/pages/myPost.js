@@ -9,7 +9,8 @@ import Box from "@mui/material/Box";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import ProfileCard from "../components/ProfileCard";
 import MyPostList from "../components/MyPostList";
-import LoadingProgress from "../components/Loading";
+import LoadingProgress from "../components/utils/Loading";
+
 //Importing and settings vars for axios parse
 import axiosInstance from "../utils/routeUtil";
 

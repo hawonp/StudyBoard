@@ -44,7 +44,7 @@ export function PostWrite() {
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
         // alert("post added!");
-        router.push("/board");
+        router.push("/feed");
       })
       .catch((e) => {
         const resp = e.response;
@@ -127,7 +127,7 @@ export function PostWrite() {
               sx={{ borderRadius: "8px", padding: "0rem" }}
               variant="outlined"
               color="error"
-              onClick={() => router.push("/" + "board")}
+              onClick={() => router.push("/" + "feed")}
             >
               Cancel
             </Button>

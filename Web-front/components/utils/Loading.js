@@ -1,7 +1,11 @@
+// react imports
 import * as React from "react";
+
+// MUI imports
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
+// functional component for rendering a loading page
 export default function LoadingProgress() {
   return (
     <Box
@@ -18,4 +22,4 @@ export default function LoadingProgress() {
       <div style={{ fontSize: "1.2rem" }}>Loading ... </div>
     </Box>
   );
-}
+} // functional component closure

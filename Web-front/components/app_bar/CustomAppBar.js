@@ -64,7 +64,7 @@ export default function CustomAppBar() {
       type: "normal",
       title: "AskQuestion",
       onClick: () => {
-        router.push("/" + "board");
+        router.push("/" + "feed");
       },
     },
     {
@@ -103,7 +103,7 @@ export default function CustomAppBar() {
         {/* responsive layout for app bar */}
         {isBig && (
           <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <NavButton to={"/board"} title={"AskQuestion"} />
+            <NavButton to={"/feed"} title={"AskQuestion"} />
             <NavButton to={"/about"} title={"About"} sx={{ ml: 3 }} />
             <NavButton to={"/rank"} title={"Rank"} sx={{ ml: 3 }} />
           </Box>
