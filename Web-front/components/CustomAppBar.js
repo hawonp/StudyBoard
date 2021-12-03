@@ -67,17 +67,6 @@ export default function CustomAppBar() {
   const open = Boolean(anchorEl);
   const id = open ? "" : undefined;
 
-  const menuThreeList = [
-    {
-      type: "normal",
-
-      title: "Profile",
-      onClick: () => {
-        router.push("/" + "user/profile");
-      },
-    },
-  ];
-
   const menuList = [
     {
       type: "normal",
@@ -104,6 +93,40 @@ export default function CustomAppBar() {
     },
     {
       type: "special",
+      title: "Profile",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "user/profile");
+      },
+    },
+  ];
+
+  const menuList2 = [
+    {
+      type: "normal",
+      title: "AskQuestion",
+      onClick: () => {
+        router.push("/" + "board");
+      },
+    },
+    {
+      type: "normal",
+      title: "About",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "about");
+      },
+    },
+    {
+      type: "normal",
+      title: "Rank",
+      onClick: () => {
+        // alert("Profile");
+        router.push("/" + "rank");
+      },
+    },
+    {
+      type: "normal",
       title: "Profile",
       onClick: () => {
         // alert("Profile");
@@ -218,6 +241,8 @@ export default function CustomAppBar() {
             ) : (
               <> </>
             )
+          ) : user ? (
+            <CustomMenu icon={<MenuIcon />} itemList={menuList2} />
           ) : (
             <CustomMenu icon={<MenuIcon />} itemList={menuList} />
           )}
