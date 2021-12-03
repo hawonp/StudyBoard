@@ -1,15 +1,21 @@
 import * as React from "react";
+
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
+import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+//Importing components
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
-import ProfileCard from "../../components/ProfileCard";
+import ProfileCard from "../../components/user/ProfileCard";
+import PostMinified from "../../components/misc/PostMinified";
 import LoadingProgress from "../../components/utils/Loading";
+
+//Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
-import MyPostList from "../../components/MyPostList";
-const FAVOURITEENDPOINT = "/favourite";
-const USERS = "/users/";
+
+const POSTS = "/posts";
+const USERS = "/users";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -49,8 +55,8 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
-export default function Favorite() {
-  const [favorites, setFavorites] = useState([]);
+export default function Posts() {
+  const [postList, setPostList] = useState([]);
   const { user, isLoading, error } = useUser();
   const [isDataLoading, setIsDataLoading] = useState(true);
 
@@ -60,8 +66,10 @@ export default function Favorite() {
       if (user) {
         userID = user.sub;
       }
-      axiosInstance.get(USERS + userID + FAVOURITEENDPOINT).then((response) => {
-        setFavorites(JSON.parse(response.data));
+      axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
+        setPostList(JSON.parse(response.data));
+        console.log(response);
+        console.log("henlo", JSON.parse(response.data));
         setIsDataLoading(false);
       });
     }
@@ -72,7 +80,7 @@ export default function Favorite() {
 
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (favorites.length === 0) {
+  } else if (postList.length === 0) {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -96,7 +104,7 @@ export default function Favorite() {
                   fontSize: "1rem",
                 }}
               >
-                Favorites
+                My Posts
               </h5>
               <LineWrapper />
               <Box
@@ -110,11 +118,12 @@ export default function Favorite() {
                   paddingBottom: "30px",
                 }}
               >
+                {" "}
                 <ReportGmailerrorredOutlinedIcon
                   sx={{ fontSize: "7.2rem", color: "lightgray" }}
                 />
                 <div style={{ fontSize: "0.8rem", color: "#B0B0B0" }}>
-                  No Favorites
+                  No Posts
                 </div>
               </Box>
             </Box>
@@ -148,18 +157,17 @@ export default function Favorite() {
                   fontSize: "1rem",
                 }}
               >
-                Favorites
+                My Posts
               </h5>
               <LineWrapper />
               <BoxWrapper>
-                {favorites.map((post) => (
-                  <MyPostList key={post.post_id} mypost={post} />
+                {postList.map((post) => (
+                  <PostMinified key={post.post_id} data={post} />
                 ))}
               </BoxWrapper>
             </Box>
           </Box>
         </div>
-
         <ProfileCard />
       </div>
     );

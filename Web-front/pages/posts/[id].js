@@ -15,10 +15,10 @@ import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 
 import axiosInstance from "../../utils/routeUtil";
-import ProfileCard from "../../components/ProfileCard";
-import PostEdit from "../../components/PostEdit";
-import PostDetail from "../../components/PostDetail";
-import { CommentBox } from "../../components/CommentBox";
+import ProfileCard from "../../components/user/ProfileCard";
+import PostEditing from "../../components/post/PostEditing";
+import PostDetail from "../../components/post/PostDetail";
+import { CommentBox } from "../../components/post/CommentBox";
 
 const POSTDATAENDPOINT = "/posts";
 
@@ -194,7 +194,7 @@ export default function PostDetailPage() {
           >
             {console.log(isEdit)}
             {isEdit ? (
-              <PostEdit
+              <PostEditing
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);

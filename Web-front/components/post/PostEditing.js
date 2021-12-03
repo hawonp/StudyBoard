@@ -1,21 +1,23 @@
+// react imports
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Router from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+
+// MUI imports
 import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Button from "@mui/material/Button";
 
-import PostEditor from "./PostEditor";
-import axiosInstance from "../utils/routeUtil";
+// package imports
+import RichTextEditor from "./RichTextEditor";
+import axiosInstance from "../../utils/routeUtil";
 
+// constants
 const POSTDATAENDPOINT = "/posts";
 
-export default function EditPost({ postCard, finish }) {
+// functional component for editing a post
+export default function PostEditing({ postCard, finish }) {
   const { title, text, images, tags } = postCard ?? {
     title: null,
     text: null,
@@ -29,6 +31,7 @@ export default function EditPost({ postCard, finish }) {
   const [inputImages, setInputImages] = useState(images);
   const [inputTag, setInputTag] = useState(tags.flat().toString());
 
+  // action handling for saving the currently edited post
   const savePost = async (user) => {
     //Format the tags before sending it to the db
     console.log(inputTag);
@@ -52,10 +55,12 @@ export default function EditPost({ postCard, finish }) {
         const responseData = JSON.parse(response["data"]);
         if (responseData == 1) {
           finish();
-          Router.push(POSTDATAENDPOINT + "/" + router.query.id);
+          router.push(POSTDATAENDPOINT + "/" + router.query.id);
         }
       });
   };
+
+  // render logic
   return (
     <Box
       style={{
@@ -73,6 +78,7 @@ export default function EditPost({ postCard, finish }) {
         <Typography variant={"button"}>Edit Your Post</Typography>
       </div>
 
+      {/* get current title */}
       <TextField
         style={{ marginTop: "10px", marginBottom: "10px" }}
         fullWidth
@@ -83,8 +89,11 @@ export default function EditPost({ postCard, finish }) {
         value={inputTitle}
         onChange={(event) => setInputTitle(event.target.value)}
       />
-      <PostEditor content={inputContents} setContent={setInputContents} />
 
+      {/* initialize rich text editor */}
+      <RichTextEditor content={inputContents} setContent={setInputContents} />
+
+      {/* get current tags */}
       <TextField
         style={{ marginTop: "10px", marginBottom: "10px" }}
         fullWidth
@@ -95,6 +104,7 @@ export default function EditPost({ postCard, finish }) {
         onChange={(event) => setInputTag(event.target.value)}
       />
 
+      {/* UI buttons for saving, canceling */}
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
           <Button

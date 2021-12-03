@@ -1,27 +1,19 @@
+// react imports
 import * as React from "react";
 
-//Importing MUI
+// MUI imports
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import { InputLabel, Select } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import { Select } from "@mui/material";
 
-const CountNumber = ({ style, children }) => {
-  return <div style={{ fontSize: "0.8rem", ...style }}> {children} </div>;
-};
-
+// functional component for sorting and filtering the feed
 export default function FilterButton({
   user,
   handleSortClick,
   handleFilterChange,
   filter,
 }) {
-  const handleChange = (event) => {
-    setPreferred(event.target.value);
-  };
   return (
     <Stack direction="row" spacing={1}>
       <Chip
@@ -41,7 +33,6 @@ export default function FilterButton({
         onClick={() => handleSortClick(1)}
       />
 
-      {/*<InputLabel id="preferred tags">Age</InputLabel>*/}
       {user ? (
         <Select
           sx={{
@@ -64,4 +55,4 @@ export default function FilterButton({
       )}
     </Stack>
   );
-}
+} // functional component closure

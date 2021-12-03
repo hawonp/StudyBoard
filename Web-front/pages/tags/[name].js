@@ -4,21 +4,19 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useReducer } from "react";
 
 // import MUI
 import { Box } from "@mui/material";
 
 // package imports
 import { useUser } from "@auth0/nextjs-auth0";
-
-// project imports
-import ProfileCard from "../../components/ProfileCard";
+import ProfileCard from "../../components/user/ProfileCard";
 import LoadingProgress from "../../components/utils/Loading";
-import MyPostList from "../../components/MyPostList";
-import { useReducer } from "react";
-
-// axios instance
+import PostMinified from "../../components/misc/PostMinified";
 import axiosInstance from "../../utils/routeUtil";
+
+// constants
 const POSTTAGENDPOINT = "/feed/posts/tags";
 
 const BoxWrapper = ({ style, children }) => {
@@ -66,9 +64,9 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function MyPost() {
+export default function Tag() {
   const router = useRouter();
-  const [myPosts, setMyPosts] = useState([]);
+  const [postList, setPostList] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   // const [tagName, setTagName] = useState(router.query.name);
   //   const dynamicRoute = router.asPath;
@@ -85,7 +83,7 @@ export default function MyPost() {
         },
       })
       .then((response) => {
-        setMyPosts(JSON.parse(response.data));
+        setPostList(JSON.parse(response.data));
         setIsDataLoading(false);
       });
     const handleRouteChange = (url, { shallow }) => {
@@ -99,10 +97,9 @@ export default function MyPost() {
 
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (myPosts.length == 0) {
+  } else if (postList.length == 0) {
     return <div> No Search Results </div>;
   } else {
-    console.log("posts", myPosts);
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -135,8 +132,8 @@ export default function MyPost() {
               </h5>
               <LineWrapper />
               <BoxWrapper>
-                {myPosts.map((post) => (
-                  <MyPostList key={post.post_id} mypost={post} />
+                {postList.map((post) => (
+                  <PostMinified key={post.post_id} data={post} />
                 ))}
               </BoxWrapper>
             </Box>

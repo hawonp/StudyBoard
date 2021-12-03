@@ -7,8 +7,8 @@ import Box from "@mui/material/Box";
 //Importing components
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import ProfileCard from "../../components/ProfileCard";
-import MyPostList from "../../components/MyPostList";
+import ProfileCard from "../../components/user/ProfileCard";
+import PostMinified from "../../components/misc/PostMinified";
 //Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 import { useRouter } from "next/router";
@@ -195,7 +195,7 @@ export default function SearchResult() {
               {searchPosts.length > 0 ? (
                 <BoxWrapper>
                   {searchPosts.map((post) => (
-                    <MyPostList key={post.post_id} mypost={post} />
+                    <PostMinified key={post.post_id} data={post} />
                   ))}
                 </BoxWrapper>
               ) : (

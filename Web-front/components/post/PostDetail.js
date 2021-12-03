@@ -1,42 +1,40 @@
-// import * as React from 'react';
+// react imports
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import parse from "html-react-parser";
-//Importing MUI
-import { Box, Modal, TextField, Stack } from "@mui/material";
+import { useEffect } from "react";
+import * as React from "react";
+import Link from "next/link";
+
+// MUI imports
+import { Box, Modal, TextField } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
 import EditIcon from "@mui/icons-material/Edit";
-import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import Button from "@mui/material/Button";
-import SmsIcon from "@mui/icons-material/Sms";
-import { getTimeDisplay } from "../utils/utils";
-import axiosInstance from "../utils/routeUtil";
-import { useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import Snackbar from "@mui/material/Snackbar";
-import CloseIcon from "@mui/icons-material/Close";
-import * as React from "react";
 import MuiAlert from "@mui/material/Alert";
-import Slide from "@mui/material/Slide";
-import Link from "next/link";
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import Typography from "@mui/material/Typography";
 
+// package imports
+import { getTimeDisplay } from "../../utils/utils";
+import axiosInstance from "../../utils/routeUtil";
+
+// constants
 const POSTDATAENDPOINT = "/posts";
 const FLAGENDPOINT = "/flag";
 
+// styling for the report modal
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -50,6 +48,7 @@ const modalStyle = {
   pb: 3,
 };
 
+// styling for the deleting account modal
 const deleteModalStyle = {
   position: "absolute",
   top: "50%",
@@ -62,6 +61,7 @@ const deleteModalStyle = {
   pb: 3,
 };
 
+// HashtagWrapper styling
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -83,6 +83,7 @@ const HashtagWrapper = ({ style, children }) => {
   );
 };
 
+// DetailWrapper styling
 const DetailWrapper = ({ style, children }) => {
   return (
     <div
@@ -102,6 +103,7 @@ const DetailWrapper = ({ style, children }) => {
   );
 };
 
+// styling for the counts (of likes, replies)
 const CountNumber = ({ style, children }) => {
   return (
     <div style={{ fontSize: "0.8rem", fontWeight: "bold", ...style }}>
@@ -111,35 +113,52 @@ const CountNumber = ({ style, children }) => {
   );
 };
 
+// alert logic for snackbar that appears when a user shares a question
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+// functional component for displaying the post details
 export default function PostDetail({
   postData,
   onLikePressed,
   onFavouritePressed,
   edit,
 }) {
-  //Necessary hooks
-  const [open, setOpen] = useState(false);
-  const [flagText, setFlagText] = useState("");
-  const [flagList, setFlagList] = useState([]);
-  const [isCopied, setisCopied] = useState(false);
-  const router = useRouter();
-  const { user } = useUser();
+  const [flagText, setFlagText] = useState(""); // data state to save the report reason
+  const router = useRouter(); // used for redirection
+  const { user } = useUser(); // user session auth for Auth0
 
+  // dynamically calculate how long ago the post was made
   const [diffTime, setDiffTime] = useState();
   useEffect(() => {
     setDiffTime(getTimeDisplay(new Date(), postData.date));
   }, []);
 
+  // modal states for reporting a post
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // modal states for deleting a post
   const [openDelete, setOpenDelete] = useState(false);
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
+
+  // modal states for sharing a post
+  const [openShare, setOpenShare] = React.useState(false);
+  const handleClickShare = () => {
+    setOpenShare(true);
+  };
+
+  const handleCloseShare = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenShare(false);
+  };
+
+  // action handling for reporting a post
   const report = () => {
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + router.query.id + FLAGENDPOINT, {
@@ -152,34 +171,20 @@ export default function PostDetail({
     setOpen(false);
   };
 
-  const [openShare, setOpenShare] = React.useState(false);
-
-  const handleClickShare = () => {
-    setOpenShare(true);
-  };
-
-  const handleCloseShare = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenShare(false);
-  };
-
+  // action handling for deleting a post
   const deletePost = () => {
     // router.push("/");
     axiosInstance
       .delete(POSTDATAENDPOINT + "/" + router.query.id)
       .then((response) => {
-        // const responseData = JSON.parse(response["data"]);
-        console.log(response);
         router.push("/" + "feed");
       });
   };
 
-  console.log("postdata", postData);
+  // rendering logic for post details
   return (
     <DetailWrapper>
+      {/* snackbar that appears when sharing a post */}
       <Snackbar
         open={openShare}
         autoHideDuration={1500}
@@ -194,7 +199,8 @@ export default function PostDetail({
           The current URL has been copied to your clipboard!{" "}
         </Alert>
       </Snackbar>
-      {/* )} */}
+
+      {/* post details */}
       <Box style={{ flex: 1, paddingRight: "1rem", paddingLeft: "1rem" }}>
         <header>
           {/*title*/}
@@ -238,6 +244,7 @@ export default function PostDetail({
             </div>
           </div>
         </header>
+        {/* post image */}
         <div style={{ textAlign: "center" }}>
           {postData.images == "None" ? (
             <></>
@@ -253,7 +260,7 @@ export default function PostDetail({
           )}
         </div>
 
-        {/* question text */}
+        {/* post text */}
         <section>
           {" "}
           <Typography
@@ -269,7 +276,7 @@ export default function PostDetail({
           </Typography>
         </section>
 
-        {/*hashtag*/}
+        {/* post tags */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
@@ -288,10 +295,12 @@ export default function PostDetail({
           </div>
         </div>
 
+        {/* UI components for interacting with the post */}
         <CardActions
           disableSpacing
           sx={{ justifyContent: "end", padding: "0" }}
         >
+          {/* if the current logged in user is the user who posted this post, display the edit button */}
           {user && user.sub == postData.user_id ? (
             <IconButton
               title={"I want to edit"}
@@ -305,7 +314,7 @@ export default function PostDetail({
           ) : (
             <> </>
           )}
-
+          {/* if the current logged in user is the user who posted this post, display the delete button */}
           {user && user.sub == postData.user_id ? (
             <IconButton
               title={"I want to edit"}
@@ -324,7 +333,7 @@ export default function PostDetail({
           {user ? (
             <div>
               {" "}
-              {/*일반유저좋아요*/}
+              {/* like button */}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="thumbup"
@@ -339,7 +348,7 @@ export default function PostDetail({
                   &nbsp;{postData.postLikeCount || 0} Likes
                 </CountNumber>
               </IconButton>
-              {/*즐겨찾기 저장버튼*/}
+              {/* favorite button*/}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="favorites"
@@ -354,7 +363,7 @@ export default function PostDetail({
                 )}
                 <CountNumber> &nbsp;Favorite</CountNumber>
               </IconButton>
-              {/* copy the link */}
+              {/* share button */}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="share"
@@ -381,7 +390,7 @@ export default function PostDetail({
           ) : (
             <>
               {" "}
-              {/*일반유저좋아요*/}
+              {/* user not logged in, like button disabled */}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="thumbup"
@@ -392,7 +401,7 @@ export default function PostDetail({
                   &nbsp;{postData.postLikeCount || 0} Likes
                 </CountNumber>
               </IconButton>
-              {/*즐겨찾기 저장버튼*/}
+              {/* user not logged in, favorite button disabled */}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="favorites"
@@ -402,7 +411,7 @@ export default function PostDetail({
 
                 <CountNumber> &nbsp;Favorite</CountNumber>
               </IconButton>
-              {/* copy the link */}
+              {/* user not logged in, share button disabled  */}
               <IconButton
                 sx={{ borderRadius: "4px" }}
                 aria-label="share"
@@ -412,7 +421,7 @@ export default function PostDetail({
                 &nbsp;
                 <CountNumber> Share</CountNumber>
               </IconButton>
-              {/* report button*/}
+              {/* user not logged in, report button disabled */}
               <IconButton
                 aria-label="report"
                 disabled
@@ -523,4 +532,4 @@ export default function PostDetail({
       </Box>
     </DetailWrapper>
   );
-}
+} // functional component closure

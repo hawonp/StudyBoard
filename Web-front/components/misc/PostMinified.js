@@ -1,25 +1,24 @@
-import { CardActionArea, CardActions } from "@mui/material";
+// react imports
 import Link from "next/link";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
+import * as React from "react";
+import { useEffect, useState } from "react";
+
+// MUI imports
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ShareIcon from "@mui/icons-material/Share";
-import Card from "@mui/material/Card";
-import * as React from "react";
-import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
-import { useEffect, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import SmsIcon from "@mui/icons-material/Sms";
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import Tooltip from "@mui/material/Tooltip";
-import { baseURL } from "../utils/routeUtil";
-import { getTimeDisplay } from "../utils/utils";
-import axiosInstance from "../utils/routeUtil";
 
+// package imports
+import { getTimeDisplay } from "../../utils/utils";
+
+// CardActionsWrapper styling
 const CardActionsWrapper = ({ style, children }) => {
   return (
     <div
@@ -35,27 +34,13 @@ const CardActionsWrapper = ({ style, children }) => {
   );
 };
 
-export default function MyPostList({ mypost }) {
-  const [myPostData, setMyPostData] = useState(mypost);
+// functional component for rendering a minified view of a post
+export default function PostMinified({ data }) {
   const [diffTime, setDiffTime] = useState();
 
   useEffect(() => {
-    setDiffTime(getTimeDisplay(new Date(), myPostData.post_date));
+    setDiffTime(getTimeDisplay(new Date(), data.post_date));
   }, []);
-
-  const [openShare, setOpenShare] = React.useState(false);
-
-  const handleClickShare = () => {
-    setOpenShare(true);
-  };
-
-  const handleCloseShare = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpenShare(false);
-  };
 
   return (
     <Paper
@@ -67,12 +52,12 @@ export default function MyPostList({ mypost }) {
         overflow: "hidden",
       }}
     >
-      {mypost.post_image != "None" ? (
+      {data.post_image != "None" ? (
         <Paper>
           <img
             width="150"
             height="120"
-            src={mypost.post_image}
+            src={data.post_image}
             style={{ objectFit: "cover" }}
             alt="green iguana"
           />
@@ -102,7 +87,7 @@ export default function MyPostList({ mypost }) {
         }}
       >
         {" "}
-        <Link href={"/" + "posts/" + mypost.post_id}>
+        <Link href={"/" + "posts/" + data.post_id}>
           <Box
             sx={{
               flexDirection: "column",
@@ -126,7 +111,7 @@ export default function MyPostList({ mypost }) {
                 textOverflow: "ellipsis",
               }}
             >
-              {myPostData.post_title}
+              {data.post_title}
             </Typography>
 
             <Box
@@ -146,11 +131,11 @@ export default function MyPostList({ mypost }) {
                   color: "#C4C4C4",
                 }}
               >
-                Posted by {myPostData.user_nickname}
+                Posted by {data.user_nickname}
               </Typography>
 
               {/* user endorsed */}
-              {myPostData.user_is_endorsed ? (
+              {data.user_is_endorsed ? (
                 <div>
                   <Tooltip title="This is Endorsed User post ">
                     <LightbulbIcon
@@ -189,7 +174,7 @@ export default function MyPostList({ mypost }) {
           >
             <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
             <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-              &nbsp; {myPostData.post_like_count} Likes
+              &nbsp; {data.post_like_count} Likes
             </div>
           </IconButton>
 
@@ -201,7 +186,7 @@ export default function MyPostList({ mypost }) {
           >
             <SmsIcon sx={{ fontSize: "1.2rem" }} />
             <div style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-              &nbsp;{myPostData.post_reply_count} Comments
+              &nbsp;{data.post_reply_count} Comments
             </div>
           </IconButton>
 
@@ -212,7 +197,7 @@ export default function MyPostList({ mypost }) {
             aria-label="share"
             onClick={() => {
               navigator.clipboard.writeText(
-                window.location.origin + "/posts/" + myPostData.post_id
+                window.location.origin + "/posts/" + data.post_id
               );
             }}
           >
@@ -225,4 +210,4 @@ export default function MyPostList({ mypost }) {
       </Box>
     </Paper>
   );
-}
+} // functional component closure

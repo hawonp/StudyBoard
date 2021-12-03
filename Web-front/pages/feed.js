@@ -3,12 +3,12 @@ import Head from "next/head";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
 import { Box } from "@mui/material";
-
+import Link from "next/link";
+import { TextField } from "@mui/material";
 import ProfileCard from "../components/user/ProfileCard";
-import PostNavigation from "../components/PostNavigation";
 import PaginationButton from "../components/feed/Pagination";
 import PostPreview from "../components/feed/PostPreview";
-import FilterButton from "../components/FilterButton";
+import FilterButton from "../components/feed/FilterButton";
 import LoadingProgress from "../components/utils/Loading";
 
 const PageNav = ({ style, children }) => {
@@ -143,9 +143,39 @@ export default function Feed() {
           {/*{!isBig && <div style={{ width: isBig ? '300px' : '100%', height: '500px', backgroundColor: 'red' }} />}*/}
           {/* {!isBig && <ProfileCard />} */}
 
-          {/* Write Qeustion */}
-          <PostNavigation />
-
+          {/* Write Question */}
+          <div
+            style={{
+              alignItems: "center",
+              border: "0.1rem solid lightgray",
+              backgroundColor: "white",
+              borderRadius: "8px",
+              boxSizing: "border-box",
+              display: "flex",
+              marginBottom: "16px",
+              marginTop: "20px",
+              padding: "10px 12px",
+            }}
+          >
+            <Box
+              component="form"
+              sx={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <Link href="/user/write">
+                <TextField
+                  fullWidth
+                  id="standard-basic"
+                  label="Ask a Question!"
+                  variant="standard"
+                />
+              </Link>
+            </Box>
+          </div>
           {/*filter*/}
           <FilterBox>
             <FilterButton

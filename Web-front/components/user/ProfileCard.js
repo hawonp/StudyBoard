@@ -248,7 +248,7 @@ export default function ProfileCard() {
             <IconWrapper>
               {/* MyPosts Button */}
               <div style={{ display: "inline-block" }}>
-                <Link href="/myPost">
+                <Link href="/user/posts">
                   <IconButton
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}
@@ -264,7 +264,7 @@ export default function ProfileCard() {
 
               {/* Favorites Button */}
               <div style={{ display: "inline-block" }}>
-                <Link href="/favorite/favorite">
+                <Link href="/user/favorites">
                   <IconButton
                     aria-label="favorites"
                     sx={{ borderRadius: "4px" }}

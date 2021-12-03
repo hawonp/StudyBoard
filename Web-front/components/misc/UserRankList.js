@@ -1,7 +1,9 @@
+// react imports
 import * as React from "react";
 import { useState, useEffect } from "react";
-//Importing MUI
-import Typography from "@mui/material/Typography";
+import Link from "next/link";
+
+// MUI imports
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,14 +13,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
 
-import axiosInstance from "../utils/routeUtil";
-import Link from "next/link";
+// package imports
+import axiosInstance from "../../utils/routeUtil";
 
+// constants
 const USERSENDPOINT = "/users";
 const RANKENDPOINT = "/rank";
 
+// HashtagWrapper styling
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -38,6 +41,7 @@ const HashtagWrapper = ({ style, children }) => {
   );
 };
 
+// TagWrapper styling
 const TagWrapper = ({ style, children }) => {
   return (
     <div
@@ -54,17 +58,16 @@ const TagWrapper = ({ style, children }) => {
   );
 };
 
-export default function RankUserList() {
-  const [list, setList] = useState([]);
+// functional component for displaying the user ranks
+export default function UserRankList() {
+  const [list, setList] = useState([]); // rank list state
 
+  // load in rank data
   useEffect(() => {
     axiosInstance.get(USERSENDPOINT + RANKENDPOINT).then((response) => {
       setList(JSON.parse(response.data));
-      console.log(response);
     });
   }, []);
-  // const [user, setUser] = useState("");
-  // const [tag, setTag] = useState("");
 
   return (
     <div>
@@ -90,11 +93,13 @@ export default function RankUserList() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* make a tablerow for each user (top 10 users) */}
             {list.map((user, i) => (
               <TableRow
                 key={user.user_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                {/* display endorsed icon if user is endorsed */}
                 <TableCell scope="row" align="center">
                   {user.user_is_endorsed ? (
                     <Tooltip title="This is an endorsed user">
@@ -109,11 +114,15 @@ export default function RankUserList() {
                     <></>
                   )}
                 </TableCell>
+                {/* username */}
                 <TableCell component="th" scope="row" align="center">
                   {user.user_nickname}
                 </TableCell>
+                {/* user rank */}
                 <TableCell align="center">{i + 1}</TableCell>
+                {/* number of rank points for user */}
                 <TableCell align="center">{user.user_rank_points}</TableCell>
+                {/* display personal for each user */}
                 <TableCell align="left">
                   {user.tags.length > 0 ? (
                     <TagWrapper>

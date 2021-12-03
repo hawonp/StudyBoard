@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-export default function PostEditor({ setContent, content }) {
+// functional component for rich text editing (using a custom CKEdit build)
+export default function RichTextEditor({ setContent, content }) {
+  // ckeditor states
   const editorRef = useRef();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, CustomEditor } = editorRef.current || {};
 
+  // load in ckeditor build files
   useEffect(() => {
     editorRef.current = {
       CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
@@ -14,6 +17,7 @@ export default function PostEditor({ setContent, content }) {
     setEditorLoaded(true);
   }, []);
 
+  // render the ckeditor
   return editorLoaded ? (
     <div>
       <CKEditor
@@ -27,8 +31,6 @@ export default function PostEditor({ setContent, content }) {
           // You can store the "editor" and use when it is needed.
           editor.editing.view.change((writer) => {
             writer.setStyle(
-              // "min-height",
-              // "200px",
               "word-wrap",
               "break-word",
               editor.editing.view.document.getRoot()

@@ -1,35 +1,42 @@
+// react imports
 import * as React from "react";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+import { useRouter } from "next/router";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import axiosInstance from "../utils/routeUtil";
+
+// package imports
 import { Widget } from "@uploadcare/react-widget";
-import PostEditor from "./PostEditor";
-import { useRouter } from "next/router";
+import RichTextEditor from "./RichTextEditor";
+import axiosInstance from "../../utils/routeUtil";
+
+// constants
 const POSTDATAENDPOINT = "/posts";
 
+// functional component for writing a post
 export function PostWrite() {
+  const { user } = useUser(); // user session data from Auth0
+  const router = useRouter(); // used for redirection
+
+  // post detail states
   const [title, setTitle] = useState("");
   const [content, setContent] = useState();
   const [tag, setTag] = useState("");
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState("");
-  const { user } = useUser();
-  const router = useRouter();
 
+  // action handling for posting a question
   const post = (user) => {
-    console.log("content", content);
-    console.log("image URL", image);
     const formattedTags = tag
       .split(",")
       .map((unadjustedTag) =>
         unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
       );
-    console.log("tags", formattedTags);
     axiosInstance
       .post(POSTDATAENDPOINT + "/write", {
         params: {
@@ -43,18 +50,17 @@ export function PostWrite() {
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
-        // alert("post added!");
-        router.push("/feed");
+        router.push("/" + "feed");
       })
       .catch((e) => {
         const resp = e.response;
         if (resp["status"] == 400) {
-          console.log("Bad request");
-          //todo redirect
+          router.push("/" + "error/400");
         }
       });
   };
 
+  // render logic
   return (
     <Container>
       <Box
@@ -72,6 +78,7 @@ export function PostWrite() {
         >
           <Typography variant={"button"}>Post Your Question</Typography>
         </div>
+        {/* post title */}
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
@@ -83,10 +90,8 @@ export function PostWrite() {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <PostEditor
-          // content="<p>Write your question here!</p>"
-          setContent={setContent}
-        />
+        {/* post content */}
+        <RichTextEditor setContent={setContent} />
         <TextField
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
@@ -98,18 +103,20 @@ export function PostWrite() {
           onChange={(event) => setTag(event.target.value)}
         />
         <div style={{ display: "flex", fontSize: "0.8rem" }}>
+          {/* post image */}
           <p>
             <label htmlFor="file">Your file:</label>{" "}
             <Widget
               publicKey="6bbd404d21507ac51c8f"
               id="file"
               onChange={(info) => {
-                console.log(info), setImage(info.cdnUrl), setUuid(info.uuid);
+                setImage(info.cdnUrl), setUuid(info.uuid);
               }}
               clearable
               imagesOnly
             />
           </p>
+          {/* UI buttons for posting, canceling */}
           <div style={{ display: "flex", flex: 1, justifyContent: "end" }}>
             <Button
               sx={{
@@ -133,7 +140,6 @@ export function PostWrite() {
             </Button>
           </div>
         </div>
-        {/* {console.log("file: " + file["value"])}; */}
       </Box>
     </Container>
   );

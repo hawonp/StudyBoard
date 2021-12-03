@@ -1,21 +1,15 @@
 import * as React from "react";
-
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 //Importing MUI
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-//Importing components
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
-import ProfileCard from "../components/ProfileCard";
-import MyPostList from "../components/MyPostList";
-import LoadingProgress from "../components/utils/Loading";
-
-//Importing and settings vars for axios parse
-import axiosInstance from "../utils/routeUtil";
-
-const POSTS = "/posts";
-const USERS = "/users";
+import ProfileCard from "../../components/user/ProfileCard";
+import LoadingProgress from "../../components/utils/Loading";
+import axiosInstance from "../../utils/routeUtil";
+import PostMinified from "../../components/misc/PostMinified";
+const FAVOURITEENDPOINT = "/favourite";
+const USERS = "/users/";
 
 const BoxWrapper = ({ style, children }) => {
   return (
@@ -55,8 +49,8 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
-export default function MyPost() {
-  const [myPosts, setMyPosts] = useState([]);
+export default function Favorites() {
+  const [favorites, setFavorites] = useState([]);
   const { user, isLoading, error } = useUser();
   const [isDataLoading, setIsDataLoading] = useState(true);
 
@@ -66,10 +60,8 @@ export default function MyPost() {
       if (user) {
         userID = user.sub;
       }
-      axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
-        setMyPosts(JSON.parse(response.data));
-        console.log(response);
-        console.log("henlo", JSON.parse(response.data));
+      axiosInstance.get(USERS + userID + FAVOURITEENDPOINT).then((response) => {
+        setFavorites(JSON.parse(response.data));
         setIsDataLoading(false);
       });
     }
@@ -80,7 +72,7 @@ export default function MyPost() {
 
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (myPosts.length === 0) {
+  } else if (favorites.length === 0) {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -104,7 +96,7 @@ export default function MyPost() {
                   fontSize: "1rem",
                 }}
               >
-                My Posts
+                Favorites
               </h5>
               <LineWrapper />
               <Box
@@ -118,12 +110,11 @@ export default function MyPost() {
                   paddingBottom: "30px",
                 }}
               >
-                {" "}
                 <ReportGmailerrorredOutlinedIcon
                   sx={{ fontSize: "7.2rem", color: "lightgray" }}
                 />
                 <div style={{ fontSize: "0.8rem", color: "#B0B0B0" }}>
-                  No Posts
+                  No Favorites
                 </div>
               </Box>
             </Box>
@@ -134,7 +125,6 @@ export default function MyPost() {
       </div>
     );
   } else {
-    console.log("posts", myPosts);
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -158,17 +148,18 @@ export default function MyPost() {
                   fontSize: "1rem",
                 }}
               >
-                My Posts
+                Favorites
               </h5>
               <LineWrapper />
               <BoxWrapper>
-                {myPosts.map((post) => (
-                  <MyPostList key={post.post_id} mypost={post} />
+                {favorites.map((post) => (
+                  <PostMinified key={post.post_id} data={post} />
                 ))}
               </BoxWrapper>
             </Box>
           </Box>
         </div>
+
         <ProfileCard />
       </div>
     );

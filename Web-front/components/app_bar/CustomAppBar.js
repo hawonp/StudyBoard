@@ -163,7 +163,7 @@ export default function CustomAppBar() {
                       <NotificationList />
 
                       <HrWrapper />
-                      <Link href="/notification/notification">
+                      <Link href="/user/notifications">
                         <a style={{ textDecoration: "none", color: "#191970" }}>
                           <div
                             style={{

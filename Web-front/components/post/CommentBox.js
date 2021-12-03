@@ -20,7 +20,7 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import Divider from "@mui/material/Divider";
-import LoadingProgress from "./utils/Loading";
+import LoadingProgress from "../utils/Loading";
 
 import {
   Avatar,
@@ -31,8 +31,8 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import axiosInstance from "../utils/routeUtil";
-import { getTimeDisplay } from "../utils/utils";
+import axiosInstance from "../../utils/routeUtil";
+import { getTimeDisplay } from "../../utils/utils";
 const modalStyle = {
   position: "absolute",
   top: "50%",
