@@ -16,4 +16,4 @@ export default function Replies() {
       <ReportedRepliesList />
     </div>
   );
-}
+} // functional component closure

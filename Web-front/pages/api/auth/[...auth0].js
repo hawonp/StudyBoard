@@ -1,12 +1,6 @@
-// react imports
-import { useRouter } from "next/dist/client/router";
-
 // package imports
-import { handleAuth, handleCallback, handleLogout } from "@auth0/nextjs-auth0";
+import { handleAuth, handleCallback } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../../utils/routeUtil";
-
-// constants
-const router = useRouter();
 
 // action handling for after the login process is complete
 const afterCallback = (req, res, session, state) => {
@@ -19,7 +13,6 @@ const afterCallback = (req, res, session, state) => {
       },
     })
     .then((response) => {
-      console.log("response from backend" + response);
       if (response["status"] == 200) {
         // do nothing, automatically redirects to the same url
       }
@@ -27,10 +20,9 @@ const afterCallback = (req, res, session, state) => {
     .catch((e) => {
       const resp = e.response;
       if (resp["status"] == 403) {
-        router.push("/" + "error/403");
+        alert("Could not log in");
       }
     });
-  console.log("After callback -> make AXIOS call");
 
   return session;
 };
@@ -44,4 +36,4 @@ export default handleAuth({
       res.status(error.status || 500).end(error.message);
     }
   },
-});
+}); // functional component closure

@@ -110,4 +110,4 @@ export default function Leadership() {
       </Box>
     </Box>
   );
-}
+} // functional component closure

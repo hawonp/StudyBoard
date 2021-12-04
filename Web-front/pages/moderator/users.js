@@ -16,4 +16,4 @@ export default function Users() {
       <ReportedUsersList />
     </div>
   );
-}
+} // functional component closure

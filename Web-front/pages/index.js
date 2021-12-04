@@ -1,15 +1,12 @@
-import Head from "next/head";
-import Image from "next/image";
+// MUI imports
 import { Box, Button, Card } from "@mui/material";
-import { fontSize, padding } from "@mui/system";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import image from "../public/images/hero-img.png";
-import homeStyles from "../styles/Home.module.css";
 
+// functional component that renders the home page
 export default function Home() {
   return (
     <>
-      {/* seciton 1 */}
+      {/* section 1 */}
       <Box
         style={{
           display: "flex",
@@ -65,7 +62,7 @@ export default function Home() {
         ></Box>
       </Box>
 
-      {/* seciton 2 */}
+      {/* section 2 */}
       <Box
         sx={{
           marginTop: "5rem",
@@ -146,4 +143,4 @@ export default function Home() {
       </Box>
     </>
   );
-}
+} // functional component closure

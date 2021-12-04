@@ -7,8 +7,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 // package imports
-import AboutNavigation from "../components/non_functional/AboutNavigation";
 import navStyles from "../styles/Nav.module.css";
+import AboutNavigation from "../components/non_functional/AboutNavigation";
 
 // functional component for rendering the base About Page
 export default function About() {
@@ -101,4 +101,4 @@ export default function About() {
       </Box>
     </Box>
   );
-}
+} // functional component closure

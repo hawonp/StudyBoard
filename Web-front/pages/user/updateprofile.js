@@ -1,26 +1,32 @@
-import Link from "next/link";
-import ProfileCard from "../../components/user/ProfileCard";
-import Box from "@mui/material/Box";
+// react imports
 import * as React from "react";
-import ProfileEdit from "../../components/user/ProfileEdit";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-//Importing and settings vars for axios parse
+// MUI imports
+import Box from "@mui/material/Box";
+
+// package imports
+import ProfileCard from "../../components/user/ProfileCard";
+import ProfileEdit from "../../components/user/ProfileEdit";
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
 import LoadingProgress from "../../components/utils/Loading";
-const users = "/users/";
 
+// constants
+const USERSENDPOINT = "/users/";
+
+// functional component that loads the page for update a user profile
 export default function UpdateProfile() {
-  const { user, error, isLoading } = useUser();
-  const [userLoaded, setUserLoaded] = useState(true);
-  const [profile, setProfile] = useState({});
+  const { user, error, isLoading } = useUser(); // user session data from Auth0
+  const [userLoaded, setUserLoaded] = useState(false); // determines if the user data has loaded in
+  const [profile, setProfile] = useState({}); // holds the current profile data
+  const router = useRouter(); // used for redirection
 
+  // load in data from the backend
   useEffect(() => {
     if (user) {
-      console.log("Getting values to edit the profile");
-      console.log(user);
-      axiosInstance.get(users + user.sub, {}).then((response) => {
+      axiosInstance.get(USERSENDPOINT + user.sub, {}).then((response) => {
         if (response["status"] == 200) {
           const temp = response["data"];
           const temp_json = JSON.parse(temp);
@@ -30,20 +36,24 @@ export default function UpdateProfile() {
             nick: user_info.user_nickname,
             tag: temp_json.tags,
           });
-          setUserLoaded(false);
+          setUserLoaded(true);
         } else if (response["status"] == 403) {
-          alert("Could not verify token at Backend");
+          router.push("/" + "error/403");
         }
       });
     }
   }, []);
 
-  if (isLoading) return <div>User data not loaded yet</div>;
+  // user session data is loading
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
-  if (userLoaded) {
+  // profile data from backend is loading
+  if (!userLoaded) {
     return <LoadingProgress />;
-  } else {
+  }
+  // all data has loaded
+  else {
     return (
       <div style={{ display: "flex" }}>
         <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
@@ -54,4 +64,4 @@ export default function UpdateProfile() {
       </div>
     );
   }
-}
+} // functional component closure

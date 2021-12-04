@@ -1,16 +1,21 @@
+// react imports
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+
+// MUI imports
 import { Box } from "@mui/material";
 import Link from "next/link";
 import { TextField } from "@mui/material";
+
+// package imports
+import { useUser } from "@auth0/nextjs-auth0";
 import ProfileCard from "../components/user/ProfileCard";
 import PaginationButton from "../components/feed/Pagination";
 import PostPreview from "../components/feed/PostPreview";
 import FilterButton from "../components/feed/FilterButton";
 import LoadingProgress from "../components/utils/Loading";
 
+//
 const PageNav = ({ style, children }) => {
   return (
     <div

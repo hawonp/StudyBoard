@@ -180,4 +180,4 @@ export default function Favorites() {
       </div>
     );
   }
-}
+} // functional component closure

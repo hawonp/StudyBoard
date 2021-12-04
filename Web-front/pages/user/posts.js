@@ -1,22 +1,24 @@
+// react imports
 import * as React from "react";
-
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+
+// MUI imports
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-//Importing components
+
+// package imports
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import ProfileCard from "../../components/user/ProfileCard";
 import PostMinified from "../../components/misc/PostMinified";
 import LoadingProgress from "../../components/utils/Loading";
-
-//Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
 
+// constants
 const POSTS = "/posts";
 const USERS = "/users";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -35,6 +37,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// LineWrapper styling
 const LineWrapper = ({ style, children }) => {
   return (
     <div
@@ -55,11 +58,13 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
+// functional component that renders the page for posts that a user has page
 export default function Posts() {
-  const [postList, setPostList] = useState([]);
-  const { user, isLoading, error } = useUser();
-  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [postList, setPostList] = useState([]); // stores the list of posts
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
+  const [isDataLoading, setIsDataLoading] = useState(true); // determines current state of data crawling from backend
 
+  // load in data from backend
   useEffect(() => {
     if (!isLoading && !error) {
       let userID = "";
@@ -68,19 +73,21 @@ export default function Posts() {
       }
       axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
         setPostList(JSON.parse(response.data));
-        console.log(response);
-        console.log("henlo", JSON.parse(response.data));
         setIsDataLoading(false);
       });
     }
   }, [isLoading]);
 
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // data is loading from backend
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (postList.length === 0) {
+  }
+  // there are no posts that the user has made
+  else if (postList.length === 0) {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -133,7 +140,9 @@ export default function Posts() {
         <ProfileCard />
       </div>
     );
-  } else {
+  }
+  // all data has loaded in, there are posts that a user has made
+  else {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -172,4 +181,4 @@ export default function Posts() {
       </div>
     );
   }
-}
+} // functional component closure

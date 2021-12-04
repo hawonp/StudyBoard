@@ -1,11 +1,14 @@
-import Head from "next/head";
+// react imports
 import * as React from "react";
+
+// MUI imports
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
+// package imports
 import ProfileCard from "../../components/user/ProfileCard";
-import { Paper } from "@mui/material";
 import NotificationList from "../../components/app_bar/NotificationList";
 
+// functional component that renders the notification page
 export default function Notifications() {
   return (
     <div style={{ display: "flex" }}>
@@ -30,4 +33,4 @@ export default function Notifications() {
       <ProfileCard />
     </div>
   );
-}
+} // functional component closure
