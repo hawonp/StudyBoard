@@ -139,6 +139,11 @@ def get_users_order_by_rank():
         rv = cursor.fetchall()
         json_data=[]
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
         for user in json_data:
@@ -146,10 +151,11 @@ def get_users_order_by_rank():
  
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
     return json_data
 
 def check_if_user_is_mod(user_id):
@@ -223,6 +229,11 @@ def update_user(id, nickname, tags):
         #Clear all the tags from the post
         delete_all_tags_of_user(id)
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
             tag = tag.strip()
@@ -241,10 +252,10 @@ def update_user(id, nickname, tags):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
     return res
 
 # set nickname to Account Deleted (for when a user deletes their own profile)

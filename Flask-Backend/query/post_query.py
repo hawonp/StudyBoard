@@ -30,6 +30,11 @@ def add_post(user_id, title, text, img_url, tags, date_time):
         #Getting id of newly added post
         new_post_id = cursor.lastrowid
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
             #Filter out empty tag 
@@ -50,11 +55,10 @@ def add_post(user_id, title, text, img_url, tags, date_time):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
     return new_post_id
 
 # Adding Post entries to the db.
@@ -421,7 +425,6 @@ def get_search_results_tags(input):
         cursor.execute(query, values)
 
         # serialize results into JSON
-        # row_headers=[x[0] for x in cursor.description]
         res = cursor.fetchall()
 
     except mariadb.Error as e:
@@ -512,6 +515,11 @@ def update_post(post_id, title, text, image, tags):
 
         #Clear all the tags from the post
         delete_all_tags_of_post(post_id)
+        
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
         #Now add the tags related to this post. Add new tag if tag doesnt exist.
         for tag in tags:
@@ -531,11 +539,11 @@ def update_post(post_id, title, text, image, tags):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
     return res
 
 ##########################################################

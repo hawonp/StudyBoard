@@ -87,7 +87,7 @@ def populate_db(id):
         rept_post1 = add_post('654366234598754', "Question about the procedure about supply and demand", "<p>Do you need some financial assistance?</p><p>Broke but nowhere to borrow money from?</p><p>Don't worry. We got you covered. Just call this number → 032 1236 5478</p><p>Just sign a few papers and there you go!</p><p>Up to 1 million dollars in cash! at the interest rate of 5 %.</p><p>&nbsp;</p><p><i>Additional charges may apply</i></p>", "None", ["demand", "economics", "help", "need"], "2021-12-04 16:32:00")
         #Add reply to this post
         rep_2 = add_post_reply('654366234554624', rept_post0, "get out")
-        print("reply id ", rep_2)
+
         add_post_reply('654366234558324', rept_post0, "reported")
 
         # add_user_like_reply(rep_2, user_id)
