@@ -8,7 +8,7 @@ import { useReducer } from "react";
 
 // import MUI
 import { Box } from "@mui/material";
-
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 // package imports
 import { useUser } from "@auth0/nextjs-auth0";
 import ProfileCard from "../../components/user/ProfileCard";
@@ -98,7 +98,59 @@ export default function Tag() {
   if (isDataLoading) {
     return <LoadingProgress />;
   } else if (postList.length == 0) {
-    return <div> No Search Results </div>;
+    return (
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Box
+            sx={{
+              marginLeft: "20px",
+              marginRight: "20px",
+            }}
+          >
+            <Box
+              style={{
+                border: "0.1rem solid lightgray",
+                borderRadius: "8px",
+                marginBottom: "16px",
+                marginTop: "20px",
+                padding: "10px 12px",
+                backgroundColor: "white",
+              }}
+            >
+              <h5
+                style={{
+                  marginBottom: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1rem",
+                }}
+              >
+                Search Results for the Tag "{router.query.name}"
+              </h5>
+              <LineWrapper />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "1rem",
+                }}
+              >
+                <ReportGmailerrorredOutlinedIcon
+                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                />
+                <p style={{ fontSize: "0.8rem" }}>
+                  There were no tags matching "{router.query.name}"
+                </p>
+              </Box>
+            </Box>
+          </Box>
+        </div>
+        <ProfileCard />
+      </div>
+    );
   } else {
     return (
       <div style={{ display: "flex" }}>

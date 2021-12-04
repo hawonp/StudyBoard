@@ -40,7 +40,7 @@ export default function Home() {
               marginBottom: "1rem",
             }}
           >
-            We are providing the homework and question solutions{" "}
+            We are providing the homework and question solutions
           </div>
           <Button
             variant="outlined"
