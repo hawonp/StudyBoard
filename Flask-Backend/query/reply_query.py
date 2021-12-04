@@ -22,9 +22,13 @@ def add_post_reply(user_id, post_id, text):
         print("Adding with query", query, " and values ", values)
         cursor.execute(query, values)
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Getting id of newly added post
         res = cursor.lastrowid
-
         add_reply_to_post_link(post_id, res)       
 
     except mariadb.Error as e:
@@ -82,19 +86,23 @@ def add_reply_reply(user_id, reply_id, post_id, text):
         print("Adding with query", query, " and values ", values)
         cursor.execute(query, values)
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Getting id of newly added post
         res = cursor.lastrowid
-
         add_reply_to_reply_link(reply_id, post_id, res)
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0 #When meeting and error or not found
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
     return res
 
 # Adding when reply is a reply to a reply
@@ -186,6 +194,11 @@ def get_replies_to_post(post_id, order, user_id):
         for result in rv:
             res.append(dict(zip(row_headers,result)))
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Get replies to this reply and whether current user liked it
         for row in res:
             row["replies_to_reply"] = get_replies_to_reply(row["reply_id"], user_id)
@@ -194,11 +207,11 @@ def get_replies_to_post(post_id, order, user_id):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0 #When meeting and error
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
     return res
 
 def get_replies_to_reply(reply_id, user_id):
@@ -223,6 +236,11 @@ def get_replies_to_reply(reply_id, user_id):
         for result in rv:
             res.append(dict(zip(row_headers,result)))
 
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
         #Check if user liked the reply
         for row in res:
             row["did_user_like"] = check_if_user_liked_reply(row["reply_id"], user_id)
@@ -230,11 +248,11 @@ def get_replies_to_reply(reply_id, user_id):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
-    
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
+
     return res
 
     #Check if the user liked the post
