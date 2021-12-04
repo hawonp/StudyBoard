@@ -15,8 +15,8 @@ import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 
 // constants
-const POSTS = "/posts";
-const USERS = "/users";
+const POSTSENDPOINT = "/posts";
+const USERSENDPOINT = "/users";
 
 // BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
@@ -71,10 +71,12 @@ export default function Posts() {
       if (user) {
         userID = user.sub;
       }
-      axiosInstance.get(USERS + "/" + userID + POSTS).then((response) => {
-        setPostList(JSON.parse(response.data));
-        setIsDataLoading(false);
-      });
+      axiosInstance
+        .get(USERSENDPOINT + "/" + userID + POSTSENDPOINT)
+        .then((response) => {
+          setPostList(JSON.parse(response.data));
+          setIsDataLoading(false);
+        });
     }
   }, [isLoading]);
 

@@ -14,7 +14,7 @@ import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 
 // constants
-const users = "/users/";
+const USERSENDPOINT = "/users/";
 
 // functional component that renders the profile page
 export default function Profile() {
@@ -27,7 +27,7 @@ export default function Profile() {
   useEffect(() => {
     if (!isLoading && !error) {
       axiosInstance
-        .get(users + user.sub, {})
+        .get(USERSENDPOINT + user.sub, {})
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];
@@ -45,7 +45,7 @@ export default function Profile() {
           const resp = e.response;
           if (resp["status"] == 403) {
             // TODO temp redirection
-            window.location.href = "../error/403";
+            router.push("/" + "/error/403");
           }
         });
     }

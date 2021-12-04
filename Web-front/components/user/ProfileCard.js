@@ -17,7 +17,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
 
 // constants
-const USERS = "/users/";
+const USERSENDPOINT = "/users/";
 
 // BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
@@ -120,7 +120,7 @@ export default function ProfileCard() {
   useEffect(() => {
     if (!isLoading && !error && user) {
       axiosInstance
-        .get(USERS + user.sub)
+        .get(USERSENDPOINT + user.sub)
         .then((response) => {
           if (response["status"] == 200) {
             // read in response as json
@@ -175,7 +175,6 @@ export default function ProfileCard() {
               >
                 <h4>{nickname}</h4>
               </div>
-              {console.log(mod, tags)}
               {mod == 1 ? (
                 // display moderator icon if moderator
                 <div
