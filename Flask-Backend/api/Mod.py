@@ -24,6 +24,9 @@ THRESHHOLD = '/<int:num>'
 ############################
 #    Marshmallow Schema    #
 ############################
+class ModeratorAuthorisationSchema(Schema):
+    userID = fields.Str(required=True)
+
 class HandleReportAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
     contentID = fields.Int(required=True)
