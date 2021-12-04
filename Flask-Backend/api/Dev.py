@@ -90,6 +90,7 @@ def populate_db(id):
 
         add_post_reply('654366234558324', rept_post0, "reported")
 
+        print("added all dummy data")
         # add_user_like_reply(rep_2, user_id)
 
         
