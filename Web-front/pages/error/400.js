@@ -50,4 +50,4 @@ export default function Error_400_page() {
       </div>
     </Container>
   );
-}
+} // functional component closure

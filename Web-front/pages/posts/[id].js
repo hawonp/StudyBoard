@@ -219,4 +219,4 @@ export default function PostDetailPage() {
       </div>
     );
   }
-}
+} // functional component closure

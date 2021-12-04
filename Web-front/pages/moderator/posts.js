@@ -16,4 +16,4 @@ export default function Posts() {
       <ReportedPostsList />
     </div>
   );
-}
+} // functional component closure

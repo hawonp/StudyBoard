@@ -205,4 +205,4 @@ export default function Tag() {
       </div>
     );
   }
-}
+} // functional component closure

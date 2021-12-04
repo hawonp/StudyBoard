@@ -68,7 +68,6 @@ export const ReplyCard = ({ postID }) => {
       if (user) {
         userID = user.sub;
       }
-      console.log("user", userID);
       axiosInstance
         .get(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
           params: {
@@ -79,19 +78,16 @@ export const ReplyCard = ({ postID }) => {
         .then((response) => {
           const responseData = JSON.parse(response["data"]);
           //Assign data
-          console.log("Load comments", responseData);
           setComments(responseData);
           setLoadingReplies(false);
         });
     }
-    console.log("data", comments);
   }, [loadingReplies, feedOrder, isLoading]);
 
   // Switch to show and hide replies
 
   const _addComment = (body, resetForm) => {
     // Add reply to db
-    console.log(postID);
     axiosInstance
       .post(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
         params: { userID: user.sub, text: body },
@@ -101,7 +97,6 @@ export const ReplyCard = ({ postID }) => {
         //Assign data according to whether the user liked the post
         if (responseData != -1) {
           setLoadingReplies(true);
-          console.log("added reply to post");
           resetForm();
         }
       });
@@ -125,8 +120,6 @@ export const ReplyCard = ({ postID }) => {
               .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
               .then((response) => {
                 const responseData = JSON.parse(response["data"]);
-
-                console.log("deleted reply", responseData);
               });
           }
         }
@@ -598,7 +591,6 @@ const InputReply = ({ setLoading, replyID, finish }) => {
         //Assign data according to whether the user liked the post
         if (responseData != -1) {
           setLoading(true);
-          console.log("added reply to reply");
         }
         if (inputRef.current !== null) inputRef.current.value = "";
         finish();

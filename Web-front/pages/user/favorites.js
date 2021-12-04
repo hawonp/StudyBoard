@@ -15,7 +15,7 @@ import PostMinified from "../../components/misc/PostMinified";
 
 // constants
 const FAVOURITEENDPOINT = "/favourite";
-const USERS = "/users/";
+const USERSENDPOINT = "/users/";
 
 // BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
@@ -70,10 +70,12 @@ export default function Favorites() {
       if (user) {
         userID = user.sub;
       }
-      axiosInstance.get(USERS + userID + FAVOURITEENDPOINT).then((response) => {
-        setFavorites(JSON.parse(response.data));
-        setIsDataLoading(false);
-      });
+      axiosInstance
+        .get(USERSENDPOINT + userID + FAVOURITEENDPOINT)
+        .then((response) => {
+          setFavorites(JSON.parse(response.data));
+          setIsDataLoading(false);
+        });
     }
   }, [isLoading]);
 
@@ -180,4 +182,4 @@ export default function Favorites() {
       </div>
     );
   }
-}
+} // functional component closure

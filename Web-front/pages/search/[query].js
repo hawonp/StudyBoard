@@ -224,4 +224,4 @@ export default function SearchResult() {
       </div>
     );
   }
-}
+} // functional component closure
