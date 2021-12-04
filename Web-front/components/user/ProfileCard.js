@@ -139,7 +139,8 @@ export default function ProfileCard() {
         .catch((e) => {
           const resp = e.response;
           if (resp != undefined && resp["status"] == 500) {
-            router.push("/" + "error/500");
+            // router.push("/" + "error/500");
+            router.push("/" + "api/auth/logout");
           }
         });
     }
