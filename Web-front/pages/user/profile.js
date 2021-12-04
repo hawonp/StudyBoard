@@ -12,12 +12,13 @@ import ProfileInfo from "../../components/user/ProfileInfo";
 import { useUser } from "@auth0/nextjs-auth0";
 import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 // constants
 const USERSENDPOINT = "/users/";
 
 // functional component that renders the profile page
-export default function Profile() {
+export default withPageAuthRequired(function Profile() {
   const { user, error, isLoading } = useUser(); // user session data from Auth0
   const [dataLoaded, setDataLoading] = useState(false); // determines the state of data crawling from backend
   const [profile, setProfile] = useState({}); // holds the profile information
@@ -44,7 +45,6 @@ export default function Profile() {
         .catch((e) => {
           const resp = e.response;
           if (resp["status"] == 403) {
-            // TODO temp redirection
             router.push("/" + "/error/403");
           }
         });
@@ -72,4 +72,4 @@ export default function Profile() {
       </div>
     );
   }
-} // functional component closure
+}); // functional component closure

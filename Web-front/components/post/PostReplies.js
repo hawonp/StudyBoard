@@ -84,8 +84,7 @@ export const ReplyCard = ({ postID }) => {
     }
   }, [loadingReplies, feedOrder, isLoading]);
 
-  // Switch to show and hide replies
-
+  // adding a reply to a post
   const _addComment = (body, resetForm) => {
     // Add reply to db
     axiosInstance
@@ -99,9 +98,16 @@ export const ReplyCard = ({ postID }) => {
           setLoadingReplies(true);
           resetForm();
         }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
   };
 
+  // action handling that links replies together
   const _getComments = () => {
     //Get the comments from db
     return comments.map((reply, i) => (
@@ -290,6 +296,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const closeOption = () => setOption(null);
   const isOptionOpened = Boolean(option);
 
+  // adding a report to a reply
   const report = () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
@@ -303,9 +310,17 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         const responseData = JSON.parse(response["data"]);
         setFlagText("");
         setOpen(false);
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        } else if (resp["status"] == 500) {
+          router.push("/" + "error/500");
+        }
       });
   };
-  //Handle like press
+  //Handle like press for replies
   const handleLikePressed = () => {
     const id = user.sub;
 
@@ -320,6 +335,12 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     } else {
       axiosInstance
@@ -330,6 +351,12 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };
@@ -571,7 +598,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
   );
 };
 
-//댓글에 댓글 reply to reply
+//reply to reply component
 const InputReply = ({ setLoading, replyID, finish }) => {
   const inputRef = useRef();
   const { user } = useUser();
@@ -594,6 +621,12 @@ const InputReply = ({ setLoading, replyID, finish }) => {
         }
         if (inputRef.current !== null) inputRef.current.value = "";
         finish();
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
   };
 
@@ -663,10 +696,9 @@ const Reply = ({ replyData }) => {
   useEffect(() => {
     setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
   }, []);
+
+  // reporting a reply
   const report = () => {
-    // const reportData = createData(reportList.length+1, postData.user, postData.user, "입력값")
-    // setReportList([...reportList, reportData])
-    // TODO: API POST (BACKEND NEED)
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyData.reply_id + FLAGENDPOINT, {
         params: {
@@ -679,6 +711,12 @@ const Reply = ({ replyData }) => {
         const responseData = JSON.parse(response["data"]);
         setFlagText("");
         setOpen(false);
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
   };
 
@@ -696,6 +734,12 @@ const Reply = ({ replyData }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     } else {
       axiosInstance
@@ -706,6 +750,12 @@ const Reply = ({ replyData }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };

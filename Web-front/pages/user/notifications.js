@@ -7,9 +7,10 @@ import Box from "@mui/material/Box";
 // package imports
 import ProfileCard from "../../components/user/ProfileCard";
 import NotificationList from "../../components/app_bar/NotificationList";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 // functional component that renders the notification page
-export default function Notifications() {
+export default withPageAuthRequired(function Notifications() {
   return (
     <div style={{ display: "flex" }}>
       <div style={{ flex: 1 }}>
@@ -33,4 +34,4 @@ export default function Notifications() {
       <ProfileCard />
     </div>
   );
-} // functional component closure
+}); // functional component closure

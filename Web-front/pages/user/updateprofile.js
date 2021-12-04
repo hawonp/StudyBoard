@@ -12,12 +12,13 @@ import ProfileEdit from "../../components/user/ProfileEdit";
 import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
 import LoadingProgress from "../../components/utils/Loading";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 // constants
 const USERSENDPOINT = "/users/";
 
 // functional component that loads the page for update a user profile
-export default function UpdateProfile() {
+export default withPageAuthRequired(function UpdateProfile() {
   const { user, error, isLoading } = useUser(); // user session data from Auth0
   const [userLoaded, setUserLoaded] = useState(false); // determines if the user data has loaded in
   const [profile, setProfile] = useState({}); // holds the current profile data
@@ -64,4 +65,4 @@ export default function UpdateProfile() {
       </div>
     );
   }
-} // functional component closure
+}); // functional component closure
