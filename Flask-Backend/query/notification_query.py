@@ -31,15 +31,14 @@ def add_notif_report_accepted(report_id, content_type):
         #Getting id of newly added post
         res = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
-
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0 #When meeting and error or not found
 
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -72,14 +71,15 @@ def get_user_notifications(user_id):
         #Set the notifications as seen
         query = "UPDATE Notification SET notification_seen=1 WHERE user_id=?"
         cursor.execute(query, values)
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -105,15 +105,14 @@ def delete_notification(notification_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
-        
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 #Delete all notifications
@@ -132,13 +131,12 @@ def delete_all_notifications(user_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
-        
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
