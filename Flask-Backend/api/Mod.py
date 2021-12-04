@@ -24,7 +24,7 @@ THRESHHOLD = '/<int:num>'
 ############################
 #    Marshmallow Schema    #
 ############################
-class ModeratorAuthorisationSchema(Schema):
+class AuthoriseUserSchema(Schema):
     userID = fields.Str(required=True)
 
 class HandleReportAuthorisationSchema(Schema):
@@ -242,7 +242,7 @@ def init_routes(api):
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
     api.add_resource(FlaggedUsers, FLAGGED+USERS)
     api.add_resource(BlacklistUser, FLAGGED+USERS+USER_ID)
-    api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
+    # api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
 
 authorise_user_schema = AuthoriseUserSchema()
 mod_authorise_schema = ModeratorAuthorisationSchema()
