@@ -73,18 +73,18 @@ def get_flagged_posts():
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements 
         query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Post_Report) AS rpt ON rpt.user_id = u.user_id"
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query)
-        cur.execute(query)
+        cursor.execute(query)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         res=[]
         for result in rv:
             res.append(dict(zip(row_headers,result)))
@@ -104,18 +104,18 @@ def get_flagged_replies():
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements 
         query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Reply_Report) AS rpt ON rpt.user_id = u.user_id"
 
         #Fetching flagged replies
         print("Selecting with query", query)
-        cur.execute(query)
+        cursor.execute(query)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         res=[]
 
         for result in rv:
@@ -135,7 +135,7 @@ def get_flagged_users():
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements 
         query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
@@ -143,11 +143,11 @@ def get_flagged_users():
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query)
-        cur.execute(query)
+        cursor.execute(query)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         res=[]
 
         for result in rv:

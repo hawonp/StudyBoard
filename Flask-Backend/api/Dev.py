@@ -89,7 +89,6 @@ def populate_db(id):
         rep_2 = add_post_reply('654366234554624', rept_post0, "get out")
 
         add_post_reply('654366234558324', rept_post0, "reported")
-
         # add_user_like_reply(rep_2, user_id)
 
         
@@ -99,7 +98,6 @@ def populate_db(id):
 class Dev(Resource):
     def get(self, id):
         populate_db(id)
-
         return {"result":'Database population complete'}
         
 

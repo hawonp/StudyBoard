@@ -96,7 +96,7 @@ def get_post_feed(page, order):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         limit = 10
@@ -110,32 +110,32 @@ def get_post_feed(page, order):
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         json_data=[]
 
         for result in rv:
             json_data.append(dict(zip(row_headers,result)))
 
         #Close cursor
-        cur.close()
+        cursor.close()
 
         #Obtain max page count
         # Obtainting DB cursor
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statement and values
         query = "SELECT COUNT(*) FROM Post"
         # values = (order, offset, limit)
         #Fetching count with given filter
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query)
+        cursor.execute(query)
 
         # serialize results into JSON
-        rv = cur.fetchone()
+        rv = cursor.fetchone()
 
         # return the results!
         res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
@@ -153,7 +153,7 @@ def get_post_feed_with_filter(page, order, filter):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         limit = 10
@@ -168,11 +168,11 @@ def get_post_feed_with_filter(page, order, filter):
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         json_data=[]
 
         for result in rv:
@@ -180,21 +180,21 @@ def get_post_feed_with_filter(page, order, filter):
 
 
         #Close cursor
-        cur.close()
+        cursor.close()
 
         #Obtain max page count
         # Obtainting DB cursor
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statement and values
         query = "SELECT COUNT(*) FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id"
         values = tuple(filter)
         #Fetching count with given filter
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        rv = cur.fetchone()
+        rv = cursor.fetchone()
 
         # return the results!
         res_data = {'posts': json_data, 'maxPageCount': (rv[0]//10 + 1)}
@@ -214,17 +214,17 @@ def get_posts():
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_favourite_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE user.user_id = Post.user_id"
 
         print("Selecting with query", query)
-        cur.execute(query)
+        cursor.execute(query)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         json_data=[]
 
         for result in rv:
@@ -245,17 +245,17 @@ def get_posts_by_user(user_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE user.user_id = Post.user_id and Post.user_id = ?"
         values = (user_id, )
         print("Selecting with query", query)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         json_data=[]
 
         for result in rv:
@@ -275,17 +275,17 @@ def get_posts_by_tag_name(tag_name):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
         
         #Set up query statements and values
         query = "SELECT Post.* FROM Post, Post_Tag, Tag WHERE Post_Tag.post_id = Post.post_id && Post_Tag.tag_id = Tag.tag_id && LOWER(Tag.tag_name) = LOWER(?)"
         values = (tag_name, )
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         json_data=[]
 
         for result in rv:
@@ -306,7 +306,7 @@ def search_tags(input):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         if(len(input) < 1):
             abort(400)
@@ -315,9 +315,9 @@ def search_tags(input):
         query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
-        tag_result = cur.fetchall()
+        tag_result = cursor.fetchall()
         return_result = []
 
         for i in range(len(tag_result)):
@@ -340,7 +340,7 @@ def search_posts(input):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         if(len(input) < 1):
             abort(400)
@@ -350,10 +350,10 @@ def search_posts(input):
         query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where LOWER(Post.post_title) LIKE LOWER(?)"
         values = ("%" + input + "%", )
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        post_result = cur.fetchall()
+        post_result = cursor.fetchall()
 
         return_result = []
 

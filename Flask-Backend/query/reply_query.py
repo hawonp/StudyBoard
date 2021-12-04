@@ -160,7 +160,7 @@ def get_replies_to_post(post_id, order, user_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         if order == 0:
@@ -176,11 +176,11 @@ def get_replies_to_post(post_id, order, user_id):
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         res=[]
 
         for result in rv:
@@ -205,7 +205,7 @@ def get_replies_to_reply(reply_id, user_id):
     try:
         # Obtainting DB cursor
         conn = get_connection()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         #Set up query statements and values
         query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Reply WHERE source_id=?)AS rtr ON rtr.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id"
@@ -213,11 +213,11 @@ def get_replies_to_reply(reply_id, user_id):
 
         #Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)
-        cur.execute(query, values)
+        cursor.execute(query, values)
 
         # serialize results into JSON
-        row_headers=[x[0] for x in cur.description]
-        rv = cur.fetchall()
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
         res=[]
 
         for result in rv:
