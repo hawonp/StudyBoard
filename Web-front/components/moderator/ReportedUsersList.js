@@ -5,7 +5,6 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 
 // MUI imports
-import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -16,6 +15,7 @@ import TableBody from "@mui/material/TableBody";
 import { Box, ListItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 
 // package imports
 import axiosInstance from "../../utils/routeUtil";
@@ -57,10 +57,29 @@ export default function ReportedUsersList() {
 
   // load users
   useEffect(() => {
-    axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
-      setRows(JSON.parse(response.data));
-      setIsDataLoading(false);
-    });
+    if (!isLoading && !error && user) {
+      const userID = user.sub;
+      console.log(userID);
+      axiosInstance
+        .get(FLAGGEDENDPOINT + USERS, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          setRows(JSON.parse(response.data));
+          setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          console.log(resp);
+          if (resp["status"] == 403) {
+            router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    }
   }, [isDataLoading, isLoading]);
 
   // moderator blacklisting a user
@@ -104,7 +123,6 @@ export default function ReportedUsersList() {
             <TableHead>
               <TableRow>
                 <TableCell align="left">User ID</TableCell>
-
                 <TableCell align="left">User Nickname</TableCell>
                 <TableCell align="center">Number of Flagged Posts</TableCell>
                 <TableCell align="right">Blacklist User</TableCell>
@@ -143,24 +161,30 @@ export default function ReportedUsersList() {
                 ))}
               </TableBody>
             ) : (
-              // render when user data  doesn't exists
+              <TableBody>
+                <TableRow>
+                  <TableCell component="th" scope="row" colSpan={4}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
 
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-
-                  alignItems: "center",
-                }}
-              >
-                <ReportGmailerrorredOutlinedIcon
-                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
-                />
-                <p style={{ fontSize: "0.8rem" }}>
-                  <div>There are no users with 10 active reports so far!</div>
-                </p>
-              </Box>
+                        alignItems: "center",
+                      }}
+                    >
+                      <ReportGmailerrorredOutlinedIcon
+                        sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                      />
+                      <p style={{ fontSize: "0.8rem" }}>
+                        <div>
+                          There are no users with 10 active reports so far!
+                        </div>
+                      </p>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             )}
           </Table>
         </TableContainer>

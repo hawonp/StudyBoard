@@ -194,22 +194,28 @@ export default function ReportedRepliesList() {
               </TableBody>
             ) : (
               // render when reply data doesn't exist
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
+              <TableBody>
+                <TableRow>
+                  <TableCell component="th" scope="row" colSpan={5}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
 
-                  alignItems: "center",
-                }}
-              >
-                <ReportGmailerrorredOutlinedIcon
-                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
-                />
-                <p style={{ fontSize: "0.8rem" }}>
-                  <div>There are no reported replies yet!</div>
-                </p>
-              </Box>
+                        alignItems: "center",
+                      }}
+                    >
+                      <ReportGmailerrorredOutlinedIcon
+                        sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                      />
+                      <p style={{ fontSize: "0.8rem" }}>
+                        <div>There are no reported replies yet!</div>
+                      </p>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             )}
           </Table>
         </TableContainer>
