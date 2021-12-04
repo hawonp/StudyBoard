@@ -17,6 +17,11 @@ export default function About() {
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        backgroundImage: "url('./images/hero-bg.png')",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div

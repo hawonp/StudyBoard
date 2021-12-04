@@ -17,6 +17,11 @@ export default function Leadership() {
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        backgroundImage: "url('./images/hero-bg.png')",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div
@@ -88,7 +93,7 @@ export default function Leadership() {
                 <img src="images/image3.jpg" width="250px" height="250px" />
               </div>
               <h3>Pyungkang Hong</h3>
-              <span>UI/UX</span>
+              <span>UI/UX Front-end</span>
             </div>
           </Card>
 

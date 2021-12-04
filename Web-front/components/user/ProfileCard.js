@@ -251,7 +251,12 @@ export default function ProfileCard() {
                 <Link href="/user/posts">
                   <IconButton
                     aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
+                    disableRipple
+                    sx={{
+                      padding: "2px",
+                      paddingRight: "6px",
+                      borderRadius: "4px",
+                    }}
                   >
                     <DescriptionIcon sx={{ fontSize: "1.2rem" }} />
 
@@ -266,8 +271,9 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/user/favorites">
                   <IconButton
+                    disableRipple
                     aria-label="favorites"
-                    sx={{ borderRadius: "4px" }}
+                    sx={{ padding: "2px", borderRadius: "4px" }}
                   >
                     <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
