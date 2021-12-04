@@ -109,7 +109,7 @@ class ReplyLike(Resource):
         user_id = formData["userID"]
         print("Adding user like to reply")
         res = add_user_like_reply(id, user_id)
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return res
     
@@ -124,7 +124,7 @@ class ReplyLike(Resource):
         #Un-like
         print("Removing user like from Reply")
         res = delete_user_like_reply(id, user_id)
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return res
 
@@ -144,7 +144,7 @@ class ReplyFlag(Resource):
         post_id = formData["postID"]
         
         res = flag_reply(id, user_id, post_id, flag_text)
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return res
 

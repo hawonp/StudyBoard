@@ -63,7 +63,7 @@ def add_post(user_id, title, text, img_url, tags, date_time):
 
 # Adding Post entries to the db.
 def add_user_like_post(user_id, post_id):
-    new_user_post_like_id = 0 #When meeting and error or not found
+    res = 1 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -82,12 +82,13 @@ def add_user_like_post(user_id, post_id):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
+        res = 0
 
     #Closing cursor and commiting  connection
     cursor.close()
     conn.commit()
     conn.close()
-    return new_user_post_like_id
+    return res
 
 ##########################################################
 #                         SELECT                         #

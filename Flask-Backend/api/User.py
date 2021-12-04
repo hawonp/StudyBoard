@@ -120,7 +120,7 @@ class UserNotifications(Resource):
         #Delete all notifs
         res = delete_all_notifications(id)
         
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
@@ -129,7 +129,7 @@ class UserNotification(Resource):
     def delete(self, id, nid):
         #Delete all notifs
         res = delete_notification(nid)
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
