@@ -108,14 +108,13 @@ def get_post_feed(page, order):
     #Fetching posts with filter, sort, limit, and offset
     print("Selecting with query", query, " and values ", values)
     cur.execute(query, values)
-    print(cur.statement)
+
     # serialize results into JSON
     row_headers=[x[0] for x in cur.description]
     rv = cur.fetchall()
     json_data=[]
-    print("Getting data")
+
     for result in rv:
-        print(result)
         json_data.append(dict(zip(row_headers,result)))
 
     #Close cursor
@@ -168,11 +167,11 @@ def get_post_feed_with_filter(page, order, filter):
     row_headers=[x[0] for x in cur.description]
     rv = cur.fetchall()
     json_data=[]
-    print("Getting data")
+
     for result in rv:
         json_data.append(dict(zip(row_headers,result)))
 
-    print(json_data)
+
     #Close cursor
     cur.close()
 
@@ -312,9 +311,6 @@ def search_tags(input):
 
         for i in range(len(tag_result)):
             # tag_result[i] = "[TAG] " + tag_result[i]
-            print(tag_result[i])
-            print(tag_result[i][0])
-            print(tag_result[i][1])
             temp = { "type" : "tag", "id" : tag_result[i][0], "text" : tag_result[i][1]}
             return_result.append(temp)
 
@@ -372,10 +368,7 @@ def get_search_results_posts(input):
         cursor = conn.cursor()
 
         query = "SELECT DISTINCT Post.*, User.user_nickname From Post, User where Post.user_id = User.user_id && LOWER(Post.post_title) LIKE LOWER(?)"
-
         values = ("%" + input + "%", )
-
-        print("Selecting with query", query, " and values ", values)
 
         #Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -383,14 +376,10 @@ def get_search_results_posts(input):
 
         # serialize results into JSON
         row_headers=[x[0] for x in cursor.description]
-        print("row headers", row_headers)
         rv = cursor.fetchall()
-
-        print("this is all posts", rv)
         json_data=[]
 
         for result in rv:
-            print("\n\n\nresult", result)
             result = list(result)
             datetime = result[-2].strftime('%Y-%m-%d %H:%M:%S')
             result[-2] = datetime
@@ -424,11 +413,7 @@ def get_search_results_tags(input):
         # serialize results into JSON
         # row_headers=[x[0] for x in cursor.description]
         res = cursor.fetchall()
-        # json_data=[]
 
-        # for result in rv:
-        #     json_data.append(dict(zip(row_headers,result)))
-        # print(json_data)
 
         #Closing cursor
         cursor.close()

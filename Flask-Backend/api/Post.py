@@ -67,7 +67,6 @@ class FeedPostData(Resource):
 
         #Get posts with given offset, sort order and tag filter
         if filter:
-            print(user_id)
             filter = get_user_tag_ids(user_id)
             if len(filter) == 0:
                 feed = get_post_feed(page, order)
@@ -97,7 +96,6 @@ class PostData(Resource):
 
         #Now get the tags
         print("Getting post tags with retrieved post data:", post)
-        print("post id:", post["post_id"])
         post_tags = get_post_tags(post["post_id"])
         tags = []
         for tag in post_tags:
@@ -118,7 +116,6 @@ class PostData(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = post_data_schema.validate(formData)
 
         if errors:
@@ -144,7 +141,6 @@ class PostData(Resource):
 #Post creation
 class PostWrite(Resource):
     def post(self):
-        print("validate inputs")
         #Validate params first
         formData = request.get_json()["params"]
         errors = post_data_schema.validate(formData)
@@ -199,7 +195,6 @@ class SearchQuery(Resource):
             "posts" : post_json
         } 
 
-        print("Search Result", result_json)
         return json.dumps(result_json)
 
 
@@ -208,7 +203,6 @@ class PostTag(Resource):
     def get(self):
 
         tag_name = request.args.get('tagName')
-        print("tag name", tag_name)
         posts = get_posts_by_tag_name(tag_name)
         #For every post, get the tags and append it to the respective post object
         for post in posts:            
