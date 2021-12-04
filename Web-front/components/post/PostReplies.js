@@ -63,14 +63,6 @@ export const ReplyCard = ({ postID }) => {
 
   //Load comments upon render
   useEffect(() => {
-    // Add a request interceptor
-    axiosInstance.interceptors.request.use((request) => {
-      return request;
-    });
-
-    axiosInstance.interceptors.response.use((response) => {
-      return response;
-    });
     if (!isLoading && !error) {
       let userID = -1;
       if (user) {
