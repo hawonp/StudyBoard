@@ -111,8 +111,8 @@ export default function ProfileCard() {
 
   // action handling to go to the moderator page
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
+    // setAnchorEl(event.currentTarget);
+    // setOpen((previousOpen) => !previousOpen);
     router.push("/" + "moderator/users");
   };
 

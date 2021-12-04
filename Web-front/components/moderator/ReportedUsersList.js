@@ -5,6 +5,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 
 // MUI imports
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -143,7 +144,23 @@ export default function ReportedUsersList() {
               </TableBody>
             ) : (
               // render when user data  doesn't exists
-              <div>There are no users with 10 active reports so far!</div>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+
+                  alignItems: "center",
+                }}
+              >
+                <ReportGmailerrorredOutlinedIcon
+                  sx={{ fontSize: "7.2rem", color: "lightgray" }}
+                />
+                <p style={{ fontSize: "0.8rem" }}>
+                  <div>There are no users with 10 active reports so far!</div>
+                </p>
+              </Box>
             )}
           </Table>
         </TableContainer>
