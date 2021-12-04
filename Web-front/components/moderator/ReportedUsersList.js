@@ -56,10 +56,20 @@ export default function ReportedUsersList() {
 
   // load users
   useEffect(() => {
-    axiosInstance.get(FLAGGEDENDPOINT + USERS).then((response) => {
-      setRows(JSON.parse(response.data));
-      setIsDataLoading(false);
-    });
+    if (!isLoading && !error && user) {
+      const userID = user.sub;
+
+      axiosInstance
+        .get(FLAGGEDENDPOINT + USERS, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          setRows(JSON.parse(response.data));
+          setIsDataLoading(false);
+        });
+    }
   }, [isDataLoading, isLoading]);
 
   // moderator blacklisting a user

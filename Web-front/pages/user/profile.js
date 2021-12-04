@@ -45,7 +45,6 @@ export default withPageAuthRequired(function Profile() {
         .catch((e) => {
           const resp = e.response;
           if (resp["status"] == 403) {
-            // TODO temp redirection
             router.push("/" + "/error/403");
           }
         });

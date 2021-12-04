@@ -110,6 +110,11 @@ export default function PostDetailPage() {
               didUserLike: !prevData.didUserLike,
               postLikeCount: prevData.postLikeCount - 1,
             };
+          }).catch((e) => {
+            const resp = e.response;
+            if (resp["status"] == 500) {
+              router.push("/" + "error/500");
+            }
           });
         });
     } else {
@@ -127,6 +132,12 @@ export default function PostDetailPage() {
               postLikeCount: prevData.postLikeCount + 1,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };
@@ -148,6 +159,12 @@ export default function PostDetailPage() {
               didUserFavourite: !prevData.didUserFavourite,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     } else {
       axiosInstance
@@ -163,6 +180,12 @@ export default function PostDetailPage() {
               didUserFavourite: !prevData.didUserFavourite,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };
