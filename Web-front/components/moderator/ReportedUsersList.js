@@ -58,7 +58,7 @@ export default function ReportedUsersList() {
   useEffect(() => {
     if (!isLoading && !error && user) {
       const userID = user.sub;
-
+      console.log(userID);
       axiosInstance
         .get(FLAGGEDENDPOINT + USERS, {
           params: {
@@ -68,6 +68,15 @@ export default function ReportedUsersList() {
         .then((response) => {
           setRows(JSON.parse(response.data));
           setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          console.log(resp);
+          if (resp["status"] == 403) {
+            router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
         });
     }
   }, [isDataLoading, isLoading]);

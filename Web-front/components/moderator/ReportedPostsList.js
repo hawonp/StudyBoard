@@ -78,6 +78,8 @@ export default function ReportedPostsList() {
           const resp = e.response;
           if (resp["status"] == 403) {
             router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
           }
         });
     }
