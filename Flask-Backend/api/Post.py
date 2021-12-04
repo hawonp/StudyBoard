@@ -28,13 +28,13 @@ QUERY = '/query'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     page = fields.Int(required=True, validate=validate.Range(min=1))
     order = fields.Int(required=True, validate=validate.Range(min=0, max=1))
     filter = fields.Int(required=True, validate=validate.Range(min=0, max=1))
 
 class PostDataSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     title = fields.Str(required=True, validate=validate.Length(min=1, max=64))
     text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
     imageURL = fields.Str(required=True, validate=validate.Length(min=1, max=512))
@@ -42,10 +42,10 @@ class PostDataSchema(Schema):
     uuid = fields.Str(required=False)
 
 class PostInteractorIDSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
 
 class PostFlagSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
 
 ############################
