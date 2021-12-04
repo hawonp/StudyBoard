@@ -174,7 +174,7 @@ class FlaggedPosts(Resource):
 
         #Get user id and check if its a moderator
         user_id = request.args.get('userID')
-        if check_if_user_is_mod(user_id):
+        if not check_if_user_is_mod(user_id):
             err = "Not authorised"
             print(err)
             abort(403, err)
@@ -194,7 +194,7 @@ class FlaggedReplies(Resource):
 
         #Get user id and check if its a moderator
         user_id = request.args.get('userID')
-        if check_if_user_is_mod(user_id):
+        if not check_if_user_is_mod(user_id):
             err = "Not authorised"
             print(err)
             abort(403, err)
@@ -214,7 +214,7 @@ class FlaggedUsers(Resource):
 
         #Get user id and check if its a moderator
         user_id = request.args.get('userID')
-        if check_if_user_is_mod(user_id):
+        if not check_if_user_is_mod(user_id):
             err = "Not authorised"
             print(err)
             abort(403, err)
