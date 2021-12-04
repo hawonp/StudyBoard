@@ -13,6 +13,7 @@ import ProfileCard from "../../components/user/ProfileCard";
 import PostMinified from "../../components/misc/PostMinified";
 import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 // constants
 const POSTSENDPOINT = "/posts";
@@ -58,8 +59,8 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
-// functional component that renders the page for posts that a user has page
-export default function Posts() {
+// functional component that renders the page for posts that a user has posted
+export default withPageAuthRequired(function Posts() {
   const [postList, setPostList] = useState([]); // stores the list of posts
   const { user, isLoading, error } = useUser(); // user session data from Auth0
   const [isDataLoading, setIsDataLoading] = useState(true); // determines current state of data crawling from backend
@@ -183,4 +184,4 @@ export default function Posts() {
       </div>
     );
   }
-} // functional component closure
+}); // functional component closure

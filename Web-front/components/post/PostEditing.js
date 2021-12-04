@@ -55,6 +55,12 @@ export default function PostEditing({ postCard, finish }) {
           finish();
           router.push(POSTDATAENDPOINT + "/" + router.query.id);
         }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
   };
 

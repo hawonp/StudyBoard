@@ -12,6 +12,7 @@ import ProfileCard from "../../components/user/ProfileCard";
 import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 import PostMinified from "../../components/misc/PostMinified";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 // constants
 const FAVOURITEENDPOINT = "/favourite";
@@ -58,7 +59,7 @@ const LineWrapper = ({ style, children }) => {
 };
 
 // functional component that renders the user's currently favorite post list
-export default function Favorites() {
+export default withPageAuthRequired(function Favorites() {
   const [favorites, setFavorites] = useState([]); // stores the list of favorite posts
   const { user, isLoading, error } = useUser(); // user session data from Auth0
   const [isDataLoading, setIsDataLoading] = useState(true); // determines current state of data loading
@@ -182,4 +183,4 @@ export default function Favorites() {
       </div>
     );
   }
-} // functional component closure
+}); // functional component closure
