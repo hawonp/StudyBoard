@@ -1,13 +1,15 @@
-// pages/api/auth/[...auth0].js
+// react imports
+import { useRouter } from "next/dist/client/router";
+
+// package imports
 import { handleAuth, handleCallback, handleLogout } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../../utils/routeUtil";
 
-const afterCallback = (req, res, session, state) => {
-  //   if (!session.user.isAdmin) {
-  //     throw new UnauthorizedError("User is not admin");
-  //   }
-  console.log("After callback -> make AXIOS call");
+// constants
+const router = useRouter();
 
+// action handling for after the login process is complete
+const afterCallback = (req, res, session, state) => {
   axiosInstance
     .get("/login", {
       params: {
@@ -19,16 +21,13 @@ const afterCallback = (req, res, session, state) => {
     .then((response) => {
       console.log("response from backend" + response);
       if (response["status"] == 200) {
-        console.log("success");
+        // do nothing, automatically redirects to the same url
       }
     })
     .catch((e) => {
       const resp = e.response;
       if (resp["status"] == 403) {
-        // TODO temp redirection
-        // cookies.remove("user_token", { path: "/" });
-        // cookies.remove("user_id", { path: "/" });
-        // window.location.href = "./error/403";
+        router.push("/" + "error/403");
       }
     });
   console.log("After callback -> make AXIOS call");
@@ -36,6 +35,7 @@ const afterCallback = (req, res, session, state) => {
   return session;
 };
 
+// function component that calls the Auth0 login process
 export default handleAuth({
   async callback(req, res) {
     try {

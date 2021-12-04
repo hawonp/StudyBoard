@@ -1,11 +1,12 @@
+// react imports
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+
+// MUI imports
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SubdirectoryArrowRightIcon from "@mui/icons-material/SubdirectoryArrowRight";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -20,19 +21,14 @@ import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import Divider from "@mui/material/Divider";
-import LoadingProgress from "../utils/Loading";
+import { Modal, Box, TextField, Popover } from "@mui/material";
 
-import {
-  Avatar,
-  Modal,
-  Alert,
-  Box,
-  TextField,
-  Popover,
-  Typography,
-} from "@mui/material";
+// package imports
+import LoadingProgress from "../utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 import { getTimeDisplay } from "../../utils/utils";
+
+// styling for modal that appears for reporting replies
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -46,15 +42,14 @@ const modalStyle = {
   pb: 3,
 };
 
-//Initiate needed constants
+// constants needed for axios REST api calls
 const POSTDATAENDPOINT = "/posts";
 const REPLYDATAENDPOINT = "/replies";
 const LIKEENDPOINT = "/likes";
 const FLAGENDPOINT = "/flag";
 
-// Comment whole thing Container
-export const CommentBox = ({ postID }) => {
-  const [showComments, setShowComments] = useState(true);
+// functional component that holds all the replies
+export const ReplyCard = ({ postID }) => {
   const [loadingReplies, setLoadingReplies] = useState(true);
   const [feedOrder, setFeedOrder] = useState(0);
   const { user, isLoading, error } = useUser();
@@ -101,12 +96,6 @@ export const CommentBox = ({ postID }) => {
   }, [loadingReplies, feedOrder, isLoading]);
 
   // Switch to show and hide replies
-  let buttonText = showComments ? "Hide Comments" : "Show Comments";
-  const label = { inputProps: { "aria-label": "Switch demo" } };
-  const toggleComments = (event) => {
-    setShowComments(event.target.checked);
-    setLoadingReplies(event.target.checked);
-  };
 
   const _addComment = (body, resetForm) => {
     // Add reply to db
@@ -140,11 +129,6 @@ export const CommentBox = ({ postID }) => {
                 (deleteComment) => deleteComment.reply_id !== reply.reply_id
               )
             );
-            //Getting id
-            // let userID = -1;
-            // if (user) {
-            //   userID = user.sub;
-            // }
             axiosInstance
               .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
               .then((response) => {
@@ -157,9 +141,9 @@ export const CommentBox = ({ postID }) => {
         setLoading={setLoadingReplies}
       />
     ));
-  };
+  }; //functional component that renders the reply box
 
-  let commentNodes = showComments ? <div>{_getComments()}</div> : <></>;
+  let commentNodes = <div>{_getComments()}</div>;
 
   const _getCommentsTitle = (commentCount) => {
     if (commentCount === 0) {
@@ -398,17 +382,27 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                   style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}
                 >
                   Posted by {replyData.user_nickname}
+                  {replyData.user_is_endorsed ? (
+                    <Tooltip title="This is an endorsed user's reply">
+                      <LightbulbIcon
+                        sx={{
+                          color: "#FFBF00",
+                          fontSize: "0.8rem",
+                        }}
+                      />
+                    </Tooltip>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                <LightbulbIcon
-                  sx={{ color: "#FFBF00", fontSize: "0.8rem", mb: "0.2rem" }}
-                />
+
                 <div
                   style={{
-                    marginLeft: "1rem",
                     fontSize: "0.8rem",
                     color: "#C4C4C4",
                   }}
                 >
+                  &nbsp;
                   {diffTime}
                 </div>
               </div>
@@ -758,10 +752,16 @@ const Reply = ({ replyData }) => {
           <div style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}>
             {replyData.user_nickname}
           </div>
-          <LightbulbIcon sx={{ color: "#FFBF00", fontSize: "0.8rem" }} />
-          <div
-            style={{ marginLeft: "2rem", fontSize: "0.8rem", color: "#C4C4C4" }}
-          >
+          {replyData.user_is_endorsed ? (
+            <Tooltip title="This is an endorsed user's reply">
+              <LightbulbIcon sx={{ color: "#FFBF00", fontSize: "0.8rem" }} />
+            </Tooltip>
+          ) : (
+            <></>
+          )}
+
+          <div style={{ fontSize: "0.8rem", color: "#C4C4C4" }}>
+            &nbsp;
             {diffTime}
           </div>
         </div>
@@ -769,9 +769,6 @@ const Reply = ({ replyData }) => {
         <div
           style={{
             width: "100%",
-            // display: "flex",
-            // flexDirection: "row",
-            // flexGrow: 1,
             flexWrap: "nowrap",
             overflow: "hidden",
           }}
@@ -845,7 +842,6 @@ const Reply = ({ replyData }) => {
               sx={{ borderRadius: "8px", height: "2rem", marginTop: "0.5rem" }}
               variant="outlined"
               color="error"
-              // type="submit"
               onClick={handleClose}
             >
               Cancel
@@ -885,21 +881,10 @@ const Reply = ({ replyData }) => {
           horizontal: "right",
         }}
       >
-        <IconButton
-          disableRipple
-          // style={{ padding: "0", paddingLeft: "0.5rem" }}
-          aria-label="report"
-          onClick={handleOpen}
-        >
+        <IconButton disableRipple aria-label="report" onClick={handleOpen}>
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-        {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
-        {/* {user && replyData.user_id === user.sub && ( */}
-        <IconButton
-          disableRipple
-          // style={{ padding: "0", paddingLeft: "0.5rem" }}
-          // onClick={deleteSelf}
-        >
+        <IconButton disableRipple>
           <DeleteIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
       </Popover>

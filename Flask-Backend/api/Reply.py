@@ -154,4 +154,4 @@ add_reply_schema = AddReplySchema()
 reply_flags_schema = ReplyFlagSchema()
 get_replies_schema = GetRepliesSchenma()
 reply_interactor_id_schema = ReplyInteractorIDSchema()
-add_reply_to_reply_schema = AddReplyToReplySchema
+add_reply_to_reply_schema = AddReplyToReplySchema()

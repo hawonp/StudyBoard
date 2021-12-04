@@ -1,7 +1,11 @@
-import { Container } from "@mui/material";
+// react imports
 import Link from "next/link";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
+// MUI imports
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
+
+// functional component that renders the error 500 page
 export default function Error_500_page() {
   return (
     <Container>

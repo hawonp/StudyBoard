@@ -1,16 +1,23 @@
+// react imports
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-//Importing MUI
+
+// MUI imports
 import Box from "@mui/material/Box";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
+
+// package imports
 import ProfileCard from "../../components/user/ProfileCard";
 import LoadingProgress from "../../components/utils/Loading";
 import axiosInstance from "../../utils/routeUtil";
 import PostMinified from "../../components/misc/PostMinified";
+
+// constants
 const FAVOURITEENDPOINT = "/favourite";
 const USERS = "/users/";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -29,6 +36,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// LineWrapper styling
 const LineWrapper = ({ style, children }) => {
   return (
     <div
@@ -49,11 +57,13 @@ const LineWrapper = ({ style, children }) => {
   );
 };
 
+// functional component that renders the user's currently favorite post list
 export default function Favorites() {
-  const [favorites, setFavorites] = useState([]);
-  const { user, isLoading, error } = useUser();
-  const [isDataLoading, setIsDataLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]); // stores the list of favorite posts
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
+  const [isDataLoading, setIsDataLoading] = useState(true); // determines current state of data loading
 
+  // load in data from backend
   useEffect(() => {
     if (!isLoading && !error) {
       let userID = "";
@@ -67,12 +77,16 @@ export default function Favorites() {
     }
   }, [isLoading]);
 
+  // user session is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
+  // data still loading from backend
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (favorites.length === 0) {
+  }
+  // there are no favorites to display
+  else if (favorites.length === 0) {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -124,7 +138,9 @@ export default function Favorites() {
         <ProfileCard />
       </div>
     );
-  } else {
+  }
+  // all data has loaded in, there are favorites to display
+  else {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
