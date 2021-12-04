@@ -229,6 +229,8 @@ class PostLike(Resource):
         user_id = formData["userID"]
         print("Adding user like to post")
         res = add_user_like_post(user_id, id)
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -242,6 +244,8 @@ class PostLike(Resource):
         #Un-like
         print("Removing user like from post")
         res = delete_user_like_post(user_id, id)
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add post to favourites
@@ -259,6 +263,8 @@ class PostFavourite(Resource):
         user_id = formData["userID"]
         print("Adding post to favourites")
         res = add_user_favourite_post(user_id, id)
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -272,6 +278,8 @@ class PostFavourite(Resource):
         #Un-fav
         print("Removing post from favourites")
         res = delete_user_favourite_post(user_id, id)
+        if not res:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add flag a post
