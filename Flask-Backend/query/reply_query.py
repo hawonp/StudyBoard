@@ -34,11 +34,11 @@ def add_post_reply(user_id, post_id, text):
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0 #When meeting and error or not found
+        #Closing cursor and commiting  connection
+        cursor.close()
+        conn.commit()
+        conn.close()
 
-    #Closing cursor and commiting  connection
-    cursor.close()
-    conn.commit()
-    conn.close()
     return res
 
 # Adding when reply is a reply to a post
