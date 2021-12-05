@@ -21,16 +21,12 @@ def add_user_favourite_post(user_id, post_id):
 
         #Getting id of newly added post
         res = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
-
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-
-
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -52,14 +48,13 @@ def check_if_user_favourited_post(user_id, post_id):
         cursor.execute(query, values)
         res = cursor.fetchone()
         
-        #Closing cursor, commit and close connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        return 0    
-    
+        res = [0]   
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res[0]
 
 #Get list of favourited posts
@@ -85,14 +80,13 @@ def get_favourited_post(user_id):
             json_data.append(dict(zip(row_headers,result)))
         
         res = json_data
-        #Closing cursor, commit and close connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
-    
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -113,13 +107,12 @@ def delete_user_favourite_post(uid, pid):
         #Getting data from table
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+    
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
-    
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res

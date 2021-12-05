@@ -109,6 +109,8 @@ class ReplyLike(Resource):
         user_id = formData["userID"]
         print("Adding user like to reply")
         res = add_user_like_reply(id, user_id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -122,6 +124,8 @@ class ReplyLike(Resource):
         #Un-like
         print("Removing user like from Reply")
         res = delete_user_like_reply(id, user_id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add flag a post
@@ -140,6 +144,8 @@ class ReplyFlag(Resource):
         post_id = formData["postID"]
         
         res = flag_reply(id, user_id, post_id, flag_text)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add routes to api
@@ -154,4 +160,4 @@ add_reply_schema = AddReplySchema()
 reply_flags_schema = ReplyFlagSchema()
 get_replies_schema = GetRepliesSchenma()
 reply_interactor_id_schema = ReplyInteractorIDSchema()
-add_reply_to_reply_schema = AddReplyToReplySchema
+add_reply_to_reply_schema = AddReplyToReplySchema()

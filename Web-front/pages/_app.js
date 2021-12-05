@@ -16,6 +16,6 @@ function MyApp({ Component, pageProps }) {
       </AppLayout>
     </UserProvider>
   );
-}
+} // functional component closure
 
 export default MyApp;

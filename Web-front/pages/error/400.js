@@ -1,8 +1,12 @@
-import { Container } from "@mui/material";
+// react imports
 import Link from "next/link";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
+// MUI imports
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
-export default function Error_401_page() {
+
+// functional component that renders the 400 error page
+export default function Error_400_page() {
   return (
     <Container>
       <div
@@ -46,4 +50,4 @@ export default function Error_401_page() {
       </div>
     </Container>
   );
-}
+} // functional component closure

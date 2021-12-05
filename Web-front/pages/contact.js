@@ -14,7 +14,7 @@ import LinkIcon from "@mui/icons-material/Link";
 // package imports
 import AboutNavigation from "../components/non_functional/AboutNavigation";
 
-// constants
+// PaperWrapper styling
 const PaperWrapper = ({ style, children }) => {
   return (
     <Box
@@ -150,4 +150,4 @@ export default function Contact() {
       </Box>
     </Box>
   );
-}
+} // functional component closure

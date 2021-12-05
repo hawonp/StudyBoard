@@ -60,10 +60,20 @@ export default function ReportedRepliesList() {
 
   // load replies from backend
   useEffect(() => {
-    axiosInstance.get(FLAGGEDENDPOINT + REPLYDATAENDPOINT).then((response) => {
-      setRows(JSON.parse(response.data));
-      setIsDataLoading(false);
-    });
+    if (!isLoading && !error && user) {
+      const userID = user.sub;
+
+      axiosInstance
+        .get(FLAGGEDENDPOINT + REPLYDATAENDPOINT, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          setRows(JSON.parse(response.data));
+          setIsDataLoading(false);
+        });
+    }
   }, [isDataLoading, isLoading]);
 
   // moderator responding to a report

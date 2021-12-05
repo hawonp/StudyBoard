@@ -107,8 +107,6 @@ class UsersByRank(Resource):
         #Call function and return 10 
         data = get_users_order_by_rank()
 
-        if not data:
-            abort(500, "Oops. Something went wrong.")
         return json.dumps(data)
 
 #Post feed
@@ -117,14 +115,12 @@ class UserNotifications(Resource):
         #Get the list of user's posts
         notifs = get_user_notifications(id)
         
-        if not notifs:
-            abort(500, "Oops. Something went wrong.")
         return json.dumps(notifs, default=str)
     def delete(self, id):
         #Delete all notifs
         res = delete_all_notifications(id)
         
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
@@ -133,7 +129,7 @@ class UserNotification(Resource):
     def delete(self, id, nid):
         #Delete all notifs
         res = delete_notification(nid)
-        if not res:
+        if res == 0:
             abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 

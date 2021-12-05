@@ -17,7 +17,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../utils/routeUtil";
 
 // constants
-const USERS = "/users/";
+const USERSENDPOINT = "/users/";
 
 // BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
@@ -111,8 +111,6 @@ export default function ProfileCard() {
 
   // action handling to go to the moderator page
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
     router.push("/" + "moderator/users");
   };
 
@@ -120,7 +118,7 @@ export default function ProfileCard() {
   useEffect(() => {
     if (!isLoading && !error && user) {
       axiosInstance
-        .get(USERS + user.sub)
+        .get(USERSENDPOINT + user.sub)
         .then((response) => {
           if (response["status"] == 200) {
             // read in response as json
@@ -141,7 +139,8 @@ export default function ProfileCard() {
         .catch((e) => {
           const resp = e.response;
           if (resp != undefined && resp["status"] == 500) {
-            router.push("/" + "error/500");
+            // router.push("/" + "error/500");
+            router.push("/" + "api/auth/logout");
           }
         });
     }
@@ -175,7 +174,6 @@ export default function ProfileCard() {
               >
                 <h4>{nickname}</h4>
               </div>
-              {console.log(mod, tags)}
               {mod == 1 ? (
                 // display moderator icon if moderator
                 <div
@@ -251,9 +249,9 @@ export default function ProfileCard() {
                 <Link href="/user/posts">
                   <IconButton
                     aria-label="favorites"
-                    disableRipple
+                    // disableRipple
                     sx={{
-                      padding: "2px",
+                      padding: "1px",
                       paddingRight: "6px",
                       borderRadius: "4px",
                     }}
@@ -271,9 +269,9 @@ export default function ProfileCard() {
               <div style={{ display: "inline-block" }}>
                 <Link href="/user/favorites">
                   <IconButton
-                    disableRipple
+                    // disableRipple
                     aria-label="favorites"
-                    sx={{ padding: "2px", borderRadius: "4px" }}
+                    sx={{ padding: "1px", borderRadius: "4px" }}
                   >
                     <BookmarkIcon sx={{ fontSize: "1.2rem" }} />
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>

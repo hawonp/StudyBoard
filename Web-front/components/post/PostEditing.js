@@ -34,13 +34,11 @@ export default function PostEditing({ postCard, finish }) {
   // action handling for saving the currently edited post
   const savePost = async (user) => {
     //Format the tags before sending it to the db
-    console.log(inputTag);
     const formattedTags = inputTag
       .split(",")
       .map((unadjustedTag) =>
         unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
       );
-    console.log("tags", formattedTags);
     axiosInstance
       .put(POSTDATAENDPOINT + "/" + router.query.id, {
         params: {
@@ -56,6 +54,12 @@ export default function PostEditing({ postCard, finish }) {
         if (responseData == 1) {
           finish();
           router.push(POSTDATAENDPOINT + "/" + router.query.id);
+        }
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
         }
       });
   };

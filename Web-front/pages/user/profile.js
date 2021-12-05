@@ -1,35 +1,39 @@
-import Box from "@mui/material/Box";
-import ProfileCard from "../../components/user/ProfileCard";
+// react imports
 import * as React from "react";
-import ProfileInfo from "../../components/user/ProfileInfo";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+// MUI imports
+import Box from "@mui/material/Box";
+
+// package imports
+import ProfileCard from "../../components/user/ProfileCard";
+import ProfileInfo from "../../components/user/ProfileInfo";
 import { useUser } from "@auth0/nextjs-auth0";
 import LoadingProgress from "../../components/utils/Loading";
-
-//Importing and settings vars for axios parse
 import axiosInstance from "../../utils/routeUtil";
-const users = "/users/";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-export default function Profile() {
-  const { user, error, isLoading } = useUser();
-  const [dataLoaded, setDataLoading] = useState(false);
-  const [profile, setProfile] = useState({});
+// constants
+const USERSENDPOINT = "/users/";
 
-  // if (user){
-  // }
+// functional component that renders the profile page
+export default withPageAuthRequired(function Profile() {
+  const { user, error, isLoading } = useUser(); // user session data from Auth0
+  const [dataLoaded, setDataLoading] = useState(false); // determines the state of data crawling from backend
+  const [profile, setProfile] = useState({}); // holds the profile information
+  const router = useRouter(); // used for redirection
+
+  // load in data from backend
   useEffect(() => {
     if (!isLoading && !error) {
-      console.log("Get profile info to display in user/profile");
-      console.log(user);
       axiosInstance
-        .get(users + user.sub, {})
+        .get(USERSENDPOINT + user.sub, {})
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];
             const temp_json = JSON.parse(temp);
             const user_info = temp_json.user;
-
-            console.log(temp_json);
             setProfile({
               email: user_info.user_email_address,
               nick: user_info.user_nickname,
@@ -41,20 +45,22 @@ export default function Profile() {
         .catch((e) => {
           const resp = e.response;
           if (resp["status"] == 403) {
-            // TODO temp redirection
-            window.location.href = "../error/403";
+            router.push("/" + "/error/403");
           }
         });
     }
   }, [isLoading]);
 
+  // user session data is loading
   if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
-  // if (!profile) return <Spinner />;
 
+  // data is loading from backend
   if (!dataLoaded) {
     return <LoadingProgress />;
-  } else {
+  }
+  // all data has loaded in
+  else {
     return (
       <div style={{ display: "flex" }}>
         <Box sx={{ flex: 1, marginLeft: "20px", marginRight: "20px" }}>
@@ -66,4 +72,4 @@ export default function Profile() {
       </div>
     );
   }
-}
+}); // functional component closure
