@@ -1,21 +1,24 @@
+// react imports
 import * as React from "react";
 import { useEffect, useState } from "react";
-import LoadingProgress from "../../components/Loading";
-//Importing MUI
-import Box from "@mui/material/Box";
-//Importing components
-import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import ProfileCard from "../../components/ProfileCard";
-import MyPostList from "../../components/MyPostList";
-//Importing and settings vars for axios parse
-import axiosInstance from "../../utils/routeUtil";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useReducer } from "react";
+import Link from "next/link";
 
+// MUI imports
+import Box from "@mui/material/Box";
+import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
+import ProfileCard from "../../components/user/ProfileCard";
+import PostMinified from "../../components/misc/PostMinified";
+
+// package imports
+import axiosInstance from "../../utils/routeUtil";
+import LoadingProgress from "../../components/utils/Loading";
+
+// constants
 const SEARCHQUERY = "/search/query";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -34,6 +37,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// SmallBoxWrapper styling
 const SmallBoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -53,6 +57,7 @@ const SmallBoxWrapper = ({ style, children }) => {
   );
 };
 
+// TagWrapper styling
 const TagWrapper = ({ style, children }) => {
   return (
     <div
@@ -69,6 +74,7 @@ const TagWrapper = ({ style, children }) => {
   );
 };
 
+// HashtagWrapper styling
 const HashtagWrapper = ({ style, children }) => {
   return (
     <div
@@ -96,24 +102,26 @@ export async function getServerSideProps(context) {
   };
 }
 
+// functional component that renders the dynamic search query router
 export default function SearchResult() {
-  const router = useRouter();
-  // url 쿼리에 input값
-  const [searchPosts, setSearchPosts] = useState([]);
-  const [searchTags, setSearchTags] = useState([]);
-  const [isDataLoading, setIsDataLoading] = useState(true);
+  const router = useRouter(); // used for redirection
+  const [searchPosts, setSearchPosts] = useState([]); // holds the search query results for posts
+  const [searchTags, setSearchTags] = useState([]); // holds the search query results for tags
+  const [isDataLoading, setIsDataLoading] = useState(true); // determines whether the data has been loaded from the backend
+
+  // used to force a re-render of the functional component
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   function handleClick() {
     forceUpdate();
   }
+
+  // load in data from backend
   useEffect(() => {
     axiosInstance
       .get(SEARCHQUERY, {
         params: { input: router.query.query },
       })
       .then((response) => {
-        console.log(response.data);
-        console.log(JSON.parse(response.data));
         const temp = response["data"];
         const temp_json = JSON.parse(temp);
         if (temp_json.posts != null) {
@@ -121,26 +129,21 @@ export default function SearchResult() {
         }
         setSearchTags(temp_json.tags);
         setIsDataLoading(false);
-
-        //   const data = JSON.parse(response.data);
-        //   console.log("Search Result", data);
-        //   setSearchPosts(data[0]);
-        //   setSearchTags(data[1]);
-        //   setIsDataLoading(false);
       });
+    // if dynamic route has changed, re-render UI componet with new data
     const handleRouteChange = (url, { shallow }) => {
-      console.log("routechanged");
-      console.log(router.asPath);
       setIsDataLoading(true);
       handleClick();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
   }, [isDataLoading]);
 
+  // post data is loading in
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else {
-    console.log("posts", searchPosts);
+  }
+  // post data has loaded in
+  else {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -189,12 +192,11 @@ export default function SearchResult() {
               )}
 
               {/* Post */}
-              {/* UI는 MyPost때와 동일함 */}
               <h5 style={{ marginBottom: "0.8rem" }}>Post Results</h5>
               {searchPosts.length > 0 ? (
                 <BoxWrapper>
                   {searchPosts.map((post) => (
-                    <MyPostList key={post.post_id} mypost={post} />
+                    <PostMinified key={post.post_id} data={post} />
                   ))}
                 </BoxWrapper>
               ) : (
@@ -222,4 +224,4 @@ export default function SearchResult() {
       </div>
     );
   }
-}
+} // functional component closure

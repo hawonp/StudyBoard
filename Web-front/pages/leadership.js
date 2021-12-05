@@ -1,18 +1,27 @@
-import Head from "next/head";
-import AboutPageNav from "../components/AboutPageNav";
+// react imports
+import Link from "next/link";
+
+// MUI imports
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import Link from "next/link";
 import Card from "@mui/material/Card";
-import image from "next/image";
 
+// package imports
+import AboutNavigation from "../components/non_functional/AboutNavigation";
+
+// functional component for rendering the leadership page
 export default function Leadership() {
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        backgroundImage: "url('./images/hero-bg.png')",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div
@@ -29,7 +38,7 @@ export default function Leadership() {
         >
           <Link href="/about">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>About</div>
+              <div>About Us</div>
             </a>
           </Link>
         </Button>
@@ -46,7 +55,7 @@ export default function Leadership() {
         <Button variant="outlined" sx={{ borderRadius: "20px" }}>
           <Link href="/contact">
             <a style={{ textDecoration: "none", color: "#3f8cb8" }}>
-              <div>Contact</div>
+              <div>Contact Us</div>
             </a>
           </Link>
         </Button>
@@ -84,7 +93,7 @@ export default function Leadership() {
                 <img src="images/image3.jpg" width="250px" height="250px" />
               </div>
               <h3>Pyungkang Hong</h3>
-              <span>Front-end UI/UX</span>
+              <span>UI/UX Front-end</span>
             </div>
           </Card>
 
@@ -101,4 +110,4 @@ export default function Leadership() {
       </Box>
     </Box>
   );
-}
+} // functional component closure

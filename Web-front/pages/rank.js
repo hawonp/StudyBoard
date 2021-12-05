@@ -1,8 +1,13 @@
-import Head from "next/head";
-import Box from "@mui/material/Box";
+// react imports
 import * as React from "react";
-import RankUserList from "../components/RankUserList";
 
+// MUI imports
+import Box from "@mui/material/Box";
+
+// package imports
+import UserRankList from "../components/misc/UserRankList";
+
+// functional component that renders the rank page
 export default function Rank() {
   return (
     <div>
@@ -27,9 +32,9 @@ export default function Rank() {
             }}
           />
 
-          <RankUserList />
+          <UserRankList />
         </Box>
       </Box>
     </div>
   );
-}
+} // functional component closure

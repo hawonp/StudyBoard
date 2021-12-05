@@ -28,6 +28,7 @@ function calculateTimeDiff(currentTimeStamp, postTimeStamp) {
   return diffList;
 }
 
+// computes how long ago a post was created from current time
 export function getTimeDisplay(currentTimeStamp, postTimeStamp) {
   const diffList = calculateTimeDiff(currentTimeStamp, postTimeStamp);
 
@@ -60,6 +61,7 @@ export function getTimeDisplay(currentTimeStamp, postTimeStamp) {
   return result;
 }
 
+// strips HTML tags for post preview
 export function stripHTMLTags(text) {
   text = text.replaceAll("<p>", " ");
   let tmp = document.createElement("DIV");

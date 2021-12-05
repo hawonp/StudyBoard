@@ -13,26 +13,21 @@ def add_tag(tag):
 
         #First add the Post to Post table
         #Set up query statement and values
-        print("value of tag right now:", tag)
         query = "INSERT INTO Tag (tag_name) VALUES (?)"
         values = (tag, )
 
         #Adding new data into table
         print("Adding with query", query, "and values", values)
         cursor.execute(query, values)
-
-        #Getting id of newly added post
-        print("\n\nadd_tag method\n\n")
-
         tag_id = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return tag_id
 
 def add_post_tag(tag_id, post_id):
@@ -53,14 +48,14 @@ def add_post_tag(tag_id, post_id):
         #Getting id of newly added post
         tag_id = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         tag_id = -1
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return tag_id
 
 def add_user_tag(tag_id, user_id):
@@ -81,14 +76,14 @@ def add_user_tag(tag_id, user_id):
         #Getting id of newly added post
         tag_id = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         tag_id = -1
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return tag_id
 
 ##########################################################
@@ -110,15 +105,15 @@ def get_tag_by_name(tag_name):
         print("Searching with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchone()
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error getting tags by name: {e}")
         res = None
 
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 def get_post_tags(post_id):
@@ -135,15 +130,15 @@ def get_post_tags(post_id):
         print("Searching with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchall()
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = None
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 def get_user_tags(user_id):
@@ -160,15 +155,15 @@ def get_user_tags(user_id):
         print("Searching with query", query, " and values ", values)
         cursor.execute(query, values)
         res = cursor.fetchall()
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = None
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 def get_user_tag_ids(user_id):
@@ -191,14 +186,14 @@ def get_user_tag_ids(user_id):
         for id in res:
             res_data.append(id[0])
 
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = None
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res_data
 
 ##########################################################
@@ -220,14 +215,14 @@ def delete_all_tags_of_post(post_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 #Delete all tags of given user
@@ -245,15 +240,15 @@ def delete_all_tags_of_user(user_id):
         #Getting data from table
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
     

@@ -5,7 +5,7 @@ from config.db_connect import get_connection
 ##########################################################
 # Adding to favourites.
 def add_user_favourite_post(user_id, post_id):
-    new_user_post_favourite_id = -1 #When meeting and error or not found
+    res = 0 #When meeting and error or not found
     try:
         #Obtain DB cursor
         conn = get_connection()
@@ -20,17 +20,14 @@ def add_user_favourite_post(user_id, post_id):
         cursor.execute(query, values)
 
         #Getting id of newly added post
-        new_post_id = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
-
+        res = cursor.lastrowid
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-
-    return new_user_post_favourite_id
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
+    return res
 
 ##########################################################
 #                         SELECT                         #
@@ -51,13 +48,13 @@ def check_if_user_favourited_post(user_id, post_id):
         cursor.execute(query, values)
         res = cursor.fetchone()
         
-        #Closing cursor, commit and close connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-    
+        res = [0]   
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res[0]
 
 #Get list of favourited posts
@@ -83,14 +80,13 @@ def get_favourited_post(user_id):
             json_data.append(dict(zip(row_headers,result)))
         
         res = json_data
-        #Closing cursor, commit and close connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1
-    
+        res = 0
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -111,13 +107,12 @@ def delete_user_favourite_post(uid, pid):
         #Getting data from table
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+    
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
-    
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res

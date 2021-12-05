@@ -1,24 +1,19 @@
+// react imports
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import LoadingProgress from "../../components/Loading";
-//Importing MUI
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import ShareIcon from "@mui/icons-material/Share";
-import CardActions from "@mui/material/CardActions";
+import LoadingProgress from "../../components/utils/Loading";
+
+// MUI imports
 import { Box } from "@mui/material";
-import Button from "@mui/material/Button";
 
+// package imports
 import axiosInstance from "../../utils/routeUtil";
-import ProfileCard from "../../components/ProfileCard";
-import PostEdit from "../../components/PostEdit";
-import PostDetail from "../../components/PostDetail";
-import { CommentBox } from "../../components/CommentBox";
-
+import ProfileCard from "../../components/user/ProfileCard";
+import PostEditing from "../../components/post/PostEditing";
+import PostDetail from "../../components/post/PostDetail";
+import { ReplyCard } from "../../components/post/PostReplies";
 const POSTDATAENDPOINT = "/posts";
 
 //Need this to keep post id
@@ -28,6 +23,7 @@ export async function getServerSideProps(context) {
   };
 }
 
+// DetailWrapper styling
 const DetailWrapper = ({ style, children }) => {
   return (
     <div
@@ -47,16 +43,20 @@ const DetailWrapper = ({ style, children }) => {
   );
 };
 
+// functional component that renders the dynamic router for post details
 export default function PostDetailPage() {
-  const router = useRouter();
-  const { user, isLoading, error } = useUser();
-  const [isEdit, setIsEdit] = useState(false);
-  const [hasLoaded, setHasLoaded] = useState(false);
-  const [postData, setPostData] = useState({});
+  const router = useRouter(); // used for redirection
+  const { user, isLoading, error } = useUser(); // user session data from Auth0
+  const [isEdit, setIsEdit] = useState(false); // keeps track of the editing state
+  const [hasLoaded, setHasLoaded] = useState(false); // keeps track of whether or not the data from the backend has loaded
+  const [postData, setPostData] = useState({}); // holds the individual post data
+
+  // recieve current session's user_id if logged in
   let userID = "";
   if (user) {
     userID = user.sub;
   }
+
   //Load in  the post data upon render
   useEffect(() => {
     if (!isLoading && !error) {
@@ -67,7 +67,6 @@ export default function PostDetailPage() {
         .then((response) => {
           const responseData = JSON.parse(response["data"]);
           //Assign data according to whether the user liked the post
-          console.log(responseData);
           setPostData({
             id: responseData["post_id"],
             user: responseData["user_nickname"],
@@ -94,9 +93,6 @@ export default function PostDetailPage() {
     }
   }, [isEdit, isLoading]);
 
-  if (isLoading) return <LoadingProgress />;
-  if (error) return <div>{error.message}</div>;
-
   //Handle like press
   const handleLikePressed = () => {
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/likes";
@@ -115,6 +111,12 @@ export default function PostDetailPage() {
               postLikeCount: prevData.postLikeCount - 1,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     } else {
       axiosInstance
@@ -131,13 +133,18 @@ export default function PostDetailPage() {
               postLikeCount: prevData.postLikeCount + 1,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };
 
   //Handle favourite press
   const handleFavouritePressed = () => {
-    console.log(postData.didUserFavourite);
     const requestEndpoint = POSTDATAENDPOINT + "/" + postData.id + "/favourite";
     if (postData.didUserFavourite) {
       axiosInstance
@@ -153,6 +160,12 @@ export default function PostDetailPage() {
               didUserFavourite: !prevData.didUserFavourite,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     } else {
       axiosInstance
@@ -168,18 +181,26 @@ export default function PostDetailPage() {
               didUserFavourite: !prevData.didUserFavourite,
             };
           });
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   };
 
-  //Must not load when the following are true
-  if (isLoading) return <div>Getting User Info...</div>;
+  // user session is loading
+  if (isLoading) return <LoadingProgress />;
   if (error) return <div>{error.message}</div>;
 
-  //Render if the post has loaded
+  // post data is loading
   if (!hasLoaded) {
     return <LoadingProgress />;
-  } else {
+  }
+  // user session data and  post data has both loaded
+  else {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
@@ -191,9 +212,8 @@ export default function PostDetailPage() {
               marginRight: "20px",
             }}
           >
-            {console.log(isEdit)}
             {isEdit ? (
-              <PostEdit
+              <PostEditing
                 postCard={postData}
                 finish={() => {
                   setIsEdit(false);
@@ -213,7 +233,7 @@ export default function PostDetailPage() {
             <Box sx={{ marginLeft: "20px", marginRight: "20px" }}>
               <DetailWrapper>
                 {/*comment*/}
-                <CommentBox postID={postData.id} />
+                <ReplyCard postID={postData.id} />
               </DetailWrapper>
             </Box>
           )}
@@ -223,4 +243,4 @@ export default function PostDetailPage() {
       </div>
     );
   }
-}
+} // functional component closure

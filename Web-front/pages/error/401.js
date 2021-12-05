@@ -1,7 +1,11 @@
-import { Container } from "@mui/material";
+// react imports
 import Link from "next/link";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
+// MUI imports
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
+
+// functional component that renders a error 401 page
 export default function Error_401_page() {
   return (
     <Container>
@@ -46,4 +50,4 @@ export default function Error_401_page() {
       </div>
     </Container>
   );
-}
+} // functional component closure

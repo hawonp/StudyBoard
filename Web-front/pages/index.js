@@ -1,48 +1,146 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Box } from "@mui/material";
-import { fontSize, padding } from "@mui/system";
+// MUI imports
+import { Box, Button, Card } from "@mui/material";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
+// functional component that renders the home page
 export default function Home() {
   return (
-    <Box
-      sx={{
-        marginLeft: "20px",
-        marginRight: "20px",
-      }}
-    >
-      <div className="background" data-aos="fade-up">
-        <div className="row gx-0">
-          <div
-            className="col-lg-6 d-flex flex-column justify-content-center"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div className="content">
-              <h3>Who Need Our service?</h3>
-              <h2>내용이 필요합니다 </h2>
-              <p>내용이 필요합니다</p>
-              <div className="text-center text-lg-start">
-                <a
-                  href="#"
-                  className="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center"
-                >
-                  <span>Need to find answer?</span>
-                  <i className="bi bi-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
+    <>
+      {/* section 1 */}
+      <Box
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          backgroundImage: "url('./images/hero-bg.png')",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
 
-          <div
-            className="col-lg-6 d-flex align-items-center"
-            data-aos="zoom-out"
-            data-aos-delay="200"
-          >
-            <img src="images/features.png" className="img-fluid" alt="" />
+            flexDirection: "column",
+            flex: 1,
+          }}
+        >
+          <div style={{ fontSize: "4rem", color: "#263179" }}>
+            Welcome to StudyBoard
           </div>
+          <div
+            style={{
+              fontSize: "1.2rem",
+              color: "#3F8CB8",
+              marginTop: "0.8rem",
+              marginBottom: "1rem",
+            }}
+          >
+            We are providing the homework and question solutions
+          </div>
+          <Button
+            variant="outlined"
+            href="/board"
+            size="large"
+            sx={{ width: "15rem" }}
+          >
+            <div style={{ display: "flex" }}>
+              Get stared <ArrowRightAltIcon />
+            </div>
+          </Button>
         </div>
-      </div>
-    </Box>
+
+        <Box
+          style={{
+            width: "55%",
+            height: "55%",
+            backgroundImage: "url('./images/hero-img.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        ></Box>
+      </Box>
+
+      {/* section 2 */}
+      <Box
+        sx={{
+          marginTop: "5rem",
+        }}
+      >
+        <div style={{ fontSize: "1.2rem", textAlign: "center" }}>
+          Our values
+        </div>
+        <div style={{ fontSize: "4rem", textAlign: "center" }}>
+          Something information
+        </div>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "3rem",
+          }}
+        >
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "24px",
+              }}
+            >
+              <div>
+                <img src="images/values-1.png" width="300px" height="300px" />
+              </div>
+              <h3>Global website</h3>
+              <span>
+                Eum ad dolor et. Autem aut fugiat debitis voluptatem
+                consequuntur sit. Et veritatis id.
+              </span>
+            </div>
+          </Card>
+
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+            <div style={{ textAlign: "center", padding: "24px" }}>
+              <div>
+                <img src="images/values-2.png" width="300px" height="300px" />
+              </div>
+              <h3>Fast answer</h3>
+              <span>
+                Repudiandae amet nihil natus in distinctio suscipit id.
+                Doloremque ducimus ea sit non.
+              </span>
+            </div>
+          </Card>
+
+          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+            <div style={{ textAlign: "center", padding: "24px" }}>
+              <div>
+                <img src="images/values-3.png" width="300px" height="300px" />
+              </div>
+              <h3>Time Save</h3>
+              <span>
+                Quam rem vitae est autem molestias explicabo debitis sint. Vero
+                aliquid quidem commodi.
+              </span>
+            </div>
+          </Card>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: " 7rem",
+            color: "#3F8CB8",
+            background: "white",
+          }}
+        >
+          Copyright © CSE 416 The StudyBoard
+        </Box>
+      </Box>
+    </>
   );
-}
+} // functional component closure

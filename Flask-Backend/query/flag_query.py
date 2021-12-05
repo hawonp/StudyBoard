@@ -25,16 +25,14 @@ def flag_post(id, user_id, flag_text):
 
         #Getting id of newly added post
         res = cursor.lastrowid
-
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
-
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
-
+        res = 0 #When meeting and error or not found
+    
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 # Adding reply to the flagged list.
@@ -57,15 +55,14 @@ def flag_reply(id, user_id, post_id, flag_text):
         #Getting id of newly added post
         res = cursor.lastrowid
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
-
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        res = -1 #When meeting and error or not found
+        res = 0 #When meeting and error or not found
 
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -73,90 +70,98 @@ def flag_reply(id, user_id, post_id, flag_text):
 ##########################################################
 #Get list of flagged posts 
 def get_flagged_posts():
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    #Set up query statements 
-    query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Post_Report) AS rpt ON rpt.user_id = u.user_id"
+        #Set up query statements 
+        query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Post_Report) AS rpt ON rpt.user_id = u.user_id"
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query)
-    cur.execute(query)
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query)
+        cursor.execute(query)
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        res=[]
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    #Close cursor
-    cur.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0 #When meeting and error or not found
+
+    #Closing cursor and commiting  connection
+    cursor.close()
     conn.commit()
     conn.close()
-
-    # return the results!
-    return json_data
+    return res
 
 #Get list of flagged replies 
 def get_flagged_replies():
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    #Set up query statements 
-    query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Reply_Report) AS rpt ON rpt.user_id = u.user_id"
+        #Set up query statements 
+        query = "SELECT rpt.*, u.user_nickname FROM User u INNER JOIN (SELECT * FROM Reply_Report) AS rpt ON rpt.user_id = u.user_id"
 
+        #Fetching flagged replies
+        print("Selecting with query", query)
+        cursor.execute(query)
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query)
-    cur.execute(query)
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        res=[]
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0 #When meeting and error or not found
 
-    #Close cursor
-    cur.close()
+    #Closing cursor and commiting  connection
+    cursor.close()
     conn.commit()
     conn.close()
-
-    # return the results!
-    return json_data
+    return res
 
 def get_flagged_users():
-    # Obtainting DB cursor
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        # Obtainting DB cursor
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    #Set up query statements 
-    query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
+        #Set up query statements 
+        query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
 
 
-    #Fetching posts with filter, sort, limit, and offset
-    print("Selecting with query", query)
-    cur.execute(query)
+        #Fetching posts with filter, sort, limit, and offset
+        print("Selecting with query", query)
+        cursor.execute(query)
 
-    # serialize results into JSON
-    row_headers=[x[0] for x in cur.description]
-    rv = cur.fetchall()
-    json_data=[]
+        # serialize results into JSON
+        row_headers=[x[0] for x in cursor.description]
+        rv = cursor.fetchall()
+        res=[]
 
-    for result in rv:
-        json_data.append(dict(zip(row_headers,result)))
+        for result in rv:
+            res.append(dict(zip(row_headers,result)))
 
-    #Close cursor
-    cur.close()
+    except mariadb.Error as e:
+        print(f"Error adding entry to database: {e}")
+        res = 0
+    
+    #Closing cursor and commiting  connection
+    cursor.close()
     conn.commit()
     conn.close()
-
-    # return the results!
-    return json_data
+    return res
 
 ##########################################################
 #                         UPDATE                         #
@@ -184,21 +189,18 @@ def update_flag_count(flag_id, report_tpye, updateType):
             query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1, User.user_rank_points = User.user_rank_points-5"
         values = (flag_id, )
 
-# SELECT user_id FROM Post INNER JOIN(SELECT post_id FROM Post_Report WHERE report_id=4) AS rpt ON Post.post_id=rpt.post_id
-#  AS rp ON User.user_id=rp.user_id 
-#  SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5
         #Adding new data into table
         print("Updating with query", query, " and values ", values)
         cursor.execute(query, values)
 
-        #Closing cursor and commiting  connection
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
 
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 ##########################################################
@@ -222,14 +224,14 @@ def accept_post_flag(post_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 #Delete flag
@@ -247,15 +249,15 @@ def deny_post_flag(flag_id):
         #Getting data from table
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
-        
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
+
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 #Accept and delete flag
@@ -274,14 +276,14 @@ def accept_reply_flag(reply_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res
 
 #Deny and delete flag
@@ -300,12 +302,12 @@ def deny_reply_flag(flag_id):
         print("Deleting with query", query, " and values ", values)
         cursor.execute(query, values)
         
-        #Closing cursor
-        cursor.close()
-        conn.commit()
-        conn.close()
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
         res = 0
     
+    #Closing cursor and commiting  connection
+    cursor.close()
+    conn.commit()
+    conn.close()
     return res

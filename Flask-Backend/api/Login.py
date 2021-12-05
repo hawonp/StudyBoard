@@ -1,22 +1,40 @@
 from config.imports import Resource, abort, datetime
 from config.imports import id_token, google_requests, cachecontrol, requests
 from config.imports import request as req
-
+from config.imports import Schema, fields, validate
 from config.config import ApplicationConfig
 
 from query.user_query import add_user, check_user_id_exists
 from query.login_query import verify_id_token, get_user_from_id_token
+
+############################
+#    Marshmallow Schema    #
+############################
+class UserDataSchema(Schema):
+    user_id = fields.Str(required=True)
+    user_nickname = fields.Str(required=True, validate=validate.Length(min=1, max=16))
+    user_email = fields.Str(required=True, validate=validate.Length(min=1, max=32))
+
+class UserIDVerifySchema(Schema):
+    user_id = fields.Str(required=True)
+
+############################
+# Flask RESTful API routes #
+############################
+
 class Default(Resource):
     def get(self):
         return {
-            'Galaxies': ['Milkyway', 'Andromeda', 
-            'Large Magellanic Cloud (LMC)']
+            'Backend': ['Connected']
         }
 class Login(Resource):
     def get(self):
-        print("add new user")
+        #Validate the params
+        errors = user_data_schema.validate(req.args)
+        if errors:
+            abort(400, str(errors))
+        
         # get id_token from URL call
-
         user_id = req.args.get('user_id')
         user_nickname = req.args.get('user_nickname')
         user_email = req.args.get('user_email')
@@ -32,15 +50,15 @@ class Login(Resource):
         else:
             print("User already exists | user_id:", user_id)
         return user_id
-        # print("Save to Session")
-        # session["user_id"] = user_id
-        # print(session.get('user_id', None))
        
 class Verify_ID_Token(Resource):
     def get(self):
+        errors = user_data_schema.validate(req.args)
+        if errors:
+            abort(400, str(errors))
+
         # get id_token from URL call
         token = request.args.get('id_token')
-        print("BE: Received auth req from FE")
         
         # authenticate token_id from signin
         success = verify_id_token(token)
@@ -54,3 +72,5 @@ def init_routes(api):
     api.add_resource(Login, '/login')
     api.add_resource(Verify_ID_Token, '/verifyIDToken')
 
+user_data_schema = UserDataSchema()
+user_id_verify_schema = UserIDVerifySchema()

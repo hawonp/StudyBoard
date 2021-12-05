@@ -1,5 +1,5 @@
 from config.imports import json, Resource, request, abort
-from config.imports import Schema, fields
+from config.imports import Schema, fields, validate
 from query.flag_query import flag_reply
 from query.reply_query import get_replies_to_post, add_post_reply, add_reply_reply, delete_reply
 from query.reply_query import add_user_like_reply, delete_user_like_reply
@@ -21,16 +21,21 @@ class ReplyInteractorIDSchema(Schema):
 
 class GetRepliesSchenma(Schema):
     userID = fields.Str(required=False)
-    order = fields.Int(required=True)
+    order = fields.Int(required=True, validate=validate.Range(min=0, max=2))
 
 class AddReplySchema(Schema):
     userID = fields.Str(required=True)
-    text = fields.Str(required=True)
+    text = fields.Str(required=True, validate=validate.Length(min=1, max=512))
 
-class ReplyInteractionSchema(Schema):
+class AddReplyToReplySchema(Schema):
     userID = fields.Str(required=True)
     postID = fields.Str(required=True)
-    text = fields.Str(required=True)
+    text = fields.Str(required=True, validate=validate.Length(min=1, max=512))
+
+class ReplyFlagSchema(Schema):
+    userID = fields.Str(required=True)
+    postID = fields.Str(required=True)
+    text = fields.Str(required=True, validate=validate.Length(min=1, max=256))
 
 ############################
 # Flask RESTful API routes #
@@ -53,7 +58,6 @@ class PostReply(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
         errors = add_reply_schema.validate(formData)
 
         if errors:
@@ -77,8 +81,7 @@ class ReplyReply(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print(formData)
-        errors = reply_interaction_schema.validate(formData)
+        errors = add_reply_to_reply_schema.validate(formData)
 
         if errors:
             print(errors)
@@ -106,6 +109,8 @@ class ReplyLike(Resource):
         user_id = formData["userID"]
         print("Adding user like to reply")
         res = add_user_like_reply(id, user_id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -119,6 +124,8 @@ class ReplyLike(Resource):
         #Un-like
         print("Removing user like from Reply")
         res = delete_user_like_reply(id, user_id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add flag a post
@@ -126,7 +133,7 @@ class ReplyFlag(Resource):
     def post(self, id):
         #Validate params and assign variables
         formData = request.get_json()["params"]
-        errors = reply_interaction_schema.validate(formData)
+        errors = reply_flags_schema.validate(formData)
         if errors:
             print("Request parameters error")
             abort(400, str(errors))
@@ -137,6 +144,8 @@ class ReplyFlag(Resource):
         post_id = formData["postID"]
         
         res = flag_reply(id, user_id, post_id, flag_text)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add routes to api
@@ -148,6 +157,7 @@ def init_routes(api):
     api.add_resource(Reply, REPLIES+REPLY_ID)
 
 add_reply_schema = AddReplySchema()
-reply_interaction_schema = ReplyInteractionSchema()
+reply_flags_schema = ReplyFlagSchema()
 get_replies_schema = GetRepliesSchenma()
 reply_interactor_id_schema = ReplyInteractorIDSchema()
+add_reply_to_reply_schema = AddReplyToReplySchema()
