@@ -32,6 +32,7 @@ const FireNav = styled(List)({
   },
   "& .MuiListItemIcon-root": {
     minWidth: 0,
+
     marginRight: 16,
   },
   "& .MuiSvgIcon-root": {
@@ -82,13 +83,19 @@ export default function ModeratorNavigation() {
             <Box
               sx={{
                 bgcolor: "rgb(35,47,152)",
-                pb: 2,
+                pt: 3,
+                pb: 3,
               }}
             >
               {data.map((item) => (
                 <ListItemButton
                   key={item.label}
-                  sx={{ py: 0, minHeight: 32, color: "rgb(255,255,255)" }}
+                  sx={{
+                    py: 0,
+
+                    minHeight: 32,
+                    color: "rgb(255,255,255)",
+                  }}
                   onClick={() => router.push(item.href)}
                 >
                   <ListItemIcon sx={{ color: "inherit" }}>
