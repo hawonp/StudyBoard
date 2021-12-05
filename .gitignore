@@ -194,3 +194,5 @@ nginx-proxy/html/
 
 # MISC
 .idea/
+DBMS/db/initdb.d/1.sql
+DBMS/db/initdb.d/2.sql
