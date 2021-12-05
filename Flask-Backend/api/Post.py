@@ -28,13 +28,13 @@ QUERY = '/query'
 #    Marshmallow Schema    #
 ############################
 class FeedPostSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     page = fields.Int(required=True, validate=validate.Range(min=1))
     order = fields.Int(required=True, validate=validate.Range(min=0, max=1))
     filter = fields.Int(required=True, validate=validate.Range(min=0, max=1))
 
 class PostDataSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     title = fields.Str(required=True, validate=validate.Length(min=1, max=64))
     text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
     imageURL = fields.Str(required=True, validate=validate.Length(min=1, max=512))
@@ -42,10 +42,10 @@ class PostDataSchema(Schema):
     uuid = fields.Str(required=False)
 
 class PostInteractorIDSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
 
 class PostFlagSchema(Schema):
-    userID = fields.Str(required=True, validate=validate.Length(min=1, max=64))
+    userID = fields.Str(required=True)
     text = fields.Str(required=True, validate=validate.Length(min=1, max=2048))
 
 ############################
@@ -67,7 +67,6 @@ class FeedPostData(Resource):
 
         #Get posts with given offset, sort order and tag filter
         if filter:
-            print(user_id)
             filter = get_user_tag_ids(user_id)
             if len(filter) == 0:
                 feed = get_post_feed(page, order)
@@ -97,7 +96,6 @@ class PostData(Resource):
 
         #Now get the tags
         print("Getting post tags with retrieved post data:", post)
-        print("post id:", post["post_id"])
         post_tags = get_post_tags(post["post_id"])
         tags = []
         for tag in post_tags:
@@ -118,7 +116,6 @@ class PostData(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = post_data_schema.validate(formData)
 
         if errors:
@@ -144,7 +141,6 @@ class PostData(Resource):
 #Post creation
 class PostWrite(Resource):
     def post(self):
-        print("validate inputs")
         #Validate params first
         formData = request.get_json()["params"]
         errors = post_data_schema.validate(formData)
@@ -199,7 +195,6 @@ class SearchQuery(Resource):
             "posts" : post_json
         } 
 
-        print("Search Result", result_json)
         return json.dumps(result_json)
 
 
@@ -208,7 +203,6 @@ class PostTag(Resource):
     def get(self):
 
         tag_name = request.args.get('tagName')
-        print("tag name", tag_name)
         posts = get_posts_by_tag_name(tag_name)
         #For every post, get the tags and append it to the respective post object
         for post in posts:            
@@ -235,6 +229,9 @@ class PostLike(Resource):
         user_id = formData["userID"]
         print("Adding user like to post")
         res = add_user_like_post(user_id, id)
+        print(res)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -248,6 +245,9 @@ class PostLike(Resource):
         #Un-like
         print("Removing user like from post")
         res = delete_user_like_post(user_id, id)
+        print(res)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add post to favourites
@@ -265,6 +265,8 @@ class PostFavourite(Resource):
         user_id = formData["userID"]
         print("Adding post to favourites")
         res = add_user_favourite_post(user_id, id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
     
     def delete(self, id):
@@ -278,6 +280,8 @@ class PostFavourite(Resource):
         #Un-fav
         print("Removing post from favourites")
         res = delete_user_favourite_post(user_id, id)
+        if res == 0:
+            abort(500, "Oops. Something went wrong.")
         return res
 
 #Add flag a post

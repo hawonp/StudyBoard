@@ -62,10 +62,28 @@ export default function ReportedPostsList() {
 
   //load posts from backend
   useEffect(() => {
-    axiosInstance.get(FLAGGEDENDPOINT + POSTDATAENDPOINT).then((response) => {
-      setRows(JSON.parse(response.data));
-      setIsDataLoading(false);
-    });
+    if (!isLoading && !error && user) {
+      const userID = user.sub;
+
+      axiosInstance
+        .get(FLAGGEDENDPOINT + POSTDATAENDPOINT, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          setRows(JSON.parse(response.data));
+          setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    }
   }, [isDataLoading, isLoading]);
 
   // moderator responding to a report

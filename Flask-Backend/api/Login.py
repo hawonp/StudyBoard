@@ -29,8 +29,6 @@ class Default(Resource):
         }
 class Login(Resource):
     def get(self):
-        print("add new user")
-        
         #Validate the params
         errors = user_data_schema.validate(req.args)
         if errors:
@@ -52,9 +50,6 @@ class Login(Resource):
         else:
             print("User already exists | user_id:", user_id)
         return user_id
-        # print("Save to Session")
-        # session["user_id"] = user_id
-        # print(session.get('user_id', None))
        
 class Verify_ID_Token(Resource):
     def get(self):

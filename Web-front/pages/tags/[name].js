@@ -6,9 +6,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useReducer } from "react";
 
-// import MUI
+// MUI imports
 import { Box } from "@mui/material";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
+
 // package imports
 import { useUser } from "@auth0/nextjs-auth0";
 import ProfileCard from "../../components/user/ProfileCard";
@@ -19,6 +20,7 @@ import axiosInstance from "../../utils/routeUtil";
 // constants
 const POSTTAGENDPOINT = "/feed/posts/tags";
 
+// BoxWrapper styling
 const BoxWrapper = ({ style, children }) => {
   return (
     <div
@@ -37,6 +39,7 @@ const BoxWrapper = ({ style, children }) => {
   );
 };
 
+// LineWrapper styling
 const LineWrapper = ({ style, children }) => {
   return (
     <div
@@ -64,18 +67,20 @@ export async function getServerSideProps(context) {
   };
 }
 
+// functional component that renders the dynamic route for a tag page
 export default function Tag() {
-  const router = useRouter();
-  const [postList, setPostList] = useState([]);
-  const [isDataLoading, setIsDataLoading] = useState(true);
-  // const [tagName, setTagName] = useState(router.query.name);
-  //   const dynamicRoute = router.asPath;
+  const router = useRouter(); // used for redirection
+  const [postList, setPostList] = useState([]); // holds the current postlist that matches the tag
+  const [isDataLoading, setIsDataLoading] = useState(true); // determines whether or not the data has loaded from the backend
+
+  // used to force a re-rendering of the UI
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   function handleClick() {
     forceUpdate();
   }
+
+  // load in data from backend
   useEffect(() => {
-    // console.log("This is tag name", tagName, router.query, router.query.name);
     axiosInstance
       .get(POSTTAGENDPOINT, {
         params: {
@@ -86,18 +91,21 @@ export default function Tag() {
         setPostList(JSON.parse(response.data));
         setIsDataLoading(false);
       });
+
+    // rerender UI component for route change with new data
     const handleRouteChange = (url, { shallow }) => {
-      console.log("routechanged");
-      console.log(router.asPath);
       setIsDataLoading(true);
       handleClick();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
   }, [isDataLoading]);
 
+  // data is still loading
   if (isDataLoading) {
     return <LoadingProgress />;
-  } else if (postList.length == 0) {
+  }
+  // if there is no posts that match the tag query
+  else if (postList.length == 0) {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -151,7 +159,9 @@ export default function Tag() {
         <ProfileCard />
       </div>
     );
-  } else {
+  }
+  // data has loaded, and there are query results
+  else {
     return (
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }}>
@@ -195,4 +205,4 @@ export default function Tag() {
       </div>
     );
   }
-}
+} // functional component closure

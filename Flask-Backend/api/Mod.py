@@ -24,6 +24,9 @@ THRESHHOLD = '/<int:num>'
 ############################
 #    Marshmallow Schema    #
 ############################
+class AuthoriseUserSchema(Schema):
+    userID = fields.Str(required=True)
+
 class HandleReportAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
     contentID = fields.Int(required=True)
@@ -114,7 +117,6 @@ class RespondToReplyFlag(Resource):
     def put(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = handle_report_authorise_schema.validate(formData)
 
         if errors:
@@ -140,7 +142,6 @@ class BlacklistUser(Resource):
     def post(self, id):
         #Validate params first
         formData = request.get_json()["params"]
-        print("formdata", formData)
         errors = mod_authorise_schema.validate(formData)
         if errors:
             print(errors)
@@ -165,32 +166,71 @@ class BlacklistUser(Resource):
 
 class FlaggedPosts(Resource):
     def get(self):
+        #Check if user submits the id
+        errors = authorise_user_schema.validate(request.args)
+        if errors:
+            print(errors)
+            abort(400, str(errors))
 
-        #Get posts with given offset, sort order and tag filter
+        #Get user id and check if its a moderator
+        user_id = request.args.get('userID')
+        if not check_if_user_is_mod(user_id):
+            err = "Not authorised"
+            print(err)
+            abort(403, err)
+
+        #Get posts 
         reports = get_flagged_posts()
             
         return json.dumps(reports, default=str)
 
 class FlaggedReplies(Resource):
     def get(self):
-        #Get posts with given offset, sort order and tag filter
+        #Check if user submits the id
+        errors = authorise_user_schema.validate(request.args)
+        if errors:
+            print(errors)
+            abort(400, str(errors))
+
+        #Get user id and check if its a moderator
+        user_id = request.args.get('userID')
+        if not check_if_user_is_mod(user_id):
+            err = "Not authorised"
+            print(err)
+            abort(403, err)
+
+        #Get replies
         reports = get_flagged_replies()
             
         return json.dumps(reports, default=str)
 
 class FlaggedUsers(Resource):
     def get(self):
-        #Get posts with given offset, sort order and tag filter
+        #Check if user submits the id
+        errors = authorise_user_schema.validate(request.args)
+        if errors:
+            print(errors)
+            abort(400, str(errors))
+
+        #Get user id and check if its a moderator
+        user_id = request.args.get('userID')
+        if not check_if_user_is_mod(user_id):
+            err = "Not authorised"
+            print(err)
+            abort(403, err)
+            
+        #Get users
         reports = get_flagged_users()
             
         return json.dumps(reports, default=str)
 
-class EndorseThreshhold(Resource):
-    def put(self, num):
-        #Get posts with given offset, sort order and tag filter
-        res = set_endorse_threshhold(int(num))
+# Stretch
+# class EndorseThreshhold(Resource):
+#     def put(self, num):
+#         #setting threshhold
+#         res = set_endorse_threshhold(int(num))
 
-        return json.dumps(res)
+#         return json.dumps(res)
 
 
 
@@ -202,7 +242,8 @@ def init_routes(api):
     api.add_resource(FlaggedReplies, FLAGGED+REPLIES)
     api.add_resource(FlaggedUsers, FLAGGED+USERS)
     api.add_resource(BlacklistUser, FLAGGED+USERS+USER_ID)
-    api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
+    # api.add_resource(EndorseThreshhold, MOD+ENDORSE+THRESHHOLD)
 
+authorise_user_schema = AuthoriseUserSchema()
 mod_authorise_schema = ModeratorAuthorisationSchema()
 handle_report_authorise_schema = HandleReportAuthorisationSchema()

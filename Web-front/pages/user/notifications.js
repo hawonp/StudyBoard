@@ -1,12 +1,16 @@
-import Head from "next/head";
+// react imports
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import ProfileCard from "../../components/user/ProfileCard";
-import { Paper } from "@mui/material";
-import NotificationList from "../../components/app_bar/NotificationList";
 
-export default function Notifications() {
+// MUI imports
+import Box from "@mui/material/Box";
+
+// package imports
+import ProfileCard from "../../components/user/ProfileCard";
+import NotificationList from "../../components/app_bar/NotificationList";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+
+// functional component that renders the notification page
+export default withPageAuthRequired(function Notifications() {
   return (
     <div style={{ display: "flex" }}>
       <div style={{ flex: 1 }}>
@@ -30,4 +34,4 @@ export default function Notifications() {
       <ProfileCard />
     </div>
   );
-}
+}); // functional component closure
