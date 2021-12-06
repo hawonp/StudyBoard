@@ -68,13 +68,13 @@ enabling each person to leave with the exact information that they were looking 
   > cd Web-React
 
 - Install Requirements
-  > npm install
+  > yarn install
 
 - 5a) Initialize NextJS Docker Container
   > docker-compose -f docker-compose-local.yml up --build
 
 - 5b) Intialize React dev server
-  > npm run dev
+  > yarn run dev
 ## Deployment to Production Server
 - SSH to production server
   >ssh root@158.247.220.205
