@@ -27,8 +27,8 @@ These features, when combined, would facilitate active discussion and improved l
 enabling each person to leave with the exact information that they were looking for.
 
 ## Where to get the Latest Version of StudyBoard?
-- The [dev](https://github.com/hawonp/StudyBoard/tree/dev) branch of this git repository will always be the latest development version of StudyBoard
 - The [main](https://github.com/hawonp/StudyBoard) branch of this git repository will always have the latest production version of StudyBoard
+- The [dev](https://github.com/hawonp/StudyBoard/tree/dev) branch of this git repository will always be the latest development version of StudyBoard
 
 ## Step 1) Local Development Prep
 - Download/Clone the [main](https://github.com/hawonp/StudyBoard) branch of StudyBoard
