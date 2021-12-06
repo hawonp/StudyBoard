@@ -80,7 +80,15 @@ export default function Leadership() {
           <Card sx={{ margin: "24px", padding: "32px", borderRadius: "8px" }}>
             <div style={{ textAlign: "center" }}>
               <div>
-                <img src="images/image1.jpg" width="250px" height="250px" />
+                <img
+                  src="images/image1.jpg"
+                  width="250px"
+                  height="250px"
+                  style={{
+                    objectFit: "cover",
+                    backgroundPosition: "center center",
+                  }}
+                />
               </div>
               <h3>Hawon Park</h3>
               <span>Project Manager</span>
@@ -90,7 +98,15 @@ export default function Leadership() {
           <Card sx={{ margin: "24px", padding: "32px", borderRadius: "8px" }}>
             <div style={{ textAlign: "center" }}>
               <div>
-                <img src="images/image3.jpg" width="250px" height="250px" />
+                <img
+                  src="images/image3.jpg"
+                  width="250px"
+                  height="250px"
+                  style={{
+                    objectFit: "cover",
+                    backgroundPosition: "center center",
+                  }}
+                />
               </div>
               <h3>Pyungkang Hong</h3>
               <span>UI/UX Front-end</span>
@@ -100,7 +116,15 @@ export default function Leadership() {
           <Card sx={{ margin: "24px", padding: "32px", borderRadius: "8px" }}>
             <div style={{ textAlign: "center" }}>
               <div>
-                <img src="images/image2.jpg" width="250px" height="250px" />
+                <img
+                  src="images/image2.jpg"
+                  width="250px"
+                  height="250px"
+                  style={{
+                    objectFit: "cover",
+                    backgroundPosition: "center center",
+                  }}
+                />
               </div>
               <h3>Jeong ho Shin</h3>
               <span>Lead Programmer</span>

@@ -27,7 +27,7 @@ export default function Home() {
           }}
         >
           <div style={{ fontSize: "4rem", color: "#263179" }}>
-            Welcome to StudyBoard
+            Welcome to StudyBoard!
           </div>
           <div
             style={{
@@ -37,16 +37,16 @@ export default function Home() {
               marginBottom: "1rem",
             }}
           >
-            We are providing the homework and question solutions
+            A place to ask questions and receive answers
           </div>
           <Button
             variant="outlined"
-            href="/board"
+            href="/feed"
             size="large"
             sx={{ width: "15rem" }}
           >
             <div style={{ display: "flex" }}>
-              Get stared <ArrowRightAltIcon />
+              Get Started <ArrowRightAltIcon />
             </div>
           </Button>
         </div>
@@ -68,11 +68,17 @@ export default function Home() {
           marginTop: "5rem",
         }}
       >
-        <div style={{ fontSize: "1.2rem", textAlign: "center" }}>
+        <div
+          style={{ fontSize: "1.2rem", textAlign: "center", color: "#263179" }}
+        >
           Our values
         </div>
-        <div style={{ fontSize: "4rem", textAlign: "center" }}>
-          Something information
+        <div
+          style={{ fontSize: "2.2rem", textAlign: "center", color: "#3F8CB8" }}
+        >
+          As the most trusted knowledge sharing and collaboration platform,
+          <br />
+          StudyBoard has three core values:
         </div>
 
         <Box
@@ -83,7 +89,13 @@ export default function Home() {
             marginTop: "3rem",
           }}
         >
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div
               style={{
                 textAlign: "center",
@@ -93,37 +105,49 @@ export default function Home() {
               <div>
                 <img src="images/values-1.png" width="300px" height="300px" />
               </div>
-              <h3>Global website</h3>
-              <span>
-                Eum ad dolor et. Autem aut fugiat debitis voluptatem
-                consequuntur sit. Et veritatis id.
-              </span>
+              <h3>Global Reach</h3>
+              <p style={{ display: "flex " }}>
+                StudyBoard is available to anyone across the globe with no
+                restrictions on usage nor price
+              </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-2.png" width="300px" height="300px" />
               </div>
-              <h3>Fast answer</h3>
-              <span>
-                Repudiandae amet nihil natus in distinctio suscipit id.
-                Doloremque ducimus ea sit non.
-              </span>
+              <h3>Powerful Searching</h3>
+              <p style={{ display: "flex " }}>
+                Users can search for both posts and tags in a unified search bar
+                as a quick and easy way to find what they'd like to know
+              </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-3.png" width="300px" height="300px" />
               </div>
-              <h3>Time Save</h3>
-              <span>
-                Quam rem vitae est autem molestias explicabo debitis sint. Vero
-                aliquid quidem commodi.
-              </span>
+              <h3>Time-Saving</h3>
+              <p style={{ display: "flex " }}>
+                Users can ask questions and receive endorsed replies to help
+                them on their way
+              </p>
             </div>
           </Card>
         </Box>

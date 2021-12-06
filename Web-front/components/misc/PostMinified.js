@@ -168,7 +168,8 @@ export default function PostMinified({ data }) {
         <CardActionsWrapper>
           {/* Like */}
           <IconButton
-            disableRipple
+            // disableRipple
+            disabled
             aria-label="favorites"
             sx={{ borderRadius: "4px" }}
           >
@@ -180,7 +181,7 @@ export default function PostMinified({ data }) {
 
           {/* Comment */}
           <IconButton
-            disableRipple
+            disabled
             aria-label="SmsIcon"
             sx={{ borderRadius: "4px", marginLeft: "0.2rem" }}
           >

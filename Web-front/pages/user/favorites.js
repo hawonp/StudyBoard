@@ -76,6 +76,12 @@ export default withPageAuthRequired(function Favorites() {
         .then((response) => {
           setFavorites(JSON.parse(response.data));
           setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   }, [isLoading]);

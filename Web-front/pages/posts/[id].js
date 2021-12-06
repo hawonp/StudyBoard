@@ -7,6 +7,7 @@ import LoadingProgress from "../../components/utils/Loading";
 
 // MUI imports
 import { Box } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 // package imports
 import axiosInstance from "../../utils/routeUtil";
@@ -45,6 +46,7 @@ const DetailWrapper = ({ style, children }) => {
 
 // functional component that renders the dynamic router for post details
 export default function PostDetailPage() {
+  const isBig = useMediaQuery("(min-width:950px)"); // sets the maximum image size
   const router = useRouter(); // used for redirection
   const { user, isLoading, error } = useUser(); // user session data from Auth0
   const [isEdit, setIsEdit] = useState(false); // keeps track of the editing state
@@ -239,7 +241,7 @@ export default function PostDetailPage() {
           )}
         </div>
 
-        {user && <ProfileCard />}
+        {isBig && user && <ProfileCard />}
       </div>
     );
   }

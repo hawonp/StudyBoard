@@ -166,6 +166,12 @@ export default function PostDetail({
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
     setFlagText("");
     setOpen(false);
@@ -493,7 +499,7 @@ export default function PostDetail({
             aria-describedby="modal-modal-description"
           >
             <Box sx={deleteModalStyle}>
-              <h4 id="child-modal-title">Delete Account</h4>
+              <h4 id="child-modal-title">Delete Post</h4>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 Will you really delete this post? This action is not reversible.
               </Typography>
@@ -510,7 +516,7 @@ export default function PostDetail({
                   type="submit"
                   onClick={deletePost}
                 >
-                  Delete Account
+                  Delete Post
                 </Button>
                 <Button
                   sx={{
