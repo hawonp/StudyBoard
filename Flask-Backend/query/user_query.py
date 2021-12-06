@@ -48,7 +48,7 @@ def add_user_to_blacklist(user_id):
 
         # Set up query statement and values
         query = "INSERT INTO User (user_id) VALUES (?)"
-        values = (user_id, n)
+        values = (user_id, )
 
         # Adding new data into table
         print("Adding with query", query, " and values ", values)
