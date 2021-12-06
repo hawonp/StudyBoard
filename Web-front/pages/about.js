@@ -109,10 +109,8 @@ export default function About() {
           </p>
           <p className={navStyles.line}>
             <h2>Save Time and Effort</h2>
-            Users can get more answers with a single question.In addition, users
-            can select the tags they want and collect and view only the tags
-            they want. Users can see more questions and results in filter
-            section.
+            Bookmark questions that you like. Easily peruse questions you've
+            posted. Filter the feed to your liking!
           </p>
         </div>
       </Box>
