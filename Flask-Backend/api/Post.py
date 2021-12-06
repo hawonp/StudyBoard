@@ -301,9 +301,7 @@ class PostFavourite(Resource):
             abort(500, "Oops. Something went wrong.")
         return res
 
-# Add flag a post
-
-
+# flagging a post
 class PostFlag(Resource):
     def post(self, id):
         # Validate params and assign variables

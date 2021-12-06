@@ -17,7 +17,7 @@ def add_tag(tag):
         # First add the Post to Post table
         # Set up query statement and values
         query = "INSERT INTO Tag (tag_name) VALUES (?)"
-        values = (tag, )
+        values = (tag,)
 
         # Adding new data into table
         print("Adding with query", query, "and values", values)
@@ -106,7 +106,7 @@ def get_tag_by_name(tag_name):
 
         # Set up query statement and values
         query = "SELECT * FROM Tag WHERE tag_name=?"
-        values = (tag_name, )
+        values = (tag_name,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -132,7 +132,7 @@ def get_post_tags(post_id):
 
         # Set up query statement and values
         query = "SELECT t.tag_name FROM Tag t INNER JOIN (SELECT pt.tag_id FROM Post_Tag pt WHERE pt.post_id = ?) AS pt ON pt.tag_id = t.tag_id"
-        values = (post_id, )
+        values = (post_id,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -158,7 +158,7 @@ def get_user_tags(user_id):
 
         # Set up query statement and values
         query = "SELECT t.tag_name FROM Tag t INNER JOIN (SELECT ut.tag_id FROM User_Tag ut WHERE ut.user_id = ?) AS ut ON ut.tag_id = t.tag_id"
-        values = (user_id, )
+        values = (user_id,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -184,7 +184,7 @@ def get_user_tag_ids(user_id):
 
         # Set up query statement and values
         query = "SELECT t.tag_id FROM Tag t INNER JOIN (SELECT ut.tag_id FROM User_Tag ut WHERE ut.user_id = ?) AS ut ON ut.tag_id = t.tag_id"
-        values = (user_id, )
+        values = (user_id,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)

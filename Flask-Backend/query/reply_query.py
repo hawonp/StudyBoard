@@ -194,7 +194,7 @@ def get_replies_to_post(post_id, order, user_id):
         else:
             # If the order is in ranks
             query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY user_likes_received DESC"
-        values = (post_id, )
+        values = (post_id,)
 
         # Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)
@@ -237,7 +237,7 @@ def get_replies_to_reply(reply_id, user_id):
 
         # Set up query statements and values
         query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Reply WHERE source_id=?)AS rtr ON rtr.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id"
-        values = (reply_id, )
+        values = (reply_id,)
 
         # Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query, " and values ", values)

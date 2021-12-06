@@ -201,7 +201,7 @@ def update_flag_count(flag_id, report_tpye, updateType):
             query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received-1, User.user_rank_points = User.user_rank_points+5"
         else:
             query = "UPDATE User INNER JOIN ("+getting_user_id+") AS uid ON uid.user_id=User.user_id SET User.user_flags_received = User.user_flags_received+1, User.user_rank_points = User.user_rank_points-5"
-        values = (flag_id, )
+        values = (flag_id,)
 
         # Adding new data into table
         print("Updating with query", query, " and values ", values)

@@ -48,7 +48,7 @@ def add_user_to_blacklist(user_id):
 
         # Set up query statement and values
         query = "INSERT INTO User (user_id) VALUES (?)"
-        values = (user_id, )
+        values = (user_id,)
 
         # Adding new data into table
         print("Adding with query", query, " and values ", values)
@@ -78,7 +78,7 @@ def check_user_id_exists(id):
 
         # Set up query statement and values
         query = "SELECT EXISTS(SELECT 1 FROM User WHERE user_id =? LIMIT 1)"
-        values = (id, )
+        values = (id,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -108,7 +108,7 @@ def get_user_by_id(id):
 
         # Set up query statement and values
         query = "SELECT * FROM User WHERE user_id=?"
-        values = (id, )
+        values = (id,)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -176,7 +176,7 @@ def check_if_user_is_mod(user_id):
 
         # Set up query statement and values
         query = "SELECT EXISTS(SELECT * FROM User WHERE user_id=? AND user_is_mod=1)"
-        values = (user_id, )
+        values = (user_id,)
 
         # Getting data from table
         print("Checking if is mod with query", query, " and values ", values)
@@ -201,7 +201,7 @@ def check_if_user_is_blacklisted(user_id):
 
         # Set up query statement and values
         query = "SELECT EXISTS(SELECT * FROM Blacklisted_User WHERE user_id=?)"
-        values = (user_id, )
+        values = (user_id,)
 
         # Getting data from table
         print("Checking if is mod with query", query, " and values ", values)
