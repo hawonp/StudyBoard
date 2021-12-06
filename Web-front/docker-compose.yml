@@ -13,6 +13,9 @@ services:
     networks:
       - nginx-proxy
     volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
 networks:

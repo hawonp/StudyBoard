@@ -2,6 +2,13 @@
 import { handleAuth, handleCallback } from "@auth0/nextjs-auth0";
 import axiosInstance from "../../../utils/routeUtil";
 
+console.log(
+  "the AUTH0_SECRET env var is set: ",
+  process.env.AUTH0_SECRET,
+  process.env.AUTH0_BASE_URL,
+  process.env.GOOGLE_CLIENT_SECRET
+);
+
 // action handling for after the login process is complete
 const afterCallback = (req, res, session, state) => {
   axiosInstance
