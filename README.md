@@ -38,6 +38,7 @@ enabling each person to leave with the exact information that they were looking 
 ## Step 2) Create Docker Network
 - Create a user-defined bridge to link mariadb and flask
   > docker network create dbms_network
+  > docker network create nginx-proxy
 ## Step 3) Initialize MariaDB database
 - Change directories to DBMS/
   > cd DBMS
