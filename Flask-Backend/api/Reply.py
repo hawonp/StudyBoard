@@ -3,7 +3,8 @@ from config.imports import (Resource, Schema, abort, fields, json, request,
 from query.flag_query import flag_reply
 from query.reply_query import (add_post_reply, add_reply_reply,
                                add_user_like_reply, delete_reply,
-                               delete_user_like_reply, get_replies_to_post)
+                               delete_user_like_reply, get_replies_to_post,
+                               get_replies_to_reply)
 
 ############################
 #    CONSTANT URL PATH     #
@@ -90,6 +91,17 @@ class Reply(Resource):
 
 
 class ReplyReply(Resource):
+    def get(self, id):
+        # Validate params first
+        errors = reply_interactor_id_schema.validate(request.args)
+        if errors:
+            abort(400, str(errors))
+
+        user_id = request.args.get('userID')
+
+        res = get_replies_to_reply(id, user_id)
+
+        return json.dumps(res, default=str)
     def post(self, id):
         # Validate params first
         formData = request.get_json()["params"]

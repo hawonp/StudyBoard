@@ -86,6 +86,7 @@ export const ReplyCard = ({ postID }) => {
         .then((response) => {
           const responseData = JSON.parse(response["data"]);
           //Assign data
+          console.log("res", responseData);
           setComments(responseData);
           setLoadingReplies(false);
         })
@@ -302,21 +303,51 @@ const CommentForm = ({ addComment }) => {
 };
 
 //Showing the comment
-const Comment = ({ setLoading, replyData, deleteSelf }) => {
+const Comment = ({ replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [likeCount, setLikeCount] = useState(replyData.reply_like_count);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const router = useRouter();
-  const { user } = useUser();
-
+  const [isReplying, setIsReplying] = useState(false);
+  const [isReplyLoading, setIsReplyLoading] = useState(true);
+  const [replies, setReplies] = useState([]);
+  const [diffTime, setDiffTime] = useState();
   const [option, setOption] = useState(null);
+  const router = useRouter();
+  const { user, isLoading, error } = useUser();
   const openOption = (event) => setOption(event.currentTarget);
   const closeOption = () => setOption(null);
   const isOptionOpened = Boolean(option);
 
+  useEffect(() => {
+    if (!isLoading && !error) {
+      let userID = -1;
+      if (user) {
+        userID = user.sub;
+      }
+      axiosInstance
+        .get(REPLYDATAENDPOINT + "/" + replyData.reply_id + REPLYDATAENDPOINT, {
+          params: {
+            userID: userID,
+          },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data
+          setReplies(responseData);
+          setIsReplyLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    }
+    setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
+  }, [isLoading, isReplyLoading]);
   // adding a report to a reply
   const report = () => {
     axiosInstance
@@ -383,251 +414,253 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         });
     }
   };
-
-  // reply to post component
-  const [isReplying, setIsReplying] = useState(false);
-  const [replys, setReplys] = useState(null);
-  const [diffTime, setDiffTime] = useState();
-  useEffect(() => {
-    setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
-  }, []);
-  return (
-    <>
-      <div style={{ diplay: "flex" }} className="row">
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              display: "flex",
-              // paddingTop: "15px",
-              borderBottom: "1px #ddd",
-              paddingBottom: "1.2rem",
-              alignItems: "start",
-            }}
-          >
+  if (isLoading) return <LoadingProgress />;
+  if (error) return <div>{error.message}</div>;
+  if (isReplyLoading) {
+    return <LoadingProgress />;
+  } else {
+    return (
+      <>
+        <div style={{ diplay: "flex" }} className="row">
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{
                 display: "flex",
-                flex: 1,
-                flexDirection: "column",
-                paddingLeft: "8px",
+                // paddingTop: "15px",
+                borderBottom: "1px #ddd",
+                paddingBottom: "1.2rem",
+                alignItems: "start",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div
-                  style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}
-                >
-                  {user && replyData.user_id == user.sub ? (
-                    <div> Yeeted by {replyData.user_nickname}</div>
-                  ) : (
-                    <div> Posted by {replyData.user_nickname}</div>
-                  )}
-                  {replyData.user_is_endorsed ? (
-                    <Tooltip title="This is an endorsed user's reply">
-                      <LightbulbIcon
-                        sx={{
-                          color: "#FFBF00",
-                          fontSize: "0.8rem",
-                        }}
-                      />
-                    </Tooltip>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+              <div
+                style={{
+                  display: "flex",
+                  flex: 1,
+                  flexDirection: "column",
+                  paddingLeft: "8px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      margin: "0",
+                      fontSize: "0.8rem",
+                      color: "#C4C4C4",
+                    }}
+                  >
+                    {user && replyData.user_id == user.sub ? (
+                      <div> Posted by you</div>
+                    ) : (
+                      <div> posted by {replyData.user_nickname}</div>
+                    )}
+                    {replyData.user_is_endorsed ? (
+                      <Tooltip title="This is an endorsed user's reply">
+                        <LightbulbIcon
+                          sx={{
+                            color: "#FFBF00",
+                            fontSize: "0.8rem",
+                          }}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
 
-                <div
+                  <div
+                    style={{
+                      fontSize: "0.8rem",
+                      color: "#C4C4C4",
+                    }}
+                  >
+                    &nbsp;
+                    {diffTime}
+                  </div>
+                </div>
+                <div style={{ margin: "0" }}>{replyData.reply_text}</div>
+              </div>
+
+              {/* like button */}
+              {user ? (
+                <IconButton
+                  disableRipple
                   style={{
-                    fontSize: "0.8rem",
-                    color: "#C4C4C4",
+                    padding: "0",
+                    paddingLeft: "0.5rem",
+                  }}
+                  onClick={() => handleLikePressed()}
+                >
+                  {didUserLike ? (
+                    <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
+                  ) : (
+                    <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
+                  )}
+                  <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
+                </IconButton>
+              ) : (
+                <IconButton
+                  disabled
+                  disableRipple
+                  style={{
+                    padding: "0",
+                    paddingLeft: "0.5rem",
                   }}
                 >
-                  &nbsp;
-                  {diffTime}
-                </div>
-              </div>
-              <div style={{ margin: "0" }}>{replyData.reply_text}</div>
-            </div>
-
-            {/* like button */}
-            {user ? (
-              <IconButton
-                disableRipple
-                style={{
-                  padding: "0",
-                  paddingLeft: "0.5rem",
-                }}
-                onClick={() => handleLikePressed()}
-              >
-                {didUserLike ? (
-                  <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
-                ) : (
                   <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-                )}
-                <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
-              </IconButton>
-            ) : (
-              <IconButton
-                disabled
-                disableRipple
-                style={{
-                  padding: "0",
-                  paddingLeft: "0.5rem",
+                </IconButton>
+              )}
+
+              {/* reply button */}
+              {user ? (
+                <IconButton
+                  disableRipple
+                  style={{ padding: "0", paddingLeft: "0.5rem" }}
+                  onClick={() => setIsReplying(true)}
+                >
+                  <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              ) : (
+                <IconButton
+                  disableRipple
+                  style={{ padding: "0", paddingLeft: "0.5rem" }}
+                  disabled
+                >
+                  <ReplyIcon sx={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              )}
+
+              {/* reply report */}
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+              >
+                <Box sx={{ ...modalStyle }}>
+                  <h4 id="child-modal-title">Submit a Report</h4>
+                  <div style={{ flex: 1 }}>
+                    <TextField
+                      fullWidth
+                      multiline
+                      label={
+                        "Please explain in a few sentances why you think this reply deserves a report!"
+                      }
+                      inputProps={{ maxLength: 256 }}
+                      value={flagText}
+                      onChange={(e) => setFlagText(e.target.value)}
+                    />
+                  </div>
+                  <div
+                    style={{ display: "flex", flex: 1, justifyContent: "end" }}
+                  >
+                    <Button
+                      sx={{
+                        borderRadius: "8px",
+                        height: "2rem",
+                        marginTop: "0.5rem",
+                        marginRight: "0.5rem",
+                      }}
+                      variant="outlined"
+                      color="success"
+                      type="submit"
+                      onClick={report}
+                    >
+                      Report
+                    </Button>
+                    <Button
+                      sx={{
+                        borderRadius: "8px",
+                        height: "2rem",
+                        marginTop: "0.5rem",
+                      }}
+                      variant="outlined"
+                      color="error"
+                      // type="submit"
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Box>
+              </Modal>
+
+              {user ? (
+                <IconButton
+                  disableRipple
+                  style={{ padding: "0", paddingLeft: "0.5rem" }}
+                  onClick={openOption}
+                >
+                  <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              ) : (
+                <IconButton
+                  disableRipple
+                  disabled
+                  style={{ padding: "0", paddingLeft: "0.5rem" }}
+                >
+                  <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              )}
+
+              <Popover
+                open={isOptionOpened}
+                anchorEl={option}
+                onClose={closeOption}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  horizontal: "right",
                 }}
               >
-                <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-            )}
-
-            {/* reply button */}
-            {user ? (
-              <IconButton
-                disableRipple
-                style={{ padding: "0", paddingLeft: "0.5rem" }}
-                onClick={() => setIsReplying(true)}
-              >
-                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-            ) : (
-              <IconButton
-                disableRipple
-                style={{ padding: "0", paddingLeft: "0.5rem" }}
-                disabled
-              >
-                <ReplyIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-            )}
-
-            {/* reply report */}
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="parent-modal-title"
-              aria-describedby="parent-modal-description"
-            >
-              <Box sx={{ ...modalStyle }}>
-                <h4 id="child-modal-title">Submit a Report</h4>
-                <div style={{ flex: 1 }}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    label={
-                      "Please explain in a few sentances why you think this reply deserves a report!"
-                    }
-                    inputProps={{ maxLength: 256 }}
-                    value={flagText}
-                    onChange={(e) => setFlagText(e.target.value)}
-                  />
-                </div>
-                <div
-                  style={{ display: "flex", flex: 1, justifyContent: "end" }}
-                >
-                  <Button
-                    sx={{
-                      borderRadius: "8px",
-                      height: "2rem",
-                      marginTop: "0.5rem",
-                      marginRight: "0.5rem",
-                    }}
-                    variant="outlined"
-                    color="success"
-                    type="submit"
-                    onClick={report}
-                  >
-                    Report
-                  </Button>
-                  <Button
-                    sx={{
-                      borderRadius: "8px",
-                      height: "2rem",
-                      marginTop: "0.5rem",
-                    }}
-                    variant="outlined"
-                    color="error"
-                    // type="submit"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </Box>
-            </Modal>
-
-            {user ? (
-              <IconButton
-                disableRipple
-                style={{ padding: "0", paddingLeft: "0.5rem" }}
-                onClick={openOption}
-              >
-                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-            ) : (
-              <IconButton
-                disableRipple
-                disabled
-                style={{ padding: "0", paddingLeft: "0.5rem" }}
-              >
-                <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-            )}
-
-            <Popover
-              open={isOptionOpened}
-              anchorEl={option}
-              onClose={closeOption}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                horizontal: "right",
-              }}
-            >
-              <IconButton
-                disableRipple
-                // style={{ padding: "0", paddingLeft: "0.5rem" }}
-                aria-label="report"
-                onClick={handleOpen}
-              >
-                <FlagIcon sx={{ fontSize: "1.2rem" }} />
-              </IconButton>
-
-              {/* Delete Button should only be available to the original poster */}
-              {user && replyData.user_id === user.sub && (
                 <IconButton
                   disableRipple
                   // style={{ padding: "0", paddingLeft: "0.5rem" }}
-                  onClick={() => deleteSelf(replyData.reply_id)}
+                  aria-label="report"
+                  onClick={handleOpen}
                 >
-                  <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+                  <FlagIcon sx={{ fontSize: "1.2rem" }} />
                 </IconButton>
-              )}
-            </Popover>
 
-            {/* end of div */}
+                {/* Delete Button should only be available to the original poster */}
+                {user && replyData.user_id === user.sub && (
+                  <IconButton
+                    disableRipple
+                    // style={{ padding: "0", paddingLeft: "0.5rem" }}
+                    onClick={() => deleteSelf(replyData.reply_id)}
+                  >
+                    <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+                  </IconButton>
+                )}
+              </Popover>
+
+              {/* end of div */}
+            </div>
           </div>
         </div>
-      </div>
 
-      {isReplying && (
-        <InputReply
-          replyID={replyData.reply_id}
-          finish={() => setIsReplying(false)}
-          setLoading={setLoading}
-        />
-      )}
+        {isReplying && (
+          <InputReply
+            replyID={replyData.reply_id}
+            finish={() => setIsReplying(false)}
+            setLoading={setIsReplyLoading}
+          />
+        )}
 
-      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-        {replyData.replies_to_reply &&
-          replyData.replies_to_reply.map((reply) => (
-            <Reply
-              key={reply.reply_id}
-              replyData={reply}
-              deleteSelf={deleteSelf}
-            />
-          ))}
-      </div>
-    </>
-  );
+        <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+          {replies &&
+            replies.map((reply) => (
+              <Reply
+                key={reply.reply_id}
+                replyData={reply}
+                deleteSelf={deleteSelf}
+              />
+            ))}
+        </div>
+      </>
+    );
+  }
 };
 
 //reply to reply component
@@ -820,7 +853,7 @@ const Reply = ({ replyData, deleteSelf }) => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}>
             {user && user.sub == replyData.user_id ? (
-              <div> Sexted by {replyData.user_nickname}</div>
+              <div> posted by {replyData.user_nickname}</div>
             ) : (
               <div> Posted by {replyData.user_nickname}</div>
             )}
@@ -963,7 +996,7 @@ const Reply = ({ replyData, deleteSelf }) => {
           <IconButton
             disableRipple
             // style={{ padding: "0", paddingLeft: "0.5rem" }}
-            onClick={() => deleteSelf()}
+            onClick={() => deleteSelf(replyData.reply_id)}
           >
             <DeleteIcon sx={{ fontSize: "1.2rem" }} />
           </IconButton>
