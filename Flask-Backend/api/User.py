@@ -74,6 +74,9 @@ class PostFavourites(Resource):
         user_id = id
         posts = get_favourited_post(user_id)
 
+        if posts == 0:
+            abort(500)
+
         #For every post, get the tags and append it to the respective post object
         for post in posts:            
             #Finding and adding related tags to each post
@@ -89,6 +92,9 @@ class UserPosts(Resource):
     def get(self, id):
         #Get the list of user's posts
         posts = get_posts_by_user(id)
+
+        if posts == 0:
+            abort(500)
 
         #For every post, get the tags and append it to the respective post object
         for post in posts:            

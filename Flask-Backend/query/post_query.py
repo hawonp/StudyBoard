@@ -249,7 +249,7 @@ def get_posts_by_user(user_id):
         cursor = conn.cursor()
 
         #Set up query statements and values
-        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE user.user_id = Post.user_id and Post.user_id = ?"
+        query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE User.user_id = Post.user_id and Post.user_id = ?"
         values = (user_id, )
         print("Selecting with query", query)
         cursor.execute(query, values)
