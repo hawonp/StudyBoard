@@ -3,6 +3,7 @@ import json
 import os
 import datetime
 import requests
+import sys
 
 import cachecontrol
 import mariadb
