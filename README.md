@@ -88,7 +88,14 @@ enabling each person to leave with the exact information that they were looking 
 - Update git repository 
   > git pull origin main
 
-- Docker-compose up/down the necessary containers as needed
+- Create user-defined bridges as instructed in Step 2
+- Start the docker containers in this order (navigating to each respective folder)
+  1. nginx-proxy
+  3. DBMS
+  5. Flask backend
+  6. NextJS frontend
+  - The command for all containers are the same
+  > docker-compose -f docker-compose.yml up --build
 
 ## Required Specs / Compatability
  - Operating System : Any
