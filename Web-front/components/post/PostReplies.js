@@ -371,6 +371,10 @@ const Comment = ({ replyData, deleteSelf }) => {
         }
       });
   };
+  const handleDeleteReply = (id) => {
+    deleteSelf(id);
+    setReplies(replies.filter((deletereply) => deletereply.reply_id !== id));
+  };
   //Handle like press for replies
   const handleLikePressed = () => {
     const id = user.sub;
@@ -448,7 +452,7 @@ const Comment = ({ replyData, deleteSelf }) => {
                     }}
                   >
                     {user && replyData.user_id == user.sub ? (
-                      <div> Posted by you</div>
+                      <div> Posted by {replyData.user_nickname}</div>
                     ) : (
                       <div> posted by {replyData.user_nickname}</div>
                     )}
@@ -653,7 +657,7 @@ const Comment = ({ replyData, deleteSelf }) => {
               <Reply
                 key={reply.reply_id}
                 replyData={reply}
-                deleteSelf={deleteSelf}
+                deleteSelf={handleDeleteReply}
               />
             ))}
         </div>
