@@ -178,7 +178,7 @@ class BlacklistUser(Resource):
             # User must be a mod
             add_user_to_blacklist(id)
             res = update_user(id, "Banned User", [])
-            # block_user(id)
+            block_user(id)
 
         else:
             err = "Not authorised"
