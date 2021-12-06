@@ -83,19 +83,40 @@ export default function About() {
           </p>
           <p className={navStyles.line}>
             <h2>How to use StudyBoard?</h2>
-            Sign up! <br /> Ask a question <br />
+            Easy to log in with Google!
+            <br /> Ask a question <br />
             Recieve replies from the entire community
           </p>
           <p className={navStyles.line}>
             <h2>What do we provide?</h2>
+            StudyBoard provide system that gives quick answers to questions that
+            users are curious about. The user can know by notification when
+            another user answers the question he or she wrote.
           </p>
           <p className={navStyles.line}>
-            <h2>Easy to </h2>
-            something need to put it in
+            <h2>How do I get into the rank? </h2>
+            When a user answers a lot of questions and gives a definite answer,
+            it automatically becomes endorsed user when receiving a large number
+            of likes from other users.
           </p>
           <p className={navStyles.line}>
-            <h2>Something</h2>
-            something need to put it in
+            <h2>Easy to find result </h2>
+            When a user writes the search he or she wants to find in the search
+            box, user lists tags and posts. Users can see the writings they want
+            at once.
+          </p>
+          <p className={navStyles.line}>
+            <h2>Reliable</h2>
+            Our website can report inappropriate questions and comments
+            anonymously. For a clean website, the administrator directly manages
+            the website. User cannot know who reported who users are
+          </p>
+          <p className={navStyles.line}>
+            <h2>Reduce your time and effort</h2>
+            Users can get more answers with a single question.In addition, users
+            can select the tags they want and collect and view only the tags
+            they want. Users can see more questions and results in filter
+            section.
           </p>
         </div>
       </Box>
