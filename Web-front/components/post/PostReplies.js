@@ -951,7 +951,7 @@ const Reply = ({ replyData, deleteSelf }) => {
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
         {/* Delete button should only be available to the original poster */}
-        {user && replyData.user_id === user.sub && (
+        {replyData.user_id === user.sub ? (
           <IconButton
             disableRipple
             // style={{ padding: "0", paddingLeft: "0.5rem" }}
@@ -959,8 +959,9 @@ const Reply = ({ replyData, deleteSelf }) => {
           >
             <DeleteIcon sx={{ fontSize: "1.2rem" }} />
           </IconButton>
+        ) : (
+          <></>
         )}
-
       </Popover>
     </div>
   );
