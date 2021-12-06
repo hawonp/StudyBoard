@@ -89,7 +89,13 @@ export default function Home() {
             marginTop: "3rem",
           }}
         >
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div
               style={{
                 textAlign: "center",
@@ -100,35 +106,48 @@ export default function Home() {
                 <img src="images/values-1.png" width="300px" height="300px" />
               </div>
               <h3>Global website</h3>
-              <p>
+              <p style={{ display: "flex " }}>
                 It is available to people around the world and allows users to
-                freely answer questions. User can use it for free this platfrom
+                freely answer questions. Users can use this for a free platform.
               </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-2.png" width="300px" height="300px" />
               </div>
               <h3>Searching</h3>
-              <p>
-                User can find the topic that the user is curious about. User can
-                see the tags and post separately in the search bar organizedly.
+              <p style={{ display: "flex " }}>
+                Users can find the topic that the user is curious about. Users
+                can see the tags and post separately in the search bar
+                organized.
               </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-3.png" width="300px" height="300px" />
               </div>
               <h3>Time Save</h3>
-              <p>
-                Users quickly ask questions what they do not know and receive
-                answers quickly. User can handle their problems quickly.
+              <p style={{ display: "flex " }}>
+                Users quickly ask questions about what they do not know and
+                receive answers quickly. User can handle their problems quickly.
               </p>
             </div>
           </Card>
