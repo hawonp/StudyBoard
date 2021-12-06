@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 
 # initialize CORS
-CORS(app, origins=["http://backend.studyboard.info", "localhost:9090", "localhost:3000", "*"])
+CORS(app, origins=["http://backend.studyboard.info", "localhost:9090", "localhost:3000", "*", "http://localhost:9090"])
 
 # initialize Flask-RESTful
 api = Api(app)

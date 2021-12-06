@@ -98,6 +98,7 @@ export default function Feed() {
         })
         .catch((e) => {
           const resp = e.response;
+          console.log(resp);
           if (resp["status"] == 400) {
             alert("could not load data");
           }
