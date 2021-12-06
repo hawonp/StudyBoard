@@ -589,7 +589,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 <FlagIcon sx={{ fontSize: "1.2rem" }} />
               </IconButton>
 
-              {/* 글쓴이가 자기자신이 쓴글에다만 지울 수 있게 만들어놓는다 */}
+              {/* Delete Button should only be available to the original poster */}
               {user && replyData.user_id === user.sub && (
                 <IconButton
                   disableRipple
@@ -952,9 +952,16 @@ const Reply = ({ replyData, deleteSelf }) => {
         <IconButton disableRipple aria-label="report" onClick={handleOpen}>
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-        <IconButton disableRipple onClick={() => deleteSelf()}>
-          <DeleteIcon sx={{ fontSize: "1.2rem" }} />
-        </IconButton>
+        {/* Delete button should only be available to the original poster */}
+        {user && replyData.user_id === user.sub && (
+          <IconButton
+            disableRipple
+            // style={{ padding: "0", paddingLeft: "0.5rem" }}
+            onClick={() => deleteSelf()}
+          >
+            <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+          </IconButton>
+        )}
       </Popover>
     </div>
   );
