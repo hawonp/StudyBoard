@@ -267,7 +267,7 @@ def get_posts_by_user(user_id):
 
         # Set up query statements and values
         query = "SELECT post_id, post_title, post_text, post_image, post_like_count, post_reply_count, post_date, user_nickname, user_is_endorsed, user_is_mod FROM Post, User WHERE User.user_id = Post.user_id and Post.user_id = ?"
-        values = (user_id, )
+        values = (user_id,)
         print("Selecting with query", query)
         cursor.execute(query, values)
 
@@ -298,7 +298,7 @@ def get_posts_by_tag_name(tag_name):
 
         # Set up query statements and values
         query = "SELECT Post.* FROM Post, Post_Tag, Tag WHERE Post_Tag.post_id = Post.post_id && Post_Tag.tag_id = Tag.tag_id && LOWER(Tag.tag_name) = LOWER(?)"
-        values = (tag_name, )
+        values = (tag_name,)
         print("Selecting with query", query, " and values ", values)
         cursor.execute(query, values)
 
@@ -334,7 +334,7 @@ def search_tags(input):
 
         # Set up query statements and values
         query = "SELECT DISTINCT  Tag.tag_id, Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
-        values = ("%" + input + "%", )
+        values = ("%" + input + "%",)
         print("Selecting with query", query, " and values ", values)
         cursor.execute(query, values)
 
@@ -371,7 +371,7 @@ def search_posts(input):
         # query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where Post.post_title LIKE ?"
 
         query = "SELECT DISTINCT Post.post_id, Post.post_title From Post where LOWER(Post.post_title) LIKE LOWER(?)"
-        values = ("%" + input + "%", )
+        values = ("%" + input + "%",)
         print("Selecting with query", query, " and values ", values)
         cursor.execute(query, values)
 
@@ -406,7 +406,7 @@ def get_search_results_posts(input):
         cursor = conn.cursor()
 
         query = "SELECT DISTINCT Post.*, User.user_nickname From Post, User where Post.user_id = User.user_id && LOWER(Post.post_title) LIKE LOWER(?)"
-        values = ("%" + input + "%", )
+        values = ("%" + input + "%",)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
@@ -442,7 +442,7 @@ def get_search_results_tags(input):
         cursor = conn.cursor()
 
         query = "SELECT DISTINCT Tag.tag_name From Post_Tag, Tag where Tag.tag_id = Post_Tag.tag_id && LOWER(Tag.tag_name) LIKE LOWER(?)"
-        values = ("%" + input + "%", )
+        values = ("%" + input + "%",)
         print("Selecting with query", query, " and values ", values)
 
         # Getting data from table
@@ -472,7 +472,7 @@ def get_post_by_id(post_id):
 
         # Set up query statement and values
         query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_nickname, u.user_id, pst.* FROM User u INNER JOIN (SELECT * FROM Post WHERE post_id=?) AS pst ON pst.user_id = u.user_id"
-        values = (int(post_id), )
+        values = (int(post_id),)
 
         # Getting data from table
         print("Searching with query", query, " and values ", values)
