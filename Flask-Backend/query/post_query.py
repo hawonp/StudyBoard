@@ -162,9 +162,9 @@ def get_post_feed_with_filter(page, order, filter):
         format_string = ','.join(['?'] * len(filter))
         if order:
             #If the order is in like
-            query = "SELECT p.*, u.user_is_endorsed, u.user_is_mod, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
+            query = "SELECT p.*, u.user_is_endorsed, u.user_is_mod, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT DISTINCT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_like_count DESC LIMIT ?, ?"
         else:
-            query = "SELECT p.*, u.user_is_endorsed, u.user_is_mod, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_date DESC LIMIT ?, ?"
+            query = "SELECT p.*, u.user_is_endorsed, u.user_is_mod, u.user_nickname FROM User u INNER JOIN (SELECT p.post_id, p.user_id, p.post_title, p.post_text, p.post_image, p.post_like_count, p.post_reply_count, p.post_favourite_count, p.post_date FROM Post p INNER JOIN (SELECT DISTINCT post_id FROM Post_Tag WHERE tag_id IN ("+format_string+")) AS pid ON pid.post_id = p.post_id) AS p ON p.user_id = u.user_id ORDER BY post_date DESC LIMIT ?, ?"
         values = tuple(filter) + (offset, limit)
 
         #Fetching posts with filter, sort, limit, and offset
