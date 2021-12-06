@@ -3,7 +3,7 @@ import config.db_connect as setting
 from config.imports import Flask, CORS, Api
 from config.config import ApplicationConfig
 
-#Import APIs
+# Import APIs
 import api.Login as Login
 import api.Post as Post
 import api.Dev as Dev
@@ -13,7 +13,7 @@ import api.Mod as Mod
 import api.MySql as MySql
 
 
-# initialize Flask, 
+# initialize Flask,
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 
@@ -22,9 +22,6 @@ CORS(app, origins=["http://backend.studyboard.info", "localhost:9090", "localhos
 
 # initialize Flask-RESTful
 api = Api(app)
-
-# initialize Server Sessions
-server_session = Session(app)
 
 # import dev_tools api
 Dev.init_routes(api)

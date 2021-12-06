@@ -1,8 +1,11 @@
 import http.client
-import json, requests
+import json
 import random
 import string
-from requests.exceptions import RequestException, HTTPError, URLRequired
+
+import requests
+from requests.exceptions import HTTPError, RequestException, URLRequired
+
 
 def get_auth_token2():
     # Configuration Values
@@ -10,11 +13,11 @@ def get_auth_token2():
     audience = f'https://{domain}/api/v2/'
     client_id = '9Xlo1ewrCoXIU8TAtNJBhfdso91LAKbe'
     client_secret = 'SnIaHE3981RiB0BFD1awxLc-pQ7FHT1Kl5Bdb1Zw_AEqlEU8zhLdzotp5vC8Sy5X'
-    grant_type = "client_credentials" # OAuth 2.0 flow to use
+    grant_type = "client_credentials"  # OAuth 2.0 flow to use
 
     # Get an Access Token from Auth0
     base_url = f"https://{domain}"
-    payload =  { 
+    payload = {
         'grant_type': grant_type,
         'client_id': client_id,
         'client_secret': client_secret,
@@ -26,6 +29,7 @@ def get_auth_token2():
 
     return access_token, base_url
 
+
 def block_user(user_id):
     access_token, base_url = get_auth_token2()
 
@@ -34,8 +38,8 @@ def block_user(user_id):
         'authorization': f'Bearer {access_token}'
     }
 
-    payload = "{\"blocked\": true}"    
-     # Get all Applications using the token
+    payload = "{\"blocked\": true}"
+    # Get all Applications using the token
     try:
         res = requests.patch(f'{base_url}/api/v2/users/{user_id}', data=payload, headers=headers)
         print(res.json())
@@ -47,6 +51,7 @@ def block_user(user_id):
         print(f'RequestException: {e}')
     except Exception as e:
         print(f'Generic Exception: {e}')
+
 
 def unblock_user(user_id):
     access_token, base_url = get_auth_token2()
@@ -56,10 +61,10 @@ def unblock_user(user_id):
         'authorization': f'Bearer {access_token}'
     }
 
-    payload = "{\"blocked\": false}"    
+    payload = "{\"blocked\": false}"
 
     print(base_url, user_id)
-     # Get all Applications using the token
+    # Get all Applications using the token
     try:
         res = requests.patch(f'{base_url}/api/v2/users/{user_id}', data=payload, headers=headers)
         print(res.json())
@@ -71,6 +76,7 @@ def unblock_user(user_id):
         print(f'RequestException: {e}')
     except Exception as e:
         print(f'Generic Exception: {e}')
+
 
 def delete_user(user_id):
     access_token, base_url = get_auth_token2()
@@ -81,7 +87,7 @@ def delete_user(user_id):
     }
 
     print(base_url, user_id)
-     # Get all Applications using the token
+    # Get all Applications using the token
     try:
         res = requests.delete(f'{base_url}/api/v2/users/{user_id}', headers=headers)
     except HTTPError as e:
@@ -91,7 +97,8 @@ def delete_user(user_id):
     except RequestException as e:
         print(f'RequestException: {e}')
     except Exception as e:
-        print(f'Generic Exception: {e}')   
+        print(f'Generic Exception: {e}')
+
 
 def get_random_string(length):
     # choose from all lowercase letter

@@ -1,7 +1,7 @@
-from config.imports import mariadb
-from config.imports import sys
+from config.imports import mariadb, sys
 
 local_flask = False
+
 
 def get_connection():
     try:
