@@ -51,26 +51,9 @@ class Login(Resource):
             print("User already exists | user_id:", user_id)
         return user_id
        
-class Verify_ID_Token(Resource):
-    def get(self):
-        errors = user_data_schema.validate(req.args)
-        if errors:
-            abort(400, str(errors))
-
-        # get id_token from URL call
-        token = request.args.get('id_token')
-        
-        # authenticate token_id from signin
-        success = verify_id_token(token)
-            
-        print("Return ID_token back to frontend")
-        if(success == False):
-            abort(403)
-        
 def init_routes(api):
     api.add_resource(Default, '/')
     api.add_resource(Login, '/login')
-    api.add_resource(Verify_ID_Token, '/verifyIDToken')
 
 user_data_schema = UserDataSchema()
 user_id_verify_schema = UserIDVerifySchema()
