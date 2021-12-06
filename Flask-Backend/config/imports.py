@@ -4,7 +4,6 @@ import sys
 import os
 import datetime
 import requests
-import cachecontrol
 
 from dotenv import load_dotenv
 from flask import Flask, request, Blueprint, url_for, redirect, abort,session, flash, get_flashed_messages, abort, jsonify, request

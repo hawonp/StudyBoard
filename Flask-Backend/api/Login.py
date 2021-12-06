@@ -1,11 +1,10 @@
 from config.imports import Resource, abort, datetime
-from config.imports import id_token, google_requests, cachecontrol, requests
+from config.imports import requests
 from config.imports import request as req
 from config.imports import Schema, fields, validate
 from config.config import ApplicationConfig
 
 from query.user_query import add_user, check_user_id_exists
-from query.login_query import verify_id_token, get_user_from_id_token
 
 ############################
 #    Marshmallow Schema    #
