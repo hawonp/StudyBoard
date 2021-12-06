@@ -14,7 +14,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { Box, ListItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ReportGmailerrorredOutlinedIcon from "@mui/icons-material/ReportGmailerrorredOutlined";
 
 // package imports
@@ -87,13 +87,14 @@ export default function ReportedUsersList() {
     if (user) {
       const userID = user.sub;
       axiosInstance
-        .delete(FLAGGEDENDPOINT + USERS + "/" + user_id, {
+        .post(FLAGGEDENDPOINT + USERS + "/" + user_id, {
           params: {
             userID: userID,
           },
         })
         .then((response) => {
           setIsDataLoading(true);
+          // router.reload();
         })
         .catch((e) => {
           const resp = e.response;
@@ -151,7 +152,9 @@ export default function ReportedUsersList() {
                               aria-label="delete"
                               onClick={() => blackListUser(row.user_id)}
                             >
-                              <DeleteIcon />
+                              <RemoveCircleOutlineIcon
+                                style={{ color: "red" }}
+                              />
                             </IconButton>
                           </>
                         }

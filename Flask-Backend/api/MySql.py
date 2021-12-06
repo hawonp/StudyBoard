@@ -1,12 +1,13 @@
 from config.imports import Resource, json, mariadb
 from config.db_connect import get_connection
 
+
 class MySql(Resource):
     def get(self):
         try:
-            #Obtain DB cursor
+            # Obtain DB cursor
             conn = get_connection()
-            cursor = conn.cursor()  
+            cursor = conn.cursor()
 
             print("Testing Connection by fetching list of all tables")
             cursor.execute("SHOW tables")
@@ -24,6 +25,6 @@ class MySql(Resource):
             print(f"Error querying the database: {e}")
             return "Could not connect to DB"
 
+
 def init_routes(api):
     api.add_resource(MySql, '/conn')
-

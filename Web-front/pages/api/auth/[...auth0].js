@@ -18,6 +18,7 @@ const afterCallback = (req, res, session, state) => {
       }
     })
     .catch((e) => {
+      console.log(e);
       const resp = e.response;
       if (resp["status"] == 403) {
         alert("Could not log in");

@@ -73,6 +73,14 @@ export default function ReportedRepliesList() {
         .then((response) => {
           setRows(JSON.parse(response.data));
           setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 403) {
+            router.push("/" + "error/403");
+          } else if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
         });
     }
   }, [isDataLoading, isLoading]);

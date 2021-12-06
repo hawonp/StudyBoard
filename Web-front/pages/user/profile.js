@@ -28,7 +28,7 @@ export default withPageAuthRequired(function Profile() {
   useEffect(() => {
     if (!isLoading && !error) {
       axiosInstance
-        .get(USERSENDPOINT + user.sub, {})
+        .get(USERSENDPOINT + user.sub)
         .then((response) => {
           if (response["status"] == 200) {
             const temp = response["data"];

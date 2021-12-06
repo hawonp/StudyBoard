@@ -83,20 +83,35 @@ export default function About() {
           </p>
           <p className={navStyles.line}>
             <h2>How to use StudyBoard?</h2>
-            Sign up! <br /> Ask a question <br />
-            Recieve replies from the entire community
+            Authenticate with industry standard Auth0. Ask a question. Recieve
+            replies from the entire community
           </p>
           {/* <p className={navStyles.line}>
-            <h2>Unique Features</h2>
-          </p>
-          <p className={navStyles.line}>
-            <h2>Something</h2>
-            something need to put it in
-          </p>
-          <p className={navStyles.line}>
-            <h2>Something</h2>
-            something need to put it in
+            <h2>What do we provide?</h2>
+            StudyBoard provide system that gives quick answers to questions that
+            users are curious about. The user can know by notification when
+            another user answers the question he or she wrote.
           </p> */}
+          <p className={navStyles.line}>
+            <h2>Rank Up!</h2>
+            Gain points as you ask and answer lots of questions, eventually
+            becoming an endorsed user whose word counts for more.
+          </p>
+          <p className={navStyles.line}>
+            <h2>Search for More! </h2>
+            Use the unified searchbar to search for both tags and posts of your
+            liking.
+          </p>
+          <p className={navStyles.line}>
+            <h2>Report Bad Apples</h2>
+            Report any question or reply that you think is inappropriate. A
+            moderator will review it immediately!
+          </p>
+          <p className={navStyles.line}>
+            <h2>Save Time and Effort</h2>
+            Bookmark questions that you like. Easily peruse questions you've
+            posted. Filter the feed to your liking!
+          </p>
         </div>
       </Box>
     </Box>

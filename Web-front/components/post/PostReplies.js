@@ -41,6 +41,14 @@ const modalStyle = {
   px: 4,
   pb: 3,
 };
+const CountNumber = ({ style, children }) => {
+  return (
+    <div style={{ fontSize: "0.8rem", fontWeight: "bold", ...style }}>
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 // constants needed for axios REST api calls
 const POSTDATAENDPOINT = "/posts";
@@ -80,6 +88,12 @@ export const ReplyCard = ({ postID }) => {
           //Assign data
           setComments(responseData);
           setLoadingReplies(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
         });
     }
   }, [loadingReplies, feedOrder, isLoading]);
@@ -126,6 +140,14 @@ export const ReplyCard = ({ postID }) => {
               .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
               .then((response) => {
                 const responseData = JSON.parse(response["data"]);
+              })
+              .catch((e) => {
+                const resp = e.response;
+                if (resp["status"] == 500) {
+                  router.push("/" + "error/500");
+                } else if (resp["status"] == 400) {
+                  router.push("/" + "error/400");
+                }
               });
           }
         }
@@ -197,9 +219,9 @@ export const ReplyCard = ({ postID }) => {
             }}
             variant="outlined"
           >
-            <MenuItem value={0}>Newest</MenuItem>
-            <MenuItem value={1}>Liked Most</MenuItem>
-            <MenuItem value={2}>Highest Ranking</MenuItem>
+            <MenuItem value={0}>Most Recent</MenuItem>
+            <MenuItem value={1}>Most Likes</MenuItem>
+            <MenuItem value={2}>User Ranking</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -285,6 +307,7 @@ const CommentForm = ({ addComment }) => {
 const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
+  const [likeCount, setLikeCount] = useState(replyData.reply_like_count);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -335,6 +358,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+          setLikeCount((prev) => prev - 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -351,6 +375,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+          setLikeCount((prev) => prev + 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -436,6 +461,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 ) : (
                   <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
                 )}
+                <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
               </IconButton>
             ) : (
               <IconButton
@@ -591,7 +617,11 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
       <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         {replyData.replies_to_reply &&
           replyData.replies_to_reply.map((reply) => (
-            <Reply key={reply.reply_id} replyData={reply} />
+            <Reply
+              key={reply.reply_id}
+              replyData={reply}
+              deleteSelf={deleteSelf}
+            />
           ))}
       </div>
     </>
@@ -679,9 +709,10 @@ const InputReply = ({ setLoading, replyID, finish }) => {
   );
 };
 
-const Reply = ({ replyData }) => {
+const Reply = ({ replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
+  const [likeCount, setLikeCount] = useState(replyData.reply_like_count);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -734,6 +765,7 @@ const Reply = ({ replyData }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+          setLikeCount((prev) => prev - 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -750,6 +782,7 @@ const Reply = ({ replyData }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+          setLikeCount((prev) => prev + 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -812,7 +845,6 @@ const Reply = ({ replyData }) => {
           </div>
         </div>
       </div>
-
       {/* like button disabled if not logged in */}
       {user ? (
         <IconButton
@@ -825,6 +857,8 @@ const Reply = ({ replyData }) => {
           ) : (
             <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
           )}
+          &nbsp;
+          <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
         </IconButton>
       ) : (
         <IconButton
@@ -918,7 +952,7 @@ const Reply = ({ replyData }) => {
         <IconButton disableRipple aria-label="report" onClick={handleOpen}>
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-        <IconButton disableRipple>
+        <IconButton disableRipple onClick={() => deleteSelf()}>
           <DeleteIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
       </Popover>
