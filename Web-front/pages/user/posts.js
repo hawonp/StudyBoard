@@ -77,6 +77,12 @@ export default withPageAuthRequired(function Posts() {
         .then((response) => {
           setPostList(JSON.parse(response.data));
           setIsDataLoading(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 500) {
+            router.push("/" + "error/500");
+          }
         });
     }
   }, [isLoading]);
