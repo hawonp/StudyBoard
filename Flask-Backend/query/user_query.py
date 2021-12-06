@@ -246,7 +246,11 @@ def update_user(id, nickname, tags):
         conn.close()
 
         # Now add the tags related to this post. Add new tag if tag doesnt exist.
+        print("tags ", tags)
         for tag in tags:
+            print("tag ", tag)
+            if tag == "":
+                continue
             tag = tag.strip()
             # Check if tag already exists.
             tag_row = get_tag_by_name(tag)
