@@ -591,7 +591,11 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
       <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         {replyData.replies_to_reply &&
           replyData.replies_to_reply.map((reply) => (
-            <Reply key={reply.reply_id} replyData={reply} />
+            <Reply
+              key={reply.reply_id}
+              replyData={reply}
+              deleteSelf={deleteSelf}
+            />
           ))}
       </div>
     </>
@@ -679,7 +683,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
   );
 };
 
-const Reply = ({ replyData }) => {
+const Reply = ({ replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
   const [flagText, setFlagText] = useState("");
@@ -918,7 +922,7 @@ const Reply = ({ replyData }) => {
         <IconButton disableRipple aria-label="report" onClick={handleOpen}>
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-        <IconButton disableRipple>
+        <IconButton disableRipple onClick={() => deleteSelf()}>
           <DeleteIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
       </Popover>
