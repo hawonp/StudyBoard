@@ -86,17 +86,17 @@ export default function About() {
             Sign up! <br /> Ask a question <br />
             Recieve replies from the entire community
           </p>
-          {/* <p className={navStyles.line}>
-            <h2>Unique Features</h2>
+          <p className={navStyles.line}>
+            <h2>What do we provide?</h2>
           </p>
           <p className={navStyles.line}>
-            <h2>Something</h2>
+            <h2>Easy to </h2>
             something need to put it in
           </p>
           <p className={navStyles.line}>
             <h2>Something</h2>
             something need to put it in
-          </p> */}
+          </p>
         </div>
       </Box>
     </Box>
