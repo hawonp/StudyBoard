@@ -130,14 +130,12 @@ export const ReplyCard = ({ postID }) => {
         replyData={reply}
         deleteSelf={
           //delete function
-          () => {
+          (id) => {
             setComments(
-              comments.filter(
-                (deleteComment) => deleteComment.reply_id !== reply.reply_id
-              )
+              comments.filter((deleteComment) => deleteComment.reply_id !== id)
             );
             axiosInstance
-              .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
+              .delete(REPLYDATAENDPOINT + "/" + id)
               .then((response) => {
                 const responseData = JSON.parse(response["data"]);
               })
@@ -594,7 +592,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 <IconButton
                   disableRipple
                   // style={{ padding: "0", paddingLeft: "0.5rem" }}
-                  onClick={() => deleteSelf()}
+                  onClick={() => deleteSelf(replyData.reply_id)}
                 >
                   <DeleteIcon sx={{ fontSize: "1.2rem" }} />
                 </IconButton>
@@ -952,7 +950,10 @@ const Reply = ({ replyData, deleteSelf }) => {
         <IconButton disableRipple aria-label="report" onClick={handleOpen}>
           <FlagIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
-        <IconButton disableRipple onClick={() => deleteSelf()}>
+        <IconButton
+          disableRipple
+          onClick={() => deleteSelf(replyData.reply_id)}
+        >
           <DeleteIcon sx={{ fontSize: "1.2rem" }} />
         </IconButton>
       </Popover>
