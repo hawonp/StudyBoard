@@ -431,6 +431,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 }}
                 onClick={() => handleLikePressed()}
               >
+                {replyData.reply_like_count}
                 {didUserLike ? (
                   <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 ) : (
