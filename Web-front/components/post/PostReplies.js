@@ -442,13 +442,12 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 }}
                 onClick={() => handleLikePressed()}
               >
-                {likeCount}
                 {didUserLike ? (
                   <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 ) : (
                   <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
                 )}
-                <CountNumber> &nbsp;0 Likes</CountNumber>
+                <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
               </IconButton>
             ) : (
               <IconButton
@@ -832,7 +831,6 @@ const Reply = ({ replyData, deleteSelf }) => {
           </div>
         </div>
       </div>
-      {likeCount}
       {/* like button disabled if not logged in */}
       {user ? (
         <IconButton
@@ -845,7 +843,8 @@ const Reply = ({ replyData, deleteSelf }) => {
           ) : (
             <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
           )}
-          <CountNumber> &nbsp;0 Likes</CountNumber>
+          &nbsp;
+          <CountNumber>&nbsp;{likeCount || 0} Likes</CountNumber>
         </IconButton>
       ) : (
         <IconButton
