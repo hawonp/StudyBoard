@@ -197,9 +197,9 @@ export const ReplyCard = ({ postID }) => {
             }}
             variant="outlined"
           >
-            <MenuItem value={0}>Newest</MenuItem>
-            <MenuItem value={1}>Liked Most</MenuItem>
-            <MenuItem value={2}>Highest Ranking</MenuItem>
+            <MenuItem value={0}>Most Recent</MenuItem>
+            <MenuItem value={1}>Most Likes</MenuItem>
+            <MenuItem value={2}>User Ranking</MenuItem>
           </Select>
         </FormControl>
       </Box>
