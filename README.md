@@ -115,3 +115,6 @@ enabling each person to leave with the exact information that they were looking 
 
  - See logs
   > docker logs --follow container_id
+
+ - Shutdown a docker container
+  > docker-compose down
