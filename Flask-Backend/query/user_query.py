@@ -56,7 +56,6 @@ def add_user_to_blacklist(user_id):
 
         # Getting id of newly added user
         new_user_id = cursor.lastrowid
-        print("cursor lastrowid is ", cursor.lastrowid)
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
     # Closing cursor and commiting  connection
