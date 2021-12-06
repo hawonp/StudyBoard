@@ -41,6 +41,14 @@ const modalStyle = {
   px: 4,
   pb: 3,
 };
+const CountNumber = ({ style, children }) => {
+  return (
+    <div style={{ fontSize: "0.8rem", fontWeight: "bold", ...style }}>
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
 
 // constants needed for axios REST api calls
 const POSTDATAENDPOINT = "/posts";
@@ -436,6 +444,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 ) : (
                   <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
                 )}
+                <CountNumber> &nbsp;0 Likes</CountNumber>
               </IconButton>
             ) : (
               <IconButton
@@ -825,6 +834,7 @@ const Reply = ({ replyData }) => {
           ) : (
             <FavoriteBorderIcon sx={{ fontSize: "1.2rem" }} />
           )}
+          <CountNumber> &nbsp;0 Likes</CountNumber>
         </IconButton>
       ) : (
         <IconButton

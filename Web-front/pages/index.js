@@ -41,7 +41,7 @@ export default function Home() {
           </div>
           <Button
             variant="outlined"
-            href="/board"
+            href="/feed"
             size="large"
             sx={{ width: "15rem" }}
           >
@@ -68,11 +68,17 @@ export default function Home() {
           marginTop: "5rem",
         }}
       >
-        <div style={{ fontSize: "1.2rem", textAlign: "center" }}>
+        <div
+          style={{ fontSize: "1.2rem", textAlign: "center", color: "#263179" }}
+        >
           Our values
         </div>
-        <div style={{ fontSize: "4rem", textAlign: "center" }}>
-          Something information
+        <div
+          style={{ fontSize: "2.2rem", textAlign: "center", color: "#3F8CB8" }}
+        >
+          As the most trusted knowledge sharing and collaboration platform,
+          <br />
+          StudyBoard has three core values:
         </div>
 
         <Box
