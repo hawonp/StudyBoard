@@ -47,7 +47,7 @@ def add_user_to_blacklist(user_id):
         cursor = conn.cursor()
 
         # Set up query statement and values
-        query = "INSERT INTO User (user_id) VALUES (?)"
+        query = "INSERT INTO Blacklisted_User (user_id) VALUES (?)"
         values = (user_id, )
 
         # Adding new data into table

@@ -29,15 +29,21 @@ THRESHHOLD = '/<int:num>'
 ############################
 
 # Checking user authority
+
+
 class AuthoriseUserSchema(Schema):
     userID = fields.Str(required=True)
 
 # Checking user authority and content ID
+
+
 class HandleReportAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
     contentID = fields.Int(required=True)
 
 # Checking user authority and content ID
+
+
 class ModeratorAuthorisationSchema(Schema):
     userID = fields.Str(required=True)
     contentID = fields.Int(required=True)
@@ -47,6 +53,8 @@ class ModeratorAuthorisationSchema(Schema):
 ############################
 
 # Mod responding to post flag
+
+
 class RespondToPostFlag(Resource):
     def delete(self, id):
         # Validate params first
@@ -98,6 +106,8 @@ class RespondToPostFlag(Resource):
         return res
 
 # Mod responding to reply flag
+
+
 class RespondToReplyFlag(Resource):
     def delete(self, id):
         # Validate params first
@@ -149,6 +159,8 @@ class RespondToReplyFlag(Resource):
         return res
 
 # Adding the user to blacklist
+
+
 class BlacklistUser(Resource):
     def post(self, id):
         # Validate params first
@@ -166,7 +178,7 @@ class BlacklistUser(Resource):
             # User must be a mod
             add_user_to_blacklist(id)
             res = update_user(id, "Banned User", [])
-            block_user(id)
+            # block_user(id)
 
         else:
             err = "Not authorised"
@@ -176,6 +188,8 @@ class BlacklistUser(Resource):
         return json.dumps(res)
 
 # Getting flagged posts
+
+
 class FlaggedPosts(Resource):
     def get(self):
         # Check if user submits the id
@@ -197,6 +211,8 @@ class FlaggedPosts(Resource):
         return json.dumps(reports, default=str)
 
 # Getting flagged replies
+
+
 class FlaggedReplies(Resource):
     def get(self):
         # Check if user submits the id
@@ -218,6 +234,8 @@ class FlaggedReplies(Resource):
         return json.dumps(reports, default=str)
 
 # Getting users with 10 < flags
+
+
 class FlaggedUsers(Resource):
     def get(self):
         # Check if user submits the id
