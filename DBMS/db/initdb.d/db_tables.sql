@@ -43,14 +43,6 @@ CREATE TABLE Post(
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
--- CREATE TABLE Post_Image(
---     image_id INTEGER NOT NULL,
---     post_id INTEGER NOT NULL,
---     image_url VARCHAR(256),
---     PRIMARY KEY(image_id),
---     FOREIGN KEY(post_id) REFERENCES Post(post_id)
--- );
-
 CREATE TABLE User_Post_Like(
     user_id VARCHAR(64) NOT NULL,
     post_id INTEGER NOT NULL,
@@ -168,16 +160,6 @@ CREATE TABLE Favourite_Question(
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE,
     FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE CASCADE
 );
-
--- -- SEARCH HISTORY --
--- CREATE TABLE Search_History(
---     search_id INTEGER NOT NULL AUTO_INCREMENT,
---     user_id VARCHAR(64) NOT NULL,
---     search_text VARCHAR(128) NOT NULL,
---     search_date DATETIME NOT NULL,
---     PRIMARY KEY(search_id),
---     FOREIGN KEY(user_id) REFERENCES User(user_id) ON DELETE CASCADE
--- );
 
 -- BLACKLIST --
 CREATE TABLE Blacklisted_User(
