@@ -100,10 +100,10 @@ export default function Home() {
                 <img src="images/values-1.png" width="300px" height="300px" />
               </div>
               <h3>Global website</h3>
-              <span>
-                Eum ad dolor et. Autem aut fugiat debitis voluptatem
-                consequuntur sit. Et veritatis id.
-              </span>
+              <p>
+                It is available to people around the world and allows users to
+                freely answer questions. User can use it for free this platfrom
+              </p>
             </div>
           </Card>
 
@@ -112,11 +112,11 @@ export default function Home() {
               <div>
                 <img src="images/values-2.png" width="300px" height="300px" />
               </div>
-              <h3>Fast answer</h3>
-              <span>
-                Repudiandae amet nihil natus in distinctio suscipit id.
-                Doloremque ducimus ea sit non.
-              </span>
+              <h3>Searching</h3>
+              <p>
+                User can find the topic that the user is curious about. User can
+                see the tags and post separately in the search bar organizedly.
+              </p>
             </div>
           </Card>
 
@@ -126,10 +126,10 @@ export default function Home() {
                 <img src="images/values-3.png" width="300px" height="300px" />
               </div>
               <h3>Time Save</h3>
-              <span>
-                Quam rem vitae est autem molestias explicabo debitis sint. Vero
-                aliquid quidem commodi.
-              </span>
+              <p>
+                Users quickly ask questions what they do not know and receive
+                answers quickly. User can handle their problems quickly.
+              </p>
             </div>
           </Card>
         </Box>
