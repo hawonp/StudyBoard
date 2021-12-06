@@ -156,6 +156,7 @@ CREATE TABLE Notification(
     notification_seen BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY(notification_id),
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE,
+    FOREIGN KEY(interactor_id) REFERENCES User(user_id) ON UPDATE CASCADE,
     FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE SET NULL,
     FOREIGN KEY(reply_id) REFERENCES Reply(reply_id) ON DELETE SET NULL
 );

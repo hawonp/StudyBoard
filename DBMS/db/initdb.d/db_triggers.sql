@@ -130,12 +130,13 @@ delimiter ;
 
 -- UPDATE REPLY COUNT FOR POST AND USER WHEN A ROW IS DELETED 
 delimiter //
-CREATE TRIGGER Remove_Reply AFTER DELETE ON Reply_To_Post
+CREATE TRIGGER Remove_Post_Reply BEFORE DELETE ON Reply
 FOR EACH ROW
 BEGIN
 
+    SELECT post_id INTO @target_post_id FROM Reply_To_Post WHERE reply_id = OLD.reply_id; 
     -- Decrememt the reply count on the post
-    UPDATE Post SET Post.post_reply_count = Post.post_reply_count-1 WHERE post_id = OLD.post_id;
+    UPDATE Post SET Post.post_reply_count = Post.post_reply_count-1 WHERE post_id = @target_post_id;
 END //
 delimiter ;
 
