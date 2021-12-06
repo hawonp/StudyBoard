@@ -416,7 +416,11 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 <div
                   style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}
                 >
-                  Posted by {replyData.user_nickname}
+                  {user && replyData.user_id == user.sub ? (
+                    <div> Yeeted by {replyData.user_nickname}</div>
+                  ) : (
+                    <div> Posted by {replyData.user_nickname}</div>
+                  )}
                   {replyData.user_is_endorsed ? (
                     <Tooltip title="This is an endorsed user's reply">
                       <LightbulbIcon
@@ -815,7 +819,11 @@ const Reply = ({ replyData, deleteSelf }) => {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ margin: "0", fontSize: "0.8rem", color: "#C4C4C4" }}>
-            {replyData.user_nickname}
+            {user && user.sub == replyData.user_id ? (
+              <div> Sexted by {replyData.user_nickname}</div>
+            ) : (
+              <div> Posted by {replyData.user_nickname}</div>
+            )}
           </div>
           {replyData.user_is_endorsed ? (
             <Tooltip title="This is an endorsed user's reply">
