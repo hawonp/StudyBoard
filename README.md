@@ -108,16 +108,16 @@ enabling each person to leave with the exact information that they were looking 
 
 ## Useful Docker commands
  - Check which containers are running
-  > docker ps
+    > docker ps
 
  - Go into the docker container
-  > docker exec -it container_id/container_name bash
+    > docker exec -it container_id/container_name bash
 
  - See logs
-  > docker logs --follow container_id
+    > docker logs --follow container_id
 
  - Shutdown a docker container
-  > docker-compose down
+    > docker-compose down
 
 ## Links to Website
  - [DBMS](http://db.studyboard.info:3030/)
