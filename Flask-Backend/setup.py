@@ -23,9 +23,6 @@ CORS(app, origins=["http://backend.studyboard.info", "localhost:9090", "localhos
 # initialize Flask-RESTful
 api = Api(app)
 
-# initialize Server Sessions
-server_session = Session(app)
-
 # import dev_tools api
 Dev.init_routes(api)
 
