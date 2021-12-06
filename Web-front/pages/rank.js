@@ -18,7 +18,7 @@ export default function Rank() {
           }}
         >
           <h1 style={{ textAlign: "center", paddingTop: "1rem" }}>
-            🔱TOP RANK🔱
+            Highest Ranking Users
           </h1>
           <hr
             style={{
