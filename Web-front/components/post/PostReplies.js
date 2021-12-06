@@ -285,6 +285,7 @@ const CommentForm = ({ addComment }) => {
 const Comment = ({ setLoading, replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
+  const [likeCount, setLikeCount] = useState(replyData.reply_like_count);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -335,6 +336,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+          setLikeCount((prev) => prev - 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -351,6 +353,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+          setLikeCount((prev) => prev + 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -431,7 +434,7 @@ const Comment = ({ setLoading, replyData, deleteSelf }) => {
                 }}
                 onClick={() => handleLikePressed()}
               >
-                {replyData.reply_like_count}
+                {likeCount}
                 {didUserLike ? (
                   <FavoriteIcon sx={{ fontSize: "1.2rem" }} />
                 ) : (
@@ -687,6 +690,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
 const Reply = ({ replyData, deleteSelf }) => {
   const [open, setOpen] = useState(false);
   const [didUserLike, setDidUserLike] = useState(replyData.did_user_like);
+  const [likeCount, setLikeCount] = useState(replyData.reply_like_count);
   const [flagText, setFlagText] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -739,6 +743,7 @@ const Reply = ({ replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(false);
+          setLikeCount((prev) => prev - 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -755,6 +760,7 @@ const Reply = ({ replyData, deleteSelf }) => {
         })
         .then((response) => {
           setDidUserLike(true);
+          setLikeCount((prev) => prev + 1);
         })
         .catch((e) => {
           const resp = e.response;
@@ -817,7 +823,7 @@ const Reply = ({ replyData, deleteSelf }) => {
           </div>
         </div>
       </div>
-
+      {likeCount}
       {/* like button disabled if not logged in */}
       {user ? (
         <IconButton
