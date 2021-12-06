@@ -36,7 +36,7 @@ class UserInfoSchema(Schema):
 # Flask RESTful API routes #
 ############################
 
-
+#User's profile information
 class UserInfo(Resource):
     def get(self, id):
         print("getting user information for profile card")
@@ -68,14 +68,7 @@ class UserInfo(Resource):
         print("result of deleting user", res)
         return res
 
-# delete user profile():
-# set nickname to Account Deleted
-# get rids of tags
-# call Auth0 api
-
-# Get favourite posts
-
-
+#List of favourite posts of a user
 class PostFavourites(Resource):
     def get(self, id):
         user_id = id
@@ -94,9 +87,7 @@ class PostFavourites(Resource):
             post["post_tags"] = tags
         return json.dumps(posts, default=str)
 
-# Post feed
-
-
+#List of user's posts
 class UserPosts(Resource):
     def get(self, id):
         # Get the list of user's posts
@@ -116,7 +107,7 @@ class UserPosts(Resource):
 
         return json.dumps(posts, default=str)
 
-
+#Getting data for rank page
 class UsersByRank(Resource):
     def get(self):
         # Call function and return 10
@@ -124,9 +115,7 @@ class UsersByRank(Resource):
 
         return json.dumps(data)
 
-# Post feed
-
-
+# For all notifications
 class UserNotifications(Resource):
     def get(self, id):
         # Get the list of user's posts
@@ -142,9 +131,7 @@ class UserNotifications(Resource):
             abort(500, "Oops. Something went wrong.")
         return json.dumps(res)
 
-# Post feed
-
-
+#For each notification
 class UserNotification(Resource):
     def delete(self, id, nid):
         # Delete all notifs
