@@ -65,6 +65,8 @@ class PostFlagSchema(Schema):
 # Flask RESTful API routes #
 ############################
 # Post feed
+
+
 class FeedPostData(Resource):
     def get(self):
         # Validate params first
@@ -102,6 +104,8 @@ class FeedPostData(Resource):
         return json.dumps(feed, default=str)
 
 #Post (detail)
+
+
 class PostData(Resource):
     def get(self, id):
         # First get post
@@ -168,7 +172,7 @@ class PostWrite(Resource):
         tags = formData["tags"]
         date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        #Permanently storing image to CDN
+        # Permanently storing image to CDN
         if image_url != "None":
             uuid = formData["uuid"]
 
@@ -184,6 +188,8 @@ class PostWrite(Resource):
         return res
 
 # Search preview data
+
+
 class SearchPreview(Resource):
     def get(self):
 
@@ -196,6 +202,8 @@ class SearchPreview(Resource):
         return post_list + tag_list
 
 # Search result data
+
+
 class SearchQuery(Resource):
     def get(self):
         input = request.args.get('input')
@@ -211,7 +219,9 @@ class SearchQuery(Resource):
 
         return json.dumps(result_json)
 
-# 
+#
+
+
 class PostTag(Resource):
     def get(self):
 

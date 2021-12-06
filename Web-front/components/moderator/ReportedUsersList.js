@@ -94,7 +94,7 @@ export default function ReportedUsersList() {
         })
         .then((response) => {
           setIsDataLoading(true);
-          router.reload();
+          // router.reload();
         })
         .catch((e) => {
           const resp = e.response;
