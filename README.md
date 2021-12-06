@@ -73,8 +73,7 @@ enabling each person to leave with the exact information that they were looking 
 
 - 5b) Intialize React dev server
   > npm run dev
-## Deployment to Production Server (DO NOT RUN YET, NOT YET SET UP)
-```diff
+## Deployment to Production Server
 - SSH to production server
   >ssh root@158.247.220.205
  
@@ -86,7 +85,8 @@ enabling each person to leave with the exact information that they were looking 
 
 - Update git repository 
   > git pull origin main
-```
+
+- Docker-compose up/down the necessary containers as needed
 
 ## Required Specs / Compatability
  - Operating System : Any
