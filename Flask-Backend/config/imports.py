@@ -1,6 +1,6 @@
 import json
 import mariadb
-import sys 
+import sys
 import os
 import datetime
 import requests

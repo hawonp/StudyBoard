@@ -1,6 +1,5 @@
 # imports
 import config.db_connect as setting
-from flask_session import Session
 from config.imports import Flask, CORS, Api
 from config.config import ApplicationConfig
 
