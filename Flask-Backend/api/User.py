@@ -30,7 +30,7 @@ NOTIFICATION_ID = '/<int:nid>'
 class UserInfoSchema(Schema):
     # id_token = fields.Str(re)
     user_nickname = fields.Str(required=True, validate=validate.Length(min=1, max=16))
-    user_tags = fields.List(fields.Str(validate=validate.Length(min=1, max=32)), required=True)
+    user_tags = fields.List(fields.Str(), required=True)
 
 ############################
 # Flask RESTful API routes #
