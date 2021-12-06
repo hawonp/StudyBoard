@@ -17,9 +17,7 @@ export default function Rank() {
             backgroundColor: "white",
           }}
         >
-          <h1 style={{ textAlign: "center", paddingTop: "1rem" }}>
-            Highest Ranking Users
-          </h1>
+          <h1 style={{ textAlign: "center", paddingTop: "1rem" }}>Top Users</h1>
           <hr
             style={{
               margin: "0px",
