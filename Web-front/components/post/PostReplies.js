@@ -86,7 +86,6 @@ export const ReplyCard = ({ postID }) => {
         .then((response) => {
           const responseData = JSON.parse(response["data"]);
           //Assign data
-          console.log("res", responseData);
           setComments(responseData);
           setLoadingReplies(false);
         })
