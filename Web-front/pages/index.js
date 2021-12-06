@@ -102,7 +102,7 @@ export default function Home() {
               <h3>Global website</h3>
               <p>
                 It is available to people around the world and allows users to
-                freely answer questions. User can use it for free this platfrom
+                freely answer questions. Users can use this for a free platform.
               </p>
             </div>
           </Card>
@@ -114,8 +114,9 @@ export default function Home() {
               </div>
               <h3>Searching</h3>
               <p>
-                User can find the topic that the user is curious about. User can
-                see the tags and post separately in the search bar organizedly.
+                Users can find the topic that the user is curious about. Users
+                can see the tags and post separately in the search bar
+                organized.
               </p>
             </div>
           </Card>
@@ -127,8 +128,8 @@ export default function Home() {
               </div>
               <h3>Time Save</h3>
               <p>
-                Users quickly ask questions what they do not know and receive
-                answers quickly. User can handle their problems quickly.
+                Users quickly ask questions about what they do not know and
+                receive answers quickly. User can handle their problems quickly.
               </p>
             </div>
           </Card>
