@@ -150,7 +150,7 @@ def get_flagged_users():
         cursor = conn.cursor()
 
         # Set up query statements
-        query = "SELECT u.* FROM Blacklisted_User bu RIGHT JOIN (SELECT * FROM User WHERE user_flags_received >= 10) AS u ON bu.user_id=u.user_id"
+        query = "SELECT user_flags_received, user_id, user_nickname FROM User WHERE user_flags_received >= 10 AND user_id NOT IN (SELECT user_id FROM Blacklisted_User)"
 
         # Fetching posts with filter, sort, limit, and offset
         print("Selecting with query", query)
