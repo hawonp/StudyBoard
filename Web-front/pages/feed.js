@@ -95,11 +95,9 @@ export default function Feed() {
           setPosts(JSON.parse(response.data)["posts"]);
           setMaxPage(JSON.parse(response.data)["maxPageCount"]);
           setIsDataLoading(false);
-          console.log("data", posts);
         })
         .catch((e) => {
           const resp = e.response;
-          console.log(resp);
           if (resp["status"] == 400) {
             alert("could not load data");
           }

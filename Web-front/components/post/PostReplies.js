@@ -88,6 +88,12 @@ export const ReplyCard = ({ postID }) => {
           //Assign data
           setComments(responseData);
           setLoadingReplies(false);
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
         });
     }
   }, [loadingReplies, feedOrder, isLoading]);
@@ -134,6 +140,14 @@ export const ReplyCard = ({ postID }) => {
               .delete(REPLYDATAENDPOINT + "/" + reply.reply_id)
               .then((response) => {
                 const responseData = JSON.parse(response["data"]);
+              })
+              .catch((e) => {
+                const resp = e.response;
+                if (resp["status"] == 500) {
+                  router.push("/" + "error/500");
+                } else if (resp["status"] == 400) {
+                  router.push("/" + "error/400");
+                }
               });
           }
         }

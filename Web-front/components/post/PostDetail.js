@@ -166,6 +166,12 @@ export default function PostDetail({
       })
       .then((response) => {
         const responseData = JSON.parse(response["data"]);
+      })
+      .catch((e) => {
+        const resp = e.response;
+        if (resp["status"] == 400) {
+          router.push("/" + "error/400");
+        }
       });
     setFlagText("");
     setOpen(false);

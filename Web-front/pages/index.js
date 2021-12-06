@@ -27,7 +27,7 @@ export default function Home() {
           }}
         >
           <div style={{ fontSize: "4rem", color: "#263179" }}>
-            Welcome to StudyBoard
+            Welcome to StudyBoard!
           </div>
           <div
             style={{
@@ -37,7 +37,7 @@ export default function Home() {
               marginBottom: "1rem",
             }}
           >
-            We are providing the homework and question solutions
+            A place to ask questions and receive answers
           </div>
           <Button
             variant="outlined"
@@ -46,7 +46,7 @@ export default function Home() {
             sx={{ width: "15rem" }}
           >
             <div style={{ display: "flex" }}>
-              Get stared <ArrowRightAltIcon />
+              Get Started <ArrowRightAltIcon />
             </div>
           </Button>
         </div>
@@ -89,7 +89,13 @@ export default function Home() {
             marginTop: "3rem",
           }}
         >
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div
               style={{
                 textAlign: "center",
@@ -99,36 +105,48 @@ export default function Home() {
               <div>
                 <img src="images/values-1.png" width="300px" height="300px" />
               </div>
-              <h3>Global website</h3>
-              <p>
-                It is available to people around the world and allows users to
-                freely answer questions. User can use it for free this platfrom
+              <h3>Global Reach</h3>
+              <p style={{ display: "flex " }}>
+                StudyBoard is available to anyone across the globe with no
+                restrictions on usage nor price
               </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-2.png" width="300px" height="300px" />
               </div>
-              <h3>Searching</h3>
-              <p>
-                User can find the topic that the user is curious about. User can
-                see the tags and post separately in the search bar organizedly.
+              <h3>Powerful Searching</h3>
+              <p style={{ display: "flex " }}>
+                Users can search for both posts and tags in a unified search bar
+                as a quick and easy way to find what they'd like to know
               </p>
             </div>
           </Card>
 
-          <Card sx={{ margin: "0.5rem", boxShadow: "0 3px 110px lightgray" }}>
+          <Card
+            sx={{
+              flex: 1,
+              margin: "0.5rem",
+              boxShadow: "0 3px 110px lightgray",
+            }}
+          >
             <div style={{ textAlign: "center", padding: "24px" }}>
               <div>
                 <img src="images/values-3.png" width="300px" height="300px" />
               </div>
-              <h3>Time Save</h3>
-              <p>
-                Users quickly ask questions what they do not know and receive
-                answers quickly. User can handle their problems quickly.
+              <h3>Time-Saving</h3>
+              <p style={{ display: "flex " }}>
+                Users can ask questions and receive endorsed replies to help
+                them on their way
               </p>
             </div>
           </Card>
