@@ -95,7 +95,7 @@ enabling each person to leave with the exact information that they were looking 
   5. Flask backend
   6. NextJS frontend
   - The command for all containers are the same
-  > docker-compose -f docker-compose.yml up --build
+    > docker-compose -f docker-compose.yml up --build
 
 ## Required Specs / Compatability
  - Operating System : Any
@@ -118,3 +118,8 @@ enabling each person to leave with the exact information that they were looking 
 
  - Shutdown a docker container
   > docker-compose down
+
+## Links to Website
+ - [DBMS](http://db.studyboard.info:3030/)
+ - [Backend](https://backend.studyboard.info/)
+ - [Frontend](https://studyboard.info/)
