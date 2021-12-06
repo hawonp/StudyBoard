@@ -264,7 +264,7 @@ def get_posts_by_user(user_id):
 
     except mariadb.Error as e:
         print(f"Error adding entry to database: {e}")
-        return -1
+        return 0
 
     #Closing cursor and commiting  connection
     cursor.close()

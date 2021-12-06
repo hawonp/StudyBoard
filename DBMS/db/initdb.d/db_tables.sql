@@ -131,6 +131,7 @@ CREATE TABLE User_Tag(
     tag_id INTEGER NOT NULL,
     user_id VARCHAR(64) NOT NULL,
     PRIMARY KEY(tag_id, user_id),
+    FOREIGN KEY(tag_id) REFERENCES Tag(tag_id) ON DELETE CASCADE,
     FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE
 );
 
@@ -138,7 +139,8 @@ CREATE TABLE Post_Tag(
     tag_id INTEGER NOT NULL,
     post_id INTEGER NOT NULL,
     PRIMARY KEY(tag_id, post_id),
-    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON UPDATE CASCADE
+    FOREIGN KEY(tag_id) REFERENCES Tag(tag_id) ON DELETE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES Post(post_id) ON DELETE CASCADE
 );
 
 -- NOTIFICATION --
