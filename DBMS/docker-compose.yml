@@ -19,9 +19,10 @@ services:
       MYSQL_DATABASE: studyboard_db
       MYSQL_USER: mod
       MYSQL_PASSWORD: studyboard2021
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: eiZ4xa%z
       VIRTUAL_HOST: www.db.studyboard.info, db.studyboard.info
       VIRTUAL_PORT: 3306
+      VIRTUAL_PROTO: https
       LETSENCRYPT_HOST: www.db.studyboard.info, db.studyboard.info
     networks:
       - dbms_network
@@ -37,9 +38,10 @@ services:
       - "3030:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: eiZ4xa%z
       VIRTUAL_HOST: www.db.studyboard.info, db.studyboard.info
       VIRTUAL_PORT: 3030
+      VIRTUAL_PROTO: https
       LETSENCRYPT_HOST: www.db.studyboard.info, db.studyboard.info
     networks:
       - dbms_network
