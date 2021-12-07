@@ -95,7 +95,7 @@ export default function CustomAppBar() {
       type: "normal",
       title: "Ask a Question",
       onClick: () => {
-        router.push("/" + "board");
+        router.push("/" + "feed");
       },
     },
     {
