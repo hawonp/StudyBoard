@@ -83,6 +83,7 @@ export function PostWrite() {
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
           fullWidth
+          required
           id="title"
           label="Post Title"
           variant="outlined"
@@ -96,6 +97,7 @@ export function PostWrite() {
           style={{ marginTop: "10px", marginBottom: "10px" }}
           className="post-text"
           fullWidth
+          required
           id="tag"
           label="Please add the tags to categorize this post by (separated by commas)"
           variant="outlined"
