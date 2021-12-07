@@ -193,7 +193,7 @@ def get_replies_to_post(post_id, order, user_id):
             query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY reply_like_count DESC"
         else:
             # If the order is in ranks
-            query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY user_likes_received DESC"
+            query = "SELECT u.user_is_endorsed, u.user_is_mod, u.user_id, u.user_nickname, u.user_likes_received, u.user_is_endorsed, rp.* FROM User u INNER JOIN (SELECT r.* FROM Reply r INNER JOIN (SELECT * FROM Reply_To_Post WHERE post_id=?)AS rtp ON rtp.reply_id = r.reply_id) AS rp ON rp.user_id = u.user_id ORDER BY user_rank_points DESC"
         values = (post_id,)
 
         # Fetching posts with filter, sort, limit, and offset

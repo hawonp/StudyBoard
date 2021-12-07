@@ -453,7 +453,7 @@ const Comment = ({ replyData, deleteSelf }) => {
                     }}
                   >
                     {user && replyData.user_id == user.sub ? (
-                      <div> Posted by {replyData.user_nickname}</div>
+                      <div> Posted by you</div>
                     ) : (
                       <div> Posted by {replyData.user_nickname}</div>
                     )}

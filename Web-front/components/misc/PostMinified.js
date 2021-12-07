@@ -193,7 +193,7 @@ export default function PostMinified({ data }) {
 
           {/* Share */}
           <IconButton
-            // disableRipple
+            disabled
             sx={{ padding: 0, borderRadius: "4px", marginLeft: "0.2rem" }}
             aria-label="share"
             onClick={() => {
