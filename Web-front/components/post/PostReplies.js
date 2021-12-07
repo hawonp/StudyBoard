@@ -249,6 +249,7 @@ const CommentForm = ({ addComment }) => {
     <form className="comment-form" onSubmit={_handleSubmit}>
       <div className="comment-form-fields">
         <TextField
+          required
           fullWidth
           label="Leave your response here!"
           multiline
@@ -672,6 +673,16 @@ const InputReply = ({ setLoading, replyID, finish }) => {
   const { user } = useUser();
   const router = useRouter();
 
+  const textRef = useRef();
+  const _handleSubmit = (event) => {
+    event.preventDefault(); // prevents page from reloading on submit
+    //const author = inputRef.current.value;
+    const body = textRef.current.value;
+    addComment(body, () => {
+      textRef.current.value = "";
+    });
+  };
+
   const postReply = async () => {
     axiosInstance
       .post(REPLYDATAENDPOINT + "/" + replyID + REPLYDATAENDPOINT, {
@@ -692,14 +703,17 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       })
       .catch((e) => {
         const resp = e.response;
-        if (resp["status"] == 400) {
-          router.push("/" + "error/400");
-        }
+
+        // if (resp["status"] == 400) {
+        //   router.push("/" + "error/400");
+        // }
       });
   };
 
   return (
-    <div
+    // <form className="comment-form" onSubmit={_handleSubmit}>
+    <Box
+      component="form"
       style={{
         display: "flex",
         flex: 1,
@@ -709,6 +723,7 @@ const InputReply = ({ setLoading, replyID, finish }) => {
       }}
     >
       <TextField
+        required
         fullWidth
         label="Leave your response here!"
         multiline
@@ -743,7 +758,8 @@ const InputReply = ({ setLoading, replyID, finish }) => {
           CANCEL
         </Button>
       </div>
-    </div>
+    </Box>
+    // </form>
   );
 };
 
