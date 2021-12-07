@@ -22,6 +22,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import Divider from "@mui/material/Divider";
 import { Modal, Box, TextField, Popover } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 // package imports
 import LoadingProgress from "../utils/Loading";
@@ -50,6 +52,11 @@ const CountNumber = ({ style, children }) => {
   );
 };
 
+// alert logic for snackbar that appears when a user tries to submit an empty reply
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 // constants needed for axios REST api calls
 const POSTDATAENDPOINT = "/posts";
 const REPLYDATAENDPOINT = "/replies";
@@ -68,6 +75,19 @@ export const ReplyCard = ({ postID }) => {
   };
 
   const [comments, setComments] = useState([]);
+
+  // modal states for replying to a post
+  const [openReply, setOpenReply] = React.useState(false);
+  const handleClickReply = () => {
+    setOpenReply(true);
+  };
+
+  const handleCloseReply = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenReply(false);
+  };
 
   //Load comments upon render
   useEffect(() => {
@@ -100,25 +120,29 @@ export const ReplyCard = ({ postID }) => {
 
   // adding a reply to a post
   const _addComment = (body, resetForm) => {
-    // Add reply to db
-    axiosInstance
-      .post(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
-        params: { userID: user.sub, text: body },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data according to whether the user liked the post
-        if (responseData != -1) {
-          setLoadingReplies(true);
-          resetForm();
-        }
-      })
-      .catch((e) => {
-        const resp = e.response;
-        if (resp["status"] == 400) {
-          router.push("/" + "error/400");
-        }
-      });
+    if (body.length > 0) {
+      // Add reply to db
+      axiosInstance
+        .post(POSTDATAENDPOINT + "/" + postID + REPLYDATAENDPOINT, {
+          params: { userID: user.sub, text: body },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data according to whether the user liked the post
+          if (responseData != -1) {
+            setLoadingReplies(true);
+            resetForm();
+          }
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    } else {
+      handleClickReply();
+    }
   };
 
   // action handling that links replies together
@@ -175,7 +199,20 @@ export const ReplyCard = ({ postID }) => {
     <div style={{ disply: "flex" }}>
       {user ? (
         <div>
-          {" "}
+          <Snackbar
+            open={openReply}
+            autoHideDuration={1500}
+            onClose={handleCloseReply}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <Alert
+              onClose={handleCloseReply}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              You cannot submit an empty reply!{" "}
+            </Alert>
+          </Snackbar>{" "}
           <h3>Join the Discussion!</h3>
           <CommentForm addComment={_addComment} />
           {/* <Divider variant="middle" /> */}
@@ -329,6 +366,7 @@ const Comment = ({ replyData, deleteSelf }) => {
     }
     setDiffTime(getTimeDisplay(new Date(), replyData.reply_date));
   }, [isLoading, isReplyLoading]);
+
   // adding a report to a reply
   const report = () => {
     axiosInstance
@@ -651,30 +689,47 @@ const InputReply = ({ setLoading, replyID, finish }) => {
   const { user } = useUser();
   const router = useRouter();
 
+  // modal states for replying to a post
+  const [openReply, setOpenReply] = React.useState(false);
+  const handleClickReply = () => {
+    setOpenReply(true);
+  };
+
+  const handleCloseReply = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenReply(false);
+  };
+
   const postReply = async () => {
-    axiosInstance
-      .post(REPLYDATAENDPOINT + "/" + replyID + REPLYDATAENDPOINT, {
-        params: {
-          userID: user.sub,
-          postID: router.query.id,
-          text: inputRef.current.value,
-        },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        //Assign data according to whether the user liked the post
-        if (responseData != -1) {
-          setLoading(true);
-        }
-        if (inputRef.current !== null) inputRef.current.value = "";
-        finish();
-      })
-      .catch((e) => {
-        const resp = e.response;
-        if (resp["status"] == 400) {
-          router.push("/" + "error/400");
-        }
-      });
+    if (inputRef.current.value.length > 0) {
+      axiosInstance
+        .post(REPLYDATAENDPOINT + "/" + replyID + REPLYDATAENDPOINT, {
+          params: {
+            userID: user.sub,
+            postID: router.query.id,
+            text: inputRef.current.value,
+          },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          //Assign data according to whether the user liked the post
+          if (responseData != -1) {
+            setLoading(true);
+          }
+          if (inputRef.current !== null) inputRef.current.value = "";
+          finish();
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    } else {
+      handleClickReply();
+    }
   };
 
   return (
@@ -687,6 +742,20 @@ const InputReply = ({ setLoading, replyID, finish }) => {
         alignItems: "start",
       }}
     >
+      <Snackbar
+        open={openReply}
+        autoHideDuration={1500}
+        onClose={handleCloseReply}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseReply}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          You cannot submit an empty reply!{" "}
+        </Alert>
+      </Snackbar>{" "}
       <TextField
         fullWidth
         label="Leave your response here!"

@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import { TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 // package imports
 import { Widget } from "@uploadcare/react-widget";
@@ -17,6 +19,11 @@ import axiosInstance from "../../utils/routeUtil";
 
 // constants
 const POSTDATAENDPOINT = "/posts";
+
+// alert logic for snackbar that appears when a user submit an empty post
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 // functional component for writing a post
 export function PostWrite() {
@@ -30,6 +37,19 @@ export function PostWrite() {
   const [image, setImage] = useState("None");
   const [uuid, setUuid] = useState("");
 
+  // modal states for making a post
+  const [openPost, setOpenPost] = React.useState(false);
+  const handleClickPost = () => {
+    setOpenPost(true);
+  };
+
+  const handleClosePost = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenPost(false);
+  };
+
   // action handling for posting a question
   const post = (user) => {
     const formattedTags = tag
@@ -37,32 +57,53 @@ export function PostWrite() {
       .map((unadjustedTag) =>
         unadjustedTag.trim().replace(/\s+/g, "-").toLowerCase()
       );
-    axiosInstance
-      .post(POSTDATAENDPOINT + "/write", {
-        params: {
-          userID: user.sub,
-          title: title,
-          text: content,
-          imageURL: image,
-          tags: formattedTags,
-          uuid: uuid,
-        },
-      })
-      .then((response) => {
-        const responseData = JSON.parse(response["data"]);
-        router.push("/" + "feed");
-      })
-      .catch((e) => {
-        const resp = e.response;
-        if (resp["status"] == 400) {
-          router.push("/" + "error/400");
-        }
-      });
+
+    if (title.length > 0 && content.length > 0) {
+      axiosInstance
+        .post(POSTDATAENDPOINT + "/write", {
+          params: {
+            userID: user.sub,
+            title: title,
+            text: content,
+            imageURL: image,
+            tags: formattedTags,
+            uuid: uuid,
+          },
+        })
+        .then((response) => {
+          const responseData = JSON.parse(response["data"]);
+          router.push("/" + "feed");
+        })
+        .catch((e) => {
+          const resp = e.response;
+          if (resp["status"] == 400) {
+            router.push("/" + "error/400");
+          }
+        });
+    } else {
+      handleClickPost();
+    }
   };
 
   // render logic
   return (
     <Container>
+      {/* snackbar that appears when sharing a post */}
+      <Snackbar
+        open={openPost}
+        autoHideDuration={1500}
+        onClose={handleClosePost}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClosePost}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          You need to fill out the title and text to post a question!{" "}
+        </Alert>
+      </Snackbar>
+
       <Box
         style={{
           border: "0.1rem solid lightgray",
