@@ -297,7 +297,7 @@ def get_posts_by_tag_name(tag_name):
         cursor = conn.cursor()
 
         # Set up query statements and values
-        query = "SELECT Post.* FROM Post, Post_Tag, Tag WHERE Post_Tag.post_id = Post.post_id && Post_Tag.tag_id = Tag.tag_id && LOWER(Tag.tag_name) = LOWER(?)"
+        query = "SELECT Post.*, User.user_nickname FROM Post, User, Post_Tag, Tag WHERE Post_Tag.post_id = Post.post_id && Post_Tag.tag_id = Tag.tag_id && LOWER(Tag.tag_name) = LOWER(?) && Post.user_id = User.user_id"
         values = (tag_name,)
         print("Selecting with query", query, " and values ", values)
         cursor.execute(query, values)
