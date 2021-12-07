@@ -162,7 +162,7 @@ export default function Home() {
             background: "white",
           }}
         >
-          Copyright © CSE 416 The StudyBoard
+          Copyright © 2021 StudyBoard
         </Box>
       </Box>
     </>
