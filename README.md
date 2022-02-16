@@ -86,6 +86,4 @@ These features, when combined, facilitates active discussion and improved learni
     > docker-compose down
 
 ## Links to Website
- - [DBMS](http://db.studyboard.info:3030/)
- - [Backend](https://backend.studyboard.info/)
  - [Frontend](https://studyboard.info/)
