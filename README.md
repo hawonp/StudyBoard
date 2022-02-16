@@ -62,27 +62,6 @@ These features, when combined, facilitates active discussion and improved learni
 
 - 5b) Intialize React dev server
   > yarn run dev
-## Deployment to Production Server
-- SSH to production server
-  >ssh root@158.247.220.205
- 
-- Enter Password Authentication
-  > )R5mDP)Xq#dJ[zZ}
-
-- Navigate to StudyBoard repository
-  > cd StudyBoard
-
-- Update git repository 
-  > git pull origin main
-
-- Create user-defined bridges as instructed in Step 2
-- Start the docker containers in this order (navigating to each respective folder)
-  1. nginx-proxy
-  3. DBMS
-  5. Flask backend
-  6. NextJS frontend
-  - The command for all containers are the same
-    > docker-compose -f docker-compose.yml up --build
 
 ## Required Specs / Compatability
  - Operating System : Any
