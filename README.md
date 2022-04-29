@@ -84,6 +84,3 @@ These features, when combined, facilitates active discussion and improved learni
 
  - Shutdown a docker container
     > docker-compose down
-
-## Links to Website
- - [Frontend](https://studyboard.info/)
