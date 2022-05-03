@@ -55,13 +55,13 @@ These features, when combined, facilitates active discussion and improved learni
   > cd Web-React
 
 - Install Requirements
-  > yarn install
+  > npm install
 
 - 5a) Initialize NextJS Docker Container
   > docker-compose -f docker-compose-local.yml up --build
 
 - 5b) Intialize React dev server
-  > yarn run dev
+  > npm start
 
 ## Required Specs / Compatability
  - Operating System : Any
